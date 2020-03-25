@@ -31,12 +31,4 @@ public class APKVersionController {
         return CommonReturnType.create(null);
     }
 
-    @RequestMapping("/selectTopOne11")
-    @ResponseBody
-
-
-    public CommonReturnType selectTopOne1(){
-
-        return CommonReturnType.create(apkVersionService.selectTopOne());
-    }
 }
