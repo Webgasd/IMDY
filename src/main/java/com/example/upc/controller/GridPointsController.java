@@ -187,8 +187,8 @@ public class GridPointsController {
 
     @RequestMapping("/updatePointByPhone")
     @ResponseBody
-    public CommonReturnType updatePointByPhone(int id, String point, SysUser sysUser){
-        gridPointsService.updateEnterprisePoint(id,point,sysUser);
+    public CommonReturnType updatePointByPhone(int enterpriseId, String point, SysUser sysUser){
+        gridPointsService.updateEnterprisePoint(enterpriseId,point,sysUser);
         return CommonReturnType.create(null);
     }
 }
