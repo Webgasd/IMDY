@@ -1,5 +1,7 @@
 package com.example.upc.service.impl;
 
+import com.example.upc.common.BusinessException;
+import com.example.upc.common.EmBusinessError;
 import com.example.upc.controller.param.GridPoints1;
 import com.example.upc.controller.param.SmilePoints;
 import com.example.upc.controller.param.enterpriseId;
@@ -8,7 +10,9 @@ import com.example.upc.dao.GridPointsMapper;
 import com.example.upc.dao.SupervisionEnterpriseMapper;
 import com.example.upc.dao.SysAreaMapper;
 import com.example.upc.dataobject.GridPoints;
+import com.example.upc.dataobject.SupervisionEnterprise;
 import com.example.upc.dataobject.SysArea;
+import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.GridPointsService;
 import com.example.upc.service.SysAreaService;
 import com.example.upc.service.model.MapIndustryNumber;
@@ -16,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -148,5 +149,32 @@ public class GridPointsServiceImpl implements GridPointsService {
     @Override
     public int getVideoIdByEnterprise(int id) {
         return gridPointsMapper.getVideoIdByEnterprise(id);
+    }
+
+    @Override
+    public void updateEnterprisePoint(int id, String points, SysUser sysUser) {
+        SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(id);
+        if (supervisionEnterprise != null){
+            GridPoints gridPoints = gridPointsMapper.getPointByEnterpriseId(id);
+            if (gridPoints != null){
+                gridPoints.setPoint(points);
+                gridPoints.setOperator(sysUser.getUsername());
+                gridPoints.setOperateTime(new Date());
+                gridPointsMapper.updateByPrimaryKeySelective(gridPoints);
+            }
+            else {
+                GridPoints gridPoints1 = new GridPoints();
+                gridPoints1.setEnterpriseId(id);
+                gridPoints1.setAreaId(supervisionEnterprise.getArea());
+                gridPoints1.setPoint(points);
+                gridPoints1.setOperator(sysUser.getUsername());
+                gridPoints1.setOperateIp("1.1.1.1");
+                gridPoints1.setOperateTime(new Date());
+                gridPointsMapper.insertSelective(gridPoints1);
+            }
+        }
+        else{
+            throw new BusinessException(EmBusinessError.UPDATE_ERROR);
+        }
     }
 }

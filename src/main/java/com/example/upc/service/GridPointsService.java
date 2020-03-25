@@ -5,6 +5,7 @@ import com.example.upc.controller.param.SmilePoints;
 import com.example.upc.controller.param.enterpriseId;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dataobject.GridPoints;
+import com.example.upc.dataobject.SysUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,4 +30,5 @@ public interface GridPointsService {
     int deleteByEnterpriseId(int id);
     GridPoints getPointByEnterpriseId( Integer id);
     int getVideoIdByEnterprise(int id);
+    void updateEnterprisePoint(int id , String points, SysUser sysUser);
 }

@@ -309,7 +309,9 @@
     select COUNT(*) from grid_points where enterprise_id=#{id}
   </select>
   <select id="getPointByEnterpriseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-     select <include refid="Base_Column_List" /> from grid_points where enterprise_id=#{id}
+     select <include refid="Base_Column_List" />
+     from grid_points
+     where enterprise_id=#{id}
   </select>
   <update id="updatePoint" parameterType="com.example.upc.dataobject.GridPoints">
     update grid_points

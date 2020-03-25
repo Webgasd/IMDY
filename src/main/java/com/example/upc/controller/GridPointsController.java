@@ -184,4 +184,11 @@ public class GridPointsController {
     public CommonReturnType getVideoIdByEnterprise(int id){
         return CommonReturnType.create(gridPointsService.getVideoIdByEnterprise(id));
     }
+
+    @RequestMapping("/updatePointByPhone")
+    @ResponseBody
+    public CommonReturnType updatePointByPhone(int id, String point, SysUser sysUser){
+        gridPointsService.updateEnterprisePoint(id,point,sysUser);
+        return CommonReturnType.create(null);
+    }
 }
