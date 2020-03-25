@@ -25,7 +25,7 @@ public class APKVersionController {
     @RequestMapping("/insert")
     @ResponseBody
 
-    public CommonReturnType insertAPKs(APKVersion apkVersion){
+    public CommonReturnType insert(APKVersion apkVersion){
 
         apkVersionService.insert(apkVersion);
         return CommonReturnType.create(null);
