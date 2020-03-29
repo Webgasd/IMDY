@@ -28,7 +28,7 @@ public interface GridPointsService {
 
     Map<String,Object> getAreaEnterprise();
     int deleteByEnterpriseId(int id);
-    GridPoints getPointByEnterpriseId( Integer id);
+    GridPoints getPointByEnterpriseId(Integer id);
     int getVideoIdByEnterprise(int id);
-    void updateEnterprisePoint(int id , String points, SysUser sysUser);
+    void updateEnterprisePoint(int id , String code, String points, SysUser sysUser);
 }

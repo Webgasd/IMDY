@@ -101,7 +101,7 @@ public class GridPointsController {
                 String address = list.get(x).getRegistered_address();
                 GridPoints gridPoints = new GridPoints();
                 if (address == null || address.equals("")) {
-                    address = "济南市历下区政府";
+                    address = "东营区政府";
                     gridPoints.setOperator("地址有误");
                     System.out.println("地址有误,id为" + list.get(x).getId());
                 }
@@ -111,12 +111,12 @@ public class GridPointsController {
                 String point = result.getGeocodes().get(0).getLocation();
                 if (point == null || point.equals("")) {
 
-                    point="117.07632,36.666395";//历下区政府点
+//                    point="117.07632,36.666395";//历下区政府点
 //                    gridPoints.setOperator("地址有误");
 //                    point="116.434032,37.165323";//平原县政府点
 //                    point="115.704953,36.838373";//临清市政府点
 //                    point="117.135354,36.192083";//泰山区市政府点
-//                    point="37.4489563700,118.5821878900";//东营区政府点
+                    point="37.4489563700,118.5821878900";//东营区政府点
                 }
                 gridPoints.setAreaId(list.get(x).getGrid());
                 gridPoints.setEnterpriseId(list.get(x).getId());
@@ -187,8 +187,8 @@ public class GridPointsController {
 
     @RequestMapping("/updatePointByPhone")
     @ResponseBody
-    public CommonReturnType updatePointByPhone(int enterpriseId, String point, SysUser sysUser){
-        gridPointsService.updateEnterprisePoint(enterpriseId,point,sysUser);
+    public CommonReturnType updatePointByPhone(int enterpriseId, String code, String point, SysUser sysUser){
+        gridPointsService.updateEnterprisePoint(enterpriseId,code,point,sysUser);
         return CommonReturnType.create(null);
     }
 }

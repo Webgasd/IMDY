@@ -54,9 +54,9 @@
         <!--<table tableName="sys_news" domainObjectName="SysNews" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="grid_points" domainObjectName="GridPoints" enableCountByExample="false"-->
-               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-               <!--selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="grid_points_gps" domainObjectName="GridPointsGps" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
         <!--<table tableName="exam_subject_topic" domainObjectName="ExamSubjectTopic" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
@@ -229,9 +229,9 @@
         <!--<table tableName="quick_check_base" domainObjectName="QuickCheckBase" enableCountByExample="false"-->
         <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="supervision_enterprise" domainObjectName="SupervisionEnterprise" enableCountByExample="false"-->
-        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="supervision_enterprise" domainObjectName="SupervisionEnterprise" enableCountByExample="false"-->
+<!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--        selectByExampleQueryId="false"></table>-->
         <!--<table tableName="spot_check_enterprise" domainObjectName="SpotCheckEnterprise" enableCountByExample="false"-->
         <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--selectByExampleQueryId="false"></table>-->
