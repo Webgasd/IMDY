@@ -74,12 +74,13 @@ public class GridPointsServiceImpl implements GridPointsService {
     }
     @Override
     public Map<String, Object> getAreaEnterprise(){
-        List<SysArea> sysAreaList = sysAreaMapper.getAllAreaPa();
+        List<SysArea> sysAreaList = sysAreaMapper.getAllAreaPa();//在地区表中查找备注为区域的记录
         List<Integer> areaIntegers=sysAreaService.getAll().stream().map((sysArea -> sysArea.getId())).collect(Collectors.toList());
+        //获取所有区域的id列表
         Map<Integer,Object> areaCount= new HashMap<>();
-        for(SysArea sysArea:sysAreaList){
+        for(SysArea sysArea:sysAreaList){//循环备注为区域的list结果
             List<Integer> areaIdList = new ArrayList<>();
-            areaIdList.add(sysArea.getId());
+            areaIdList.add(sysArea.getId());//循环盛放搜索结果中的id，下面就是建立
             EnterpriseSearchParam foodCommonEnterpriseSearchParam = new EnterpriseSearchParam();
             List<String> fooCommonList = new ArrayList<>();
             fooCommonList.add("foodCommon");
@@ -176,7 +177,6 @@ public class GridPointsServiceImpl implements GridPointsService {
             if (gridPointsGps != null){
                 gridPointsGps.setPoint(points);
                 gridPointsGps.setOperator(sysUser.getUsername());
-                gridPointsGps.setOperatorTime(new Date());
                 gridPointsGps.setOperatorIp("1.1.1.1");
                 gridPointsGpsMapper.updateByPrimaryKeySelective(gridPointsGps);
             }
@@ -187,7 +187,6 @@ public class GridPointsServiceImpl implements GridPointsService {
                 gridPointsGps1.setPoint(points);
                 gridPointsGps1.setOperator(sysUser.getUsername());
                 gridPointsGps1.setOperatorIp("1.1.1.1");
-                gridPointsGps1.setOperatorTime(new Date());
                 gridPointsGpsMapper.insertSelective(gridPointsGps1);
             }
         }

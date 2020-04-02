@@ -185,7 +185,8 @@
     select a.id,a.area,a.grid,a.registered_address,a.permission_type
     from supervision_enterprise a
     where id>(
-    select IFNULL(MAX(c.enterprise_id),0) as id  from grid_points as c left join supervision_enterprise as d on c.enterprise_id=d.id
+    select IFNULL(MAX(c.enterprise_id),0) as id  from grid_points as c
+    left join supervision_enterprise as d on c.enterprise_id=d.id
     )
   </select>
   <select id="getSmileAll" resultMap="SmileMap">
@@ -207,7 +208,8 @@
     <if test="search.industryList.contains('foodProduce')">a4_id,</if>
     <if test="search.industryList.contains('drugsBusiness')">a5_id,</if>
     <if test="search.industryList.contains('medicalUse')">a6_id,</if>
-    <if test="search.industryList.contains('cosmeticsUse')">a7_id,</if>(select MIN(maxtime) from(
+    <if test="search.industryList.contains('cosmeticsUse')">a7_id,</if>
+    (select MIN(maxtime) from(
     <trim prefixOverrides="union">
       <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
         select a1_time as maxtime
@@ -242,11 +244,11 @@
     SELECT id,area,grid,registered_address,dynamic_grade  FROM supervision_enterprise WHERE area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
+    <!--基础小表是根据地区权限和supervisor筛查出来的 -->
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">) as a LEFT JOIN supervision_en_food_bu as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-      <if test="!search.industryList.contains('foodBusiness')">
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if><if test="!search.industryList.contains('foodBusiness')">
         <if test="search.industryList.contains('foodCirculate') and !search.industryList.contains('foodCommon')">AND b.business_format IN ('食品销售经营者（非连锁）','食品销售经营者（连锁）','食品销售经营者')</if>
         <if test="search.industryList.contains('foodCommon') and !search.industryList.contains('foodCirculate')">AND b.business_format IN ('餐饮服务经营者（非连锁）','餐饮服务经营者（连锁）','单位食堂','餐饮服务经营者')</if></if></if>
     <if test="search.industryList.contains('foodCommon')">)as a LEFT JOIN supervision_en_common as b on a.id =b.enterprise_id
@@ -296,8 +298,8 @@
       <if test="search.industryList.contains('cosmeticsUse')">
         OR a7_id
       </if>
-    </trim>
-     ) as  b
+    </trim><!--trim的用法，设置通用格式并删除前/后缀，在判断生效后添加格式，若前无删前缀，后无删后缀 -->
+     ) as b<!-- 基础大表，根据权限/业态查企业 -->
     on a.enterprise_id=b.id
   </select>
   <select id="getByAreaId" resultMap="BaseResultMap">

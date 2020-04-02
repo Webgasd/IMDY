@@ -139,7 +139,7 @@ public class GridPointsController {
     public CommonReturnType getSmilePoints(SysUser sysUser,@RequestBody String json){
         JSONObject jsonObject = JSON.parseObject(json);
         EnterpriseSearchParam enterpriseSearchParam= JSON.parseObject(json,EnterpriseSearchParam.class);
-        if (sysUser.getUserType()==0){
+        if (sysUser.getUserType()==0){//管理员的筛选
             if(StringUtils.isEmpty(jsonObject.getJSONArray("industryList").get(0))) {
                 enterpriseSearchParam.setIndustryList(sysIndustryService.getAll().stream().map((sysIndustry -> sysIndustry.getRemark())).collect(Collectors.toList()));
             }
