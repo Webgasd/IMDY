@@ -63,8 +63,10 @@ public class SupervisionEnterpriseController {
         EnterpriseSearchParam enterpriseSearchParam= JSON.parseObject(json,EnterpriseSearchParam.class);
         PageQuery pageQuery=JSON.parseObject(json,PageQuery.class);
         Integer areaId = null;
-        if(!StringUtils.isEmpty(jsonObject.getJSONArray("areaList").get(0))){
-            areaId = (Integer)jsonObject.getJSONArray("areaList").get(0);}
+        if(!StringUtils.isEmpty(jsonObject.getJSONArray("areaList").get(0)))
+        {
+            areaId = (Integer)jsonObject.getJSONArray("areaList").get(0);
+        }
         boolean searchIndustry = StringUtils.isEmpty(jsonObject.getJSONArray("industryList").get(0));
 
         if(sysUser.getUserType()==1){
@@ -74,6 +76,7 @@ public class SupervisionEnterpriseController {
         }
     }
 
+    //统计企业信息,不同区域不同业态权限统计
     @RequestMapping("/getStatistics")
     @ResponseBody
     public CommonReturnType getStatistics(SysUser sysUser){
@@ -99,6 +102,7 @@ public class SupervisionEnterpriseController {
         }
     }
 
+//根据某个企业id来查看这个企业的信息，主要接口，要修改这里的关联方法
     @RequestMapping("/getById")
     @ResponseBody
     public CommonReturnType getById(int id){
@@ -137,6 +141,7 @@ public class SupervisionEnterpriseController {
         return CommonReturnType.create(null);
     }
 
+    //获取部门树
     @RequestMapping("/getDeptAndGrid")
     @ResponseBody
     public CommonReturnType getDeptAndGrid(){

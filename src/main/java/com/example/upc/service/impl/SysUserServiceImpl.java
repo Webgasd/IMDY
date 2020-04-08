@@ -13,7 +13,6 @@ import com.example.upc.dataobject.SysIndustry;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.SysUserService;
 import com.example.upc.util.MD5Util;
-import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -10,7 +10,6 @@ import com.example.upc.controller.param.PageResult;
 import com.example.upc.controller.searchParam.SupplierSearchParam;
 import com.example.upc.dao.FormatOriginRecordExMapper;
 import com.example.upc.dao.FormatSupplierMapper;
-import com.example.upc.dao.SupervisionCaMapper;
 import com.example.upc.dao.SupervisionEnterpriseMapper;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.FormatSupplierService;

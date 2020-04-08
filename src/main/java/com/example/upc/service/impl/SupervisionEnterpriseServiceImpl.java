@@ -277,6 +277,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         supervisionEnProCategoryMapper.deleteByParentId(id);
 
     }
+
+    //插入子表，这里要修改，子表建议子子表
     void insertEnterpriseChildrenList(SupervisionEnterprise supervisionEnterprise,String json){
         EnterpriseParam enterpriseParam = JSON.parseObject(json,EnterpriseParam.class);
         if(supervisionEnterprise.getPermissionType()==null){
@@ -407,6 +409,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
             supervisionEnCosmeticsMapper.insertSelective(supervisionEnCosmetics);
         }
     }
+
+    //改变企业状态
     @Override
     public void changeStop(int id) {
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(id);
@@ -436,7 +440,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         }
         return map;
     }
-
+//文件导入
     @Override
     @Transactional
     public void importExcel(MultipartFile file, Integer type) {

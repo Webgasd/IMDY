@@ -123,6 +123,7 @@ public class SysTreeServiceImpl implements SysTreeService {
         transformDeptTree(rootList, LevelUtil.ROOT, levelDeptMap);
         return rootList;
     }
+
     public void transformDeptTree(List<DeptLevelDto> deptLevelList, String level, Multimap<String, DeptLevelDto> levelDeptMap) {
         for (int i = 0; i < deptLevelList.size(); i++) {
             // 遍历该层的每个元素

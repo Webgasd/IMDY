@@ -9,7 +9,6 @@ import com.example.upc.dao.FormatOriginFoodMapper;
 import com.example.upc.dao.SupervisionEnterpriseMapper;
 import com.example.upc.dataobject.FormatOriginFood;
 import com.example.upc.dataobject.SupervisionEnterprise;
-import com.example.upc.dataobject.SysArea;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.FormatOriginFoodService;
 import org.springframework.beans.factory.annotation.Autowired;

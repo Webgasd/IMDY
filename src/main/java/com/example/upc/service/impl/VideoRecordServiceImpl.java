@@ -1,6 +1,5 @@
 package com.example.upc.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.common.ValidationResult;
@@ -15,14 +14,12 @@ import com.example.upc.dao.VideoRecordMapper;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.dataobject.VideoRecord;
 import com.example.upc.service.VideoRecordService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class VideoRecordServiceImpl implements VideoRecordService {

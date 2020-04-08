@@ -21,6 +21,7 @@ public class DeptLevelDto extends SysDept {
     }
 
     private List<DeptLevelDto> childrenList = new ArrayList<>();
+
     public static DeptLevelDto adapt(SysDept dept) {
         DeptLevelDto dto = new DeptLevelDto();
         BeanUtils.copyProperties(dept, dto);

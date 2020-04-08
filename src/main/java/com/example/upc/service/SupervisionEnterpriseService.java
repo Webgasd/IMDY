@@ -3,7 +3,6 @@ package com.example.upc.service;
 import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dataobject.SupervisionEnterprise;
-import com.example.upc.dataobject.SysArea;
 import com.example.upc.dataobject.SysIndustry;
 import com.example.upc.dataobject.SysUser;
 import org.springframework.web.multipart.MultipartFile;

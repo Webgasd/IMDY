@@ -3,7 +3,6 @@ package com.example.upc.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
-import com.example.upc.common.ValidationResult;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.PageResult;
 import com.example.upc.controller.param.VideoParam;

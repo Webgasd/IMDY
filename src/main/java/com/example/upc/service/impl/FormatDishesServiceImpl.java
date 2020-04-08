@@ -13,7 +13,6 @@ import com.example.upc.dao.FormatDishesMapper;
 import com.example.upc.dao.SupervisionCaMapper;
 import com.example.upc.dao.SupervisionEnterpriseMapper;
 import com.example.upc.dataobject.FormatDishes;
-import com.example.upc.dataobject.SupervisionCa;
 import com.example.upc.dataobject.SupervisionEnterprise;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.FormatDishesService;
