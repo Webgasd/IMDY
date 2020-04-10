@@ -109,6 +109,7 @@ public class SupervisionEnterpriseController {
         return CommonReturnType.create(supervisionEnterpriseService.getById(id));
     }
 
+    //无用户登录时测试用
     @RequestMapping("/getPageNoUser")
     @ResponseBody
     public CommonReturnType getPageNoUser(@RequestBody String json){
@@ -163,6 +164,8 @@ public class SupervisionEnterpriseController {
         supervisionEnterpriseService.update(json);
         return CommonReturnType.create(null);
     }
+
+    //删除企业同时删除定位中的企业，要改，在service中写删除定位，或者在这写两个表都删除
     @RequestMapping("/delete")
     @ResponseBody
     public CommonReturnType delete(int id){
@@ -170,6 +173,7 @@ public class SupervisionEnterpriseController {
         gridPointsService.deleteByEnterpriseId(id);
         return CommonReturnType.create(null);
     }
+
     @RequestMapping("/getCateAndLicence")
     @ResponseBody
     public CommonReturnType getCateAndSend(int id){
@@ -178,12 +182,14 @@ public class SupervisionEnterpriseController {
         map.put("licenceList",supervisionConfigLicenceService.getByPermiss(id));
         return CommonReturnType.create(map);
     }
-    @RequestMapping("/importExcel")//导入excel
+
+    //企业导入，着重修改这里，使之能够不删除修改
+    @RequestMapping("/importExcel")
     @ResponseBody
     public CommonReturnType importExcel(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         if(fileName.matches("^.+\\.(?i)(xls)$")){//03版本excel,xls
-            supervisionEnterpriseService.importExcel(file,3);
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"该文件类型已不支持，请使用07版本后缀为.xlsx版本导入");
         }else if (fileName.matches("^.+\\.(?i)(xlsx)$")){//07版本,xlsx
             supervisionEnterpriseService.importExcel(file,7);
         }

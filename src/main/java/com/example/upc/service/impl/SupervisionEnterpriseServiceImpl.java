@@ -147,7 +147,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         return pageResult;
     }
 
-
+//获取某个企业的记录，包括基本信息和许可证，许可证方法这里要改。关联关系表
     @Override
     public EnterpriseParam getById(int id) {
         SupervisionEnterprise supervisionEnterprise= supervisionEnterpriseMapper.selectByPrimaryKey(id);
@@ -221,7 +221,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         supervisionEnterprise.setOperateIp("124.124.124");
         supervisionEnterprise.setOperateTime(new Date());
         supervisionEnterprise.setOperator("zcc");
-        SysUser sysUser = new SysUser();
+        SysUser sysUser = new SysUser();//同时进行用户的插入
         String encryptedPassword = MD5Util.md5("123456+");
         sysUser.setUsername(supervisionEnterprise.getEnterpriseName());
         sysUser.setLoginName(supervisionEnterprise.getIdNumber());
@@ -234,7 +234,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         sysUser.setOperateIp("124.124.124");
         sysUser.setOperateTime(new Date());
         sysUserMapper.insertSelective(sysUser);
-        insertEnterpriseChildrenList(supervisionEnterprise,json);
+        insertEnterpriseChildrenList(supervisionEnterprise,json);//下方有这个方法，是用来做许可证插入
     }
 
     @Override
@@ -427,6 +427,24 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     }
 
     @Override
+    public PageResult<EnterpriseListResult> getPageByEnterpriseId(int id) {
+        SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(id);
+        EnterpriseListResult enterpriseListResult = new EnterpriseListResult();
+        if(supervisionEnterprise==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无企业信息");
+        }
+        BeanUtils.copyProperties(supervisionEnterprise,enterpriseListResult);
+        List<EnterpriseListResult> enterpriseList = new ArrayList<>();
+        enterpriseList.add(enterpriseListResult);
+        PageResult<EnterpriseListResult> pageResult = new PageResult<>();
+        pageResult.setData(enterpriseList);
+        pageResult.setTotal(1);
+        pageResult.setPageNo(1);
+        pageResult.setPageSize(1);
+        return pageResult;
+    }
+
+    @Override
     public Map<Integer,Integer> getStatistics(List<SysIndustry> sysIndustryList, List<Integer> sysAreaList,String supervisor) {
         Map<Integer,Integer> map = new HashMap<>();
         for (SysIndustry sysIndustry:sysIndustryList){
@@ -444,15 +462,25 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     @Override
     @Transactional
     public void importExcel(MultipartFile file, Integer type) {
-        List<SysDept> sysDeptList = sysDeptMapper.getAllDept();
+        List<SysDept> sysDeptList = sysDeptMapper.getAllDept();//将数据库中的部门和id拿出来组成map
         Map<String,Integer> deptMap = new HashMap<>();
-        for (SysDept sysDept : sysDeptList){deptMap.put(sysDept.getName(),sysDept.getId());}
-        List<SysArea> sysAreaList = sysAreaMapper.getAllArea();
+        for (SysDept sysDept : sysDeptList){
+            deptMap.put(sysDept.getName(),sysDept.getId());
+        }
+
+        List<SysArea> sysAreaList = sysAreaMapper.getAllArea();//将数据库中的地区和id拿出来组成map
         Map<String,Integer> areaMap = new HashMap<>();
-        for(SysArea sysArea : sysAreaList){areaMap.put(sysArea.getName(),sysArea.getId());}
-        List<EnterpriseListResult> allEnterpriseList = supervisionEnterpriseMapper.getAll();
+        for(SysArea sysArea : sysAreaList){
+            areaMap.put(sysArea.getName(),sysArea.getId());
+        }
+
+        List<EnterpriseListResult> allEnterpriseList = supervisionEnterpriseMapper.getAll();//将数据库中的企业和id拿出来组成map
         Map<String,Integer> enterpriseIdMap = new HashMap<>();
-        for (EnterpriseListResult enterpriseListResult : allEnterpriseList){enterpriseIdMap.put(enterpriseListResult.getIdNumber(),enterpriseListResult.getId());}
+        for (EnterpriseListResult enterpriseListResult : allEnterpriseList){
+            enterpriseIdMap.put(enterpriseListResult.getIdNumber(),enterpriseListResult.getId());
+        }
+
+        //建立许可证map，目前先暂时放，如果需要的话仍然是和id关联，不关联信用代码
         List<SupervisionEnterprise> supervisionEnterpriseList = new ArrayList<>();
         List<SupervisionEnFoodPro> supervisionEnFoodProList = new ArrayList<>();
         List<SupervisionEnProCategory> supervisionEnProCategoryList = new ArrayList<>();
@@ -543,6 +571,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             supervisionEnterpriseList.add(supervisionEnterprise);
                         }
                     }
+                    //开始对企业的信用代码和id对应，存在了就删除许可证
                 List<Integer> updateEnterpriseIds = new ArrayList<>();
                 List<SysUser> sysUserList = new ArrayList<>();
                 for(SupervisionEnterprise supervisionEnterprise : supervisionEnterpriseList){
@@ -550,7 +579,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                         int id = enterpriseIdMap.get(supervisionEnterprise.getIdNumber());
                         updateEnterpriseIds.add(id);
                         supervisionEnterprise.setId(id);
-                    }else {
+                    }else {//新企业就注册
                         SysUser sysUser = new SysUser();
                         String encryptedPassword = MD5Util.md5("123456+");
                         sysUser.setUsername(supervisionEnterprise.getEnterpriseName());
@@ -566,7 +595,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                         sysUserList.add(sysUser);
                     }
                 }
-                if(updateEnterpriseIds.size()>0){
+                if(updateEnterpriseIds.size()>0){//修改这里，这里是删除覆盖，所以id会变动，要修改为修改更新
                     supervisionEnterpriseMapper.batchDelete(updateEnterpriseIds);
                     supervisionEnCosmeticsMapper.deleteByEnterpriseIds(updateEnterpriseIds);
                     supervisionEnMedicalMapper.deleteByEnterpriseIds(updateEnterpriseIds);
@@ -577,17 +606,24 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     supervisionEnFoodProMapper.deleteByEnterpriseIds(updateEnterpriseIds);
                     supervisionEnProCategoryMapper.deleteByEnterpriseIds(updateEnterpriseIds);
                 }
+                //开始插入企业的list
                 if(supervisionEnterpriseList.size()>0){
                     supervisionEnterpriseMapper.batchInsert(supervisionEnterpriseList);
                 }
+                //替换企业的信用代码和id，用于用户的插入
                 Map<String,Integer> enterpriseMap = new HashMap<>();
-                for(SupervisionEnterprise supervisionEnterprise : supervisionEnterpriseList){enterpriseMap.put(supervisionEnterprise.getIdNumber(),supervisionEnterprise.getId());}
+                for(SupervisionEnterprise supervisionEnterprise : supervisionEnterpriseList){
+                    enterpriseMap.put(supervisionEnterprise.getIdNumber(),supervisionEnterprise.getId());
+                }
+                //插入新企业的用户
+                //如果在前边的企业先做了插入操作，那就必须要同时做用户的插入操作，这一切都是基于先前的操作前的判错机制才能够顺利进行下去
                 if(sysUserList.size()>0){
                     for(SysUser sysUser:sysUserList){
                         sysUser.setInfoId(enterpriseMap.get(sysUser.getLoginName()));
                     }
                     sysUserMapper.batchInsert(sysUserList);
                 }
+                //插入企业用户角色进用户-角色表
                 List<SysRoleUser> sysRoleUserList = new ArrayList<>();
                 for(SysUser sysUser:sysUserList)
                 {
@@ -603,6 +639,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     sysRoleUserMapper.batchInsert(sysRoleUserList);
                 }
 
+                //许可证子表插入，如果是分表插入的话可以分开写方法，
                 //食品经营
                 XSSFSheet sheet1 = workbook.getSheetAt(1);
                 for (int j = 0; j < sheet1.getPhysicalNumberOfRows(); j++) {
@@ -838,405 +875,14 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else if(type == 3){
-            try {
-                HSSFWorkbook workbook = new HSSFWorkbook(file.getInputStream());
-                HSSFSheet sheet0 = workbook.getSheetAt(0);
-                for (int j = 0; j < sheet0.getPhysicalNumberOfRows(); j++) {
-                    if (j == 0) {
-                        continue;//标题行
-                    }
-                    SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
-                    HSSFRow row = sheet0.getRow(j);
-                    supervisionEnterprise.setEnterpriseName(ExcalUtils.handleStringHSSF(row.getCell(0)));
-                    supervisionEnterprise.setShopName(ExcalUtils.handleStringHSSF(row.getCell(1)));
-                    supervisionEnterprise.setPostalCode(ExcalUtils.handleStringHSSF(row.getCell(2)));
-                    supervisionEnterprise.setRegisteredAddress(ExcalUtils.handleStringHSSF(row.getCell(3)));
-                    supervisionEnterprise.setBusinessAddress(ExcalUtils.handleStringHSSF(row.getCell(4)));
-                    supervisionEnterprise.setLegalPerson(ExcalUtils.handleStringHSSF(row.getCell(5)));
-                    supervisionEnterprise.setIdNumber(ExcalUtils.handleStringHSSF(row.getCell(6)));
-                    supervisionEnterprise.setLicenseNumber(ExcalUtils.handleStringHSSF(row.getCell(7)));
-                    supervisionEnterprise.setCantacts(ExcalUtils.handleStringHSSF(row.getCell(8)));
-                    supervisionEnterprise.setCantactWay(ExcalUtils.handleStringHSSF(row.getCell(9)));
-                    supervisionEnterprise.setRegulators(importCheckDept(ExcalUtils.handleStringHSSF(row.getCell(10)),deptMap,ExcalUtils.handleStringHSSF(row.getCell(6))));
-                    supervisionEnterprise.setArea(importCheckArea(ExcalUtils.handleStringHSSF(row.getCell(11)),areaMap,ExcalUtils.handleStringHSSF(row.getCell(6))));
-                    supervisionEnterprise.setGrid(areaMap.get(ExcalUtils.handleStringHSSF(row.getCell(12)))==null?0:areaMap.get(ExcalUtils.handleStringHSSF(row.getCell(12))));
-                    supervisionEnterprise.setSupervisor(ExcalUtils.handleStringHSSF(row.getCell(13)));
-                    supervisionEnterprise.setEnterpriseScale(ExcalUtils.handleStringHSSF(row.getCell(14)));
-                    supervisionEnterprise.setGridPerson(ExcalUtils.handleStringHSSF(row.getCell(15)));
-                    supervisionEnterprise.setDynamicGrade(ExcalUtils.handleStringHSSF(row.getCell(16)));
-                    supervisionEnterprise.setYearAssessment(ExcalUtils.handleStringHSSF(row.getCell(17)));
-                    supervisionEnterprise.setEmail(ExcalUtils.handleStringHSSF(row.getCell(18)));
-                    supervisionEnterprise.setOfficePhone(ExcalUtils.handleStringHSSF(row.getCell(19)));
-                    supervisionEnterprise.setPatrolFrequency(ExcalUtils.handleStringHSSF(row.getCell(20)));
-                    supervisionEnterprise.setTransformationType(ExcalUtils.handleStringHSSF(row.getCell(21)));
-                    supervisionEnterprise.setPermissionState(ExcalUtils.handleStringHSSF(row.getCell(22)));
-                    supervisionEnterprise.setPermissionType(ExcalUtils.handleStringHSSF(row.getCell(23)));
-                    supervisionEnterprise.setIsStop(ExcalUtils.handleIntegerHSSF(row.getCell(24)));
-                    supervisionEnterprise.setIpIdNumber(ExcalUtils.handleStringHSSF(row.getCell(25)));
-                    supervisionEnterprise.setIpMobilePhone(ExcalUtils.handleStringHSSF(row.getCell(26)));
-                    supervisionEnterprise.setIpSexy(ExcalUtils.handleStringHSSF(row.getCell(27)));
-                    supervisionEnterprise.setIpEducation(ExcalUtils.handleStringHSSF(row.getCell(28)));
-                    supervisionEnterprise.setIpPoliticalOutlook(ExcalUtils.handleStringHSSF(row.getCell(29)));
-                    supervisionEnterprise.setIpCurrentAddress(ExcalUtils.handleStringHSSF(row.getCell(30)));
-                    supervisionEnterprise.setIpNation(ExcalUtils.handleStringHSSF(row.getCell(31)));
-                    supervisionEnterprise.setIpEmail(ExcalUtils.handleStringHSSF(row.getCell(32)));
-                    supervisionEnterprise.setIpPostalCode(ExcalUtils.handleStringHSSF(row.getCell(33)));
-                    supervisionEnterprise.setSpName(ExcalUtils.handleStringHSSF(row.getCell(34)));
-                    supervisionEnterprise.setSpidNumber(ExcalUtils.handleStringHSSF(row.getCell(35)));
-                    supervisionEnterprise.setSpOfficePhone(ExcalUtils.handleStringHSSF(row.getCell(36)));
-                    supervisionEnterprise.setSpMobilePhone(ExcalUtils.handleStringHSSF(row.getCell(37)));
-                    supervisionEnterprise.setSpEmail(ExcalUtils.handleStringHSSF(row.getCell(38)));
-                    supervisionEnterprise.setSpSexy(ExcalUtils.handleStringHSSF(row.getCell(39)));
-                    supervisionEnterprise.setSpEducation(ExcalUtils.handleStringHSSF(row.getCell(40)));
-                    supervisionEnterprise.setSpCurrentAddress(ExcalUtils.handleStringHSSF(row.getCell(41)));
-                    supervisionEnterprise.setSpTraining(ExcalUtils.handleStringHSSF(row.getCell(42)));
-                    supervisionEnterprise.setOperationMode(ExcalUtils.handleStringHSSF(row.getCell(43)));
-                    supervisionEnterprise.setHousingProperty(ExcalUtils.handleStringHSSF(row.getCell(44)));
-                    supervisionEnterprise.setOwner(ExcalUtils.handleStringHSSF(row.getCell(45)));
-                    supervisionEnterprise.setOwnerIdNumber(ExcalUtils.handleStringHSSF(row.getCell(46)));
-                    supervisionEnterprise.setOwnerMobilePhone(ExcalUtils.handleStringHSSF(row.getCell(47)));
-                    supervisionEnterprise.setAgent(ExcalUtils.handleStringHSSF(row.getCell(48)));
-                    supervisionEnterprise.setAgentIdNumber(ExcalUtils.handleStringHSSF(row.getCell(49)));
-                    supervisionEnterprise.setAgentMobilePhone(ExcalUtils.handleStringHSSF(row.getCell(50)));
-                    supervisionEnterprise.setOtherPhone(ExcalUtils.handleStringHSSF(row.getCell(51)));
-                    supervisionEnterprise.setIntegrityLevel(ExcalUtils.handleStringHSSF(row.getCell(52)));
-                    supervisionEnterprise.setProductionArea(ExcalUtils.handleIntegerHSSF(row.getCell(53)));
-                    supervisionEnterprise.setFixedAssets(ExcalUtils.handleIntegerHSSF(row.getCell(54)));
-                    supervisionEnterprise.setPractitioners(ExcalUtils.handleStringHSSF(row.getCell(55)));
-                    supervisionEnterprise.setExaminationPopulation(ExcalUtils.handleIntegerHSSF(row.getCell(56)));
-                    supervisionEnterprise.setWarehouse1(ExcalUtils.handleStringHSSF(row.getCell(57)));
-                    supervisionEnterprise.setWarehouse2(ExcalUtils.handleStringHSSF(row.getCell(58)));
-                    supervisionEnterprise.setWarehouse3(ExcalUtils.handleStringHSSF(row.getCell(59)));
-                    supervisionEnterprise.setAbbreviation(ExcalUtils.handleStringHSSF(row.getCell(60)));
-                    supervisionEnterprise.setIntroduction(ExcalUtils.handleStringHSSF(row.getCell(61)));
-                    supervisionEnterprise.setCulture(ExcalUtils.handleStringHSSF(row.getCell(62)));
-                    supervisionEnterprise.setClassification(ExcalUtils.handleStringHSSF(row.getCell(63)));
-                    supervisionEnterprise.setOperator("操作人");
-                    supervisionEnterprise.setOperateIp("123.123.123");
-                    supervisionEnterprise.setOperateTime(new Date());
-                    if(!supervisionEnterprise.getIdNumber().equals("")){
-                        supervisionEnterpriseList.add(supervisionEnterprise);
-                    }
-                }
-                List<Integer> updateEnterpriseIds = new ArrayList<>();
-                List<SysUser> sysUserList = new ArrayList<>();
-                for(SupervisionEnterprise supervisionEnterprise : supervisionEnterpriseList){
-                    if(enterpriseIdMap.get(supervisionEnterprise.getIdNumber())!=null){
-                        int id = enterpriseIdMap.get(supervisionEnterprise.getIdNumber());
-                        updateEnterpriseIds.add(id);
-                        supervisionEnterprise.setId(id);
-                    }else {
-                        SysUser sysUser = new SysUser();
-                        String encryptedPassword = MD5Util.md5("123456+");
-                        sysUser.setUsername(supervisionEnterprise.getEnterpriseName());
-                        sysUser.setLoginName(supervisionEnterprise.getIdNumber());
-                        sysUser.setPassword(encryptedPassword);
-                        sysUser.setUserType(1);
-                        sysUser.setInfoName(supervisionEnterprise.getEnterpriseName());
-                        sysUser.setInfoId(supervisionEnterprise.getId());
-                        sysUser.setStatus(0);
-                        sysUser.setOperator("操作人");
-                        sysUser.setOperateIp("124.124.124");
-                        sysUser.setOperateTime(new Date());
-                        sysUserList.add(sysUser);
-                    }
-                }
-                if(updateEnterpriseIds.size()>0){
-                    supervisionEnterpriseMapper.batchDelete(updateEnterpriseIds);
-                    supervisionEnCosmeticsMapper.deleteByEnterpriseIds(updateEnterpriseIds);
-                    supervisionEnMedicalMapper.deleteByEnterpriseIds(updateEnterpriseIds);
-                    supervisionEnDrugsBuMapper.deleteByEnterpriseIds(updateEnterpriseIds);
-                    supervisionEnFoodCirMapper.deleteByEnterpriseIds(updateEnterpriseIds);
-                    supervisionEnFoodBuMapper.deleteByEnterpriseIds(updateEnterpriseIds);
-                    supervisionEnCommonMapper.deleteByEnterpriseIds(updateEnterpriseIds);
-                    supervisionEnFoodProMapper.deleteByEnterpriseIds(updateEnterpriseIds);
-                    supervisionEnProCategoryMapper.deleteByEnterpriseIds(updateEnterpriseIds);
-                }
-                if(supervisionEnterpriseList.size()>0){
-                    supervisionEnterpriseMapper.batchInsert(supervisionEnterpriseList);
-                }
-                Map<String,Integer> enterpriseMap = new HashMap<>();
-                for(SupervisionEnterprise supervisionEnterprise : supervisionEnterpriseList){enterpriseMap.put(supervisionEnterprise.getIdNumber(),supervisionEnterprise.getId());}
-                if(sysUserList.size()>0){
-                    for(SysUser sysUser:sysUserList){
-                        sysUser.setInfoId(enterpriseMap.get(sysUser.getLoginName()));
-                    }
-                    sysUserMapper.batchInsert(sysUserList);
-                }
-                List<SysRoleUser> sysRoleUserList = new ArrayList<>();
-                for(SysUser sysUser:sysUserList)
-                {
-                    SysRoleUser sysRoleUser =new SysRoleUser();
-                    sysRoleUser.setUserId(sysUser.getId());
-                    sysRoleUser.setRoleId(27);
-                    sysRoleUser.setOperateTime(new Date());
-                    sysRoleUser.setOperator("操作人");
-                    sysRoleUser.setOperateIp("123.124.124");
-                    sysRoleUserList.add(sysRoleUser);
-                }
-                if(sysRoleUserList.size()>0){
-                    sysRoleUserMapper.batchInsert(sysRoleUserList);
-                }
-
-                //食品经营
-                HSSFSheet sheet1 = workbook.getSheetAt(1);
-                for (int j = 0; j < sheet1.getPhysicalNumberOfRows(); j++) {
-                    if (j == 0) {
-                        continue;//标题行
-                    }
-                    SupervisionEnFoodBu supervisionEnFoodBu = new SupervisionEnFoodBu();
-                    HSSFRow row = sheet1.getRow(j);
-                    supervisionEnFoodBu.setEnterpriseId(enterpriseMap.get(ExcalUtils.handleStringHSSF(row.getCell(0))));
-                    supervisionEnFoodBu.setNumber(ExcalUtils.handleStringHSSF(row.getCell(1)));
-                    supervisionEnFoodBu.setBusinessFormat(ExcalUtils.handleStringHSSF(row.getCell(2)));
-                    supervisionEnFoodBu.setBusinessNotes(ExcalUtils.handleStringHSSF(row.getCell(3)));
-                    supervisionEnFoodBu.setIsInternet(ExcalUtils.handleStringHSSF(row.getCell(4)));
-                    supervisionEnFoodBu.setWebsite(ExcalUtils.handleStringHSSF(row.getCell(5)));
-                    supervisionEnFoodBu.setIsReal(ExcalUtils.handleStringHSSF(row.getCell(6)));
-                    supervisionEnFoodBu.setBusinessProject(ExcalUtils.handleStringHSSF(row.getCell(7)));
-                    supervisionEnFoodBu.setGiveTime(ExcalUtils.handleDateHSSF(row.getCell(8)));
-                    supervisionEnFoodBu.setStartTime(ExcalUtils.handleDateHSSF(row.getCell(9)));
-                    supervisionEnFoodBu.setEndTime(ExcalUtils.handleDateHSSF(row.getCell(10)));
-                    supervisionEnFoodBu.setValidityAge(ExcalUtils.handleFloatHSSF(row.getCell(11)));
-                    supervisionEnFoodBu.setCategory(ExcalUtils.handleStringHSSF(row.getCell(12)));
-                    supervisionEnFoodBu.setLicenseAuthority(ExcalUtils.handleStringHSSF(row.getCell(13)));
-                    supervisionEnFoodBu.setRemark(ExcalUtils.handleStringHSSF(row.getCell(14)));
-                    supervisionEnFoodBu.setOperator("操作人");
-                    supervisionEnFoodBu.setOperateIp("123.123.123");
-                    supervisionEnFoodBu.setOperateTime(new Date());
-                    if(supervisionEnFoodBu.getEnterpriseId()!=null) {
-                        supervisionEnFoodBuList.add(supervisionEnFoodBu);
-                    }
-                }
-                if(supervisionEnFoodBuList.size()>0){
-                    supervisionEnFoodBuMapper.batchInsert(supervisionEnFoodBuList);
-                }
-                //餐饮服务
-                HSSFSheet sheet2 = workbook.getSheetAt(2);
-                for (int j = 0; j < sheet2.getPhysicalNumberOfRows(); j++) {
-                    if (j == 0) {
-                        continue;//标题行
-                    }
-                    SupervisionEnCommon supervisionEnCommon = new SupervisionEnCommon();
-                    HSSFRow row = sheet2.getRow(j);
-                    supervisionEnCommon.setEnterpriseId(enterpriseMap.get(ExcalUtils.handleStringHSSF(row.getCell(0))));
-                    supervisionEnCommon.setNumber(ExcalUtils.handleStringHSSF(row.getCell(1)));
-                    supervisionEnCommon.setGiveTime(ExcalUtils.handleDateHSSF(row.getCell(2)));
-                    supervisionEnCommon.setStartTime(ExcalUtils.handleDateHSSF(row.getCell(3)));
-                    supervisionEnCommon.setEndTime(ExcalUtils.handleDateHSSF(row.getCell(4)));
-                    supervisionEnCommon.setValidityAge(ExcalUtils.handleFloatHSSF(row.getCell(5)));
-                    supervisionEnCommon.setBusinessType(ExcalUtils.handleStringHSSF(row.getCell(6)));
-                    supervisionEnCommon.setLicenseAuthority(ExcalUtils.handleStringHSSF(row.getCell(7)));
-                    supervisionEnCommon.setRemark(ExcalUtils.handleStringHSSF(row.getCell(8)));
-                    supervisionEnCommon.setOperator("操作人");
-                    supervisionEnCommon.setOperateIp("123.123.123");
-                    supervisionEnCommon.setOperateTime(new Date());
-                    if(supervisionEnCommon.getEnterpriseId()!=null) {
-                        supervisionEnCommonList.add(supervisionEnCommon);
-                    }
-                }
-                if(supervisionEnCommonList.size()>0){
-                    supervisionEnCommonMapper.batchInsert(supervisionEnCommonList);
-                }
-                //食品流通
-                HSSFSheet sheet3 = workbook.getSheetAt(3);
-                for (int j = 0; j < sheet3.getPhysicalNumberOfRows(); j++) {
-                    if (j == 0) {
-                        continue;//标题行
-                    }
-                    SupervisionEnFoodCir supervisionEnFoodCir = new SupervisionEnFoodCir();
-                    HSSFRow row = sheet3.getRow(j);
-                    supervisionEnFoodCir.setEnterpriseId(enterpriseMap.get(ExcalUtils.handleStringHSSF(row.getCell(0))));
-                    supervisionEnFoodCir.setNumber(ExcalUtils.handleStringHSSF(row.getCell(1)));
-                    supervisionEnFoodCir.setRegisterAdress(ExcalUtils.handleStringHSSF(row.getCell(2)));
-                    supervisionEnFoodCir.setBodyType(ExcalUtils.handleStringHSSF(row.getCell(3))=="个体"?1:0);
-                    supervisionEnFoodCir.setProduceAddress(ExcalUtils.handleStringHSSF(row.getCell(4)));
-                    supervisionEnFoodCir.setBusinessProject(ExcalUtils.handleStringHSSF(row.getCell(5)));
-                    supervisionEnFoodCir.setBusinessType(ExcalUtils.handleStringHSSF(row.getCell(6)));
-                    supervisionEnFoodCir.setGiveTime(ExcalUtils.handleDateHSSF(row.getCell(7)));
-                    supervisionEnFoodCir.setStartTime(ExcalUtils.handleDateHSSF(row.getCell(8)));
-                    supervisionEnFoodCir.setEndTime(ExcalUtils.handleDateHSSF(row.getCell(9)));
-                    supervisionEnFoodCir.setValidityAge(ExcalUtils.handleFloatHSSF(row.getCell(10)));
-                    supervisionEnFoodCir.setCopiesNumber(ExcalUtils.handleIntegerHSSF(row.getCell(11)));
-                    supervisionEnFoodCir.setLicenseAuthority(ExcalUtils.handleStringHSSF(row.getCell(12)));
-                    supervisionEnFoodCir.setLssuer(ExcalUtils.handleStringHSSF(row.getCell(13)));
-                    supervisionEnFoodCir.setInspector(ExcalUtils.handleStringHSSF(row.getCell(14)));
-                    supervisionEnFoodCir.setBusinessMode(ExcalUtils.handleStringHSSF(row.getCell(15)));
-                    supervisionEnFoodCir.setRemark(ExcalUtils.handleStringHSSF(row.getCell(16)));
-                    supervisionEnFoodCir.setOperator("操作人");
-                    supervisionEnFoodCir.setOperateIp("123.123.123");
-                    supervisionEnFoodCir.setOperateTime(new Date());
-                    if(supervisionEnFoodCir.getEnterpriseId()!=null) {
-                        supervisionEnFoodCirList.add(supervisionEnFoodCir);
-                    }
-                }
-                if(supervisionEnFoodCirList.size()>0){
-                    supervisionEnFoodCirMapper.batchInsert(supervisionEnFoodCirList);
-                }
-                //食品生产
-                HSSFSheet sheet4 = workbook.getSheetAt(4);
-                for (int j = 0; j < sheet4.getPhysicalNumberOfRows(); j++) {
-                    if (j == 0) {
-                        continue;//标题行
-                    }
-                    SupervisionEnFoodPro supervisionEnFoodPro = new SupervisionEnFoodPro();
-                    HSSFRow row = sheet4.getRow(j);
-                    supervisionEnFoodPro.setEnterpriseId(enterpriseMap.get(ExcalUtils.handleStringHSSF(row.getCell(0))));
-                    supervisionEnFoodPro.setNumber(ExcalUtils.handleStringHSSF(row.getCell(1)));
-                    supervisionEnFoodPro.setGiveTime(ExcalUtils.handleDateHSSF(row.getCell(2)));
-                    supervisionEnFoodPro.setStartTime(ExcalUtils.handleDateHSSF(row.getCell(3)));
-                    supervisionEnFoodPro.setEndTime(ExcalUtils.handleDateHSSF(row.getCell(4)));
-                    supervisionEnFoodPro.setValidityAge(ExcalUtils.handleFloatHSSF(row.getCell(5)));
-                    supervisionEnFoodPro.setLicenseAuthority(ExcalUtils.handleStringHSSF(row.getCell(6)));
-                    supervisionEnFoodPro.setOthers(ExcalUtils.handleStringHSSF(row.getCell(7)));
-                    supervisionEnFoodPro.setOperator("操作人");
-                    supervisionEnFoodPro.setOperatorIp("123.123.123");
-                    supervisionEnFoodPro.setOperatorTime(new Date());
-                    if(supervisionEnFoodPro.getEnterpriseId()!=null){
-                        supervisionEnFoodProList.add(supervisionEnFoodPro);
-                    }
-                }
-                if(supervisionEnFoodProList.size()>0){
-                    supervisionEnFoodProMapper.batchInsert(supervisionEnFoodProList);
-                }
-                HSSFSheet sheet5 = workbook.getSheetAt(5);
-                for (int j = 0; j < sheet5.getPhysicalNumberOfRows(); j++) {
-                    if (j == 0) {
-                        continue;//标题行
-                    }
-                    SupervisionEnProCategory supervisionEnProCategory = new SupervisionEnProCategory();
-                    HSSFRow row = sheet5.getRow(j);
-                    supervisionEnProCategory.setParentId(enterpriseMap.get(ExcalUtils.handleStringHSSF(row.getCell(0))));
-                    supervisionEnProCategory.setCategory(ExcalUtils.handleStringHSSF(row.getCell(1)));
-                    supervisionEnProCategory.setCode(ExcalUtils.handleStringHSSF(row.getCell(2)));
-                    supervisionEnProCategory.setName(ExcalUtils.handleStringHSSF(row.getCell(3)));
-                    supervisionEnProCategory.setDetail(ExcalUtils.handleStringHSSF(row.getCell(4)));
-                    supervisionEnProCategory.setOperator("操作人");
-                    supervisionEnProCategory.setOperateIp("123.123.123");
-                    supervisionEnProCategory.setOperateTime(new Date());
-                    if(supervisionEnProCategory.getParentId()!=null) {
-                        supervisionEnProCategoryList.add(supervisionEnProCategory);
-                    }
-                }
-                if(supervisionEnProCategoryList.size()>0){
-                    supervisionEnProCategoryMapper.batchInsert(supervisionEnProCategoryList);
-                }
-
-                //药品经营
-                HSSFSheet sheet6 = workbook.getSheetAt(6);
-                for (int j = 0; j < sheet6.getPhysicalNumberOfRows(); j++) {
-                    if (j == 0) {
-                        continue;//标题行
-                    }
-                    SupervisionEnDrugsBu supervisionEnDrugsBu = new SupervisionEnDrugsBu();
-                    HSSFRow row = sheet6.getRow(j);
-                    supervisionEnDrugsBu.setEnterpriseId(enterpriseMap.get(ExcalUtils.handleStringHSSF(row.getCell(0))));
-                    supervisionEnDrugsBu.setNumber(ExcalUtils.handleStringHSSF(row.getCell(1)));
-                    supervisionEnDrugsBu.setQualityPerson(ExcalUtils.handleStringHSSF(row.getCell(2)));
-                    supervisionEnDrugsBu.setOperationMode(ExcalUtils.handleStringHSSF(row.getCell(3)));
-                    supervisionEnDrugsBu.setWarehouseAddress(ExcalUtils.handleStringHSSF(row.getCell(4)));
-                    supervisionEnDrugsBu.setGiveTime(ExcalUtils.handleDateHSSF(row.getCell(5)));
-                    supervisionEnDrugsBu.setStartTime(ExcalUtils.handleDateHSSF(row.getCell(6)));
-                    supervisionEnDrugsBu.setEndTime(ExcalUtils.handleDateHSSF(row.getCell(7)));
-                    supervisionEnDrugsBu.setGspNumber(ExcalUtils.handleStringHSSF(row.getCell(8)));
-                    supervisionEnDrugsBu.setGspStartTime(ExcalUtils.handleDateHSSF(row.getCell(9)));
-                    supervisionEnDrugsBu.setGspFinishTime(ExcalUtils.handleDateHSSF(row.getCell(10)));
-                    supervisionEnDrugsBu.setValidityTime(ExcalUtils.handleFloatHSSF(row.getCell(11)));
-                    supervisionEnDrugsBu.setLicenseAuthority(ExcalUtils.handleStringHSSF(row.getCell(12)));
-                    supervisionEnDrugsBu.setBusinessScope(ExcalUtils.handleStringHSSF(row.getCell(13)));
-                    supervisionEnDrugsBu.setRemark(ExcalUtils.handleStringHSSF(row.getCell(14)));
-                    supervisionEnDrugsBu.setOperator("操作人");
-                    supervisionEnDrugsBu.setOperatorIp("123.123.123");
-                    supervisionEnDrugsBu.setOperatorTime(new Date());
-                    if(supervisionEnDrugsBu.getEnterpriseId()!=null) {
-                        supervisionEnDrugsBuList.add(supervisionEnDrugsBu);
-                    }
-                }
-                if(supervisionEnDrugsBuList.size()>0){
-                    supervisionEnDrugsBuMapper.batchInsert(supervisionEnDrugsBuList);
-                }
-
-                HSSFSheet sheet7 = workbook.getSheetAt(7);
-                for (int j = 0; j < sheet7.getPhysicalNumberOfRows(); j++) {
-                    if (j == 0) {
-                        continue;//标题行
-                    }
-                    SupervisionEnMedical supervisionEnMedical = new SupervisionEnMedical();
-                    HSSFRow row = sheet7.getRow(j);
-                    supervisionEnMedical.setEnterpriseId(enterpriseMap.get(ExcalUtils.handleStringHSSF(row.getCell(0))));
-                    supervisionEnMedical.setRegisterNumber(ExcalUtils.handleStringHSSF(row.getCell(1)));
-                    supervisionEnMedical.setSuperviseCategory(ExcalUtils.handleStringHSSF(row.getCell(2)));
-                    supervisionEnMedical.setLssueAuthority(ExcalUtils.handleStringHSSF(row.getCell(3)));
-                    supervisionEnMedical.setGiveTime(ExcalUtils.handleDateHSSF(row.getCell(4)));
-                    supervisionEnMedical.setStartTime(ExcalUtils.handleDateHSSF(row.getCell(5)));
-                    supervisionEnMedical.setEndTime(ExcalUtils.handleDateHSSF(row.getCell(6)));
-                    supervisionEnMedical.setMedicalSubject(ExcalUtils.handleStringHSSF(row.getCell(7)));
-                    supervisionEnMedical.setRemark(ExcalUtils.handleStringHSSF(row.getCell(8)));
-                    supervisionEnMedical.setOperator("操作人");
-                    supervisionEnMedical.setOperateIp("123.123.123");
-                    supervisionEnMedical.setOperateTime(new Date());
-                    if(supervisionEnMedical.getEnterpriseId()!=null) {
-                        supervisionEnMedicalList.add(supervisionEnMedical);
-                    }
-                }
-                if(supervisionEnMedicalList.size()>0){
-                    supervisionEnMedicalMapper.batchInsert(supervisionEnMedicalList);
-                }
-                HSSFSheet sheet8 = workbook.getSheetAt(8);
-                for (int j = 0; j < sheet8.getPhysicalNumberOfRows(); j++) {
-                    if (j == 0) {
-                        continue;//标题行
-                    }
-                    SupervisionEnCosmetics supervisionEnCosmetics = new SupervisionEnCosmetics();
-                    HSSFRow row = sheet8.getRow(j);
-                    supervisionEnCosmetics.setEnterpriseId(enterpriseMap.get(ExcalUtils.handleStringHSSF(row.getCell(0))));
-                    supervisionEnCosmetics.setRegisterCode(ExcalUtils.handleStringHSSF(row.getCell(1)));
-                    supervisionEnCosmetics.setValidityAge(ExcalUtils.handleFloatHSSF(row.getCell(2)));
-                    supervisionEnCosmetics.setLicenseAuthority(ExcalUtils.handleStringHSSF(row.getCell(3)));
-                    supervisionEnCosmetics.setWarehouse(ExcalUtils.handleStringHSSF(row.getCell(4)));
-                    supervisionEnCosmetics.setGiveTime(ExcalUtils.handleDateHSSF(row.getCell(5)));
-                    supervisionEnCosmetics.setStartTime(ExcalUtils.handleDateHSSF(row.getCell(6)));
-                    supervisionEnCosmetics.setEndTime(ExcalUtils.handleDateHSSF(row.getCell(7)));
-                    supervisionEnCosmetics.setLicenseProject(ExcalUtils.handleStringHSSF(row.getCell(8)));
-                    supervisionEnCosmetics.setRemark(ExcalUtils.handleStringHSSF(row.getCell(9)));
-                    supervisionEnCosmetics.setOperator("操作人");
-                    supervisionEnCosmetics.setOperateIp("123.123.123");
-                    supervisionEnCosmetics.setOperateTime(new Date());
-                    if(supervisionEnCosmetics.getEnterpriseId()!=null) {
-                        supervisionEnCosmeticsList.add(supervisionEnCosmetics);
-                    }
-                }
-                if (supervisionEnCosmeticsList.size()>0){
-                    supervisionEnCosmeticsMapper.batchInsert(supervisionEnCosmeticsList);
-                }
-                workbook.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }else {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"文件错误");
         }
     }
 
-    @Override
-    public PageResult<EnterpriseListResult> getPageByEnterpriseId(int id) {
-        SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(id);
-        EnterpriseListResult enterpriseListResult = new EnterpriseListResult();
-        if(supervisionEnterprise==null){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无企业信息");
-        }
-        BeanUtils.copyProperties(supervisionEnterprise,enterpriseListResult);
-        List<EnterpriseListResult> enterpriseList = new ArrayList<>();
-        enterpriseList.add(enterpriseListResult);
-        PageResult<EnterpriseListResult> pageResult = new PageResult<>();
-        pageResult.setData(enterpriseList);
-        pageResult.setTotal(1);
-        pageResult.setPageNo(1);
-        pageResult.setPageSize(1);
-        return pageResult;
-    }
 
+
+    //这两个方法是在map中查找是否有这个文件中的地区和部门，有才转化，没有即抛错，这一步如果放在导入赋值之前做判错，后边就无需判断了。
     Integer importCheckArea(String areaName,Map<String,Integer> areaMap,String idNumber){
         if(areaMap.get(areaName)!=null||StringUtils.isEmpty(idNumber)){
             return areaMap.get(areaName);

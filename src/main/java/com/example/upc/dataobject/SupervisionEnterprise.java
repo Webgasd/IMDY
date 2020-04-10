@@ -1,5 +1,7 @@
 package com.example.upc.dataobject;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class SupervisionEnterprise {
@@ -19,6 +21,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Thu Apr 09 02:15:35 CST 2020
      */
+    @NotBlank(message = "企业名称不能为空")
     private String enterpriseName;
 
     /**
@@ -235,6 +238,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Thu Apr 09 02:15:35 CST 2020
      */
+    @NotBlank(message = "住所/经营场所不能为空")
     private String registeredAddress;
 
     /**
@@ -253,6 +257,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Thu Apr 09 02:15:35 CST 2020
      */
+    @NotBlank(message = "法人不能为空")
     private String legalPerson;
 
     /**
@@ -262,6 +267,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Thu Apr 09 02:15:35 CST 2020
      */
+    @NotBlank(message = "社会信用代码不能为空")
     private String idNumber;
 
     /**
@@ -433,6 +439,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Thu Apr 09 02:15:35 CST 2020
      */
+    @NotBlank(message = "经营方式不能为空")
     private String operationMode;
 
     /**
@@ -442,6 +449,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Thu Apr 09 02:15:35 CST 2020
      */
+
     private String cantacts;
 
     /**
@@ -451,6 +459,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Thu Apr 09 02:15:35 CST 2020
      */
+
     private String cantactWay;
 
     /**
@@ -469,6 +478,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Thu Apr 09 02:15:35 CST 2020
      */
+    @NotNull(message = "所属地区不能为空")
     private Integer area;
 
     /**
