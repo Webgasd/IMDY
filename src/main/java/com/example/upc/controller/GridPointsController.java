@@ -116,7 +116,7 @@ public class GridPointsController {
 //                    point="116.434032,37.165323";//平原县政府点
 //                    point="115.704953,36.838373";//临清市政府点
 //                    point="117.135354,36.192083";//泰山区市政府点
-                    point="37.4489563700,118.5821878900";//东营区政府点
+                    point="118.5821878900,37.4489563700";//东营区政府点
                 }
                 gridPoints.setAreaId(list.get(x).getGrid());
                 gridPoints.setEnterpriseId(list.get(x).getId());
@@ -150,7 +150,8 @@ public class GridPointsController {
                 enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListSearch(areaId));
             }
             return CommonReturnType.create(gridPointsService.getSmileMapPoints(enterpriseSearchParam));
-        } else if(sysUser.getUserType()==2){
+        }
+        else if(sysUser.getUserType()==2){//政府人员
             SupervisionGa supervisionGa = supervisionGaService.getById(sysUser.getInfoId());
             List<SysIndustry> sysIndustryList = sysDeptIndustryService.getListByDeptId(supervisionGa.getDepartment());
             List<Integer> sysAreaList = sysDeptAreaService.getIdListByDeptId(supervisionGa.getDepartment());
@@ -164,7 +165,8 @@ public class GridPointsController {
                 enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListSearch(areaId));
             }
             return CommonReturnType.create(gridPointsService.getSmileMapPoints(enterpriseSearchParam));
-        }else{
+        }
+        else{
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"非法用户");
         }
     }

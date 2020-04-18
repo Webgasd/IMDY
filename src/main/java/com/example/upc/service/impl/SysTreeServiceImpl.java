@@ -40,7 +40,7 @@ public class SysTreeServiceImpl implements SysTreeService {
     @Override
     public List<DeptLevelDto> deptTree() {
         List<SysDept> deptList = sysDeptMapper.getAllDept();
-
+        //获取所有部门
         List<DeptLevelDto> dtoList = new ArrayList<>();
         for (SysDept dept : deptList) {
             DeptLevelDto dto = DeptLevelDto.adapt(dept);

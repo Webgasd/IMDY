@@ -8,7 +8,7 @@
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <!-- 数据库链接地址账号密码-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://106.15.181.173:3306/splatform_dongying"
+                        connectionURL="jdbc:mysql://106.15.181.173:3306/splatform"
                         userId="root"
                         password="Zcc..934947091">
         </jdbcConnection>

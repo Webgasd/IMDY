@@ -81,36 +81,43 @@ public class GridPointsServiceImpl implements GridPointsService {
         for(SysArea sysArea:sysAreaList){//循环备注为区域的list结果
             List<Integer> areaIdList = new ArrayList<>();
             areaIdList.add(sysArea.getId());//循环盛放搜索结果中的id，下面就是建立
-            EnterpriseSearchParam foodCommonEnterpriseSearchParam = new EnterpriseSearchParam();
+            //以此为一组，分别是构建不同的产业类型
+            EnterpriseSearchParam foodCommonEnterpriseSearchParam = new EnterpriseSearchParam();//建立
             List<String> fooCommonList = new ArrayList<>();
             fooCommonList.add("foodCommon");
             foodCommonEnterpriseSearchParam.setAreaList(areaIdList);
             foodCommonEnterpriseSearchParam.setIndustryList(fooCommonList);
+
             EnterpriseSearchParam foodCirculateEnterpriseSearchParam = new EnterpriseSearchParam();
             List<String> foodCirculateList = new ArrayList<>();
             foodCirculateList.add("foodCirculate");
             foodCirculateEnterpriseSearchParam.setAreaList(areaIdList);
             foodCirculateEnterpriseSearchParam.setIndustryList(foodCirculateList);
+
             EnterpriseSearchParam foodProduceEnterpriseSearchParam = new EnterpriseSearchParam();
             List<String> foodProduceList = new ArrayList<>();
             foodProduceList.add("foodProduce");
             foodProduceEnterpriseSearchParam.setAreaList(areaIdList);
             foodProduceEnterpriseSearchParam.setIndustryList(foodProduceList);
+
             EnterpriseSearchParam cosmeticsUseEnterpriseSearchParam = new EnterpriseSearchParam();
             List<String> cosmeticsUseList = new ArrayList<>();
             cosmeticsUseList.add("cosmeticsUse");
             cosmeticsUseEnterpriseSearchParam.setAreaList(areaIdList);
             cosmeticsUseEnterpriseSearchParam.setIndustryList(cosmeticsUseList);
+
             EnterpriseSearchParam drugsBusinessEnterpriseSearchParam = new EnterpriseSearchParam();
             List<String> drugsBusinessList = new ArrayList<>();
             drugsBusinessList.add("drugsBusiness");
             drugsBusinessEnterpriseSearchParam.setAreaList(areaIdList);
             drugsBusinessEnterpriseSearchParam.setIndustryList(drugsBusinessList);
+
             EnterpriseSearchParam medicalUseEnterpriseSearchParam = new EnterpriseSearchParam();
             List<String> medicalUseList = new ArrayList<>();
             medicalUseList.add("medicalUse");
             medicalUseEnterpriseSearchParam.setAreaList(areaIdList);
             medicalUseEnterpriseSearchParam.setIndustryList(medicalUseList);
+
             MapIndustryNumber mapIndustryNumber = new MapIndustryNumber();
             mapIndustryNumber.setFoodCommon(supervisionEnterpriseMapper.countList(foodCommonEnterpriseSearchParam));
             mapIndustryNumber.setFoodCirculate(supervisionEnterpriseMapper.countList(foodCirculateEnterpriseSearchParam));
@@ -118,10 +125,10 @@ public class GridPointsServiceImpl implements GridPointsService {
             mapIndustryNumber.setCosmeticsUse(supervisionEnterpriseMapper.countList(cosmeticsUseEnterpriseSearchParam));
             mapIndustryNumber.setDrugsBusiness(supervisionEnterpriseMapper.countList(drugsBusinessEnterpriseSearchParam));
             mapIndustryNumber.setMedicalUse(supervisionEnterpriseMapper.countList(medicalUseEnterpriseSearchParam));
-            areaCount.put(sysArea.getId(),mapIndustryNumber);
+            areaCount.put(sysArea.getId(),mapIndustryNumber);//向map中存放地区id和当前地区的6个产业类型中企业的数量
         }
         EnterpriseSearchParam enterpriseSearchParam = new EnterpriseSearchParam();
-        enterpriseSearchParam.setAreaList(areaIntegers);
+        enterpriseSearchParam.setAreaList(areaIntegers);//放置areaId的list
         List<String> industryList = new ArrayList<>();
         industryList.add("foodCommon");
         industryList.add("foodCirculate");
@@ -129,11 +136,12 @@ public class GridPointsServiceImpl implements GridPointsService {
         industryList.add("cosmeticsUse");
         industryList.add("drugsBusiness");
         industryList.add("medicalUse");
-        enterpriseSearchParam.setIndustryList(industryList);
+        enterpriseSearchParam.setIndustryList(industryList);//放置产业类型的list
+        //抛出map
         Map<String,Object> map = new HashMap<>();
-        map.put("areaCount",areaCount);
-        map.put("allCount",supervisionEnterpriseMapper.countList(enterpriseSearchParam));
-        map.put("areaList",sysAreaList);
+        map.put("areaCount",areaCount);//包含1、所有地区以及每个地区下的6大类产业的企业数量
+        map.put("allCount",supervisionEnterpriseMapper.countList(enterpriseSearchParam));//2、所有企业的数量
+        map.put("areaList",sysAreaList);//所有地区
         return map;
     }
     @Override

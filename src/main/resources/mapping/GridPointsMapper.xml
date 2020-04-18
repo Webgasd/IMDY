@@ -15,6 +15,7 @@
     <result column="operator" jdbcType="VARCHAR" property="operator" />
     <result column="operate_ip" jdbcType="VARCHAR" property="operateIp" />
   </resultMap>
+
   <resultMap id="BaseResultMap1"  type="com.example.upc.controller.param.GridPoints1">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="area" jdbcType="INTEGER" property="area"/>
@@ -22,14 +23,18 @@
     <result column="permission_type" jdbcType="VARCHAR" property="permission_type"/>
     <result column="registered_address" jdbcType="VARCHAR" property="registered_address"/>
   </resultMap>
+
   <resultMap id="SmileMap"  type="com.example.upc.controller.param.SmilePoints">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
+    <result column="enterprise_name" jdbcType="INTEGER" property="enterpriseName" />
     <result column="point" jdbcType="VARCHAR" property="point"/>
     <result column="area" jdbcType="INTEGER" property="area"/>
     <result column="grid" jdbcType="INTEGER" property="grid"/>
     <result column="registered_address" jdbcType="VARCHAR" property="registered_address"/>
     <result column="dynamic_grade" jdbcType="VARCHAR" property="dynamic_grade"/>
+    <result column="operation_mode" jdbcType="VARCHAR" property="operationMode"/>
+    <result column="business_state" jdbcType="VARCHAR" property="businessState"/>
     <result column="max_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="a1_id" jdbcType="INTEGER" property="foodBusiness" />
     <result column="a2_id" jdbcType="INTEGER" property="foodCommon" />
@@ -177,10 +182,12 @@
       operate_ip = #{operateIp,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <select id="getAll" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" />
     FROM grid_points
   </select>
+
   <select id="getAll1" resultMap="BaseResultMap1">
     select a.id,a.area,a.grid,a.registered_address,a.permission_type
     from supervision_enterprise a
@@ -189,8 +196,11 @@
     left join supervision_enterprise as d on c.enterprise_id=d.id
     )
   </select>
+
+
+
   <select id="getSmileAll" resultMap="SmileMap">
-    select a.id, a.point,a.enterprise_id,b.area,b.grid,b.registered_address,b.dynamic_grade,
+    select a.id, a.point,a.enterprise_id,b.enterprise_name,b.area,b.grid,b.registered_address,b.dynamic_grade,b.operation_mode,b.business_state,
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">b.a1_id,b.business_type,</if>
     <if test="search.industryList.contains('foodCommon')">b.a2_id,</if>
     <if test="search.industryList.contains('foodCirculate')">b.a3_id,</if>
@@ -200,8 +210,8 @@
     <if test="search.industryList.contains('cosmeticsUse')">b.a7_id,</if>
     b.max_time
     FROM grid_points as a inner JOIN
-   (
-    SELECT id,area,grid,registered_address,dynamic_grade,
+    (
+    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state,
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">a1_id,business_type,</if>
     <if test="search.industryList.contains('foodCommon')">a2_id,</if>
     <if test="search.industryList.contains('foodCirculate')">a3_id,</if>
@@ -209,7 +219,7 @@
     <if test="search.industryList.contains('drugsBusiness')">a5_id,</if>
     <if test="search.industryList.contains('medicalUse')">a6_id,</if>
     <if test="search.industryList.contains('cosmeticsUse')">a7_id,</if>
-    (select MIN(maxtime) from(
+    (select IFNULL(MIN( maxtime ) ,'2099-12-31 16:00:00') from(
     <trim prefixOverrides="union">
       <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
         select a1_time as maxtime
@@ -234,15 +244,15 @@
       </if>
     </trim>
     ) A) as max_time FROM (
-    <if test="search.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,b.end_time as a7_time FROM (</if>
-    <if test="search.industryList.contains('medicalUse')">SELECT a.*,b.id as a6_id,b.end_time as a6_time FROM (</if>
-    <if test="search.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,b.end_time as a5_time FROM (</if>
-    <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
-    <if test="search.industryList.contains('foodCirculate')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
-    <if test="search.industryList.contains('foodCommon')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">SELECT a.* ,b.id as a1_id,b.business_format as business_type,b.end_time as a1_time FROM (</if>
-    SELECT id,area,grid,registered_address,dynamic_grade  FROM supervision_enterprise WHERE area IN
-    <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+    <if test="search.industryList.contains('cosmeticsUse')">SELECT a.*,IFNULL(b.id,0) as a7_id,b.end_time as a7_time FROM (</if>
+    <if test="search.industryList.contains('medicalUse')">SELECT a.*,IFNULL(b.id,0) as a6_id,b.end_time as a6_time FROM (</if>
+    <if test="search.industryList.contains('drugsBusiness')">SELECT a.*,IFNULL(b.id,0) as a5_id,b.end_time as a5_time FROM (</if>
+    <if test="search.industryList.contains('foodProduce')">SELECT a.*,IFNULL(b.id,0) as a4_id,b.end_time as a4_time FROM (</if>
+    <if test="search.industryList.contains('foodCirculate')">SELECT a.*,IFNULL(b.id,0) as a3_id,b.end_time as a3_time FROM (</if>
+    <if test="search.industryList.contains('foodCommon')">SELECT a.*,IFNULL(b.id,0) as a2_id,b.end_time as a2_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">SELECT a.* ,IFNULL(b.id,0) as a1_id,b.business_format as business_type,b.end_time as a1_time FROM (</if>
+    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =0
+    AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
     <!--基础小表是根据地区权限和supervisor筛查出来的 -->
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">) as a LEFT JOIN supervision_en_food_bu as b on a.id =b.enterprise_id
@@ -278,43 +288,159 @@
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">
       <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
-        a1_id
+        a1_id &gt;=0
       </if>
       <if test="search.industryList.contains('foodCommon')">
-        OR a2_id
+        OR a2_id &gt;=0
       </if>
       <if test="search.industryList.contains('foodCirculate')">
-        OR a3_id
+        OR a3_id &gt;=0
       </if>
       <if test="search.industryList.contains('foodProduce')">
-        OR a4_id
+        OR a4_id &gt;=0
       </if>
       <if test="search.industryList.contains('drugsBusiness')">
-        OR a5_id
+        OR a5_id &gt;=0
       </if>
       <if test="search.industryList.contains('medicalUse')">
-        OR a6_id
+        OR a6_id &gt;=0
       </if>
       <if test="search.industryList.contains('cosmeticsUse')">
-        OR a7_id
+        OR a7_id &gt;=0
       </if>
     </trim><!--trim的用法，设置通用格式并删除前/后缀，在判断生效后添加格式，若前无删前缀，后无删后缀 -->
-     ) as b<!-- 基础大表，根据权限/业态查企业 -->
+    ) as b<!-- 基础大表，根据权限/业态查企业 -->
     on a.enterprise_id=b.id
+    union<!-- 组合两种定位方式 -->
+    select a.id, a.point,b.id as enterprise_id,b.enterprise_name,b.area,b.grid,b.registered_address,b.dynamic_grade,b.operation_mode,b.business_state,
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">b.a1_id,b.business_type,</if>
+    <if test="search.industryList.contains('foodCommon')">b.a2_id,</if>
+    <if test="search.industryList.contains('foodCirculate')">b.a3_id,</if>
+    <if test="search.industryList.contains('foodProduce')">b.a4_id,</if>
+    <if test="search.industryList.contains('drugsBusiness')">b.a5_id,</if>
+    <if test="search.industryList.contains('medicalUse')">b.a6_id,</if>
+    <if test="search.industryList.contains('cosmeticsUse')">b.a7_id,</if>
+    b.max_time
+    FROM grid_points_gps as a inner JOIN
+    (
+    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state,
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">a1_id,business_type,</if>
+    <if test="search.industryList.contains('foodCommon')">a2_id,</if>
+    <if test="search.industryList.contains('foodCirculate')">a3_id,</if>
+    <if test="search.industryList.contains('foodProduce')">a4_id,</if>
+    <if test="search.industryList.contains('drugsBusiness')">a5_id,</if>
+    <if test="search.industryList.contains('medicalUse')">a6_id,</if>
+    <if test="search.industryList.contains('cosmeticsUse')">a7_id,</if>
+    (select IFNULL(MIN( maxtime ) ,'2099-12-31 16:00:00') from(
+    <trim prefixOverrides="union">
+      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
+        select a1_time as maxtime
+      </if>
+      <if test="search.industryList.contains('foodCommon')">
+        union select a2_time as maxtime
+      </if>
+      <if test="search.industryList.contains('foodCirculate')">
+        union select a3_time as maxtime
+      </if>
+      <if test="search.industryList.contains('foodProduce')">
+        union select a4_time as maxtime
+      </if>
+      <if test="search.industryList.contains('drugsBusiness')">
+        union select a5_time as maxtime
+      </if>
+      <if test="search.industryList.contains('medicalUse')">
+        union select a6_time as maxtime
+      </if>
+      <if test="search.industryList.contains('cosmeticsUse')">
+        union select a7_time as maxtime
+      </if>
+    </trim>
+    ) A) as max_time FROM (
+    <if test="search.industryList.contains('cosmeticsUse')">SELECT a.*,IFNULL(b.id,0) as a7_id,b.end_time as a7_time FROM (</if>
+    <if test="search.industryList.contains('medicalUse')">SELECT a.*,IFNULL(b.id,0) as a6_id,b.end_time as a6_time FROM (</if>
+    <if test="search.industryList.contains('drugsBusiness')">SELECT a.*,IFNULL(b.id,0) as a5_id,b.end_time as a5_time FROM (</if>
+    <if test="search.industryList.contains('foodProduce')">SELECT a.*,IFNULL(b.id,0) as a4_id,b.end_time as a4_time FROM (</if>
+    <if test="search.industryList.contains('foodCirculate')">SELECT a.*,IFNULL(b.id,0) as a3_id,b.end_time as a3_time FROM (</if>
+    <if test="search.industryList.contains('foodCommon')">SELECT a.*,IFNULL(b.id,0) as a2_id,b.end_time as a2_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">SELECT a.* ,IFNULL(b.id,0) as a1_id,b.business_format as business_type,b.end_time as a1_time FROM (</if>
+    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =1
+    AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+    <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
+    <!--基础小表是根据地区权限和supervisor筛查出来的 -->
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">) as a LEFT JOIN supervision_en_food_bu as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if><if test="!search.industryList.contains('foodBusiness')">
+        <if test="search.industryList.contains('foodCirculate') and !search.industryList.contains('foodCommon')">AND b.business_format IN ('食品销售经营者（非连锁）','食品销售经营者（连锁）','食品销售经营者')</if>
+        <if test="search.industryList.contains('foodCommon') and !search.industryList.contains('foodCirculate')">AND b.business_format IN ('餐饮服务经营者（非连锁）','餐饮服务经营者（连锁）','单位食堂','餐饮服务经营者')</if></if></if>
+    <if test="search.industryList.contains('foodCommon')">)as a LEFT JOIN supervision_en_common as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if></if>
+    <if test="search.industryList.contains('foodCirculate')">)as a LEFT JOIN supervision_en_food_cir as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if></if>
+    <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if></if>
+    <if test="search.industryList.contains('drugsBusiness')">)as a LEFT JOIN supervision_en_drugs_bu as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if></if>
+    <if test="search.industryList.contains('medicalUse')">)as a LEFT JOIN supervision_en_medical as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_number LIKE CONCAT('%',#{search.licenseNumber},'%')</if></if>
+    <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if></if>
+    ) as a
+    <trim prefix="WHERE" prefixOverrides="OR">
+      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
+        a1_id &gt;=0
+      </if>
+      <if test="search.industryList.contains('foodCommon')">
+        OR a2_id &gt;=0
+      </if>
+      <if test="search.industryList.contains('foodCirculate')">
+        OR a3_id &gt;=0
+      </if>
+      <if test="search.industryList.contains('foodProduce')">
+        OR a4_id &gt;=0
+      </if>
+      <if test="search.industryList.contains('drugsBusiness')">
+        OR a5_id &gt;=0
+      </if>
+      <if test="search.industryList.contains('medicalUse')">
+        OR a6_id &gt;=0
+      </if>
+      <if test="search.industryList.contains('cosmeticsUse')">
+        OR a7_id &gt;=0
+      </if>
+    </trim><!--trim的用法，设置通用格式并删除前/后缀，在判断生效后添加格式，若前无删前缀，后无删后缀 -->
+    ) as b<!-- 基础大表，根据权限/业态查企业 -->
+    on a.code_id=b.id_number
   </select>
+
   <select id="getByAreaId" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" />
     FROM grid_points
     WHERE area_id = #{id}
   </select>
+
   <select id="checkPoint" resultType="Integer">
     select COUNT(*) from grid_points where enterprise_id=#{id}
   </select>
+
   <select id="getPointByEnterpriseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
      select <include refid="Base_Column_List" />
      from grid_points
      where enterprise_id=#{id}
   </select>
+
   <update id="updatePoint" parameterType="com.example.upc.dataobject.GridPoints">
     update grid_points
     <set>
@@ -333,13 +459,17 @@
     </set>
     where area_id = #{areaId,jdbcType=INTEGER} and enterprise_id=#{enterpriseId}
   </update>
+
   <select id="getEnterpriseByName" parameterType="java.lang.String" resultMap="EnterpriseId">
     select id from supervision_enterprise where enterprise_name like CONCAT('%',#{name},'%')
   </select>
+
   <delete id="deleteByEnterpriseId" parameterType="java.lang.Integer">
     delete from grid_points where enterprise_id=#{id}
   </delete>
+
   <select id="getVideoIdByEnterprise" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     select IFNULL(max(id),0) as id  from video_parent where enterprise_id = #{id}
   </select>
+
 </mapper>

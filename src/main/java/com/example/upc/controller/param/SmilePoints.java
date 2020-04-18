@@ -9,11 +9,13 @@ public class SmilePoints {
     private Integer enterpriseId;
 
     private String point;
-
+    private String enterpriseName;
     private Integer area;
     private Integer grid;
     private String registered_address;
     private String dynamic_grade;
+    private String operationMode;
+    private String businessState;
     private Integer foodBusiness;
     private String businessType;
     private Integer foodCommon;
@@ -23,6 +25,30 @@ public class SmilePoints {
     private Integer medicalUse;
     private Integer cosmeticsUse;
     private Date endTime;
+
+    public String getEnterpriseName() {
+        return enterpriseName;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
+
+    public String getOperationMode() {
+        return operationMode;
+    }
+
+    public void setOperationMode(String operationMode) {
+        this.operationMode = operationMode;
+    }
+
+    public String getBusinessState() {
+        return businessState;
+    }
+
+    public void setBusinessState(String businessState) {
+        this.businessState = businessState;
+    }
 
     public Integer getFoodBusiness() {
         return foodBusiness;
