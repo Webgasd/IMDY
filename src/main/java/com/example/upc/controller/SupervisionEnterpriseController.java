@@ -184,15 +184,15 @@ public class SupervisionEnterpriseController {
     }
 
     //企业导入，着重修改这里，使之能够不删除修改
-    @RequestMapping("/importExcel")
-    @ResponseBody
-    public CommonReturnType importExcel(MultipartFile file) {
-        String fileName = file.getOriginalFilename();
-        if(fileName.matches("^.+\\.(?i)(xls)$")){//03版本excel,xls
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"该文件类型已不支持，请使用07版本后缀为.xlsx版本导入");
-        }else if (fileName.matches("^.+\\.(?i)(xlsx)$")){//07版本,xlsx
-            supervisionEnterpriseService.importExcel(file,7);
-        }
-        return CommonReturnType.create(null);
-    }
+//    @RequestMapping("/importExcel")
+//    @ResponseBody
+//    public CommonReturnType importExcel(MultipartFile file) {
+//        String fileName = file.getOriginalFilename();
+//        if(fileName.matches("^.+\\.(?i)(xls)$")){//03版本excel,xls
+//            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"该文件类型已不支持，请使用07版本后缀为.xlsx版本导入");
+//        }else if (fileName.matches("^.+\\.(?i)(xlsx)$")){//07版本,xlsx
+//            supervisionEnterpriseService.importExcel(file,7);
+//        }
+//        return CommonReturnType.create(null);
+//    }
 }

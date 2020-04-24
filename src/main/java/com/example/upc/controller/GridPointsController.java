@@ -88,6 +88,14 @@ public class GridPointsController {
     public CommonReturnType getPointByEnterpriseId(int id){
         return CommonReturnType.create(gridPointsService.getPointByEnterpriseId(id));
     }
+
+    @RequestMapping("/getPointByName")
+    @ResponseBody
+    public CommonReturnType getPointByName(String address){
+        GaoDeMapUtil gaoDe = new GaoDeMapUtil();
+        GaodeLocation result = gaoDe.getLocatoin(address);
+        return CommonReturnType.create(result);
+    }
     @RequestMapping("/transform")
     @ResponseBody
     @Transactional

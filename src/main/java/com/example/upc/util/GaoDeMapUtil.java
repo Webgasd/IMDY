@@ -34,7 +34,7 @@ public class GaoDeMapUtil {
 
     // 地理编码地址
     private static String map_codeurl = "http://restapi.amap.com/v3/geocode/geo?parameters";
-
+//https调用改为https
     public static void main(String[] args) {
         GaoDeMapUtil gdm = new GaoDeMapUtil();
         GaodeLocation result = gdm.getLocatoin("明湖小区东区三区1号楼");

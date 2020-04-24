@@ -24,6 +24,6 @@ public interface SupervisionEnterpriseService {
    void delete(int id);
    void changeStop(int id);
    Map<Integer,Integer> getStatistics(List<SysIndustry> sysIndustryList, List<Integer> sysAreaList,String supervisor);
-   void importExcel(MultipartFile file, Integer type);
+   //void importExcel(MultipartFile file, Integer type);
    PageResult<EnterpriseListResult> getPageByEnterpriseId(int id);
 }

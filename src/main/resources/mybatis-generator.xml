@@ -28,7 +28,7 @@
 
         <!-- 生成对应表明及类名-->
 
-<!--        <table tableName="supervision_enterprise" domainObjectName="SupervisionEnterprise" enableCountByExample="false"-->
+<!--        <table tableName="supervision_en_industrial_products" domainObjectName="SupervisionEnIndustrialProducts" enableCountByExample="false"-->
 <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--        selectByExampleQueryId="false"></table>-->
     </context>
