@@ -279,10 +279,10 @@
       <if test="regulators != null and regulators != ''">
         regulators,
       </if>
-      <if test="area != null area != ''">
+      <if test="area != null and area != ''">
         area,
       </if>
-      <if test="grid != null grid != ''">
+      <if test="grid != null and grid != ''">
         grid,
       </if>
       <if test="supervisor != null and supervisor != ''">
