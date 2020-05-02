@@ -243,7 +243,7 @@
     -->
     insert into supervision_enterprise
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null and id != ''">
+      <if test="id != null">
         id,
       </if>
       <if test="enterpriseName != null and enterpriseName != ''">
@@ -276,13 +276,13 @@
       <if test="cantactWay != null and cantactWay != ''">
         cantact_way,
       </if>
-      <if test="regulators != null and regulators != ''">
+      <if test="regulators != null">
         regulators,
       </if>
-      <if test="area != null and area != ''">
+      <if test="area != null">
         area,
       </if>
-      <if test="grid != null and grid != ''">
+      <if test="grid != null">
         grid,
       </if>
       <if test="supervisor != null and supervisor != ''">
@@ -411,16 +411,16 @@
       <if test="integrityLevel != null and integrityLevel != ''">
         integrity_level,
       </if>
-      <if test="productionArea != null and productionArea != ''">
+      <if test="productionArea != null">
         production_area,
       </if>
-      <if test="fixedAssets != null and fixedAssets != ''">
+      <if test="fixedAssets != null">
         fixed_assets,
       </if>
       <if test="practitioners != null and practitioners != ''">
         practitioners,
       </if>
-      <if test="examinationPopulation != null and examinationPopulation != ''">
+      <if test="examinationPopulation != null">
         examination_population,
       </if>
       <if test="warehouse1 != null and warehouse1 != ''">
@@ -453,10 +453,10 @@
       <if test="businessTermEnd != null and businessTermEnd != ''">
         business_term_end,
       </if>
-      <if test="businessTermFlag != null and businessTermFlag != ''">
+      <if test="businessTermFlag != null">
         business_term_flag,
       </if>
-      <if test="givenDate != null and givenDate != ''">
+      <if test="givenDate != null">
         given_date,
       </if>
       <if test="givenGov != null and givenGov != ''">
@@ -465,22 +465,22 @@
       <if test="businessScale != null and businessScale != ''">
         business_scale,
       </if>
-      <if test="businessState != null and businessState != ''">
+      <if test="businessState != null">
         business_state,
       </if>
-      <if test="abnormalId != null and abnormalId != ''">
+      <if test="abnormalId != null">
         abnormal_id,
       </if>
       <if test="abnormalContent != null and abnormalContent != ''">
         abnormal_content,
       </if>
-      <if test="isStop != null and isStop != ''">
+      <if test="isStop != null">
         is_stop,
       </if>
-      <if test="gpsFlag != null and gpsFlag != ''">
+      <if test="gpsFlag != null">
         gps_flag,
       </if>
-      <if test="operateTime != null and operateTime != ''">
+      <if test="operateTime != null">
         operate_time,
       </if>
       <if test="operateIp != null and operateIp != ''">
@@ -491,7 +491,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null and id != ''">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
       <if test="enterpriseName != null and enterpriseName != ''">
@@ -524,13 +524,13 @@
       <if test="cantactWay != null and cantactWay != ''">
         #{cantactWay,jdbcType=VARCHAR},
       </if>
-      <if test="regulators != null and regulators != ''">
+      <if test="regulators != null">
         #{regulators,jdbcType=INTEGER},
       </if>
-      <if test="area != null and area != ''">
+      <if test="area != null">
         #{area,jdbcType=INTEGER},
       </if>
-      <if test="grid != null and grid != ''">
+      <if test="grid != null">
         #{grid,jdbcType=INTEGER},
       </if>
       <if test="supervisor != null and supervisor != ''">
@@ -659,16 +659,16 @@
       <if test="integrityLevel != null and integrityLevel != ''">
         #{integrityLevel,jdbcType=VARCHAR},
       </if>
-      <if test="productionArea != null and productionArea != ''">
+      <if test="productionArea != null">
         #{productionArea,jdbcType=INTEGER},
       </if>
-      <if test="fixedAssets != null and fixedAssets != ''">
+      <if test="fixedAssets != null">
         #{fixedAssets,jdbcType=INTEGER},
       </if>
       <if test="practitioners != null and practitioners != ''">
         #{practitioners,jdbcType=VARCHAR},
       </if>
-      <if test="examinationPopulation != null and examinationPopulation != ''">
+      <if test="examinationPopulation != null">
         #{examinationPopulation,jdbcType=INTEGER},
       </if>
       <if test="warehouse1 != null and warehouse1 != ''">
@@ -701,10 +701,10 @@
       <if test="businessTermEnd != null and businessTermEnd != ''">
         #{businessTermEnd,jdbcType=VARCHAR},
       </if>
-      <if test="businessTermFlag != null and businessTermFlag != ''">
+      <if test="businessTermFlag != null">
         #{businessTermFlag,jdbcType=INTEGER},
       </if>
-      <if test="givenDate != null and givenDate != ''">
+      <if test="givenDate != null">
         #{givenDate,jdbcType=TIMESTAMP},
       </if>
       <if test="givenGov != null and givenGov != ''">
@@ -713,22 +713,22 @@
       <if test="businessScale != null and businessScale != ''">
         #{businessScale,jdbcType=VARCHAR},
       </if>
-      <if test="businessState != null and businessState != ''">
+      <if test="businessState != null">
         #{businessState,jdbcType=INTEGER},
       </if>
-      <if test="abnormalId != null and abnormalId != ''">
+      <if test="abnormalId != null">
         #{abnormalId,jdbcType=INTEGER},
       </if>
       <if test="abnormalContent != null and abnormalContent != ''">
         #{abnormalContent,jdbcType=VARCHAR},
       </if>
-      <if test="isStop != null and isStop != ''">
+      <if test="isStop != null">
         #{isStop,jdbcType=INTEGER},
       </if>
-      <if test="gpsFlag != null and gpsFlag != ''">
+      <if test="gpsFlag != null">
         #{gpsFlag,jdbcType=INTEGER},
       </if>
-      <if test="operateTime != null and operateTime != ''">
+      <if test="operateTime != null">
         #{operateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="operateIp != null and operateIp != ''">
@@ -777,13 +777,13 @@
       <if test="cantactWay != null and cantactWay != ''">
         #{cantactWay,jdbcType=VARCHAR},
       </if>
-      <if test="regulators != null and regulators != ''">
+      <if test="regulators != null">
         #{regulators,jdbcType=INTEGER},
       </if>
-      <if test="area != null and area != ''">
+      <if test="area != null">
         #{area,jdbcType=INTEGER},
       </if>
-      <if test="grid != null and grid != ''">
+      <if test="grid != null">
         #{grid,jdbcType=INTEGER},
       </if>
       <if test="supervisor != null and supervisor != ''">
@@ -912,16 +912,16 @@
       <if test="integrityLevel != null and integrityLevel != ''">
         #{integrityLevel,jdbcType=VARCHAR},
       </if>
-      <if test="productionArea != null and productionArea != ''">
+      <if test="productionArea != null">
         #{productionArea,jdbcType=INTEGER},
       </if>
-      <if test="fixedAssets != null and fixedAssets != ''">
+      <if test="fixedAssets != null">
         #{fixedAssets,jdbcType=INTEGER},
       </if>
       <if test="practitioners != null and practitioners != ''">
         #{practitioners,jdbcType=VARCHAR},
       </if>
-      <if test="examinationPopulation != null and examinationPopulation != ''">
+      <if test="examinationPopulation != null">
         #{examinationPopulation,jdbcType=INTEGER},
       </if>
       <if test="warehouse1 != null and warehouse1 != ''">
@@ -954,10 +954,10 @@
       <if test="businessTermEnd != null and businessTermEnd != ''">
         #{businessTermEnd,jdbcType=VARCHAR},
       </if>
-      <if test="businessTermFlag != null and businessTermFlag != ''">
+      <if test="businessTermFlag != null">
         #{businessTermFlag,jdbcType=INTEGER},
       </if>
-      <if test="givenDate != null and givenDate != ''">
+      <if test="givenDate != null">
         #{givenDate,jdbcType=TIMESTAMP},
       </if>
       <if test="givenGov != null and givenGov != ''">
@@ -966,22 +966,22 @@
       <if test="businessScale != null and businessScale != ''">
         #{businessScale,jdbcType=VARCHAR},
       </if>
-      <if test="businessState != null and businessState != ''">
+      <if test="businessState != null">
         #{businessState,jdbcType=INTEGER},
       </if>
-      <if test="abnormalId != null and abnormalId != ''">
+      <if test="abnormalId != null">
         #{abnormalId,jdbcType=INTEGER},
       </if>
       <if test="abnormalContent != null and abnormalContent != ''">
         #{abnormalContent,jdbcType=VARCHAR},
       </if>
-      <if test="isStop != null and isStop != ''">
+      <if test="isStop != null">
         #{isStop,jdbcType=INTEGER},
       </if>
-      <if test="gpsFlag != null and gpsFlag != ''">
+      <if test="gpsFlag != null">
         #{gpsFlag,jdbcType=INTEGER},
       </if>
-      <if test="operateTime != null and operateTime != ''">
+      <if test="operateTime != null">
         #{operateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="operateIp != null and operateIp != ''">
