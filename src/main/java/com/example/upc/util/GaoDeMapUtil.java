@@ -34,6 +34,8 @@ public class GaoDeMapUtil {
 
     // 地理编码地址
     private static String map_codeurl = "http://restapi.amap.com/v3/geocode/geo?parameters";
+
+    private static String map_disurl ="https://restapi.amap.com/v3/direction/walking";
 //https调用改为https
     public static void main(String[] args) {
         GaoDeMapUtil gdm = new GaoDeMapUtil();
@@ -101,6 +103,20 @@ public class GaoDeMapUtil {
             }
         }
         return location;
+    }
+
+    public String getDistance(String start, String end) {
+        String distance = null;
+        try {
+            String params = "key=" + gaodeAppID + "&origin=" + start+"&destination="+ end;
+            String result = sendGet(map_disurl, params);
+            JSONObject jsonResult = JSON.parseObject(result);
+            JSONObject route = jsonResult.getJSONObject("route");
+            distance = route.getJSONArray("paths").getJSONObject(0).getString("distance");
+            } catch (Exception e) {
+                e.printStackTrace();
+        }
+        return distance;
     }
 
     public static String sendPost(String url, String param) {

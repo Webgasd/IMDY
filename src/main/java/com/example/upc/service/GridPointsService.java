@@ -2,6 +2,7 @@ package com.example.upc.service;
 
 import com.example.upc.controller.param.GridPoints1;
 import com.example.upc.controller.param.SmilePoints;
+import com.example.upc.controller.param.SmilePointsPhone;
 import com.example.upc.controller.param.enterpriseId;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dataobject.GridPoints;
@@ -23,7 +24,7 @@ public interface GridPointsService {
     int updatePoint(GridPoints record);
     int insertPoint(GridPoints record);
     List<SmilePoints> getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam);
-
+    List<SmilePointsPhone> getSmileMapPointsPhone(EnterpriseSearchParam enterpriseSearchParam);
     List<enterpriseId> getEnterpriseByName(String name);
 
     Map<String,Object> getAreaEnterprise();

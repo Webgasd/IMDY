@@ -27,6 +27,24 @@ public class EnterpriseSearchParam {
     private Integer dept;
     private String supervisor;
     private String userType;
+    private String location;
+    private Integer dis;
+
+    public Integer getDis() {
+        return dis;
+    }
+
+    public void setDis(Integer dis) {
+        this.dis = dis;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getUserType() {
         return userType;

@@ -179,6 +179,43 @@ public class GridPointsController {
         }
     }
 
+    @RequestMapping("/getSmilePointsPhone")
+    @ResponseBody
+    public CommonReturnType getSmilePointsPhone(SysUser sysUser,@RequestBody String json){
+        JSONObject jsonObject = JSON.parseObject(json);
+        EnterpriseSearchParam enterpriseSearchParam= JSON.parseObject(json,EnterpriseSearchParam.class);
+        if (sysUser.getUserType()==0){//管理员的筛选
+            if(StringUtils.isEmpty(jsonObject.getJSONArray("industryList").get(0))) {
+                enterpriseSearchParam.setIndustryList(sysIndustryService.getAll().stream().map((sysIndustry -> sysIndustry.getRemark())).collect(Collectors.toList()));
+            }
+            if(StringUtils.isEmpty(jsonObject.getJSONArray("areaList").get(0))){
+                enterpriseSearchParam.setAreaList(sysAreaService.getAll().stream().map((sysArea -> sysArea.getId())).collect(Collectors.toList()));
+            }else{
+                Integer areaId = (Integer)jsonObject.getJSONArray("areaList").get(0);
+                enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListSearch(areaId));
+            }
+            return CommonReturnType.create(gridPointsService.getSmileMapPointsPhone(enterpriseSearchParam));
+        }
+        else if(sysUser.getUserType()==2){//政府人员
+            SupervisionGa supervisionGa = supervisionGaService.getById(sysUser.getInfoId());
+            List<SysIndustry> sysIndustryList = sysDeptIndustryService.getListByDeptId(supervisionGa.getDepartment());
+            List<Integer> sysAreaList = sysDeptAreaService.getIdListByDeptId(supervisionGa.getDepartment());
+            if(StringUtils.isEmpty(jsonObject.getJSONArray("industryList").get(0))) {
+                enterpriseSearchParam.setIndustryList(sysIndustryList.stream().map((sysIndustry -> sysIndustry.getRemark())).collect(Collectors.toList()));
+            }
+            if(StringUtils.isEmpty(jsonObject.getJSONArray("areaList").get(0))) {
+                enterpriseSearchParam.setAreaList(sysAreaList);
+            }else{
+                Integer areaId = (Integer)jsonObject.getJSONArray("areaList").get(0);
+                enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListSearch(areaId));
+            }
+            return CommonReturnType.create(gridPointsService.getSmileMapPointsPhone(enterpriseSearchParam));
+        }
+        else{
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"非法用户");
+        }
+    }
+
     @RequestMapping("/getEnterpriseIdByName")
     @ResponseBody
     public CommonReturnType getEnterpriseIdByName(String name) {

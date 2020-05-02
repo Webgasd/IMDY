@@ -4,6 +4,7 @@ import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.controller.param.GridPoints1;
 import com.example.upc.controller.param.SmilePoints;
+import com.example.upc.controller.param.SmilePointsPhone;
 import com.example.upc.controller.param.enterpriseId;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dao.GridPointsGpsMapper;
@@ -14,6 +15,8 @@ import com.example.upc.dataobject.*;
 import com.example.upc.service.GridPointsService;
 import com.example.upc.service.SysAreaService;
 import com.example.upc.service.model.MapIndustryNumber;
+import com.example.upc.util.GaoDeMapUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,9 +66,35 @@ public class GridPointsServiceImpl implements GridPointsService {
     public int insertPoint(GridPoints record){
         return gridPointsMapper.insertSelective(record);
     }
+
     @Override
     public List<SmilePoints> getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam){
         return gridPointsMapper.getSmileAll(enterpriseSearchParam);
+    }
+
+    @Override
+    public List<SmilePointsPhone> getSmileMapPointsPhone(EnterpriseSearchParam enterpriseSearchParam){
+        GaoDeMapUtil gaoDe = new GaoDeMapUtil();
+        if (enterpriseSearchParam.getDis() == null) {
+            enterpriseSearchParam.setDis(1000);
+        }
+        if (enterpriseSearchParam.getLocation() == null){
+            enterpriseSearchParam.setLocation("118.5821878900,37.4489563700");
+        }
+        String[] gps = enterpriseSearchParam.getLocation().split(",");
+        Float gps1 = (float) (Float.parseFloat(gps[0]) - enterpriseSearchParam.getDis() * 0.00001141);
+        Float gps2 = (float) (Float.parseFloat(gps[0]) + enterpriseSearchParam.getDis() * 0.00001141);
+        Float gps3 = (float) (Float.parseFloat(gps[1]) - enterpriseSearchParam.getDis() * 0.00000899);
+        Float gps4 = (float) (Float.parseFloat(gps[1]) + enterpriseSearchParam.getDis() * 0.00000899);
+        List<SmilePoints> smilePointsList = gridPointsMapper.getSmileAllPhone(enterpriseSearchParam,gps1,gps2,gps3,gps4);
+        List<SmilePointsPhone> smilePointsPhoneList = new ArrayList<>();
+        for(SmilePoints smilePoints:smilePointsList){
+            SmilePointsPhone smilePointsPhone = new SmilePointsPhone();
+            BeanUtils.copyProperties(smilePoints,smilePointsPhone);
+            smilePointsPhone.setDistance(Integer.valueOf(gaoDe.getDistance(enterpriseSearchParam.getLocation(),smilePoints.getPoint())));
+            smilePointsPhoneList.add(smilePointsPhone);
+        }
+        return smilePointsPhoneList;
     }
 
     @Override

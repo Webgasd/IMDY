@@ -243,498 +243,498 @@
     -->
     insert into supervision_enterprise
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != null and id != ''">
         id,
       </if>
-      <if test="enterpriseName != null">
+      <if test="enterpriseName != null and enterpriseName != ''">
         enterprise_name,
       </if>
-      <if test="shopName != null">
+      <if test="shopName != null and shopName != ''">
         shop_name,
       </if>
-      <if test="postalCode != null">
+      <if test="postalCode != null and postalCode != ''">
         postal_code,
       </if>
-      <if test="registeredAddress != null">
+      <if test="registeredAddress != null and registeredAddress != ''">
         registered_address,
       </if>
-      <if test="businessAddress != null">
+      <if test="businessAddress != null and businessAddress != ''">
         business_address,
       </if>
-      <if test="legalPerson != null">
+      <if test="legalPerson != null and legalPerson != ''">
         legal_person,
       </if>
-      <if test="idNumber != null">
+      <if test="idNumber != null and idNumber != ''">
         id_number,
       </if>
-      <if test="licenseNumber != null">
+      <if test="licenseNumber != null and licenseNumber != ''">
         license_number,
       </if>
-      <if test="cantacts != null">
+      <if test="cantacts != null and cantacts != ''">
         cantacts,
       </if>
-      <if test="cantactWay != null">
+      <if test="cantactWay != null and cantactWay != ''">
         cantact_way,
       </if>
-      <if test="regulators != null">
+      <if test="regulators != null and regulators != ''">
         regulators,
       </if>
-      <if test="area != null">
+      <if test="area != null area != ''">
         area,
       </if>
-      <if test="grid != null">
+      <if test="grid != null grid != ''">
         grid,
       </if>
-      <if test="supervisor != null">
+      <if test="supervisor != null and supervisor != ''">
         supervisor,
       </if>
-      <if test="enterpriseScale != null">
+      <if test="enterpriseScale != null and enterpriseScale != ''">
         enterprise_scale,
       </if>
-      <if test="gridPerson != null">
+      <if test="gridPerson != null and gridPerson != ''">
         grid_person,
       </if>
-      <if test="riskRating != null">
+      <if test="riskRating != null and riskRating != ''">
         risk_rating,
       </if>
-      <if test="riskRatingLastyear != null">
+      <if test="riskRatingLastyear != null and riskRatingLastyear != ''">
         risk_rating_lastyear,
       </if>
-      <if test="dynamicGrade != null">
+      <if test="dynamicGrade != null and dynamicGrade != ''">
         dynamic_grade,
       </if>
-      <if test="yearAssessment != null">
+      <if test="yearAssessment != null and yearAssessment != ''">
         year_assessment,
       </if>
-      <if test="email != null">
+      <if test="email != null and email != ''">
         email,
       </if>
-      <if test="officePhone != null">
+      <if test="officePhone != null and officePhone != ''">
         office_phone,
       </if>
-      <if test="patrolFrequency != null">
+      <if test="patrolFrequency != null and patrolFrequency != ''">
         patrol_frequency,
       </if>
-      <if test="transformationType != null">
+      <if test="transformationType != null and transformationType != ''">
         transformation_type,
       </if>
-      <if test="businessStatus != null">
+      <if test="businessStatus != null and businessStatus != ''">
         business_status,
       </if>
-      <if test="permissionState != null">
+      <if test="permissionState != null and permissionState != ''">
         permission_state,
       </if>
-      <if test="permissionType != null">
+      <if test="permissionType != null and permissionType != ''">
         permission_type,
       </if>
-      <if test="ipIdNumber != null">
+      <if test="ipIdNumber != null and ipIdNumber != ''">
         ip_id_number,
       </if>
-      <if test="ipMobilePhone != null">
+      <if test="ipMobilePhone != null and ipMobilePhone != ''">
         ip_mobile_phone,
       </if>
-      <if test="ipSexy != null">
+      <if test="ipSexy != null and ipSexy != ''">
         ip_sexy,
       </if>
-      <if test="ipEducation != null">
+      <if test="ipEducation != null and ipEducation != ''">
         ip_education,
       </if>
-      <if test="ipPoliticalOutlook != null">
+      <if test="ipPoliticalOutlook != null and ipPoliticalOutlook != ''">
         ip_political_outlook,
       </if>
-      <if test="ipCurrentAddress != null">
+      <if test="ipCurrentAddress != null and ipCurrentAddress != ''">
         ip_current_address,
       </if>
-      <if test="ipNation != null">
+      <if test="ipNation != null and ipNation != ''">
         ip_nation,
       </if>
-      <if test="ipEmail != null">
+      <if test="ipEmail != null and ipEmail != ''">
         ip_email,
       </if>
-      <if test="ipPostalCode != null">
+      <if test="ipPostalCode != null and ipPostalCode != ''">
         ip_postal_code,
       </if>
-      <if test="spName != null">
+      <if test="spName != null and spName != ''">
         sp_name,
       </if>
-      <if test="spidNumber != null">
+      <if test="spidNumber != null and spidNumber != ''">
         spId_number,
       </if>
-      <if test="spOfficePhone != null">
+      <if test="spOfficePhone != null and spOfficePhone != ''">
         sp_office_phone,
       </if>
-      <if test="spMobilePhone != null">
+      <if test="spMobilePhone != null and spMobilePhone != ''">
         sp_mobile_phone,
       </if>
-      <if test="spEmail != null">
+      <if test="spEmail != null and spEmail != ''">
         sp_email,
       </if>
-      <if test="spSexy != null">
+      <if test="spSexy != null and spSexy != ''">
         sp_sexy,
       </if>
-      <if test="spEducation != null">
+      <if test="spEducation != null and spEducation != ''">
         sp_education,
       </if>
-      <if test="spCurrentAddress != null">
+      <if test="spCurrentAddress != null and spCurrentAddress != ''">
         sp_current_address,
       </if>
-      <if test="spTraining != null">
+      <if test="spTraining != null and spTraining != ''">
         sp_training,
       </if>
-      <if test="operationMode != null">
+      <if test="operationMode != null and operationMode != ''">
         operation_mode,
       </if>
-      <if test="housingProperty != null">
+      <if test="housingProperty != null and housingProperty != ''">
         housing_property,
       </if>
-      <if test="owner != null">
+      <if test="owner != null and owner != ''">
         owner,
       </if>
-      <if test="ownerIdNumber != null">
+      <if test="ownerIdNumber != null and ownerIdNumber != ''">
         owner_id_number,
       </if>
-      <if test="ownerMobilePhone != null">
+      <if test="ownerMobilePhone != null and ownerMobilePhone != ''">
         owner_mobile_phone,
       </if>
-      <if test="agent != null">
+      <if test="agent != null and agent != ''">
         agent,
       </if>
-      <if test="agentIdNumber != null">
+      <if test="agentIdNumber != null and agentIdNumber != ''">
         agent_id_number,
       </if>
-      <if test="agentMobilePhone != null">
+      <if test="agentMobilePhone != null and agentMobilePhone != ''">
         agent_mobile_phone,
       </if>
-      <if test="otherPhone != null">
+      <if test="otherPhone != null and otherPhone != ''">
         other_phone,
       </if>
-      <if test="integrityLevel != null">
+      <if test="integrityLevel != null and integrityLevel != ''">
         integrity_level,
       </if>
-      <if test="productionArea != null">
+      <if test="productionArea != null and productionArea != ''">
         production_area,
       </if>
-      <if test="fixedAssets != null">
+      <if test="fixedAssets != null and fixedAssets != ''">
         fixed_assets,
       </if>
-      <if test="practitioners != null">
+      <if test="practitioners != null and practitioners != ''">
         practitioners,
       </if>
-      <if test="examinationPopulation != null">
+      <if test="examinationPopulation != null and examinationPopulation != ''">
         examination_population,
       </if>
-      <if test="warehouse1 != null">
+      <if test="warehouse1 != null and warehouse1 != ''">
         warehouse1,
       </if>
-      <if test="warehouse2 != null">
+      <if test="warehouse2 != null and warehouse2 != ''">
         warehouse2,
       </if>
-      <if test="warehouse3 != null">
+      <if test="warehouse3 != null and warehouse3 != ''">
         warehouse3,
       </if>
-      <if test="abbreviation != null">
+      <if test="abbreviation != null and abbreviation != ''">
         abbreviation,
       </if>
-      <if test="introduction != null">
+      <if test="introduction != null and introduction != ''">
         introduction,
       </if>
-      <if test="culture != null">
+      <if test="culture != null and culture != ''">
         culture,
       </if>
-      <if test="classification != null">
+      <if test="classification != null and classification != ''">
         classification,
       </if>
-      <if test="propagandaEnclosure != null">
+      <if test="propagandaEnclosure != null and propagandaEnclosure != ''">
         propaganda_enclosure,
       </if>
-      <if test="businessTermStart != null">
+      <if test="businessTermStart != null and businessTermStart != ''">
         business_term_start,
       </if>
-      <if test="businessTermEnd != null">
+      <if test="businessTermEnd != null and businessTermEnd != ''">
         business_term_end,
       </if>
-      <if test="businessTermFlag != null">
+      <if test="businessTermFlag != null and businessTermFlag != ''">
         business_term_flag,
       </if>
-      <if test="givenDate != null">
+      <if test="givenDate != null and givenDate != ''">
         given_date,
       </if>
-      <if test="givenGov != null">
+      <if test="givenGov != null and givenGov != ''">
         given_gov,
       </if>
-      <if test="businessScale != null">
+      <if test="businessScale != null and businessScale != ''">
         business_scale,
       </if>
-      <if test="businessState != null">
+      <if test="businessState != null and businessState != ''">
         business_state,
       </if>
-      <if test="abnormalId != null">
+      <if test="abnormalId != null and abnormalId != ''">
         abnormal_id,
       </if>
-      <if test="abnormalContent != null">
+      <if test="abnormalContent != null and abnormalContent != ''">
         abnormal_content,
       </if>
-      <if test="isStop != null">
+      <if test="isStop != null and isStop != ''">
         is_stop,
       </if>
-      <if test="gpsFlag != null">
+      <if test="gpsFlag != null and gpsFlag != ''">
         gps_flag,
       </if>
-      <if test="operateTime != null">
+      <if test="operateTime != null and operateTime != ''">
         operate_time,
       </if>
-      <if test="operateIp != null">
+      <if test="operateIp != null and operateIp != ''">
         operate_ip,
       </if>
-      <if test="operator != null">
+      <if test="operator != null and operator != ''">
         operator,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != null and id != ''">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="enterpriseName != null">
+      <if test="enterpriseName != null and enterpriseName != ''">
         #{enterpriseName,jdbcType=VARCHAR},
       </if>
-      <if test="shopName != null">
+      <if test="shopName != null and shopName != ''">
         #{shopName,jdbcType=VARCHAR},
       </if>
-      <if test="postalCode != null">
+      <if test="postalCode != null and postalCode != ''">
         #{postalCode,jdbcType=VARCHAR},
       </if>
-      <if test="registeredAddress != null">
+      <if test="registeredAddress != null and registeredAddress != ''">
         #{registeredAddress,jdbcType=VARCHAR},
       </if>
-      <if test="businessAddress != null">
+      <if test="businessAddress != null and businessAddress != ''">
         #{businessAddress,jdbcType=VARCHAR},
       </if>
-      <if test="legalPerson != null">
+      <if test="legalPerson != null and legalPerson != ''">
         #{legalPerson,jdbcType=VARCHAR},
       </if>
-      <if test="idNumber != null">
+      <if test="idNumber != null and idNumber != ''">
         #{idNumber,jdbcType=VARCHAR},
       </if>
-      <if test="licenseNumber != null">
+      <if test="licenseNumber != null and licenseNumber != ''">
         #{licenseNumber,jdbcType=VARCHAR},
       </if>
-      <if test="cantacts != null">
+      <if test="cantacts != null and cantacts != ''">
         #{cantacts,jdbcType=VARCHAR},
       </if>
-      <if test="cantactWay != null">
+      <if test="cantactWay != null and cantactWay != ''">
         #{cantactWay,jdbcType=VARCHAR},
       </if>
-      <if test="regulators != null">
+      <if test="regulators != null and regulators != ''">
         #{regulators,jdbcType=INTEGER},
       </if>
-      <if test="area != null">
+      <if test="area != null and area != ''">
         #{area,jdbcType=INTEGER},
       </if>
-      <if test="grid != null">
+      <if test="grid != null and grid != ''">
         #{grid,jdbcType=INTEGER},
       </if>
-      <if test="supervisor != null">
+      <if test="supervisor != null and supervisor != ''">
         #{supervisor,jdbcType=VARCHAR},
       </if>
-      <if test="enterpriseScale != null">
+      <if test="enterpriseScale != null and enterpriseScale != ''">
         #{enterpriseScale,jdbcType=VARCHAR},
       </if>
-      <if test="gridPerson != null">
+      <if test="gridPerson != null and gridPerson != ''">
         #{gridPerson,jdbcType=VARCHAR},
       </if>
-      <if test="riskRating != null">
+      <if test="riskRating != null and riskRating != ''">
         #{riskRating,jdbcType=VARCHAR},
       </if>
-      <if test="riskRatingLastyear != null">
+      <if test="riskRatingLastyear != null and riskRatingLastyear != ''">
         #{riskRatingLastyear,jdbcType=VARCHAR},
       </if>
-      <if test="dynamicGrade != null">
+      <if test="dynamicGrade != null and dynamicGrade != ''">
         #{dynamicGrade,jdbcType=VARCHAR},
       </if>
-      <if test="yearAssessment != null">
+      <if test="yearAssessment != null and yearAssessment != ''">
         #{yearAssessment,jdbcType=VARCHAR},
       </if>
-      <if test="email != null">
+      <if test="email != null and email != ''">
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="officePhone != null">
+      <if test="officePhone != null and officePhone != ''">
         #{officePhone,jdbcType=VARCHAR},
       </if>
-      <if test="patrolFrequency != null">
+      <if test="patrolFrequency != null and patrolFrequency != ''">
         #{patrolFrequency,jdbcType=VARCHAR},
       </if>
-      <if test="transformationType != null">
+      <if test="transformationType != null and transformationType != ''">
         #{transformationType,jdbcType=VARCHAR},
       </if>
-      <if test="businessStatus != null">
+      <if test="businessStatus != null and businessStatus != ''">
         #{businessStatus,jdbcType=VARCHAR},
       </if>
-      <if test="permissionState != null">
+      <if test="permissionState != null and permissionState != ''">
         #{permissionState,jdbcType=VARCHAR},
       </if>
-      <if test="permissionType != null">
+      <if test="permissionType != null and permissionType != ''">
         #{permissionType,jdbcType=VARCHAR},
       </if>
-      <if test="ipIdNumber != null">
+      <if test="ipIdNumber != null and ipIdNumber != ''">
         #{ipIdNumber,jdbcType=VARCHAR},
       </if>
-      <if test="ipMobilePhone != null">
+      <if test="ipMobilePhone != null and ipMobilePhone != ''">
         #{ipMobilePhone,jdbcType=VARCHAR},
       </if>
-      <if test="ipSexy != null">
+      <if test="ipSexy != null and ipSexy != ''">
         #{ipSexy,jdbcType=VARCHAR},
       </if>
-      <if test="ipEducation != null">
+      <if test="ipEducation != null and ipEducation != ''">
         #{ipEducation,jdbcType=VARCHAR},
       </if>
-      <if test="ipPoliticalOutlook != null">
+      <if test="ipPoliticalOutlook != null and ipPoliticalOutlook != ''">
         #{ipPoliticalOutlook,jdbcType=VARCHAR},
       </if>
-      <if test="ipCurrentAddress != null">
+      <if test="ipCurrentAddress != null and ipCurrentAddress != ''">
         #{ipCurrentAddress,jdbcType=VARCHAR},
       </if>
-      <if test="ipNation != null">
+      <if test="ipNation != null and ipNation != ''">
         #{ipNation,jdbcType=VARCHAR},
       </if>
-      <if test="ipEmail != null">
+      <if test="ipEmail != null and ipEmail != ''">
         #{ipEmail,jdbcType=VARCHAR},
       </if>
-      <if test="ipPostalCode != null">
+      <if test="ipPostalCode != null and ipPostalCode != ''">
         #{ipPostalCode,jdbcType=VARCHAR},
       </if>
-      <if test="spName != null">
+      <if test="spName != null and spName != ''">
         #{spName,jdbcType=VARCHAR},
       </if>
-      <if test="spidNumber != null">
+      <if test="spidNumber != null and spidNumber != ''">
         #{spidNumber,jdbcType=VARCHAR},
       </if>
-      <if test="spOfficePhone != null">
+      <if test="spOfficePhone != null and spOfficePhone != ''">
         #{spOfficePhone,jdbcType=VARCHAR},
       </if>
-      <if test="spMobilePhone != null">
+      <if test="spMobilePhone != null and spMobilePhone != ''">
         #{spMobilePhone,jdbcType=VARCHAR},
       </if>
-      <if test="spEmail != null">
+      <if test="spEmail != null and spEmail != ''">
         #{spEmail,jdbcType=VARCHAR},
       </if>
-      <if test="spSexy != null">
+      <if test="spSexy != null and spSexy != ''">
         #{spSexy,jdbcType=VARCHAR},
       </if>
-      <if test="spEducation != null">
+      <if test="spEducation != null and spEducation != ''">
         #{spEducation,jdbcType=VARCHAR},
       </if>
-      <if test="spCurrentAddress != null">
+      <if test="spCurrentAddress != null and spCurrentAddress != ''">
         #{spCurrentAddress,jdbcType=VARCHAR},
       </if>
-      <if test="spTraining != null">
+      <if test="spTraining != null and spTraining != ''">
         #{spTraining,jdbcType=VARCHAR},
       </if>
-      <if test="operationMode != null">
+      <if test="operationMode != null and operationMode != ''">
         #{operationMode,jdbcType=VARCHAR},
       </if>
-      <if test="housingProperty != null">
+      <if test="housingProperty != null and housingProperty != ''">
         #{housingProperty,jdbcType=VARCHAR},
       </if>
-      <if test="owner != null">
+      <if test="owner != null and owner != ''">
         #{owner,jdbcType=VARCHAR},
       </if>
-      <if test="ownerIdNumber != null">
+      <if test="ownerIdNumber != null and ownerIdNumber != ''">
         #{ownerIdNumber,jdbcType=VARCHAR},
       </if>
-      <if test="ownerMobilePhone != null">
+      <if test="ownerMobilePhone != null and ownerMobilePhone != ''">
         #{ownerMobilePhone,jdbcType=VARCHAR},
       </if>
-      <if test="agent != null">
+      <if test="agent != null and agent != ''">
         #{agent,jdbcType=VARCHAR},
       </if>
-      <if test="agentIdNumber != null">
+      <if test="agentIdNumber != null and agentIdNumber != ''">
         #{agentIdNumber,jdbcType=VARCHAR},
       </if>
-      <if test="agentMobilePhone != null">
+      <if test="agentMobilePhone != null and agentMobilePhone != ''">
         #{agentMobilePhone,jdbcType=VARCHAR},
       </if>
-      <if test="otherPhone != null">
+      <if test="otherPhone != null and otherPhone != ''">
         #{otherPhone,jdbcType=VARCHAR},
       </if>
-      <if test="integrityLevel != null">
+      <if test="integrityLevel != null and integrityLevel != ''">
         #{integrityLevel,jdbcType=VARCHAR},
       </if>
-      <if test="productionArea != null">
+      <if test="productionArea != null and productionArea != ''">
         #{productionArea,jdbcType=INTEGER},
       </if>
-      <if test="fixedAssets != null">
+      <if test="fixedAssets != null and fixedAssets != ''">
         #{fixedAssets,jdbcType=INTEGER},
       </if>
-      <if test="practitioners != null">
+      <if test="practitioners != null and practitioners != ''">
         #{practitioners,jdbcType=VARCHAR},
       </if>
-      <if test="examinationPopulation != null">
+      <if test="examinationPopulation != null and examinationPopulation != ''">
         #{examinationPopulation,jdbcType=INTEGER},
       </if>
-      <if test="warehouse1 != null">
+      <if test="warehouse1 != null and warehouse1 != ''">
         #{warehouse1,jdbcType=VARCHAR},
       </if>
-      <if test="warehouse2 != null">
+      <if test="warehouse2 != null and warehouse2 != ''">
         #{warehouse2,jdbcType=VARCHAR},
       </if>
-      <if test="warehouse3 != null">
+      <if test="warehouse3 != null and warehouse3 != ''">
         #{warehouse3,jdbcType=VARCHAR},
       </if>
-      <if test="abbreviation != null">
+      <if test="abbreviation != null and abbreviation != ''">
         #{abbreviation,jdbcType=VARCHAR},
       </if>
-      <if test="introduction != null">
+      <if test="introduction != null and introduction != ''">
         #{introduction,jdbcType=VARCHAR},
       </if>
-      <if test="culture != null">
+      <if test="culture != null and culture != ''">
         #{culture,jdbcType=VARCHAR},
       </if>
-      <if test="classification != null">
+      <if test="classification != null and classification != ''">
         #{classification,jdbcType=VARCHAR},
       </if>
-      <if test="propagandaEnclosure != null">
+      <if test="propagandaEnclosure != null and propagandaEnclosure != ''">
         #{propagandaEnclosure,jdbcType=VARCHAR},
       </if>
-      <if test="businessTermStart != null">
+      <if test="businessTermStart != null and businessTermStart != ''">
         #{businessTermStart,jdbcType=VARCHAR},
       </if>
-      <if test="businessTermEnd != null">
+      <if test="businessTermEnd != null and businessTermEnd != ''">
         #{businessTermEnd,jdbcType=VARCHAR},
       </if>
-      <if test="businessTermFlag != null">
+      <if test="businessTermFlag != null and businessTermFlag != ''">
         #{businessTermFlag,jdbcType=INTEGER},
       </if>
-      <if test="givenDate != null">
+      <if test="givenDate != null and givenDate != ''">
         #{givenDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="givenGov != null">
+      <if test="givenGov != null and givenGov != ''">
         #{givenGov,jdbcType=VARCHAR},
       </if>
-      <if test="businessScale != null">
+      <if test="businessScale != null and businessScale != ''">
         #{businessScale,jdbcType=VARCHAR},
       </if>
-      <if test="businessState != null">
+      <if test="businessState != null and businessState != ''">
         #{businessState,jdbcType=INTEGER},
       </if>
-      <if test="abnormalId != null">
+      <if test="abnormalId != null and abnormalId != ''">
         #{abnormalId,jdbcType=INTEGER},
       </if>
-      <if test="abnormalContent != null">
+      <if test="abnormalContent != null and abnormalContent != ''">
         #{abnormalContent,jdbcType=VARCHAR},
       </if>
-      <if test="isStop != null">
+      <if test="isStop != null and isStop != ''">
         #{isStop,jdbcType=INTEGER},
       </if>
-      <if test="gpsFlag != null">
+      <if test="gpsFlag != null and gpsFlag != ''">
         #{gpsFlag,jdbcType=INTEGER},
       </if>
-      <if test="operateTime != null">
+      <if test="operateTime != null and operateTime != ''">
         #{operateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="operateIp != null">
+      <if test="operateIp != null and operateIp != ''">
         #{operateIp,jdbcType=VARCHAR},
       </if>
-      <if test="operator != null">
+      <if test="operator != null and operator != ''">
         #{operator,jdbcType=VARCHAR},
       </if>
     </trim>
@@ -747,248 +747,248 @@
     -->
     update supervision_enterprise
     <set>
-      <if test="enterpriseName != null">
-        enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      <if test="enterpriseName != null and enterpriseName != ''">
+        #{enterpriseName,jdbcType=VARCHAR},
       </if>
-      <if test="shopName != null">
-        shop_name = #{shopName,jdbcType=VARCHAR},
+      <if test="shopName != null and shopName != ''">
+        #{shopName,jdbcType=VARCHAR},
       </if>
-      <if test="postalCode != null">
-        postal_code = #{postalCode,jdbcType=VARCHAR},
+      <if test="postalCode != null and postalCode != ''">
+        #{postalCode,jdbcType=VARCHAR},
       </if>
-      <if test="registeredAddress != null">
-        registered_address = #{registeredAddress,jdbcType=VARCHAR},
+      <if test="registeredAddress != null and registeredAddress != ''">
+        #{registeredAddress,jdbcType=VARCHAR},
       </if>
-      <if test="businessAddress != null">
-        business_address = #{businessAddress,jdbcType=VARCHAR},
+      <if test="businessAddress != null and businessAddress != ''">
+        #{businessAddress,jdbcType=VARCHAR},
       </if>
-      <if test="legalPerson != null">
-        legal_person = #{legalPerson,jdbcType=VARCHAR},
+      <if test="legalPerson != null and legalPerson != ''">
+        #{legalPerson,jdbcType=VARCHAR},
       </if>
-      <if test="idNumber != null">
-        id_number = #{idNumber,jdbcType=VARCHAR},
+      <if test="idNumber != null and idNumber != ''">
+        #{idNumber,jdbcType=VARCHAR},
       </if>
-      <if test="licenseNumber != null">
-        license_number = #{licenseNumber,jdbcType=VARCHAR},
+      <if test="licenseNumber != null and licenseNumber != ''">
+        #{licenseNumber,jdbcType=VARCHAR},
       </if>
-      <if test="cantacts != null">
-        cantacts = #{cantacts,jdbcType=VARCHAR},
+      <if test="cantacts != null and cantacts != ''">
+        #{cantacts,jdbcType=VARCHAR},
       </if>
-      <if test="cantactWay != null">
-        cantact_way = #{cantactWay,jdbcType=VARCHAR},
+      <if test="cantactWay != null and cantactWay != ''">
+        #{cantactWay,jdbcType=VARCHAR},
       </if>
-      <if test="regulators != null">
-        regulators = #{regulators,jdbcType=INTEGER},
+      <if test="regulators != null and regulators != ''">
+        #{regulators,jdbcType=INTEGER},
       </if>
-      <if test="area != null">
-        area = #{area,jdbcType=INTEGER},
+      <if test="area != null and area != ''">
+        #{area,jdbcType=INTEGER},
       </if>
-      <if test="grid != null">
-        grid = #{grid,jdbcType=INTEGER},
+      <if test="grid != null and grid != ''">
+        #{grid,jdbcType=INTEGER},
       </if>
-      <if test="supervisor != null">
-        supervisor = #{supervisor,jdbcType=VARCHAR},
+      <if test="supervisor != null and supervisor != ''">
+        #{supervisor,jdbcType=VARCHAR},
       </if>
-      <if test="enterpriseScale != null">
-        enterprise_scale = #{enterpriseScale,jdbcType=VARCHAR},
+      <if test="enterpriseScale != null and enterpriseScale != ''">
+        #{enterpriseScale,jdbcType=VARCHAR},
       </if>
-      <if test="gridPerson != null">
-        grid_person = #{gridPerson,jdbcType=VARCHAR},
+      <if test="gridPerson != null and gridPerson != ''">
+        #{gridPerson,jdbcType=VARCHAR},
       </if>
-      <if test="riskRating != null">
-        risk_rating = #{riskRating,jdbcType=VARCHAR},
+      <if test="riskRating != null and riskRating != ''">
+        #{riskRating,jdbcType=VARCHAR},
       </if>
-      <if test="riskRatingLastyear != null">
-        risk_rating_lastyear = #{riskRatingLastyear,jdbcType=VARCHAR},
+      <if test="riskRatingLastyear != null and riskRatingLastyear != ''">
+        #{riskRatingLastyear,jdbcType=VARCHAR},
       </if>
-      <if test="dynamicGrade != null">
-        dynamic_grade = #{dynamicGrade,jdbcType=VARCHAR},
+      <if test="dynamicGrade != null and dynamicGrade != ''">
+        #{dynamicGrade,jdbcType=VARCHAR},
       </if>
-      <if test="yearAssessment != null">
-        year_assessment = #{yearAssessment,jdbcType=VARCHAR},
+      <if test="yearAssessment != null and yearAssessment != ''">
+        #{yearAssessment,jdbcType=VARCHAR},
       </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
+      <if test="email != null and email != ''">
+        #{email,jdbcType=VARCHAR},
       </if>
-      <if test="officePhone != null">
-        office_phone = #{officePhone,jdbcType=VARCHAR},
+      <if test="officePhone != null and officePhone != ''">
+        #{officePhone,jdbcType=VARCHAR},
       </if>
-      <if test="patrolFrequency != null">
-        patrol_frequency = #{patrolFrequency,jdbcType=VARCHAR},
+      <if test="patrolFrequency != null and patrolFrequency != ''">
+        #{patrolFrequency,jdbcType=VARCHAR},
       </if>
-      <if test="transformationType != null">
-        transformation_type = #{transformationType,jdbcType=VARCHAR},
+      <if test="transformationType != null and transformationType != ''">
+        #{transformationType,jdbcType=VARCHAR},
       </if>
-      <if test="businessStatus != null">
-        business_status = #{businessStatus,jdbcType=VARCHAR},
+      <if test="businessStatus != null and businessStatus != ''">
+        #{businessStatus,jdbcType=VARCHAR},
       </if>
-      <if test="permissionState != null">
-        permission_state = #{permissionState,jdbcType=VARCHAR},
+      <if test="permissionState != null and permissionState != ''">
+        #{permissionState,jdbcType=VARCHAR},
       </if>
-      <if test="permissionType != null">
-        permission_type = #{permissionType,jdbcType=VARCHAR},
+      <if test="permissionType != null and permissionType != ''">
+        #{permissionType,jdbcType=VARCHAR},
       </if>
-      <if test="ipIdNumber != null">
-        ip_id_number = #{ipIdNumber,jdbcType=VARCHAR},
+      <if test="ipIdNumber != null and ipIdNumber != ''">
+        #{ipIdNumber,jdbcType=VARCHAR},
       </if>
-      <if test="ipMobilePhone != null">
-        ip_mobile_phone = #{ipMobilePhone,jdbcType=VARCHAR},
+      <if test="ipMobilePhone != null and ipMobilePhone != ''">
+        #{ipMobilePhone,jdbcType=VARCHAR},
       </if>
-      <if test="ipSexy != null">
-        ip_sexy = #{ipSexy,jdbcType=VARCHAR},
+      <if test="ipSexy != null and ipSexy != ''">
+        #{ipSexy,jdbcType=VARCHAR},
       </if>
-      <if test="ipEducation != null">
-        ip_education = #{ipEducation,jdbcType=VARCHAR},
+      <if test="ipEducation != null and ipEducation != ''">
+        #{ipEducation,jdbcType=VARCHAR},
       </if>
-      <if test="ipPoliticalOutlook != null">
-        ip_political_outlook = #{ipPoliticalOutlook,jdbcType=VARCHAR},
+      <if test="ipPoliticalOutlook != null and ipPoliticalOutlook != ''">
+        #{ipPoliticalOutlook,jdbcType=VARCHAR},
       </if>
-      <if test="ipCurrentAddress != null">
-        ip_current_address = #{ipCurrentAddress,jdbcType=VARCHAR},
+      <if test="ipCurrentAddress != null and ipCurrentAddress != ''">
+        #{ipCurrentAddress,jdbcType=VARCHAR},
       </if>
-      <if test="ipNation != null">
-        ip_nation = #{ipNation,jdbcType=VARCHAR},
+      <if test="ipNation != null and ipNation != ''">
+        #{ipNation,jdbcType=VARCHAR},
       </if>
-      <if test="ipEmail != null">
-        ip_email = #{ipEmail,jdbcType=VARCHAR},
+      <if test="ipEmail != null and ipEmail != ''">
+        #{ipEmail,jdbcType=VARCHAR},
       </if>
-      <if test="ipPostalCode != null">
-        ip_postal_code = #{ipPostalCode,jdbcType=VARCHAR},
+      <if test="ipPostalCode != null and ipPostalCode != ''">
+        #{ipPostalCode,jdbcType=VARCHAR},
       </if>
-      <if test="spName != null">
-        sp_name = #{spName,jdbcType=VARCHAR},
+      <if test="spName != null and spName != ''">
+        #{spName,jdbcType=VARCHAR},
       </if>
-      <if test="spidNumber != null">
-        spId_number = #{spidNumber,jdbcType=VARCHAR},
+      <if test="spidNumber != null and spidNumber != ''">
+        #{spidNumber,jdbcType=VARCHAR},
       </if>
-      <if test="spOfficePhone != null">
-        sp_office_phone = #{spOfficePhone,jdbcType=VARCHAR},
+      <if test="spOfficePhone != null and spOfficePhone != ''">
+        #{spOfficePhone,jdbcType=VARCHAR},
       </if>
-      <if test="spMobilePhone != null">
-        sp_mobile_phone = #{spMobilePhone,jdbcType=VARCHAR},
+      <if test="spMobilePhone != null and spMobilePhone != ''">
+        #{spMobilePhone,jdbcType=VARCHAR},
       </if>
-      <if test="spEmail != null">
-        sp_email = #{spEmail,jdbcType=VARCHAR},
+      <if test="spEmail != null and spEmail != ''">
+        #{spEmail,jdbcType=VARCHAR},
       </if>
-      <if test="spSexy != null">
-        sp_sexy = #{spSexy,jdbcType=VARCHAR},
+      <if test="spSexy != null and spSexy != ''">
+        #{spSexy,jdbcType=VARCHAR},
       </if>
-      <if test="spEducation != null">
-        sp_education = #{spEducation,jdbcType=VARCHAR},
+      <if test="spEducation != null and spEducation != ''">
+        #{spEducation,jdbcType=VARCHAR},
       </if>
-      <if test="spCurrentAddress != null">
-        sp_current_address = #{spCurrentAddress,jdbcType=VARCHAR},
+      <if test="spCurrentAddress != null and spCurrentAddress != ''">
+        #{spCurrentAddress,jdbcType=VARCHAR},
       </if>
-      <if test="spTraining != null">
-        sp_training = #{spTraining,jdbcType=VARCHAR},
+      <if test="spTraining != null and spTraining != ''">
+        #{spTraining,jdbcType=VARCHAR},
       </if>
-      <if test="operationMode != null">
-        operation_mode = #{operationMode,jdbcType=VARCHAR},
+      <if test="operationMode != null and operationMode != ''">
+        #{operationMode,jdbcType=VARCHAR},
       </if>
-      <if test="housingProperty != null">
-        housing_property = #{housingProperty,jdbcType=VARCHAR},
+      <if test="housingProperty != null and housingProperty != ''">
+        #{housingProperty,jdbcType=VARCHAR},
       </if>
-      <if test="owner != null">
-        owner = #{owner,jdbcType=VARCHAR},
+      <if test="owner != null and owner != ''">
+        #{owner,jdbcType=VARCHAR},
       </if>
-      <if test="ownerIdNumber != null">
-        owner_id_number = #{ownerIdNumber,jdbcType=VARCHAR},
+      <if test="ownerIdNumber != null and ownerIdNumber != ''">
+        #{ownerIdNumber,jdbcType=VARCHAR},
       </if>
-      <if test="ownerMobilePhone != null">
-        owner_mobile_phone = #{ownerMobilePhone,jdbcType=VARCHAR},
+      <if test="ownerMobilePhone != null and ownerMobilePhone != ''">
+        #{ownerMobilePhone,jdbcType=VARCHAR},
       </if>
-      <if test="agent != null">
-        agent = #{agent,jdbcType=VARCHAR},
+      <if test="agent != null and agent != ''">
+        #{agent,jdbcType=VARCHAR},
       </if>
-      <if test="agentIdNumber != null">
-        agent_id_number = #{agentIdNumber,jdbcType=VARCHAR},
+      <if test="agentIdNumber != null and agentIdNumber != ''">
+        #{agentIdNumber,jdbcType=VARCHAR},
       </if>
-      <if test="agentMobilePhone != null">
-        agent_mobile_phone = #{agentMobilePhone,jdbcType=VARCHAR},
+      <if test="agentMobilePhone != null and agentMobilePhone != ''">
+        #{agentMobilePhone,jdbcType=VARCHAR},
       </if>
-      <if test="otherPhone != null">
-        other_phone = #{otherPhone,jdbcType=VARCHAR},
+      <if test="otherPhone != null and otherPhone != ''">
+        #{otherPhone,jdbcType=VARCHAR},
       </if>
-      <if test="integrityLevel != null">
-        integrity_level = #{integrityLevel,jdbcType=VARCHAR},
+      <if test="integrityLevel != null and integrityLevel != ''">
+        #{integrityLevel,jdbcType=VARCHAR},
       </if>
-      <if test="productionArea != null">
-        production_area = #{productionArea,jdbcType=INTEGER},
+      <if test="productionArea != null and productionArea != ''">
+        #{productionArea,jdbcType=INTEGER},
       </if>
-      <if test="fixedAssets != null">
-        fixed_assets = #{fixedAssets,jdbcType=INTEGER},
+      <if test="fixedAssets != null and fixedAssets != ''">
+        #{fixedAssets,jdbcType=INTEGER},
       </if>
-      <if test="practitioners != null">
-        practitioners = #{practitioners,jdbcType=VARCHAR},
+      <if test="practitioners != null and practitioners != ''">
+        #{practitioners,jdbcType=VARCHAR},
       </if>
-      <if test="examinationPopulation != null">
-        examination_population = #{examinationPopulation,jdbcType=INTEGER},
+      <if test="examinationPopulation != null and examinationPopulation != ''">
+        #{examinationPopulation,jdbcType=INTEGER},
       </if>
-      <if test="warehouse1 != null">
-        warehouse1 = #{warehouse1,jdbcType=VARCHAR},
+      <if test="warehouse1 != null and warehouse1 != ''">
+        #{warehouse1,jdbcType=VARCHAR},
       </if>
-      <if test="warehouse2 != null">
-        warehouse2 = #{warehouse2,jdbcType=VARCHAR},
+      <if test="warehouse2 != null and warehouse2 != ''">
+        #{warehouse2,jdbcType=VARCHAR},
       </if>
-      <if test="warehouse3 != null">
-        warehouse3 = #{warehouse3,jdbcType=VARCHAR},
+      <if test="warehouse3 != null and warehouse3 != ''">
+        #{warehouse3,jdbcType=VARCHAR},
       </if>
-      <if test="abbreviation != null">
-        abbreviation = #{abbreviation,jdbcType=VARCHAR},
+      <if test="abbreviation != null and abbreviation != ''">
+        #{abbreviation,jdbcType=VARCHAR},
       </if>
-      <if test="introduction != null">
-        introduction = #{introduction,jdbcType=VARCHAR},
+      <if test="introduction != null and introduction != ''">
+        #{introduction,jdbcType=VARCHAR},
       </if>
-      <if test="culture != null">
-        culture = #{culture,jdbcType=VARCHAR},
+      <if test="culture != null and culture != ''">
+        #{culture,jdbcType=VARCHAR},
       </if>
-      <if test="classification != null">
-        classification = #{classification,jdbcType=VARCHAR},
+      <if test="classification != null and classification != ''">
+        #{classification,jdbcType=VARCHAR},
       </if>
-      <if test="propagandaEnclosure != null">
-        propaganda_enclosure = #{propagandaEnclosure,jdbcType=VARCHAR},
+      <if test="propagandaEnclosure != null and propagandaEnclosure != ''">
+        #{propagandaEnclosure,jdbcType=VARCHAR},
       </if>
-      <if test="businessTermStart != null">
-        business_term_start = #{businessTermStart,jdbcType=VARCHAR},
+      <if test="businessTermStart != null and businessTermStart != ''">
+        #{businessTermStart,jdbcType=VARCHAR},
       </if>
-      <if test="businessTermEnd != null">
-        business_term_end = #{businessTermEnd,jdbcType=VARCHAR},
+      <if test="businessTermEnd != null and businessTermEnd != ''">
+        #{businessTermEnd,jdbcType=VARCHAR},
       </if>
-      <if test="businessTermFlag != null">
-        business_term_flag = #{businessTermFlag,jdbcType=INTEGER},
+      <if test="businessTermFlag != null and businessTermFlag != ''">
+        #{businessTermFlag,jdbcType=INTEGER},
       </if>
-      <if test="givenDate != null">
-        given_date = #{givenDate,jdbcType=TIMESTAMP},
+      <if test="givenDate != null and givenDate != ''">
+        #{givenDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="givenGov != null">
-        given_gov = #{givenGov,jdbcType=VARCHAR},
+      <if test="givenGov != null and givenGov != ''">
+        #{givenGov,jdbcType=VARCHAR},
       </if>
-      <if test="businessScale != null">
-        business_scale = #{businessScale,jdbcType=VARCHAR},
+      <if test="businessScale != null and businessScale != ''">
+        #{businessScale,jdbcType=VARCHAR},
       </if>
-      <if test="businessState != null">
-        business_state = #{businessState,jdbcType=INTEGER},
+      <if test="businessState != null and businessState != ''">
+        #{businessState,jdbcType=INTEGER},
       </if>
-      <if test="abnormalId != null">
-        abnormal_id = #{abnormalId,jdbcType=INTEGER},
+      <if test="abnormalId != null and abnormalId != ''">
+        #{abnormalId,jdbcType=INTEGER},
       </if>
-      <if test="abnormalContent != null">
-        abnormal_content = #{abnormalContent,jdbcType=VARCHAR},
+      <if test="abnormalContent != null and abnormalContent != ''">
+        #{abnormalContent,jdbcType=VARCHAR},
       </if>
-      <if test="isStop != null">
-        is_stop = #{isStop,jdbcType=INTEGER},
+      <if test="isStop != null and isStop != ''">
+        #{isStop,jdbcType=INTEGER},
       </if>
-      <if test="gpsFlag != null">
-        gps_flag = #{gpsFlag,jdbcType=INTEGER},
+      <if test="gpsFlag != null and gpsFlag != ''">
+        #{gpsFlag,jdbcType=INTEGER},
       </if>
-      <if test="operateTime != null">
-        operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      <if test="operateTime != null and operateTime != ''">
+        #{operateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="operateIp != null">
-        operate_ip = #{operateIp,jdbcType=VARCHAR},
+      <if test="operateIp != null and operateIp != ''">
+        #{operateIp,jdbcType=VARCHAR},
       </if>
-      <if test="operator != null">
-        operator = #{operator,jdbcType=VARCHAR},
+      <if test="operator != null and operator != ''">
+        #{operator,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
