@@ -4,6 +4,7 @@ import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.dataobject.AbnormalContent;
 import com.example.upc.service.AbnormalContentService;
+import com.example.upc.service.SupervisionEnterpriseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AbnormalContentController {
     @Autowired
     private AbnormalContentService abnormalContentService;
+    @Autowired
+    private SupervisionEnterpriseService supervisionEnterpriseService;
 
     @RequestMapping("/getPage")
     @ResponseBody
@@ -42,4 +45,19 @@ public class AbnormalContentController {
     public CommonReturnType getList(){
         return CommonReturnType.create(abnormalContentService.getList());
     }
+
+    @RequestMapping("/changeNormal")
+    @ResponseBody
+    public CommonReturnType changeNormal(Integer enterpriseId){
+        supervisionEnterpriseService.changeNormal(enterpriseId);
+        return CommonReturnType.create(null);
+    }
+
+    @RequestMapping("/insertContent")
+    @ResponseBody
+    public CommonReturnType changeAbnormal(Integer enterpriseId, Integer abnormal, String abnormalContent){
+        supervisionEnterpriseService.changeAbnormal(enterpriseId,abnormal,abnormalContent);
+        return CommonReturnType.create(null);
+    }
+
 }

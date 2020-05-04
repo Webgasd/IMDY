@@ -76,6 +76,26 @@ public class SupervisionEnterpriseController {
         }
     }
 
+    @RequestMapping("/getPageState")
+    @ResponseBody
+    public CommonReturnType getPageState(@RequestBody String json, SysUser sysUser){
+        JSONObject jsonObject = JSON.parseObject(json);
+        EnterpriseSearchParam enterpriseSearchParam= JSON.parseObject(json,EnterpriseSearchParam.class);
+        PageQuery pageQuery=JSON.parseObject(json,PageQuery.class);
+        Integer areaId = null;
+        if(!StringUtils.isEmpty(jsonObject.getJSONArray("areaList").get(0)))
+        {
+            areaId = (Integer)jsonObject.getJSONArray("areaList").get(0);
+        }
+        boolean searchIndustry = StringUtils.isEmpty(jsonObject.getJSONArray("industryList").get(0));
+
+        if(sysUser.getUserType()==1){
+            return CommonReturnType.create(supervisionEnterpriseService.getPageByEnterpriseId(sysUser.getInfoId()));
+        }else{
+            return CommonReturnType.create(supervisionEnterpriseService.getPageState(pageQuery,enterpriseSearchParam,sysUser,areaId,searchIndustry));
+        }
+    }
+
     //统计企业信息,不同区域不同业态权限统计
     @RequestMapping("/getStatistics")
     @ResponseBody
@@ -153,17 +173,18 @@ public class SupervisionEnterpriseController {
 
     @RequestMapping("/insert")
     @ResponseBody
-    public CommonReturnType insert(@RequestBody String json){
-        supervisionEnterpriseService.insert(json);
+    public CommonReturnType insert(@RequestBody String json, SysUser sysUser){
+        supervisionEnterpriseService.insert(json,sysUser);
         return CommonReturnType.create(null);
     }
 
     @RequestMapping("/update")
     @ResponseBody
-    public CommonReturnType update(@RequestBody String json){
-        supervisionEnterpriseService.update(json);
+    public CommonReturnType update(@RequestBody String json, SysUser sysUser){
+        supervisionEnterpriseService.update(json,sysUser);
         return CommonReturnType.create(null);
     }
+
 
     //删除企业同时删除定位中的企业，要改，在service中写删除定位，或者在这写两个表都删除
     @RequestMapping("/delete")

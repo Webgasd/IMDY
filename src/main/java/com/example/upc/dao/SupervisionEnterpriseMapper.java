@@ -60,6 +60,8 @@ public interface SupervisionEnterpriseMapper {
     SupervisionEnterprise selectByUnit(@Param("unit") String unit);
     int countList( @Param("search") EnterpriseSearchParam search);
     List<EnterpriseListResult> getPage(@Param("page") PageQuery page, @Param("search")EnterpriseSearchParam search);
+    int countListState( @Param("search") EnterpriseSearchParam search);
+    List<EnterpriseListResult> getPageState(@Param("page") PageQuery page, @Param("search")EnterpriseSearchParam search);
     void changeStop(@Param("id")int id,@Param("isStop")int isStop);
     List<EnterpriseListResult> getAll();
     void batchInsert(@Param("enterpriseList")List<SupervisionEnterprise> enterpriseList);

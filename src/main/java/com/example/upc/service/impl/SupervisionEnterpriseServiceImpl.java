@@ -87,6 +87,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     private SysDeptAreaService sysDeptAreaService;
     @Autowired
     private SysRoleUserMapper sysRoleUserMapper;
+    @Autowired
+    private GridPointsGpsMapper gridPointsGpsMapper;
 
     @Override
     public PageResult<EnterpriseListResult> getPage(PageQuery pageQuery, EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry) {
@@ -122,6 +124,51 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         int count= supervisionEnterpriseMapper.countList(enterpriseSearchParam);
         if (count > 0) {
             List<EnterpriseListResult> enterpriseList = supervisionEnterpriseMapper.getPage(pageQuery,enterpriseSearchParam);
+            PageResult<EnterpriseListResult> pageResult = new PageResult<>();
+            pageResult.setData(enterpriseList);
+            pageResult.setTotal(count);
+            pageResult.setPageNo(pageQuery.getPageNo());
+            pageResult.setPageSize(pageQuery.getPageSize());
+            return pageResult;
+        }
+        PageResult<EnterpriseListResult> pageResult = new PageResult<>();
+        return pageResult;
+    }
+
+    @Override
+    public PageResult<EnterpriseListResult> getPageState(PageQuery pageQuery, EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry) {
+        if (sysUser.getUserType()==0){
+            if(areaId==null){
+                enterpriseSearchParam.setAreaList(sysAreaService.getAll().stream().map((sysArea -> sysArea.getId())).collect(Collectors.toList()));
+            }else {
+                enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListSearch(areaId));
+            }
+            if(searchIndustry){
+                enterpriseSearchParam.setIndustryList(sysIndustryService.getAll().stream().map((sysIndustry -> sysIndustry.getRemark())).collect(Collectors.toList()));
+            }
+            enterpriseSearchParam.setUserType("admin");
+        }else if(sysUser.getUserType()==2){
+            SupervisionGa supervisionGa = supervisionGaService.getById(sysUser.getInfoId());
+            if(areaId==null){
+                enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListByDeptId(supervisionGa.getDepartment()));
+            }else {
+                enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListSearch(areaId));
+            }
+            if(searchIndustry){
+                enterpriseSearchParam.setIndustryList(sysDeptIndustryService.getListByDeptId(supervisionGa.getDepartment()).stream().map((sysIndustry -> sysIndustry.getRemark())).collect(Collectors.toList()));
+            }
+            SysDept sysDept = sysDeptService.getById(supervisionGa.getDepartment());
+            if(sysDept.getType()==2){
+                if(supervisionGa.getType()!=2){
+                    enterpriseSearchParam.setSupervisor(supervisionGa.getName());
+                }
+            }
+        }else{
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"非法用户");
+        }
+        int count= supervisionEnterpriseMapper.countListState(enterpriseSearchParam);
+        if (count > 0) {
+            List<EnterpriseListResult> enterpriseList = supervisionEnterpriseMapper.getPageState(pageQuery,enterpriseSearchParam);
             PageResult<EnterpriseListResult> pageResult = new PageResult<>();
             pageResult.setData(enterpriseList);
             pageResult.setTotal(count);
@@ -244,7 +291,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 
     @Override
     @Transactional
-    public void insert(String json) {
+    public void insert(String json, SysUser sysUser) {
         SupervisionEnterprise supervisionEnterprise = JSONObject.parseObject(json,SupervisionEnterprise.class);
         ValidationResult result = validator.validate(supervisionEnterprise);
         if(result.isHasErrors()){
@@ -256,29 +303,52 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         supervisionEnterprise.setOperateIp("124.124.124");
         supervisionEnterprise.setOperateTime(new Date());
         supervisionEnterprise.setOperator("zcc");
+        if (supervisionEnterprise.getGpsFlag()==1){
+            JSONObject jsonResult = JSON.parseObject(json);
+            String location = jsonResult.getString("location");
+            if(location==null){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"手动定位点位为空");
+            }
+            GridPointsGps gridPointsGps = gridPointsGpsMapper.getPointByCodeId(supervisionEnterprise.getIdNumber());
+            if (gridPointsGps != null){
+                gridPointsGps.setPoint(location);
+                gridPointsGps.setOperator(sysUser.getUsername());
+                gridPointsGps.setOperatorIp("1.1.1.1");
+                gridPointsGpsMapper.updateByPrimaryKeySelective(gridPointsGps);
+            }
+            else {
+                GridPointsGps gridPointsGps1 = new GridPointsGps();
+                gridPointsGps1.setCodeId(supervisionEnterprise.getIdNumber());
+                gridPointsGps1.setAreaId(supervisionEnterprise.getArea());
+                gridPointsGps1.setPoint(location);
+                gridPointsGps1.setOperator(sysUser.getUsername());
+                gridPointsGps1.setOperatorIp("1.1.1.1");
+                gridPointsGpsMapper.insertSelective(gridPointsGps1);
+            }
+        }
         supervisionEnterpriseMapper.insertSelective(supervisionEnterprise);
         if(supervisionEnterprise.getId()==null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"插入失败");
         }
-        SysUser sysUser = new SysUser();//同时进行用户的插入
+        SysUser sysUser1 = new SysUser();//同时进行用户的插入
         String encryptedPassword = MD5Util.md5("123456+");
-        sysUser.setUsername(supervisionEnterprise.getEnterpriseName());
-        sysUser.setLoginName(supervisionEnterprise.getIdNumber());
-        sysUser.setPassword(encryptedPassword);
-        sysUser.setUserType(1);
-        sysUser.setInfoName(supervisionEnterprise.getEnterpriseName());
-        sysUser.setInfoId(supervisionEnterprise.getId());
-        sysUser.setStatus(0);
-        sysUser.setOperator("操作人");
-        sysUser.setOperateIp("124.124.124");
-        sysUser.setOperateTime(new Date());
-        sysUserMapper.insertSelective(sysUser);
+        sysUser1.setUsername(supervisionEnterprise.getEnterpriseName());
+        sysUser1.setLoginName(supervisionEnterprise.getIdNumber());
+        sysUser1.setPassword(encryptedPassword);
+        sysUser1.setUserType(1);
+        sysUser1.setInfoName(supervisionEnterprise.getEnterpriseName());
+        sysUser1.setInfoId(supervisionEnterprise.getId());
+        sysUser1.setStatus(0);
+        sysUser1.setOperator("操作人");
+        sysUser1.setOperateIp("124.124.124");
+        sysUser1.setOperateTime(new Date());
+        sysUserMapper.insertSelective(sysUser1);
         //insertEnterpriseChildrenList(supervisionEnterprise,json);//下方有这个方法，是用来做许可证插入
     }
 
     @Override
     @Transactional
-    public void update(String json) {
+    public void update(String json, SysUser sysUser) {
         SupervisionEnterprise supervisionEnterprise = JSONObject.parseObject(json,SupervisionEnterprise.class);
         ValidationResult result = validator.validate(supervisionEnterprise);
         if(result.isHasErrors()){
@@ -294,8 +364,51 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         supervisionEnterprise.setOperateIp("124.124.124");
         supervisionEnterprise.setOperateTime(new Date());
         supervisionEnterprise.setOperator("zcc");
+        if (supervisionEnterprise.getGpsFlag()==1){
+            JSONObject jsonResult = JSON.parseObject(json);
+            String location = jsonResult.getString("location");
+            if(location==null){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"手动定位点位为空");
+            }
+            GridPointsGps gridPointsGps = gridPointsGpsMapper.getPointByCodeId(supervisionEnterprise.getIdNumber());
+            if (gridPointsGps != null){
+                gridPointsGps.setPoint(location);
+                gridPointsGps.setOperator(sysUser.getUsername());
+                gridPointsGps.setOperatorIp("1.1.1.1");
+                gridPointsGpsMapper.updateByPrimaryKeySelective(gridPointsGps);
+            }
+            else {
+                GridPointsGps gridPointsGps1 = new GridPointsGps();
+                gridPointsGps1.setCodeId(supervisionEnterprise.getIdNumber());
+                gridPointsGps1.setAreaId(supervisionEnterprise.getArea());
+                gridPointsGps1.setPoint(location);
+                gridPointsGps1.setOperator(sysUser.getUsername());
+                gridPointsGps1.setOperatorIp("1.1.1.1");
+                gridPointsGpsMapper.insertSelective(gridPointsGps1);
+            }
+        }
         //insertEnterpriseChildrenList(supervisionEnterprise,json);
        supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+    }
+
+    @Override
+    @Transactional
+    public void changeNormal(Integer id) {
+        SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
+        supervisionEnterprise.setId(id);
+        supervisionEnterprise.setBusinessState(1);
+        supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+    }
+
+    @Override
+    @Transactional
+    public void changeAbnormal(Integer id, Integer abId, String content) {
+        SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
+        supervisionEnterprise.setId(id);
+        supervisionEnterprise.setBusinessState(2);
+        supervisionEnterprise.setAbnormalId(abId);
+        supervisionEnterprise.setAbnormalContent(content);
+        supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
     }
 
     @Override
