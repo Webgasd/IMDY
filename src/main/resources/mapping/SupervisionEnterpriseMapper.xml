@@ -748,247 +748,247 @@
     update supervision_enterprise
     <set>
       <if test="enterpriseName != null and enterpriseName != ''">
-        #{enterpriseName,jdbcType=VARCHAR},
+        enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
       </if>
       <if test="shopName != null and shopName != ''">
-        #{shopName,jdbcType=VARCHAR},
+        shop_name = #{shopName,jdbcType=VARCHAR},
       </if>
       <if test="postalCode != null and postalCode != ''">
-        #{postalCode,jdbcType=VARCHAR},
+        postal_code = #{postalCode,jdbcType=VARCHAR},
       </if>
       <if test="registeredAddress != null and registeredAddress != ''">
-        #{registeredAddress,jdbcType=VARCHAR},
+        registered_address = #{registeredAddress,jdbcType=VARCHAR},
       </if>
       <if test="businessAddress != null and businessAddress != ''">
-        #{businessAddress,jdbcType=VARCHAR},
+        business_address = #{businessAddress,jdbcType=VARCHAR},
       </if>
       <if test="legalPerson != null and legalPerson != ''">
-        #{legalPerson,jdbcType=VARCHAR},
+        legal_person = #{legalPerson,jdbcType=VARCHAR},
       </if>
       <if test="idNumber != null and idNumber != ''">
-        #{idNumber,jdbcType=VARCHAR},
+        id_number = #{idNumber,jdbcType=VARCHAR},
       </if>
       <if test="licenseNumber != null and licenseNumber != ''">
-        #{licenseNumber,jdbcType=VARCHAR},
+        license_number = #{licenseNumber,jdbcType=VARCHAR},
       </if>
       <if test="cantacts != null and cantacts != ''">
-        #{cantacts,jdbcType=VARCHAR},
+        cantacts = #{cantacts,jdbcType=VARCHAR},
       </if>
       <if test="cantactWay != null and cantactWay != ''">
-        #{cantactWay,jdbcType=VARCHAR},
+        cantact_way = #{cantactWay,jdbcType=VARCHAR},
       </if>
       <if test="regulators != null">
-        #{regulators,jdbcType=INTEGER},
+        regulators = #{regulators,jdbcType=INTEGER},
       </if>
       <if test="area != null">
-        #{area,jdbcType=INTEGER},
+        area = #{area,jdbcType=INTEGER},
       </if>
       <if test="grid != null">
-        #{grid,jdbcType=INTEGER},
+        grid = #{grid,jdbcType=INTEGER},
       </if>
       <if test="supervisor != null and supervisor != ''">
-        #{supervisor,jdbcType=VARCHAR},
+        supervisor = #{supervisor,jdbcType=VARCHAR},
       </if>
       <if test="enterpriseScale != null and enterpriseScale != ''">
-        #{enterpriseScale,jdbcType=VARCHAR},
+        enterprise_scale = #{enterpriseScale,jdbcType=VARCHAR},
       </if>
       <if test="gridPerson != null and gridPerson != ''">
-        #{gridPerson,jdbcType=VARCHAR},
+        grid_person = #{gridPerson,jdbcType=VARCHAR},
       </if>
       <if test="riskRating != null and riskRating != ''">
-        #{riskRating,jdbcType=VARCHAR},
+        risk_rating = #{riskRating,jdbcType=VARCHAR},
       </if>
       <if test="riskRatingLastyear != null and riskRatingLastyear != ''">
-        #{riskRatingLastyear,jdbcType=VARCHAR},
+        risk_rating_lastyear = #{riskRatingLastyear,jdbcType=VARCHAR},
       </if>
       <if test="dynamicGrade != null and dynamicGrade != ''">
-        #{dynamicGrade,jdbcType=VARCHAR},
+        dynamic_grade = #{dynamicGrade,jdbcType=VARCHAR},
       </if>
       <if test="yearAssessment != null and yearAssessment != ''">
-        #{yearAssessment,jdbcType=VARCHAR},
+        year_assessment = #{yearAssessment,jdbcType=VARCHAR},
       </if>
       <if test="email != null and email != ''">
-        #{email,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="officePhone != null and officePhone != ''">
-        #{officePhone,jdbcType=VARCHAR},
+        office_phone = #{officePhone,jdbcType=VARCHAR},
       </if>
       <if test="patrolFrequency != null and patrolFrequency != ''">
-        #{patrolFrequency,jdbcType=VARCHAR},
+        patrol_frequency = #{patrolFrequency,jdbcType=VARCHAR},
       </if>
       <if test="transformationType != null and transformationType != ''">
-        #{transformationType,jdbcType=VARCHAR},
+        transformation_type = #{transformationType,jdbcType=VARCHAR},
       </if>
       <if test="businessStatus != null and businessStatus != ''">
-        #{businessStatus,jdbcType=VARCHAR},
+        business_status = #{businessStatus,jdbcType=VARCHAR},
       </if>
       <if test="permissionState != null and permissionState != ''">
-        #{permissionState,jdbcType=VARCHAR},
+        permission_state = #{permissionState,jdbcType=VARCHAR},
       </if>
       <if test="permissionType != null and permissionType != ''">
-        #{permissionType,jdbcType=VARCHAR},
+        permission_type = #{permissionType,jdbcType=VARCHAR},
       </if>
       <if test="ipIdNumber != null and ipIdNumber != ''">
-        #{ipIdNumber,jdbcType=VARCHAR},
+        ip_id_number = #{ipIdNumber,jdbcType=VARCHAR},
       </if>
       <if test="ipMobilePhone != null and ipMobilePhone != ''">
-        #{ipMobilePhone,jdbcType=VARCHAR},
+        ip_mobile_phone = #{ipMobilePhone,jdbcType=VARCHAR},
       </if>
       <if test="ipSexy != null and ipSexy != ''">
-        #{ipSexy,jdbcType=VARCHAR},
+        ip_sexy = #{ipSexy,jdbcType=VARCHAR},
       </if>
       <if test="ipEducation != null and ipEducation != ''">
-        #{ipEducation,jdbcType=VARCHAR},
+        ip_education = #{ipEducation,jdbcType=VARCHAR},
       </if>
       <if test="ipPoliticalOutlook != null and ipPoliticalOutlook != ''">
-        #{ipPoliticalOutlook,jdbcType=VARCHAR},
+        ip_political_outlook = #{ipPoliticalOutlook,jdbcType=VARCHAR},
       </if>
       <if test="ipCurrentAddress != null and ipCurrentAddress != ''">
-        #{ipCurrentAddress,jdbcType=VARCHAR},
+        ip_current_address = #{ipCurrentAddress,jdbcType=VARCHAR},
       </if>
       <if test="ipNation != null and ipNation != ''">
-        #{ipNation,jdbcType=VARCHAR},
+        ip_nation = #{ipNation,jdbcType=VARCHAR},
       </if>
       <if test="ipEmail != null and ipEmail != ''">
-        #{ipEmail,jdbcType=VARCHAR},
+        ip_email = #{ipEmail,jdbcType=VARCHAR},
       </if>
       <if test="ipPostalCode != null and ipPostalCode != ''">
-        #{ipPostalCode,jdbcType=VARCHAR},
+        ip_postal_code = #{ipPostalCode,jdbcType=VARCHAR},
       </if>
       <if test="spName != null and spName != ''">
-        #{spName,jdbcType=VARCHAR},
+        sp_name = #{spName,jdbcType=VARCHAR},
       </if>
       <if test="spidNumber != null and spidNumber != ''">
-        #{spidNumber,jdbcType=VARCHAR},
+        spId_number = #{spidNumber,jdbcType=VARCHAR},
       </if>
       <if test="spOfficePhone != null and spOfficePhone != ''">
-        #{spOfficePhone,jdbcType=VARCHAR},
+        sp_office_phone = #{spOfficePhone,jdbcType=VARCHAR},
       </if>
       <if test="spMobilePhone != null and spMobilePhone != ''">
-        #{spMobilePhone,jdbcType=VARCHAR},
+        sp_mobile_phone = #{spMobilePhone,jdbcType=VARCHAR},
       </if>
       <if test="spEmail != null and spEmail != ''">
-        #{spEmail,jdbcType=VARCHAR},
+        sp_email = #{spEmail,jdbcType=VARCHAR},
       </if>
       <if test="spSexy != null and spSexy != ''">
-        #{spSexy,jdbcType=VARCHAR},
+        sp_sexy = #{spSexy,jdbcType=VARCHAR},
       </if>
       <if test="spEducation != null and spEducation != ''">
-        #{spEducation,jdbcType=VARCHAR},
+        sp_education = #{spEducation,jdbcType=VARCHAR},
       </if>
       <if test="spCurrentAddress != null and spCurrentAddress != ''">
-        #{spCurrentAddress,jdbcType=VARCHAR},
+        sp_current_address = #{spCurrentAddress,jdbcType=VARCHAR},
       </if>
       <if test="spTraining != null and spTraining != ''">
-        #{spTraining,jdbcType=VARCHAR},
+        sp_training = #{spTraining,jdbcType=VARCHAR},
       </if>
       <if test="operationMode != null and operationMode != ''">
-        #{operationMode,jdbcType=VARCHAR},
+        operation_mode = #{operationMode,jdbcType=VARCHAR},
       </if>
       <if test="housingProperty != null and housingProperty != ''">
-        #{housingProperty,jdbcType=VARCHAR},
+        housing_property = #{housingProperty,jdbcType=VARCHAR},
       </if>
       <if test="owner != null and owner != ''">
-        #{owner,jdbcType=VARCHAR},
+        owner = #{owner,jdbcType=VARCHAR},
       </if>
       <if test="ownerIdNumber != null and ownerIdNumber != ''">
-        #{ownerIdNumber,jdbcType=VARCHAR},
+        owner_id_number = #{ownerIdNumber,jdbcType=VARCHAR},
       </if>
       <if test="ownerMobilePhone != null and ownerMobilePhone != ''">
-        #{ownerMobilePhone,jdbcType=VARCHAR},
+        owner_mobile_phone = #{ownerMobilePhone,jdbcType=VARCHAR},
       </if>
       <if test="agent != null and agent != ''">
-        #{agent,jdbcType=VARCHAR},
+        agent = #{agent,jdbcType=VARCHAR},
       </if>
       <if test="agentIdNumber != null and agentIdNumber != ''">
-        #{agentIdNumber,jdbcType=VARCHAR},
+        agent_id_number = #{agentIdNumber,jdbcType=VARCHAR},
       </if>
       <if test="agentMobilePhone != null and agentMobilePhone != ''">
-        #{agentMobilePhone,jdbcType=VARCHAR},
+        agent_mobile_phone = #{agentMobilePhone,jdbcType=VARCHAR},
       </if>
       <if test="otherPhone != null and otherPhone != ''">
-        #{otherPhone,jdbcType=VARCHAR},
+        other_phone = #{otherPhone,jdbcType=VARCHAR},
       </if>
       <if test="integrityLevel != null and integrityLevel != ''">
-        #{integrityLevel,jdbcType=VARCHAR},
+        integrity_level = #{integrityLevel,jdbcType=VARCHAR},
       </if>
       <if test="productionArea != null">
-        #{productionArea,jdbcType=INTEGER},
+        production_area = #{productionArea,jdbcType=INTEGER},
       </if>
       <if test="fixedAssets != null">
-        #{fixedAssets,jdbcType=INTEGER},
+        fixed_assets = #{fixedAssets,jdbcType=INTEGER},
       </if>
       <if test="practitioners != null and practitioners != ''">
-        #{practitioners,jdbcType=VARCHAR},
+        practitioners = #{practitioners,jdbcType=VARCHAR},
       </if>
       <if test="examinationPopulation != null">
-        #{examinationPopulation,jdbcType=INTEGER},
+        examination_population = #{examinationPopulation,jdbcType=INTEGER},
       </if>
       <if test="warehouse1 != null and warehouse1 != ''">
-        #{warehouse1,jdbcType=VARCHAR},
+        warehouse1 = #{warehouse1,jdbcType=VARCHAR},
       </if>
       <if test="warehouse2 != null and warehouse2 != ''">
-        #{warehouse2,jdbcType=VARCHAR},
+        warehouse2 = #{warehouse2,jdbcType=VARCHAR},
       </if>
       <if test="warehouse3 != null and warehouse3 != ''">
-        #{warehouse3,jdbcType=VARCHAR},
+        warehouse3 = #{warehouse3,jdbcType=VARCHAR},
       </if>
       <if test="abbreviation != null and abbreviation != ''">
-        #{abbreviation,jdbcType=VARCHAR},
+        abbreviation = #{abbreviation,jdbcType=VARCHAR},
       </if>
       <if test="introduction != null and introduction != ''">
-        #{introduction,jdbcType=VARCHAR},
+        introduction = #{introduction,jdbcType=VARCHAR},
       </if>
       <if test="culture != null and culture != ''">
-        #{culture,jdbcType=VARCHAR},
+        culture = #{culture,jdbcType=VARCHAR},
       </if>
       <if test="classification != null and classification != ''">
-        #{classification,jdbcType=VARCHAR},
+        classification = #{classification,jdbcType=VARCHAR},
       </if>
       <if test="propagandaEnclosure != null and propagandaEnclosure != ''">
-        #{propagandaEnclosure,jdbcType=VARCHAR},
+        propaganda_enclosure = #{propagandaEnclosure,jdbcType=VARCHAR},
       </if>
       <if test="businessTermStart != null and businessTermStart != ''">
-        #{businessTermStart,jdbcType=VARCHAR},
+        business_term_start = #{businessTermStart,jdbcType=VARCHAR},
       </if>
       <if test="businessTermEnd != null and businessTermEnd != ''">
-        #{businessTermEnd,jdbcType=VARCHAR},
+        business_term_end = #{businessTermEnd,jdbcType=VARCHAR},
       </if>
       <if test="businessTermFlag != null">
-        #{businessTermFlag,jdbcType=INTEGER},
+        business_term_flag = #{businessTermFlag,jdbcType=INTEGER},
       </if>
       <if test="givenDate != null">
-        #{givenDate,jdbcType=TIMESTAMP},
+        given_date = #{givenDate,jdbcType=TIMESTAMP},
       </if>
       <if test="givenGov != null and givenGov != ''">
-        #{givenGov,jdbcType=VARCHAR},
+        given_gov = #{givenGov,jdbcType=VARCHAR},
       </if>
       <if test="businessScale != null and businessScale != ''">
-        #{businessScale,jdbcType=VARCHAR},
+        business_scale = #{businessScale,jdbcType=VARCHAR},
       </if>
       <if test="businessState != null">
-        #{businessState,jdbcType=INTEGER},
+        business_state = #{businessState,jdbcType=INTEGER},
       </if>
       <if test="abnormalId != null">
-        #{abnormalId,jdbcType=INTEGER},
+        abnormal_id = #{abnormalId,jdbcType=INTEGER},
       </if>
       <if test="abnormalContent != null and abnormalContent != ''">
-        #{abnormalContent,jdbcType=VARCHAR},
+        abnormal_content = #{abnormalContent,jdbcType=VARCHAR},
       </if>
       <if test="isStop != null">
-        #{isStop,jdbcType=INTEGER},
+        is_stop = #{isStop,jdbcType=INTEGER},
       </if>
       <if test="gpsFlag != null">
-        #{gpsFlag,jdbcType=INTEGER},
+        gps_flag = #{gpsFlag,jdbcType=INTEGER},
       </if>
       <if test="operateTime != null">
-        #{operateTime,jdbcType=TIMESTAMP},
+        operate_time = #{operateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="operateIp != null and operateIp != ''">
-        #{operateIp,jdbcType=VARCHAR},
+        operate_ip = #{operateIp,jdbcType=VARCHAR},
       </if>
       <if test="operator != null and operator != ''">
-        #{operator,jdbcType=VARCHAR},
+        operator = #{operator,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -1121,7 +1121,7 @@
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE businessState !=3  and area IN
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state !=3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
@@ -1224,7 +1224,7 @@
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and businessState !=3  and area IN
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state !=3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
@@ -1342,7 +1342,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE businessState !=3  and area IN
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state !=3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
@@ -1490,7 +1490,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and businessState !=3  and area IN
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state !=3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
@@ -1568,7 +1568,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE businessState =3  and area IN
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state =3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
@@ -1671,7 +1671,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and businessState =3  and area IN
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state =3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
@@ -1789,7 +1789,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE businessState =3  and area IN
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state =3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
@@ -1937,7 +1937,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and businessState =3  and area IN
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state =3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
