@@ -1,5 +1,6 @@
 package com.example.upc.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dataobject.SupervisionEnterprise;
@@ -27,6 +28,6 @@ public interface SupervisionEnterpriseService {
    void changeNormal(Integer id);
    void changeAbnormal(Integer id, Integer abId, String content);
    Map<Integer,Integer> getStatistics(List<SysIndustry> sysIndustryList, List<Integer> sysAreaList,String supervisor);
-   //void importExcel(MultipartFile file, Integer type);
+   JSONObject importExcel(MultipartFile file, Integer type);
    PageResult<EnterpriseListResult> getPageByEnterpriseId(int id);
 }

@@ -1,5 +1,7 @@
 package com.example.upc.common;
 
+import java.util.List;
+
 /**
  * @author zcc
  * @date 2019/3/25 20:19
@@ -19,6 +21,12 @@ public class BusinessException extends RuntimeException implements CommonError{
         this.commonError = commonError;
         this.commonError.setErrMsg(errMsg);
     }
+    //List类型异常抛出
+    public BusinessException(CommonError commonError, List errMsg){
+        super();
+        this.commonError = commonError;
+        this.commonError.setErrMsg(errMsg);
+    }
 
     @Override
     public int getErrCode() {
@@ -31,8 +39,20 @@ public class BusinessException extends RuntimeException implements CommonError{
     }
 
     @Override
+    public List getErrList() {
+        return this.commonError.getErrList();
+    }
+
+    @Override
     public CommonError setErrMsg(String errMsg) {
         this.commonError.setErrMsg(errMsg);
         return this;
     }
+
+    @Override
+    public CommonError setErrMsg(List errMsg) {
+        this.commonError.setErrMsg(errMsg);
+        return this;
+    }
+
 }

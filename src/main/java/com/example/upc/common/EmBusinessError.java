@@ -1,5 +1,7 @@
 package com.example.upc.common;
 
+import java.util.List;
+
 /**
  * @author zcc
  * @date 2019/3/25 20:21
@@ -40,6 +42,7 @@ public enum EmBusinessError implements CommonError{
 
     private int errCode;
     private String errMsg;
+    private List errList;
     @Override
     public int getErrCode() {
         return this.errCode;
@@ -51,8 +54,17 @@ public enum EmBusinessError implements CommonError{
     }
 
     @Override
+    public List getErrList() {return this.errList;}
+
+    @Override
     public CommonError setErrMsg(String errMsg) {
         this.errMsg=errMsg;
+        return this;
+    }
+
+    @Override
+    public CommonError setErrMsg(List errMsg) {
+        this.errList=errMsg;
         return this;
     }
 }

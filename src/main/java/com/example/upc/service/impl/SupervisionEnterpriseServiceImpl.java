@@ -16,6 +16,7 @@ import com.example.upc.util.MD5Util;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -611,27 +612,30 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         return map;
     }
 //文件导入
-//    @Override
-//    @Transactional
-//    public void importExcel(MultipartFile file, Integer type) {
-//        List<SysDept> sysDeptList = sysDeptMapper.getAllDept();//将数据库中的部门和id拿出来组成map
-//        Map<String,Integer> deptMap = new HashMap<>();
-//        for (SysDept sysDept : sysDeptList){
-//            deptMap.put(sysDept.getName(),sysDept.getId());
-//        }
-//
-//        List<SysArea> sysAreaList = sysAreaMapper.getAllArea();//将数据库中的地区和id拿出来组成map
-//        Map<String,Integer> areaMap = new HashMap<>();
-//        for(SysArea sysArea : sysAreaList){
-//            areaMap.put(sysArea.getName(),sysArea.getId());
-//        }
-//
-//        List<EnterpriseListResult> allEnterpriseList = supervisionEnterpriseMapper.getAll();//将数据库中的企业和id拿出来组成map
-//        Map<String,Integer> enterpriseIdMap = new HashMap<>();
-//        for (EnterpriseListResult enterpriseListResult : allEnterpriseList){
-//            enterpriseIdMap.put(enterpriseListResult.getIdNumber(),enterpriseListResult.getId());
-//        }
-//
+    @Override
+    @Transactional
+    public JSONObject importExcel(MultipartFile file, Integer type) {
+        List<SysDept> sysDeptList = sysDeptMapper.getAllDept();//将数据库中的部门和id拿出来组成map
+        Map<String,Integer> deptMap = new HashMap<>();
+        JSONObject changedNumbers = new JSONObject();
+        int updateNumber=0;
+        int insertNumber=0;
+        for (SysDept sysDept : sysDeptList){
+            deptMap.put(sysDept.getName(),sysDept.getId());
+        }
+
+        List<SysArea> sysAreaList = sysAreaMapper.getAllArea();//将数据库中的地区和id拿出来组成map
+        Map<String,Integer> areaMap = new HashMap<>();
+        for(SysArea sysArea : sysAreaList){
+            areaMap.put(sysArea.getName(),sysArea.getId());
+        }
+
+        List<EnterpriseListResult> allEnterpriseList = supervisionEnterpriseMapper.getAll();//将数据库中的企业和id拿出来组成map
+        Map<String,Integer> enterpriseIdMap = new HashMap<>();
+        for (EnterpriseListResult enterpriseListResult : allEnterpriseList){
+            enterpriseIdMap.put(enterpriseListResult.getIdNumber(),enterpriseListResult.getId());
+        }
+
 //        //建立许可证map，目前先暂时放，如果需要的话仍然是和id关联，不关联信用代码
 //        List<SupervisionEnterprise> supervisionEnterpriseList = new ArrayList<>();
 //        List<SupervisionEnFoodPro> supervisionEnFoodProList = new ArrayList<>();
@@ -642,111 +646,235 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 //        List<SupervisionEnDrugsBu> supervisionEnDrugsBuList = new ArrayList<>();
 //        List<SupervisionEnCommon>  supervisionEnCommonList = new ArrayList<>();
 //        List<SupervisionEnCosmetics> supervisionEnCosmeticsList = new ArrayList<>();
-//        if(type == 7){
-//            try {
-//                XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
-//                    XSSFSheet sheet0 = workbook.getSheetAt(0);
-//                    for (int j = 0; j < sheet0.getPhysicalNumberOfRows(); j++) {
-//                        if (j == 0) {
-//                            continue;//标题行
-//                        }
-//                        SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
-//                        XSSFRow row = sheet0.getRow(j);
-//                        supervisionEnterprise.setEnterpriseName(ExcalUtils.handleStringXSSF(row.getCell(0)));
-//                        supervisionEnterprise.setShopName(ExcalUtils.handleStringXSSF(row.getCell(1)));
-//                        supervisionEnterprise.setPostalCode(ExcalUtils.handleStringXSSF(row.getCell(2)));
-//                        supervisionEnterprise.setRegisteredAddress(ExcalUtils.handleStringXSSF(row.getCell(3)));
-//                        supervisionEnterprise.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(4)));
-//                        supervisionEnterprise.setLegalPerson(ExcalUtils.handleStringXSSF(row.getCell(5)));
-//                        supervisionEnterprise.setIdNumber(ExcalUtils.handleStringXSSF(row.getCell(6)));
-//                        supervisionEnterprise.setLicenseNumber(ExcalUtils.handleStringXSSF(row.getCell(7)));
-//                        supervisionEnterprise.setCantacts(ExcalUtils.handleStringXSSF(row.getCell(8)));
-//                        supervisionEnterprise.setCantactWay(ExcalUtils.handleStringXSSF(row.getCell(9)));
-//                        supervisionEnterprise.setRegulators(importCheckDept(ExcalUtils.handleStringXSSF(row.getCell(10)),deptMap,ExcalUtils.handleStringXSSF(row.getCell(6))));
-//                        supervisionEnterprise.setArea(importCheckArea(ExcalUtils.handleStringXSSF(row.getCell(11)),areaMap,ExcalUtils.handleStringXSSF(row.getCell(6))));
-//                        supervisionEnterprise.setGrid(areaMap.get(ExcalUtils.handleStringXSSF(row.getCell(12)))==null?0:areaMap.get(ExcalUtils.handleStringXSSF(row.getCell(12))));
-//                        supervisionEnterprise.setSupervisor(ExcalUtils.handleStringXSSF(row.getCell(13)));
-//                        supervisionEnterprise.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(14)));
-//                        supervisionEnterprise.setGridPerson(ExcalUtils.handleStringXSSF(row.getCell(15)));
-//                        supervisionEnterprise.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(16)));
-//                        supervisionEnterprise.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(17)));
-//                        supervisionEnterprise.setEmail(ExcalUtils.handleStringXSSF(row.getCell(18)));
-//                        supervisionEnterprise.setOfficePhone(ExcalUtils.handleStringXSSF(row.getCell(19)));
-//                        supervisionEnterprise.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(20)));
-//                        supervisionEnterprise.setTransformationType(ExcalUtils.handleStringXSSF(row.getCell(21)));
-//                        supervisionEnterprise.setPermissionState(ExcalUtils.handleStringXSSF(row.getCell(22)));
-//                        supervisionEnterprise.setPermissionType(ExcalUtils.handleStringXSSF(row.getCell(23)));
-//                        supervisionEnterprise.setIsStop(ExcalUtils.handleIntegerXSSF(row.getCell(24)));
-//                        supervisionEnterprise.setIpIdNumber(ExcalUtils.handleStringXSSF(row.getCell(25)));
-//                        supervisionEnterprise.setIpMobilePhone(ExcalUtils.handleStringXSSF(row.getCell(26)));
-//                        supervisionEnterprise.setIpSexy(ExcalUtils.handleStringXSSF(row.getCell(27)));
-//                        supervisionEnterprise.setIpEducation(ExcalUtils.handleStringXSSF(row.getCell(28)));
-//                        supervisionEnterprise.setIpPoliticalOutlook(ExcalUtils.handleStringXSSF(row.getCell(29)));
-//                        supervisionEnterprise.setIpCurrentAddress(ExcalUtils.handleStringXSSF(row.getCell(30)));
-//                        supervisionEnterprise.setIpNation(ExcalUtils.handleStringXSSF(row.getCell(31)));
-//                        supervisionEnterprise.setIpEmail(ExcalUtils.handleStringXSSF(row.getCell(32)));
-//                        supervisionEnterprise.setIpPostalCode(ExcalUtils.handleStringXSSF(row.getCell(33)));
-//                        supervisionEnterprise.setSpName(ExcalUtils.handleStringXSSF(row.getCell(34)));
-//                        supervisionEnterprise.setSpidNumber(ExcalUtils.handleStringXSSF(row.getCell(35)));
-//                        supervisionEnterprise.setSpOfficePhone(ExcalUtils.handleStringXSSF(row.getCell(36)));
-//                        supervisionEnterprise.setSpMobilePhone(ExcalUtils.handleStringXSSF(row.getCell(37)));
-//                        supervisionEnterprise.setSpEmail(ExcalUtils.handleStringXSSF(row.getCell(38)));
-//                        supervisionEnterprise.setSpSexy(ExcalUtils.handleStringXSSF(row.getCell(39)));
-//                        supervisionEnterprise.setSpEducation(ExcalUtils.handleStringXSSF(row.getCell(40)));
-//                        supervisionEnterprise.setSpCurrentAddress(ExcalUtils.handleStringXSSF(row.getCell(41)));
-//                        supervisionEnterprise.setSpTraining(ExcalUtils.handleStringXSSF(row.getCell(42)));
-//                        supervisionEnterprise.setOperationMode(ExcalUtils.handleStringXSSF(row.getCell(43)));
-//                        supervisionEnterprise.setHousingProperty(ExcalUtils.handleStringXSSF(row.getCell(44)));
-//                        supervisionEnterprise.setOwner(ExcalUtils.handleStringXSSF(row.getCell(45)));
-//                        supervisionEnterprise.setOwnerIdNumber(ExcalUtils.handleStringXSSF(row.getCell(46)));
-//                        supervisionEnterprise.setOwnerMobilePhone(ExcalUtils.handleStringXSSF(row.getCell(47)));
-//                        supervisionEnterprise.setAgent(ExcalUtils.handleStringXSSF(row.getCell(48)));
-//                        supervisionEnterprise.setAgentIdNumber(ExcalUtils.handleStringXSSF(row.getCell(49)));
-//                        supervisionEnterprise.setAgentMobilePhone(ExcalUtils.handleStringXSSF(row.getCell(50)));
-//                        supervisionEnterprise.setOtherPhone(ExcalUtils.handleStringXSSF(row.getCell(51)));
-//                        supervisionEnterprise.setIntegrityLevel(ExcalUtils.handleStringXSSF(row.getCell(52)));
-//                        supervisionEnterprise.setProductionArea(ExcalUtils.handleIntegerXSSF(row.getCell(53)));
-//                        supervisionEnterprise.setFixedAssets(ExcalUtils.handleIntegerXSSF(row.getCell(54)));
-//                        supervisionEnterprise.setPractitioners(ExcalUtils.handleStringXSSF(row.getCell(55)));
-//                        supervisionEnterprise.setExaminationPopulation(ExcalUtils.handleIntegerXSSF(row.getCell(56)));
-//                        supervisionEnterprise.setWarehouse1(ExcalUtils.handleStringXSSF(row.getCell(57)));
-//                        supervisionEnterprise.setWarehouse2(ExcalUtils.handleStringXSSF(row.getCell(58)));
-//                        supervisionEnterprise.setWarehouse3(ExcalUtils.handleStringXSSF(row.getCell(59)));
-//                        supervisionEnterprise.setAbbreviation(ExcalUtils.handleStringXSSF(row.getCell(60)));
-//                        supervisionEnterprise.setIntroduction(ExcalUtils.handleStringXSSF(row.getCell(61)));
-//                        supervisionEnterprise.setCulture(ExcalUtils.handleStringXSSF(row.getCell(62)));
-//                        supervisionEnterprise.setClassification(ExcalUtils.handleStringXSSF(row.getCell(63)));
-//                        supervisionEnterprise.setOperator("操作人");
-//                        supervisionEnterprise.setOperateIp("123.123.123");
-//                        supervisionEnterprise.setOperateTime(new Date());
-//                        if(!supervisionEnterprise.getIdNumber().equals("")){
-//                            supervisionEnterpriseList.add(supervisionEnterprise);
-//                        }
+        if(type == 7) {
+            try {
+                XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+                XSSFSheet sheet0 = workbook.getSheetAt(0);
+                Map<String, String> errorMap = new HashMap<>();
+                List<String> errorList = new ArrayList<String>();
+                //开始对企业的信用代码和id对应，存在了就删除许可证
+                List<SysUser> sysUserList = new ArrayList<>();
+                int rowNumber=sheet0.getPhysicalNumberOfRows();
+                for (int j = 0; j <rowNumber; j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet0.getRow(0);
+                    XSSFRow row = sheet0.getRow(j);
+                    XSSFRow nextRow = sheet0.getRow(j+1);
+                    if(row.getCell(0).getCellType()==CellType.BLANK)
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if (row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null) && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(5) != null && row.getCell(5).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(6).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(7).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(8).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(8).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(9).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(9).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(10).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(10).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(11).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(11).toString()+"不是日期类型");
+                    }
+                    if (row.getCell(12).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(13).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(14) != null && row.getCell(14).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(14).toString(),"不是数字类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(14).toString()+"不是数字类型");
+                    }
+                    if (row.getCell(15) != null && row.getCell(15).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(15).toString(),"不是数字类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(15).toString()+"不是数字类型");
+                    }
+                    if (row.getCell(16).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(16).toString(),"不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(16).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(17).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(17).toString(),"不是数字类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(17).toString()+"不是数字类型");
+                    }
+                    if (row.getCell(18).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(18).toString(), "不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(18).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(19).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(19).toString(),"不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(19).toString()+"不是文本类型");
+                    }
+                    if (row.getCell(20).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(20).toString(),"不是文本类型");
+                        errorList.add("第" + a + "行"+titleRow.getCell(20).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < rowNumber; j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
+                    XSSFRow row = sheet0.getRow(j);
+                    supervisionEnterprise.setOperationMode(ExcalUtils.handleStringXSSF(row.getCell(0)));
+                    supervisionEnterprise.setEnterpriseName(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                    supervisionEnterprise.setShopName(ExcalUtils.handleStringXSSF(row.getCell(2)));
+                    supervisionEnterprise.setIdNumber(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnterprise.setRegisteredAddress(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnterprise.setLegalPerson(ExcalUtils.handleStringXSSF(row.getCell(5)));
+                    supervisionEnterprise.setIpIdNumber(ExcalUtils.handleStringXSSF(row.getCell(6)));
+                    supervisionEnterprise.setCantacts(ExcalUtils.handleStringXSSF(row.getCell(7)));
+                    supervisionEnterprise.setCantactWay(ExcalUtils.handleStringXSSF(row.getCell(8)));
+                    supervisionEnterprise.setBusinessTermStart(ExcalUtils.handleStringXSSF(row.getCell(9)));
+                    supervisionEnterprise.setBusinessTermEnd(ExcalUtils.handleStringXSSF(row.getCell(10)));
+                    supervisionEnterprise.setGivenDate(ExcalUtils.handleDateXSSF(row.getCell(11)));
+                    supervisionEnterprise.setGivenGov(ExcalUtils.handleStringXSSF(row.getCell(12)));
+                    supervisionEnterprise.setBusinessScale(ExcalUtils.handleStringXSSF(row.getCell(13)));
+                    supervisionEnterprise.setArea(ExcalUtils.handleIntegerXSSF(row.getCell(14)));
+                    supervisionEnterprise.setRegulators(ExcalUtils.handleIntegerXSSF(row.getCell(15)));
+                    supervisionEnterprise.setSupervisor(ExcalUtils.handleStringXSSF(row.getCell(16)));
+                    supervisionEnterprise.setGrid(ExcalUtils.handleIntegerXSSF(row.getCell(17)));
+                    supervisionEnterprise.setGridPerson(ExcalUtils.handleStringXSSF(row.getCell(18)));
+                    supervisionEnterprise.setTransformationType(ExcalUtils.handleStringXSSF(row.getCell(19)));
+                    supervisionEnterprise.setIntegrityLevel(ExcalUtils.handleStringXSSF(row.getCell(20)));
+                    supervisionEnterprise.setOperator("操作人");
+                    supervisionEnterprise.setOperateIp("123.123.123");
+                    supervisionEnterprise.setOperateTime(new Date());
+                    if (!supervisionEnterprise.getIdNumber().equals("")) {
+                        if (enterpriseIdMap.get(supervisionEnterprise.getIdNumber()) != null) {
+                            int id = enterpriseIdMap.get(supervisionEnterprise.getIdNumber());
+                            supervisionEnterprise.setId(id);
+                            supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+                            updateNumber++;
+                        } else {//新企业就注册
+                            SysUser sysUser = new SysUser();
+                            String encryptedPassword = MD5Util.md5("123456+");
+                            sysUser.setUsername(supervisionEnterprise.getEnterpriseName());
+                            sysUser.setLoginName(supervisionEnterprise.getIdNumber());
+                            sysUser.setPassword(encryptedPassword);
+                            sysUser.setUserType(1);
+                            sysUser.setInfoName(supervisionEnterprise.getEnterpriseName());
+                            sysUser.setInfoId(supervisionEnterprise.getId());
+                            sysUser.setStatus(0);
+                            sysUser.setOperator("操作人");
+                            sysUser.setOperateIp("124.124.124");
+                            sysUser.setOperateTime(new Date());
+                            sysUserList.add(sysUser);
+                            supervisionEnterpriseMapper.insertSelective(supervisionEnterprise);
+                            insertNumber++;
+                        }
+                    }
+                }
+                changedNumbers.put("updateNumbers",updateNumber);
+                changedNumbers.put("insertNumbers",insertNumber);
+//                //食品经营许可证
+//                allEnterpriseList = supervisionEnterpriseMapper.getAll();//将数据库中的企业和id拿出来组成map
+//                enterpriseIdMap = new HashMap<>();
+//                for (EnterpriseListResult enterpriseListResult : allEnterpriseList){
+//                    enterpriseIdMap.put(enterpriseListResult.getIdNumber(),enterpriseListResult.getId());
+//                }
+//
+//                List<SupervisionEnFoodBuIndex> allSupervisionEnFoodBuIndexList = supervisionEnFoodBuIndexMapper.getAll();
+//                Map <String,Integer> numberMap =new HashMap<>();
+//                for (SupervisionEnFoodBuIndex supervisionEnFoodBuIndex:allSupervisionEnFoodBuIndexList){
+//                    numberMap.put(supervisionEnFoodBuIndex.getNumber(),supervisionEnFoodBuIndex.getId());
+//                }
+//
+//                XSSFSheet sheet1 = workbook.getSheetAt(1);
+//                for (int j = 0; j < sheet1.getPhysicalNumberOfRows(); j++) {
+//                    if (j == 0) {
+//                        continue;//标题行
 //                    }
-//                    //开始对企业的信用代码和id对应，存在了就删除许可证
-//                List<Integer> updateEnterpriseIds = new ArrayList<>();
-//                List<SysUser> sysUserList = new ArrayList<>();
-//                for(SupervisionEnterprise supervisionEnterprise : supervisionEnterpriseList){
-//                    if(enterpriseIdMap.get(supervisionEnterprise.getIdNumber())!=null){
-//                        int id = enterpriseIdMap.get(supervisionEnterprise.getIdNumber());
-//                        updateEnterpriseIds.add(id);
-//                        supervisionEnterprise.setId(id);
-//                    }else {//新企业就注册
-//                        SysUser sysUser = new SysUser();
-//                        String encryptedPassword = MD5Util.md5("123456+");
-//                        sysUser.setUsername(supervisionEnterprise.getEnterpriseName());
-//                        sysUser.setLoginName(supervisionEnterprise.getIdNumber());
-//                        sysUser.setPassword(encryptedPassword);
-//                        sysUser.setUserType(1);
-//                        sysUser.setInfoName(supervisionEnterprise.getEnterpriseName());
-//                        sysUser.setInfoId(supervisionEnterprise.getId());
-//                        sysUser.setStatus(0);
-//                        sysUser.setOperator("操作人");
-//                        sysUser.setOperateIp("124.124.124");
-//                        sysUser.setOperateTime(new Date());
-//                        sysUserList.add(sysUser);
+//
+//                    SupervisionEnFoodBu supervisionEnFoodBu = new SupervisionEnFoodBu();
+//                    SupervisionEnFoodBuIndex supervisionEnFoodBuIndex = new SupervisionEnFoodBuIndex();
+//                    XSSFRow row = sheet1.getRow(j);
+//                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+//                    {
+//                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+//                        supervisionEnFoodBu.setIndexId(id);
+//                        supervisionEnFoodBuIndex.setEnterpriseId(id);
+//                    }
+//                    supervisionEnFoodBu.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
+//                    supervisionEnFoodBu.setNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
+//                    supervisionEnFoodBu.setBusinessFormat(ExcalUtils.handleStringXSSF(row.getCell(3)));
+//                    supervisionEnFoodBu.setCategory(ExcalUtils.handleStringXSSF(row.getCell(4)));
+//                    supervisionEnFoodBu.setBusinessNotes(ExcalUtils.handleStringXSSF(row.getCell(5)));
+//                    supervisionEnFoodBu.setBusinessProject(ExcalUtils.handleStringXSSF(row.getCell(6)));
+//                    supervisionEnFoodBu.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(7)));
+//                    supervisionEnFoodBu.setStartTime(ExcalUtils.handleStringXSSF(row.getCell(8)));
+//                    supervisionEnFoodBu.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(9)));
+//                    supervisionEnFoodBu.setGiveTime(ExcalUtils.handleStringXSSF(row.getCell(10)));
+//                    supervisionEnFoodBu.setLicenseAuthority(ExcalUtils.handleStringXSSF(row.getCell(11)));
+//                    supervisionEnFoodBu.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(12)));
+//                    supervisionEnFoodBu.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(13)));
+//                    supervisionEnFoodBu.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(14)));
+//                    supervisionEnFoodBu.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(15)));
+//                    supervisionEnFoodBu.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(15)));
+//                    supervisionEnFoodBu.setOperator("操作人");
+//                    supervisionEnFoodBu.setOperateIp("123.123.123");
+//                    supervisionEnFoodBu.setOperateTime(new Date());
+//                    if(!supervisionEnFoodBu.getNumber().equals("")) {
+//                        if(numberMap.get(supervisionEnFoodBu.getNumber())!=null)
+//                        {
+//                            //只进行许可证表的更新
+//
+//                        }
+//
 //                    }
 //                }
+                workbook.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return changedNumbers;
 //                if(updateEnterpriseIds.size()>0){//修改这里，这里是删除覆盖，所以id会变动，要修改为修改更新
 //                    supervisionEnterpriseMapper.batchDelete(updateEnterpriseIds);
 //                    supervisionEnCosmeticsMapper.deleteByEnterpriseIds(updateEnterpriseIds);
@@ -758,7 +886,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 //                    supervisionEnFoodProMapper.deleteByEnterpriseIds(updateEnterpriseIds);
 //                    supervisionEnProCategoryMapper.deleteByEnterpriseIds(updateEnterpriseIds);
 //                }
-//                //开始插入企业的list
+            //开始插入企业的list
 //                if(supervisionEnterpriseList.size()>0){
 //                    supervisionEnterpriseMapper.batchInsert(supervisionEnterpriseList);
 //                }
@@ -790,7 +918,6 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 //                if(sysRoleUserList.size()>0){
 //                    sysRoleUserMapper.batchInsert(sysRoleUserList);
 //                }
-//
 //                //许可证子表插入，如果是分表插入的话可以分开写方法，
 //                //食品经营
 //                XSSFSheet sheet1 = workbook.getSheetAt(1);
@@ -969,7 +1096,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 //                if(supervisionEnDrugsBuList.size()>0){
 //                    supervisionEnDrugsBuMapper.batchInsert(supervisionEnDrugsBuList);
 //                }
-//
+
 //                XSSFSheet sheet7 = workbook.getSheetAt(7);
 //                for (int j = 0; j < sheet7.getPhysicalNumberOfRows(); j++) {
 //                    if (j == 0) {
@@ -1027,10 +1154,10 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
-//        }else {
-//            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"文件错误");
-//        }
-//    }
+        }else{
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "文件错误");
+        }
+    }
 
 
 
