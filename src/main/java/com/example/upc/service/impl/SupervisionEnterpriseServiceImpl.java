@@ -667,87 +667,87 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                         break;
                     }
                     int a = j + 1;
-                    if (row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
                     }
-                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.STRING) {
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
                     }
-                    if (row.getCell(2).getCellType() != CellType.STRING) {
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
                     }
-                    if ((row.getCell(3) != null) && row.getCell(3).getCellType() != CellType.STRING) {
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
                     }
-                    if ((row.getCell(4) != null) && row.getCell(4).getCellType() != CellType.STRING) {
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
                     }
-                    if (row.getCell(5) != null && row.getCell(5).getCellType() != CellType.STRING) {
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
                     }
-                    if (row.getCell(6).getCellType() != CellType.STRING) {
+                    if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
                     }
-                    if (row.getCell(7).getCellType() != CellType.STRING) {
+                    if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
                     }
-                    if (row.getCell(8).getCellType() != CellType.STRING) {
+                    if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(8).toString()+"不是文本类型");
                     }
-                    if (row.getCell(9).getCellType() != CellType.STRING) {
+                    if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(9).toString()+"不是文本类型");
                     }
-                    if (row.getCell(10).getCellType() != CellType.STRING) {
+                    if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(10).toString()+"不是文本类型");
                     }
-                    if (row.getCell(11).getCellType() != CellType.NUMERIC) {
+                    if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(11).toString()+"不是日期类型");
                     }
-                    if (row.getCell(12).getCellType() != CellType.STRING) {
+                    if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
                     }
-                    if (row.getCell(13).getCellType() != CellType.STRING) {
+                    if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
                     }
-                    if (row.getCell(14) != null && row.getCell(14).getCellType() != CellType.NUMERIC) {
+                    if ((row.getCell(14) != null)&& row.getCell(14).getCellType() != CellType.BLANK && row.getCell(14).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(14).toString(),"不是数字类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(14).toString()+"不是数字类型");
                     }
-                    if (row.getCell(15) != null && row.getCell(15).getCellType() != CellType.NUMERIC) {
+                    if ((row.getCell(15) != null) && row.getCell(15).getCellType() != CellType.BLANK && row.getCell(15).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(15).toString(),"不是数字类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(15).toString()+"不是数字类型");
                     }
-                    if (row.getCell(16).getCellType() != CellType.STRING) {
+                    if ((row.getCell(16) != null) && row.getCell(16).getCellType() != CellType.BLANK && row.getCell(16).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(16).toString(),"不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(16).toString()+"不是文本类型");
                     }
-                    if (row.getCell(17).getCellType() != CellType.NUMERIC) {
+                    if ((row.getCell(17) != null)&& row.getCell(17).getCellType() != CellType.BLANK  && row.getCell(17).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(17).toString(),"不是数字类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(17).toString()+"不是数字类型");
                     }
-                    if (row.getCell(18).getCellType() != CellType.STRING) {
+                    if ((row.getCell(18) != null) && row.getCell(18).getCellType() != CellType.BLANK && row.getCell(18).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(18).toString(), "不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(18).toString()+"不是文本类型");
                     }
-                    if (row.getCell(19).getCellType() != CellType.STRING) {
+                    if ((row.getCell(19) != null) && row.getCell(19).getCellType() != CellType.BLANK && row.getCell(19).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(19).toString(),"不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(19).toString()+"不是文本类型");
                     }
-                    if (row.getCell(20).getCellType() != CellType.STRING) {
+                    if ((row.getCell(20) != null) && row.getCell(20).getCellType() != CellType.BLANK && row.getCell(20).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(20).toString(),"不是文本类型");
                         errorList.add("第" + a + "行"+titleRow.getCell(20).toString()+"不是文本类型");
                     }
