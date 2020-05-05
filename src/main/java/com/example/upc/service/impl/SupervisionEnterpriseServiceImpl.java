@@ -406,7 +406,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     public void changeAbnormal(Integer id, Integer abId, String content) {
         SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
         supervisionEnterprise.setId(id);
-        supervisionEnterprise.setBusinessState(2);
+        supervisionEnterprise.setBusinessState(3);
         supervisionEnterprise.setAbnormalId(abId);
         supervisionEnterprise.setAbnormalContent(content);
         supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
