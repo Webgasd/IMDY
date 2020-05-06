@@ -1087,13 +1087,17 @@
   <resultMap id="ListResultMap" type="com.example.upc.controller.param.EnterpriseListResult">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+    <result column="operation_mode" jdbcType="VARCHAR" property="operationMode" />
+    <result column="legal_person" jdbcType="VARCHAR" property="legalPerson" />
     <result column="enterprise_scale" jdbcType="VARCHAR" property="enterpriseScale" />
     <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
     <result column="area" jdbcType="INTEGER" property="area" />
     <result column="grid" jdbcType="VARCHAR" property="grid" />
     <result column="supervisor" jdbcType="VARCHAR" property="supervisor" />
     <result column="regulators" jdbcType="INTEGER" property="regulators" />
-    <result column="is_stop" jdbcType="VARCHAR" property="isStop" /> 
+    <result column="is_stop" jdbcType="VARCHAR" property="isStop" />
+    <result column="business_state" jdbcType="INTEGER" property="businessState" />
+    <result column="abnormal_id" jdbcType="INTEGER" property="abnormalId" />
     <result column="max_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="a1_id" jdbcType="INTEGER" property="foodBusiness" />
     <result column="a2_id" jdbcType="INTEGER" property="foodCommon" />
@@ -1105,7 +1109,7 @@
   </resultMap>
 
   <sql id="List_Column_List">
-    id,enterprise_name,enterprise_scale,id_number,area,grid,regulators,is_stop,supervisor
+    id,operation_mode,enterprise_name,legal_person,enterprise_scale,id_number,area,grid,regulators,is_stop,supervisor,business_state,abnormal_id
   </sql>
 
   <select id="countList" resultType="int">

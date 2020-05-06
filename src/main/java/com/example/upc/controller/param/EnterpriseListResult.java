@@ -9,6 +9,10 @@ import java.util.Date;
 public class EnterpriseListResult {
     private Integer id;
     private String enterpriseName;
+    private String operationMode;
+    private String legalPerson;
+    private Integer businessState;
+    private Integer abnormalId;
     private String enterpriseScale;
     private String idNumber;
     private Integer area;
@@ -24,6 +28,38 @@ public class EnterpriseListResult {
     private Integer medicalUse;
     private Integer cosmeticsUse;
     private Date endTime;
+
+    public String getOperationMode() {
+        return operationMode;
+    }
+
+    public void setOperationMode(String operationMode) {
+        this.operationMode = operationMode;
+    }
+
+    public String getLegalPerson() {
+        return legalPerson;
+    }
+
+    public void setLegalPerson(String legalPerson) {
+        this.legalPerson = legalPerson;
+    }
+
+    public Integer getBusinessState() {
+        return businessState;
+    }
+
+    public void setBusinessState(Integer businessState) {
+        this.businessState = businessState;
+    }
+
+    public Integer getAbnormalId() {
+        return abnormalId;
+    }
+
+    public void setAbnormalId(Integer abnormalId) {
+        this.abnormalId = abnormalId;
+    }
 
     public String getSupervisor() {
         return supervisor;
