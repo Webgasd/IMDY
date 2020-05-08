@@ -90,6 +90,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     private SysRoleUserMapper sysRoleUserMapper;
     @Autowired
     private GridPointsGpsMapper gridPointsGpsMapper;
+    @Autowired
+    private GridPointsMapper gridPointsMapper;
 
     @Override
     public PageResult<EnterpriseListResult> getPage(PageQuery pageQuery, EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry) {
@@ -209,8 +211,28 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     @Override
     public EnterpriseParam getById(int id) {
         SupervisionEnterprise supervisionEnterprise= supervisionEnterpriseMapper.selectByPrimaryKey(id);
+        if (supervisionEnterprise==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
+        }
         EnterpriseParam enterpriseParam = new EnterpriseParam();
         BeanUtils.copyProperties(supervisionEnterprise,enterpriseParam);
+        GridPoints gridPoints = gridPointsMapper.getPointByEnterpriseId(id);
+        if (gridPoints==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业默认定位信息");
+        }
+        enterpriseParam.setPosition(gridPoints.getPoint());
+        if (supervisionEnterprise.getGpsFlag()==0){
+                enterpriseParam.setLocation(null);
+        }
+        if (supervisionEnterprise.getGpsFlag()==1){
+            GridPointsGps gridPointsGps = gridPointsGpsMapper.getPointByCodeId(supervisionEnterprise.getIdNumber());
+            if (gridPointsGps==null){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业更新定位信息");
+            }
+            else {
+                enterpriseParam.setLocation(gridPointsGps.getPoint());
+            }
+        }
         List<String> permissionType = new ArrayList<>();
         //yes  食品经营
         List<SupervisionEnFoodBu> supervisionEnFoodBuList = supervisionEnFoodBuMapper.getListByEnterpriseId(id);

@@ -10,23 +10,34 @@ import java.util.List;
  */
 public class EnterpriseParam extends SupervisionEnterprise {
 
-    private SupervisionEnFoodBu foodBusiness;
     private List<SupervisionEnFoodBu> foodBusinessList;
-
-    private SupervisionEnCosmetics cosmeticsUse;
     private List<SupervisionEnCosmetics> cosmeticsList;
-    private EnFoodProduceParam foodProduce;
     private List<EnFoodProduceParam> foodProduceList;
-    private SupervisionEnDrugsBu drugsBusiness;
     private List<SupervisionEnDrugsBu> drugsBusinessList;
     private List<SupervisionEnDrugsPro> drugsProduceList;
-    private SupervisionEnMedicalBu medicalBusiness;
     private List<SupervisionEnMedicalBu> medicalBusinessList;
     private List<SupervisionEnMedicalPro> medicalProduceList;
     private List<SupervisionEnSmallCater> smallCaterList;
     private List<SupervisionEnSmallWorkshop> smallWorkshopList;
     private List<SupervisionEnIndustrialProducts> industrialProductsList;
+    private String location;
+    private String position;
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
 
     public List<SupervisionEnCosmetics> getCosmeticsList() {
         return cosmeticsList;
@@ -60,14 +71,6 @@ public class EnterpriseParam extends SupervisionEnterprise {
         this.drugsProduceList = drugsProduceList;
     }
 
-    public SupervisionEnMedicalBu getMedicalBusiness() {
-        return medicalBusiness;
-    }
-
-    public void setMedicalBusiness(SupervisionEnMedicalBu medicalBusiness) {
-        this.medicalBusiness = medicalBusiness;
-    }
-
     public List<SupervisionEnMedicalBu> getMedicalBusinessList() {
         return medicalBusinessList;
     }
@@ -90,38 +93,6 @@ public class EnterpriseParam extends SupervisionEnterprise {
 
     public void setFoodBusinessList(List<SupervisionEnFoodBu> foodBusinessList) {
         this.foodBusinessList = foodBusinessList;
-    }
-
-    public SupervisionEnFoodBu getFoodBusiness() {
-        return foodBusiness;
-    }
-
-    public void setFoodBusiness(SupervisionEnFoodBu foodBusiness) {
-        this.foodBusiness = foodBusiness;
-    }
-
-    public SupervisionEnCosmetics getCosmeticsUse() {
-        return cosmeticsUse;
-    }
-
-    public void setCosmeticsUse(SupervisionEnCosmetics cosmeticsUse) {
-        this.cosmeticsUse = cosmeticsUse;
-    }
-
-    public EnFoodProduceParam getFoodProduce() {
-        return foodProduce;
-    }
-
-    public void setFoodProduce(EnFoodProduceParam foodProduce) {
-        this.foodProduce = foodProduce;
-    }
-
-    public SupervisionEnDrugsBu getDrugsBusiness() {
-        return drugsBusiness;
-    }
-
-    public void setDrugsBusiness(SupervisionEnDrugsBu drugsBusiness) {
-        this.drugsBusiness = drugsBusiness;
     }
 
     public List<SupervisionEnSmallCater> getSmallCaterList() {
