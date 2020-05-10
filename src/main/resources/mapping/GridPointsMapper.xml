@@ -815,6 +815,8 @@ select * from (
     SELECT id,enterprise_name,shop_name,cantact_way,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =0
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
+    <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
+    <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode LIKE CONCAT('%',#{search.operationMode},'%')</if>
     <if test="search.businessState != null">AND business_state = #{search.businessState}</if>
     <!--基础小表是根据地区权限和supervisor筛查出来的 -->
@@ -960,6 +962,8 @@ select * from (
     SELECT id,enterprise_name,shop_name,cantact_way,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =0 and permission_type = ''
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
+    <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
+    <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode LIKE CONCAT('%',#{search.operationMode},'%')</if>
     <if test="search.businessState != null">AND business_state = #{search.businessState}</if>
     <!--基础小表是根据地区权限和supervisor筛查出来的 -->
@@ -1091,6 +1095,8 @@ select * from (
     SELECT id,enterprise_name,shop_name,cantact_way,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =1
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
+    <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
+    <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode LIKE CONCAT('%',#{search.operationMode},'%')</if>
     <if test="search.businessState != null">AND business_state = #{search.businessState}</if>
     <!--基础小表是根据地区权限和supervisor筛查出来的 -->
@@ -1236,6 +1242,8 @@ select * from (
     SELECT id,enterprise_name,shop_name,cantact_way,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =1 and permission_type = ''
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
+    <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
+    <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode LIKE CONCAT('%',#{search.operationMode},'%')</if>
     <if test="search.businessState != null">AND business_state = #{search.businessState}</if>
     <!--基础小表是根据地区权限和supervisor筛查出来的 -->
