@@ -78,16 +78,16 @@ public class GridPointsServiceImpl implements GridPointsService {
     public List<SmilePointsPhone> getSmileMapPointsPhone(EnterpriseSearchParam enterpriseSearchParam){
         GaoDeMapUtil gaoDe = new GaoDeMapUtil();
         CaculateDisUtil caculateDisUtil = new CaculateDisUtil();
-        if (enterpriseSearchParam.getDis() == null) {
+        if (enterpriseSearchParam.getDis() == null||enterpriseSearchParam.getDis().equals("")) {
             enterpriseSearchParam.setDis(1000);
         }
-        if (enterpriseSearchParam.getLocation() == null){
+        if (enterpriseSearchParam.getLocation() == null||enterpriseSearchParam.getLocation().equals("")){
             enterpriseSearchParam.setLocation("118.5821878900,37.4489563700");
         }
         String[] gps = enterpriseSearchParam.getLocation().split(",");
         Double gpsA =Double.parseDouble(gps[0]);
         Double gpsB =Double.parseDouble(gps[1]);
-        Float gps1 = (float) (gpsA- enterpriseSearchParam.getDis() * 0.00001141);
+        Float gps1 = (float) (gpsA - enterpriseSearchParam.getDis() * 0.00001141);
         Float gps2 = (float) (gpsA + enterpriseSearchParam.getDis() * 0.00001141);
         Float gps3 = (float) (gpsB - enterpriseSearchParam.getDis() * 0.00000899);
         Float gps4 = (float) (gpsB + enterpriseSearchParam.getDis() * 0.00000899);
