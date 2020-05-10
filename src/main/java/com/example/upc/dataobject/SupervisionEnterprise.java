@@ -3,6 +3,8 @@ package com.example.upc.dataobject;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class SupervisionEnterprise {
@@ -22,6 +24,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Sun Apr 19 00:46:37 CST 2020
      */
+    @NotBlank(message = "企业名称不能为空")
     private String enterpriseName;
 
     /**
@@ -49,6 +52,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Sun Apr 19 00:46:37 CST 2020
      */
+    @NotBlank(message = "住所/经营场所不能为空")
     private String registeredAddress;
 
     /**
@@ -67,6 +71,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Sun Apr 19 00:46:37 CST 2020
      */
+    @NotBlank(message = "法定代表人不能为空")
     private String legalPerson;
 
     /**
@@ -76,6 +81,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Sun Apr 19 00:46:37 CST 2020
      */
+    @NotBlank(message = "统一信用代码不能为空")
     private String idNumber;
 
     /**
@@ -121,6 +127,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Sun Apr 19 00:46:37 CST 2020
      */
+    @NotNull(message = "所属地区不能为空")
     private Integer area;
 
     /**
@@ -427,6 +434,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Sun Apr 19 00:46:37 CST 2020
      */
+    @NotBlank(message = "主体分类不能为空")
     private String operationMode;
 
     /**

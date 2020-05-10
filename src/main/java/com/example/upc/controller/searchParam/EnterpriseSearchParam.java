@@ -29,6 +29,24 @@ public class EnterpriseSearchParam {
     private String userType;
     private String location;
     private Integer dis;
+    private String operationMode;
+    private Integer businessState;
+
+    public String getOperationMode() {
+        return operationMode;
+    }
+
+    public void setOperationMode(String operationMode) {
+        this.operationMode = operationMode;
+    }
+
+    public Integer getBusinessState() {
+        return businessState;
+    }
+
+    public void setBusinessState(Integer businessState) {
+        this.businessState = businessState;
+    }
 
     public Integer getDis() {
         return dis;

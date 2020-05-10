@@ -22,6 +22,15 @@ public class EnterpriseParam extends SupervisionEnterprise {
     private List<SupervisionEnIndustrialProducts> industrialProductsList;
     private String location;
     private String position;
+    private String permissionFamily;
+
+    public String getPermissionFamily() {
+        return permissionFamily;
+    }
+
+    public void setPermissionFamily(String permissionFamily) {
+        this.permissionFamily = permissionFamily;
+    }
 
     public String getLocation() {
         return location;

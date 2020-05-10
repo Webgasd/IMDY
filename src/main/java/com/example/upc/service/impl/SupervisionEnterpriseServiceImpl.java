@@ -302,8 +302,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
             permissionType.add("industrialProducts");
             enterpriseParam.setIndustrialProductsList(supervisionEnIndustrialProductsList);
         }
-
-        enterpriseParam.setPermissionType(String.join(",",permissionType));
+        //enterpriseParam.setPermissionType(String.join(",",permissionType));
         return enterpriseParam;
     }
 
@@ -316,6 +315,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     @Transactional
     public void insert(String json, SysUser sysUser) {
         SupervisionEnterprise supervisionEnterprise = JSONObject.parseObject(json,SupervisionEnterprise.class);
+        EnterpriseParam enterpriseParam = JSON.parseObject(json,EnterpriseParam.class);
+        supervisionEnterprise.setPermissionType(enterpriseParam.getPermissionFamily());
         ValidationResult result = validator.validate(supervisionEnterprise);
         if(result.isHasErrors()){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
@@ -366,13 +367,15 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         sysUser1.setOperateIp("124.124.124");
         sysUser1.setOperateTime(new Date());
         sysUserMapper.insertSelective(sysUser1);
-        //insertEnterpriseChildrenList(supervisionEnterprise,json);//下方有这个方法，是用来做许可证插入
+        //insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);//下方有这个方法，是用来做许可证插入
     }
 
     @Override
     @Transactional
     public void update(String json, SysUser sysUser) {
         SupervisionEnterprise supervisionEnterprise = JSONObject.parseObject(json,SupervisionEnterprise.class);
+        EnterpriseParam enterpriseParam = JSON.parseObject(json,EnterpriseParam.class);
+        supervisionEnterprise.setPermissionType(enterpriseParam.getPermissionFamily());
         ValidationResult result = validator.validate(supervisionEnterprise);
         if(result.isHasErrors()){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
@@ -410,78 +413,34 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                 gridPointsGpsMapper.insertSelective(gridPointsGps1);
             }
         }
-        //insertEnterpriseChildrenList(supervisionEnterprise,json);
-       supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
-    }
-
-    @Override
-    @Transactional
-    public void changeNormal(Integer id) {
-        SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
-        supervisionEnterprise.setId(id);
-        supervisionEnterprise.setBusinessState(1);
-        supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
-    }
-
-    @Override
-    @Transactional
-    public void changeAbnormal(Integer id, Integer abId, String content) {
-        SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
-        supervisionEnterprise.setId(id);
-        supervisionEnterprise.setBusinessState(3);
-        supervisionEnterprise.setAbnormalId(abId);
-        supervisionEnterprise.setAbnormalContent(content);
-        supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
-    }
-
-    @Override
-    @Transactional
-    public void delete(int id) {
-        SupervisionEnterprise before = supervisionEnterpriseMapper.selectByPrimaryKey(id);
-        if(before==null){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"待删除企业不存在");
-        }
-        supervisionEnterpriseMapper.deleteByPrimaryKey(id);
-        supervisionEnCosmeticsMapper.deleteByEnterpriseId(id);
-        //supervisionEnMedicalMapper.deleteByEnterpriseId(id);
-        supervisionEnDrugsBuMapper.deleteByEnterpriseId(id);
-        supervisionEnFoodCirMapper.deleteByEnterpriseId(id);
-        supervisionEnFoodBuMapper.deleteByEnterpriseId(id);
-        supervisionEnCommonMapper.deleteByEnterpriseId(id);
-        //supervisionEnFoodProMapper.deleteByEnterpriseId(id);
-        supervisionEnProCategoryMapper.deleteByParentId(id);
-
+        //insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);
+        supervisionEnterpriseMapper.updateByPrimaryKeySelectiveEx(supervisionEnterprise);
     }
 
     //插入子表，这里要修改，子表建议子子表
-//    void insertEnterpriseChildrenList(SupervisionEnterprise supervisionEnterprise,String json){
-//        EnterpriseParam enterpriseParam = JSON.parseObject(json,EnterpriseParam.class);
-//        if(supervisionEnterprise.getPermissionType()==null){
-//            supervisionEnterprise.setPermissionType("");
-//        }
-//        supervisionEnCosmeticsMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
-//        supervisionEnMedicalMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
-//        supervisionEnDrugsBuMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
-//        supervisionEnFoodCirMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
-//        supervisionEnFoodBuMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
-//        supervisionEnCommonMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
-//        supervisionEnFoodProMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
-//        supervisionEnProCategoryMapper.deleteByParentId(supervisionEnterprise.getId());
-//        if(supervisionEnterprise.getPermissionType().contains("foodBusiness")){
-//            SupervisionEnFoodBu supervisionEnFoodBu = enterpriseParam.getFoodBusiness();
-//            if(supervisionEnFoodBu==null){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入许可内容");
-//            }
-//            ValidationResult result = validator.validate(supervisionEnFoodBu);
-//            if(result.isHasErrors()){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
-//            }
-////            supervisionEnFoodBu.setEnterpriseId(supervisionEnterprise.getId());
-//            supervisionEnFoodBu.setOperateIp("124.124.124");
-//            supervisionEnFoodBu.setOperateTime(new Date());
-//            supervisionEnFoodBu.setOperator("zcc");
-//            supervisionEnFoodBuMapper.insertSelective(supervisionEnFoodBu);
-//        }
+    void insertEnterpriseChildrenList(SupervisionEnterprise supervisionEnterprise,EnterpriseParam enterpriseParam){
+
+        //如果存在这个type，先判断list是否为空（size），
+        //然后找index表中是否存在了这个企业的索引，并拿到索引的id，然后在许可证表中删除indexid为这个id的所有许可证
+        //循环接收到的list，如果有index，将index的id拿到赋值到每一个对象的indexid中，然后插入
+        if(enterpriseParam.getPermissionFamily().contains("foodBusiness")){
+            if(enterpriseParam.getFoodBusinessList().size()==0){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入食品经营许可证内容");
+            }//检测许可证内容有无。
+            //先查找index，然后删除所有许可证，
+
+            for (SupervisionEnFoodBu supervisionEnFoodBu : enterpriseParam.getFoodBusinessList()){
+                ValidationResult result = validator.validate(supervisionEnFoodBu);
+                if(result.isHasErrors()){
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+                }//检测validator校验。
+                supervisionEnFoodBu.setOperateIp("124.124.124");
+                supervisionEnFoodBu.setOperateTime(new Date());
+                supervisionEnFoodBu.setOperator("zcc");
+                supervisionEnFoodBuMapper.insertSelective(supervisionEnFoodBu);
+            }
+
+        }
 //        if(supervisionEnterprise.getPermissionType().contains("foodCommon")){
 //            SupervisionEnCommon supervisionEnCommon = enterpriseParam.getFoodCommon();
 //            if(supervisionEnCommon==null){
@@ -583,7 +542,40 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 //            supervisionEnCosmetics.setOperator("zcc");
 //            supervisionEnCosmeticsMapper.insertSelective(supervisionEnCosmetics);
 //        }
-//    }
+    }
+
+    @Override
+    @Transactional
+    public void changeNormal(Integer id) {
+        SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
+        supervisionEnterprise.setId(id);
+        supervisionEnterprise.setBusinessState(1);
+        supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+    }
+
+    @Override
+    @Transactional
+    public void changeAbnormal(Integer id, Integer abId, String content) {
+        SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
+        supervisionEnterprise.setId(id);
+        supervisionEnterprise.setBusinessState(3);
+        supervisionEnterprise.setAbnormalId(abId);
+        supervisionEnterprise.setAbnormalContent(content);
+        supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+    }
+
+    @Override
+    @Transactional
+    public void delete(int id) {
+        SupervisionEnterprise before = supervisionEnterpriseMapper.selectByPrimaryKey(id);
+        if(before==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"待删除企业不存在");
+        }
+        supervisionEnterpriseMapper.deleteByPrimaryKey(id);
+
+    }
+
+
 
     //改变企业状态
     @Override

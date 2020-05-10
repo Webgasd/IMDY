@@ -5,17 +5,17 @@ import java.util.Date;
 public class SmilePoints {
 
     private Integer id;
-
     private Integer enterpriseId;
-
     private String point;
     private String enterpriseName;
+    private String shopName;
+    private String cantactWay;
     private Integer area;
     private Integer grid;
     private String registered_address;
     private String dynamic_grade;
     private String operationMode;
-    private String businessState;
+    private Integer businessState;
     private Integer foodBusiness;
     private String businessType;
     private Integer foodCommon;
@@ -25,6 +25,30 @@ public class SmilePoints {
     private Integer medicalUse;
     private Integer cosmeticsUse;
     private Date endTime;
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getCantactWay() {
+        return cantactWay;
+    }
+
+    public void setCantactWay(String cantactWay) {
+        this.cantactWay = cantactWay;
+    }
+
+    public Integer getBusinessState() {
+        return businessState;
+    }
+
+    public void setBusinessState(Integer businessState) {
+        this.businessState = businessState;
+    }
 
     public String getEnterpriseName() {
         return enterpriseName;
@@ -40,14 +64,6 @@ public class SmilePoints {
 
     public void setOperationMode(String operationMode) {
         this.operationMode = operationMode;
-    }
-
-    public String getBusinessState() {
-        return businessState;
-    }
-
-    public void setBusinessState(String businessState) {
-        this.businessState = businessState;
     }
 
     public Integer getFoodBusiness() {
