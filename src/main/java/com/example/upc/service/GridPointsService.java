@@ -24,7 +24,7 @@ public interface GridPointsService {
     int updatePoint(GridPoints record);
     int insertPoint(GridPoints record);
     List<SmilePoints> getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam);
-    List<SmilePointsPhone> getSmileMapPointsPhone(EnterpriseSearchParam enterpriseSearchParam);
+    List<SmilePoints> getSmileMapPointsPhone(EnterpriseSearchParam enterpriseSearchParam);
     List<enterpriseId> getEnterpriseByName(String name);
 
     Map<String,Object> getAreaEnterprise();

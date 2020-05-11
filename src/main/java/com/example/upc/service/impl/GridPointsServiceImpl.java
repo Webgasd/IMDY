@@ -75,9 +75,7 @@ public class GridPointsServiceImpl implements GridPointsService {
     }
 
     @Override
-    public List<SmilePointsPhone> getSmileMapPointsPhone(EnterpriseSearchParam enterpriseSearchParam){
-        GaoDeMapUtil gaoDe = new GaoDeMapUtil();
-        CaculateDisUtil caculateDisUtil = new CaculateDisUtil();
+    public List<SmilePoints> getSmileMapPointsPhone(EnterpriseSearchParam enterpriseSearchParam){
         if (enterpriseSearchParam.getDis() == null||enterpriseSearchParam.getDis().equals("")) {
             enterpriseSearchParam.setDis(1000);
         }
@@ -92,18 +90,7 @@ public class GridPointsServiceImpl implements GridPointsService {
         Float gps3 = (float) (gpsB - enterpriseSearchParam.getDis() * 0.00000899);
         Float gps4 = (float) (gpsB + enterpriseSearchParam.getDis() * 0.00000899);
         List<SmilePoints> smilePointsList = gridPointsMapper.getSmileAllPhone(enterpriseSearchParam,gps1,gps2,gps3,gps4);
-        List<SmilePointsPhone> smilePointsPhoneList = new ArrayList<>();
-        for(SmilePoints smilePoints:smilePointsList){
-            SmilePointsPhone smilePointsPhone = new SmilePointsPhone();
-            BeanUtils.copyProperties(smilePoints,smilePointsPhone);
-            String[] gpsTarget = smilePoints.getPoint().split(",");
-            Double gpsC =Double.parseDouble(gpsTarget[0]);
-            Double gpsD =Double.parseDouble(gpsTarget[1]);
-            smilePointsPhone.setDistance((int) caculateDisUtil.Distance(gpsA, gpsB, gpsC, gpsD));
-            smilePointsPhoneList.add(smilePointsPhone);
-            }
-        List<SmilePointsPhone> afterSmilePointsPhoneList  = ListSortUtil.sort(smilePointsPhoneList,"distance",null);
-        return afterSmilePointsPhoneList;
+        return smilePointsList;
     }
 
     @Override
