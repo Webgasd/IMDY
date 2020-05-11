@@ -11,8 +11,7 @@ import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dao.*;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.*;
-import com.example.upc.util.ExcalUtils;
-import com.example.upc.util.MD5Util;
+import com.example.upc.util.*;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -92,6 +91,31 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     private GridPointsGpsMapper gridPointsGpsMapper;
     @Autowired
     private GridPointsMapper gridPointsMapper;
+
+
+    @Override
+    public List<SmilePointsPhone> getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam){
+        CaculateDisUtil caculateDisUtil = new CaculateDisUtil();
+        if (enterpriseSearchParam.getLocation() == null||enterpriseSearchParam.getLocation().equals("")){
+            enterpriseSearchParam.setLocation("118.5821878900,37.4489563700");
+        }
+        String[] gps = enterpriseSearchParam.getLocation().split(",");
+        Double gpsA =Double.parseDouble(gps[0]);
+        Double gpsB =Double.parseDouble(gps[1]);
+        List<SmilePointsPhone> smilePointsPhoneList = new ArrayList<>();
+        for(SmilePoints smilePoints:supervisionEnterpriseMapper.getListPhone(enterpriseSearchParam)){
+            SmilePointsPhone smilePointsPhone = new SmilePointsPhone();
+            BeanUtils.copyProperties(smilePoints,smilePointsPhone);
+            String[] gpsTarget = smilePoints.getPoint().split(",");
+            Double gpsC =Double.parseDouble(gpsTarget[0]);
+            Double gpsD =Double.parseDouble(gpsTarget[1]);
+            smilePointsPhone.setDistance((int) caculateDisUtil.Distance(gpsA, gpsB, gpsC, gpsD));
+            smilePointsPhoneList.add(smilePointsPhone);
+        }
+        List<SmilePointsPhone> afterSmilePointsPhoneList  = ListSortUtil.sort(smilePointsPhoneList,"distance",null);
+        return afterSmilePointsPhoneList;
+    }
+
 
     @Override
     public PageResult<EnterpriseListResult> getPage(PageQuery pageQuery, EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry) {

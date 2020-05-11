@@ -16,6 +16,8 @@ import java.util.Map;
  * @date 2019/4/25 11:00
  */
 public interface SupervisionEnterpriseService {
+   List<SmilePointsPhone> getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam);
+
    PageResult<EnterpriseListResult> getPage(PageQuery pageQuery, EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry);
    PageResult<EnterpriseListResult> getPageState(PageQuery pageQuery, EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry);
    PageResult<EnterpriseListResult> getPageNoUser(PageQuery pageQuery, EnterpriseSearchParam enterpriseSearchParam,Integer areaId,boolean searchIndustry);

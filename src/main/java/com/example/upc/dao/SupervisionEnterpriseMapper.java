@@ -81,4 +81,7 @@ public interface SupervisionEnterpriseMapper {
     int countListEd(@Param("dept") Integer dept);
     List<PreAndEdEnterpriseParam> getPageEd(@Param("page") PageQuery page, @Param("dept") Integer dept);
 
+
+    List<SmilePoints> getListPhone(@Param("search") EnterpriseSearchParam search);
+
 }

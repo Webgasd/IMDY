@@ -6,6 +6,7 @@ public class SmilePoints {
 
     private Integer id;
     private Integer enterpriseId;
+    private Integer pointId;
     private String point;
     private String enterpriseName;
     private String shopName;
@@ -25,6 +26,14 @@ public class SmilePoints {
     private Integer medicalUse;
     private Integer cosmeticsUse;
     private Date endTime;
+
+    public Integer getPointId() {
+        return pointId;
+    }
+
+    public void setPointId(Integer pointId) {
+        this.pointId = pointId;
+    }
 
     public String getShopName() {
         return shopName;
