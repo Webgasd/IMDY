@@ -94,7 +94,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 
 
     @Override
-    public List<SmilePointsPhone> getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam){
+    public List<SmilePoints> getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam){
         CaculateDisUtil caculateDisUtil = new CaculateDisUtil();
         if (enterpriseSearchParam.getLocation() == null||enterpriseSearchParam.getLocation().equals("")){
             enterpriseSearchParam.setLocation("118.5821878900,37.4489563700");
@@ -102,18 +102,59 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         String[] gps = enterpriseSearchParam.getLocation().split(",");
         Double gpsA =Double.parseDouble(gps[0]);
         Double gpsB =Double.parseDouble(gps[1]);
-        List<SmilePointsPhone> smilePointsPhoneList = new ArrayList<>();
-        for(SmilePoints smilePoints:supervisionEnterpriseMapper.getListPhone(enterpriseSearchParam)){
-            SmilePointsPhone smilePointsPhone = new SmilePointsPhone();
-            BeanUtils.copyProperties(smilePoints,smilePointsPhone);
+        List<SmilePoints> SmilePointsList = supervisionEnterpriseMapper.getListPhone(enterpriseSearchParam);
+        for(SmilePoints smilePoints:SmilePointsList){
             String[] gpsTarget = smilePoints.getPoint().split(",");
             Double gpsC =Double.parseDouble(gpsTarget[0]);
             Double gpsD =Double.parseDouble(gpsTarget[1]);
-            smilePointsPhone.setDistance((int) caculateDisUtil.Distance(gpsA, gpsB, gpsC, gpsD));
-            smilePointsPhoneList.add(smilePointsPhone);
+            smilePoints.setDistance((int) caculateDisUtil.Distance(gpsA, gpsB, gpsC, gpsD));
         }
-        List<SmilePointsPhone> afterSmilePointsPhoneList  = ListSortUtil.sort(smilePointsPhoneList,"distance",null);
+        List<SmilePoints> afterSmilePointsPhoneList  = ListSortUtil.sort(SmilePointsList,"distance",null);
+        afterSmilePointsPhoneList = ListSubUtil.sub(afterSmilePointsPhoneList,enterpriseSearchParam.getIndexNum());
         return afterSmilePointsPhoneList;
+    }
+
+    @Override
+    public Map<String,Integer> getCount(EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry){
+        if (sysUser.getUserType()==0){
+            if(areaId==null){
+                enterpriseSearchParam.setAreaList(sysAreaService.getAll().stream().map((sysArea -> sysArea.getId())).collect(Collectors.toList()));
+            }else {
+                enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListSearch(areaId));
+            }
+            if(searchIndustry){
+                enterpriseSearchParam.setIndustryList(sysIndustryService.getAll().stream().map((sysIndustry -> sysIndustry.getRemark())).collect(Collectors.toList()));
+            }
+        }else if(sysUser.getUserType()==2){
+            SupervisionGa supervisionGa = supervisionGaService.getById(sysUser.getInfoId());
+            if(areaId==null){
+                enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListByDeptId(supervisionGa.getDepartment()));
+            }else {
+                enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListSearch(areaId));
+            }
+            if(searchIndustry){
+                enterpriseSearchParam.setIndustryList(sysDeptIndustryService.getListByDeptId(supervisionGa.getDepartment()).stream().map((sysIndustry -> sysIndustry.getRemark())).collect(Collectors.toList()));
+            }
+            SysDept sysDept = sysDeptService.getById(supervisionGa.getDepartment());
+            if(sysDept.getType()==2){
+                if(supervisionGa.getType()!=2){
+                    enterpriseSearchParam.setSupervisor(supervisionGa.getName());
+                }
+            }
+        }else{
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"非法用户");
+        }
+        Map<String,Integer> map = new HashMap<>();
+        map.put("总数",supervisionEnterpriseMapper.countListPhone(enterpriseSearchParam));
+        enterpriseSearchParam.setOperationMode("公司");
+        map.put("公司",supervisionEnterpriseMapper.countListPhone(enterpriseSearchParam));
+        enterpriseSearchParam.setOperationMode("个体");
+        map.put("个体",supervisionEnterpriseMapper.countListPhone(enterpriseSearchParam));
+        enterpriseSearchParam.setOperationMode("合作社");
+        map.put("合作社",supervisionEnterpriseMapper.countListPhone(enterpriseSearchParam));
+        enterpriseSearchParam.setOperationMode("其他");
+        map.put("其他",supervisionEnterpriseMapper.countListPhone(enterpriseSearchParam));
+        return map;
     }
 
 

@@ -1,7 +1,5 @@
 package com.example.upc.util;
 
-import com.example.upc.controller.param.SmilePointsPhone;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

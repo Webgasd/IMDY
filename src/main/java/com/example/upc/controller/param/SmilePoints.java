@@ -26,6 +26,15 @@ public class SmilePoints {
     private Integer medicalUse;
     private Integer cosmeticsUse;
     private Date endTime;
+    private Integer distance;
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
 
     public Integer getPointId() {
         return pointId;

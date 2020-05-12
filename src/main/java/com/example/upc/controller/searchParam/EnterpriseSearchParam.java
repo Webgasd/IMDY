@@ -31,6 +31,15 @@ public class EnterpriseSearchParam {
     private Integer dis;
     private String operationMode;
     private Integer businessState;
+    private Integer indexNum;
+
+    public Integer getIndexNum() {
+        return indexNum;
+    }
+
+    public void setIndexNum(Integer indexNum) {
+        this.indexNum = indexNum;
+    }
 
     public String getOperationMode() {
         return operationMode;
