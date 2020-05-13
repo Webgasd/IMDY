@@ -59,4 +59,5 @@ public interface SupervisionEnDrugsBuMapper {
     void deleteByEnterpriseId(@Param("enterpriseId") int enterpriseId);
     void batchInsert(@Param("drugsBuList") List<SupervisionEnDrugsBu> drugsBuList);
     void deleteByEnterpriseIds(@Param("enterpriseIds")List<Integer> enterpriseIds);
+    void deleteByIndexId(@Param("iid") int iid);
 }

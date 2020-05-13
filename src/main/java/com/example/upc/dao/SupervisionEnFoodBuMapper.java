@@ -56,7 +56,7 @@ public interface SupervisionEnFoodBuMapper {
 
     SupervisionEnFoodBu selectByEnterpriseId(@Param("id") int id);
     List<SupervisionEnFoodBu> getListByEnterpriseId(@Param("enterpriseId") int eid);
-    void deleteByEnterpriseId(@Param("enterpriseId") int enterpriseId);
+    void deleteByIndexId(@Param("iid") int iid);
     void batchInsert(@Param("foodBuList") List<SupervisionEnFoodBu> foodBuList);
     void deleteByEnterpriseIds(@Param("enterpriseIds")List<Integer> enterpriseIds);
 }

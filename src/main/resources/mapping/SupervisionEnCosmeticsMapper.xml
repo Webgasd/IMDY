@@ -306,7 +306,7 @@
   <select id="getListByEnterpriseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select b.* from(
     select * from supervision_en_cosmetics_index where enterprise_id = #{enterpriseId}) as a
-    left join supervision_en_cosmetics as b on a.id = b.index_id
+    inner join supervision_en_cosmetics as b on a.id = b.index_id
   </select>
 
   <select id="selectByIndexId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -315,6 +315,11 @@
     from supervision_en_cosmetics
     where index_id = #{id}
   </select>
+
+  <delete id="deleteByIndexId" parameterType="int">
+    DELETE FROM supervision_en_cosmetics
+    WHERE index_id = #{iid}
+  </delete>
 
   <delete id="deleteByEnterpriseId" parameterType="int">
     DELETE FROM supervision_en_cosmetics

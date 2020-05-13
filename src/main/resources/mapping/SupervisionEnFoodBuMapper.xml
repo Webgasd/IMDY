@@ -331,19 +331,8 @@
   <select id="getListByEnterpriseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select b.* from(
     select * from supervision_en_food_bu_index where enterprise_id = #{enterpriseId}) as a
-    left join supervision_en_food_bu as b on a.id = b.index_id
+    inner join supervision_en_food_bu as b on a.id = b.index_id
   </select>
-
-  <select id="selectByIndexId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    *
-    from supervision_en_food_bu
-    where index_id = #{id}
-  </select>
-  <delete id="deleteByEnterpriseId" parameterType="int">
-    DELETE FROM supervision_en_food_bu
-    WHERE enterprise_id = #{enterpriseId}
-  </delete>
 
 <insert id="batchInsert" parameterType="map">
     insert into supervision_en_food_bu (enterprise_id, number,
@@ -369,5 +358,18 @@
     <foreach close=")" collection="enterpriseIds" index="no" item="enterpriseId" open="(" separator=",">
       #{enterpriseId}
     </foreach>
+  </delete>
+
+
+  <select id="selectByIndexId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    *
+    from supervision_en_food_bu
+    where index_id = #{id}
+  </select>
+
+  <delete id="deleteByIndexId" parameterType="int">
+    DELETE FROM supervision_en_food_bu
+    WHERE index_id = #{iid}
   </delete>
 </mapper>

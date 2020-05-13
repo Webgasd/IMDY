@@ -1,6 +1,8 @@
 package com.example.upc.dao;
 
 import com.example.upc.dataobject.SupervisionEnCosmeticsIndex;
+import com.example.upc.dataobject.SupervisionEnDrugsBuIndex;
+import org.apache.ibatis.annotations.Param;
 
 public interface SupervisionEnCosmeticsIndexMapper {
     /**
@@ -50,4 +52,6 @@ public interface SupervisionEnCosmeticsIndexMapper {
      * @mbg.generated Thu Apr 23 00:04:26 CST 2020
      */
     int updateByPrimaryKey(SupervisionEnCosmeticsIndex record);
+
+    SupervisionEnCosmeticsIndex selectByEnterpriseId(@Param("eid") Integer eid);
 }

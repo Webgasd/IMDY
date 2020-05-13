@@ -1,6 +1,8 @@
 package com.example.upc.dao;
 
+import com.example.upc.dataobject.SupervisionEnFoodBuIndex;
 import com.example.upc.dataobject.SupervisionEnFoodProIndex;
+import org.apache.ibatis.annotations.Param;
 
 public interface SupervisionEnFoodProIndexMapper {
     /**
@@ -50,4 +52,6 @@ public interface SupervisionEnFoodProIndexMapper {
      * @mbg.generated Fri Apr 24 16:29:53 CST 2020
      */
     int updateByPrimaryKey(SupervisionEnFoodProIndex record);
+
+    SupervisionEnFoodProIndex selectByEnterpriseId(@Param("eid") Integer eid);
 }

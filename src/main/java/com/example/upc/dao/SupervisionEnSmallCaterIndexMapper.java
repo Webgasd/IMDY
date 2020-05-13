@@ -1,6 +1,8 @@
 package com.example.upc.dao;
 
 import com.example.upc.dataobject.SupervisionEnSmallCaterIndex;
+import com.example.upc.dataobject.SupervisionEnSmallWorkshopIndex;
+import org.apache.ibatis.annotations.Param;
 
 public interface SupervisionEnSmallCaterIndexMapper {
     /**
@@ -50,4 +52,6 @@ public interface SupervisionEnSmallCaterIndexMapper {
      * @mbg.generated Fri Apr 24 17:31:47 CST 2020
      */
     int updateByPrimaryKey(SupervisionEnSmallCaterIndex record);
+
+    SupervisionEnSmallCaterIndex selectByEnterpriseId(@Param("eid") Integer eid);
 }

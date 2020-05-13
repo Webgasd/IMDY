@@ -55,5 +55,6 @@ public interface SupervisionEnDrugsProMapper {
     int updateByPrimaryKey(SupervisionEnDrugsPro record);
 
     List<SupervisionEnDrugsPro> getListByEnterpriseId(@Param("enterpriseId") int eid);
+    void deleteByIndexId(@Param("iid") int iid);
 
 }

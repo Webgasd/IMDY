@@ -40,31 +40,47 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     @Autowired
     private SupervisionEnterpriseMapper supervisionEnterpriseMapper;
     @Autowired
-    private SupervisionEnCommonMapper supervisionEnCommonMapper;
-    @Autowired
     private SupervisionEnMedicalProMapper supervisionEnMedicalProMapper;
+    @Autowired
+    private SupervisionEnMedicalProIndexMapper supervisionEnMedicalProIndexMapper;
     @Autowired
     private SupervisionEnMedicalBuMapper supervisionEnMedicalBuMapper;
     @Autowired
+    private SupervisionEnMedicalBuIndexMapper supervisionEnMedicalBuIndexMapper;
+    @Autowired
     private SupervisionEnFoodProMapper supervisionEnFoodProMapper;
+    @Autowired
+    private SupervisionEnFoodProIndexMapper supervisionEnFoodProIndexMapper;
     @Autowired
     private SupervisionEnDrugsBuMapper supervisionEnDrugsBuMapper;
     @Autowired
+    private SupervisionEnDrugsBuIndexMapper supervisionEnDrugsBuIndexMapper;
+    @Autowired
     private SupervisionEnDrugsProMapper supervisionEnDrugsProMapper;
+    @Autowired
+    private SupervisionEnDrugsProIndexMapper supervisionEnDrugsProIndexMapper;
     @Autowired
     private SupervisionEnCosmeticsMapper supervisionEnCosmeticsMapper;
     @Autowired
-    private SupervisionEnFoodCirMapper supervisionEnFoodCirMapper;
+    private SupervisionEnCosmeticsIndexMapper supervisionEnCosmeticsIndexMapper;
     @Autowired
     private SupervisionEnFoodBuMapper supervisionEnFoodBuMapper;
+    @Autowired
+    private SupervisionEnFoodBuIndexMapper supervisionEnFoodBuIndexMapper;
     @Autowired
     private SupervisionEnProCategoryMapper supervisionEnProCategoryMapper;
     @Autowired
     private SupervisionEnSmallCaterMapper supervisionEnSmallCaterMapper;
     @Autowired
+    private SupervisionEnSmallCaterIndexMapper supervisionEnSmallCaterIndexMapper;
+    @Autowired
     private SupervisionEnSmallWorkshopMapper supervisionEnSmallWorkshopMapper;
     @Autowired
+    private SupervisionEnSmallWorkshopIndexMapper supervisionEnSmallWorkshopIndexMapper;
+    @Autowired
     private SupervisionEnIndustrialProductsMapper supervisionEnIndustrialProductsMapper;
+    @Autowired
+    private SupervisionEnIndustrialProductsIndexMapper supervisionEnIndustrialProductsIndexMapper;
     @Autowired
     private SysDeptMapper sysDeptMapper;
     @Autowired
@@ -281,6 +297,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         }
         EnterpriseParam enterpriseParam = new EnterpriseParam();
         BeanUtils.copyProperties(supervisionEnterprise,enterpriseParam);
+        enterpriseParam.setPermissionFamily(supervisionEnterprise.getPermissionType());
         GridPoints gridPoints = gridPointsMapper.getPointByEnterpriseId(id);
         if (gridPoints==null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业默认定位信息");
@@ -432,7 +449,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         sysUser1.setOperateIp("124.124.124");
         sysUser1.setOperateTime(new Date());
         sysUserMapper.insertSelective(sysUser1);
-        //insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);//下方有这个方法，是用来做许可证插入
+        insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);//下方有这个方法，是用来做许可证插入
     }
 
     @Override
@@ -478,7 +495,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                 gridPointsGpsMapper.insertSelective(gridPointsGps1);
             }
         }
-        //insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);
+        insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);
         supervisionEnterpriseMapper.updateByPrimaryKeySelectiveEx(supervisionEnterprise);
     }
 
@@ -489,124 +506,419 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         //然后找index表中是否存在了这个企业的索引，并拿到索引的id，然后在许可证表中删除indexid为这个id的所有许可证
         //循环接收到的list，如果有index，将index的id拿到赋值到每一个对象的indexid中，然后插入
         if(enterpriseParam.getPermissionFamily().contains("foodBusiness")){
-            if(enterpriseParam.getFoodBusinessList().size()==0){
+            List<SupervisionEnFoodBu> supervisionEnFoodBuList = enterpriseParam.getFoodBusinessList();
+            //检测许可证内容有无。
+            if(supervisionEnFoodBuList.size()==0){
                 throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入食品经营许可证内容");
-            }//检测许可证内容有无。
-            //先查找index，然后删除所有许可证，
-
-            for (SupervisionEnFoodBu supervisionEnFoodBu : enterpriseParam.getFoodBusinessList()){
+            }
+            //先查找index表，找该企业的许可证索引，
+            SupervisionEnFoodBuIndex supervisionEnFoodBuIndex = supervisionEnFoodBuIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            //若无改企业的许可证索引。则建立。
+            SupervisionEnFoodBuIndex supervisionEnFoodBuIndex1 = new SupervisionEnFoodBuIndex();
+            if (supervisionEnFoodBuIndex == null) {
+                supervisionEnFoodBuIndex1.setEnterpriseId(supervisionEnterprise.getId());
+                supervisionEnFoodBuIndexMapper.insertSelective(supervisionEnFoodBuIndex1);//返回此条目的id
+            }
+            //若存在则删除许可证表中的所有的许可证给信息。
+            else{
+                supervisionEnFoodBuMapper.deleteByIndexId(supervisionEnFoodBuIndex.getId());
+            }
+            SupervisionEnFoodBuIndex supervisionEnFoodBuIndex2 = supervisionEnFoodBuIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnFoodBuIndex supervisionEnFoodBuIndex3 = new SupervisionEnFoodBuIndex();
+            supervisionEnFoodBuIndex3.setId(supervisionEnFoodBuIndex2.getId());
+            supervisionEnFoodBuIndex3.setNumber("");
+            supervisionEnFoodBuList  = ListSortUtil.sort(supervisionEnFoodBuList,"endTime",null);
+            supervisionEnFoodBuIndex3.setEndTime(supervisionEnFoodBuList.get(0).getEndTime());
+            //开始循环传入的list。
+            for (SupervisionEnFoodBu supervisionEnFoodBu : supervisionEnFoodBuList){
                 ValidationResult result = validator.validate(supervisionEnFoodBu);
                 if(result.isHasErrors()){
                     throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
                 }//检测validator校验。
+                supervisionEnFoodBu.setIndexId(supervisionEnFoodBuIndex3.getId());
                 supervisionEnFoodBu.setOperateIp("124.124.124");
                 supervisionEnFoodBu.setOperateTime(new Date());
                 supervisionEnFoodBu.setOperator("zcc");
                 supervisionEnFoodBuMapper.insertSelective(supervisionEnFoodBu);
+                supervisionEnFoodBuIndex3.setNumber(supervisionEnFoodBuIndex3.getNumber() + ","+ supervisionEnFoodBu.getNumber());
             }
-
+            supervisionEnFoodBuIndexMapper.updateByPrimaryKeySelective(supervisionEnFoodBuIndex3);
         }
-//        if(supervisionEnterprise.getPermissionType().contains("foodCommon")){
-//            SupervisionEnCommon supervisionEnCommon = enterpriseParam.getFoodCommon();
-//            if(supervisionEnCommon==null){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入许可内容");
-//            }
-//            ValidationResult result = validator.validate(supervisionEnCommon);
-//            if(result.isHasErrors()){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
-//            }
-//            supervisionEnCommon.setEnterpriseId(supervisionEnterprise.getId());
-//            supervisionEnCommon.setOperateIp("124.124.124");
-//            supervisionEnCommon.setOperateTime(new Date());
-//            supervisionEnCommon.setOperator("zcc");
-//            supervisionEnCommonMapper.insertSelective(supervisionEnCommon);
-//        }
-//        if(supervisionEnterprise.getPermissionType().contains("foodCirculate")){
-//            SupervisionEnFoodCir supervisionEnFoodCir = enterpriseParam.getFoodCirculate();
-//            if(supervisionEnFoodCir==null){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入许可内容");
-//            }
-//            ValidationResult result = validator.validate(supervisionEnFoodCir);
-//            if(result.isHasErrors()){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
-//            }
-//            supervisionEnFoodCir.setEnterpriseId(supervisionEnterprise.getId());
-//            supervisionEnFoodCir.setOperateIp("124.124.124");
-//            supervisionEnFoodCir.setOperateTime(new Date());
-//            supervisionEnFoodCir.setOperator("zcc");
-//            supervisionEnFoodCirMapper.insertSelective(supervisionEnFoodCir);
-//        }
-//        if(supervisionEnterprise.getPermissionType().contains("foodProduce")){
-//            EnFoodProduceParam foodProduceParam = enterpriseParam.getFoodProduce();
-//            if(foodProduceParam==null){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入许可内容");
-//            }
-//            ValidationResult result = validator.validate(foodProduceParam);
-//            if(result.isHasErrors()){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
-//            }
-//            SupervisionEnFoodPro supervisionEnFoodPro = new SupervisionEnFoodPro();
-//            BeanUtils.copyProperties(foodProduceParam,supervisionEnFoodPro);
-//            supervisionEnFoodPro.setEnterpriseId(supervisionEnterprise.getId());
-//            supervisionEnFoodPro.setOperatorIp("124.124.124");
-//            supervisionEnFoodPro.setOperatorTime(new Date());
-//            supervisionEnFoodPro.setOperator("zcc");
-//            supervisionEnFoodProMapper.insertSelective(supervisionEnFoodPro);
-//            List<SupervisionEnProCategory> supervisionEnProCategoryList = foodProduceParam.getList();
-//            if(supervisionEnProCategoryList.size()>0){
-//                supervisionEnProCategoryMapper.batchInsert(supervisionEnProCategoryList.stream().map((list)->{
-//                    list.setOperateIp("124.124.124");
-//                    list.setOperateTime(new Date());
-//                    list.setOperator("zcc");
-//                    list.setParentId(supervisionEnterprise.getId());
-//                    return list;}).collect(Collectors.toList()));
-//            }
-//        }
-//        if(supervisionEnterprise.getPermissionType().contains("drugsBusiness")){
-//            SupervisionEnDrugsBu supervisionEnDrugsBu = enterpriseParam.getDrugsBusiness();
-//            if(supervisionEnDrugsBu==null){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入许可内容");
-//            }
-//            ValidationResult result = validator.validate(supervisionEnDrugsBu);
-//            if(result.isHasErrors()){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
-//            }
-//            supervisionEnDrugsBu.setEnterpriseId(supervisionEnterprise.getId());
-//            supervisionEnDrugsBu.setOperatorIp("124.124.124");
-//            supervisionEnDrugsBu.setOperatorTime(new Date());
-//            supervisionEnDrugsBu.setOperator("zcc");
-//            supervisionEnDrugsBuMapper.insertSelective(supervisionEnDrugsBu);
-//        }
-//        if(supervisionEnterprise.getPermissionType().contains("medicalUse")){
-//            SupervisionEnMedical supervisionEnMedical = enterpriseParam.getMedicalUse();
-//            if(supervisionEnMedical==null){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入许可内容");
-//            }
-//            ValidationResult result = validator.validate(supervisionEnMedical);
-//            if(result.isHasErrors()){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
-//            }
-//            supervisionEnMedical.setEnterpriseId(supervisionEnterprise.getId());
-//            supervisionEnMedical.setOperateIp("124.124.124");
-//            supervisionEnMedical.setOperateTime(new Date());
-//            supervisionEnMedical.setOperator("zcc");
-//            supervisionEnMedicalMapper.insertSelective(supervisionEnMedical);
-//        }
-//        if(supervisionEnterprise.getPermissionType().contains("cosmeticsUse")){
-//            SupervisionEnCosmetics supervisionEnCosmetics = enterpriseParam.getCosmeticsUse();
-//            if(supervisionEnCosmetics==null){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入许可内容");
-//            }
-//            ValidationResult result = validator.validate(supervisionEnCosmetics);
-//            if(result.isHasErrors()){
-//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
-//            }
-//            supervisionEnCosmetics.setEnterpriseId(supervisionEnterprise.getId());
-//            supervisionEnCosmetics.setOperateIp("124.124.124");
-//            supervisionEnCosmetics.setOperateTime(new Date());
-//            supervisionEnCosmetics.setOperator("zcc");
-//            supervisionEnCosmeticsMapper.insertSelective(supervisionEnCosmetics);
-//        }
+
+        if(enterpriseParam.getPermissionFamily().contains("foodProduce")) {
+            List<EnFoodProduceParam> enFoodProduceParamList = enterpriseParam.getFoodProduceList();
+            List<Date> dateList = new ArrayList<>();
+            //            //检测许可证内容有无。
+            if (enFoodProduceParamList.size() == 0) {
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "请输入食品生产许可证内容");
+            }
+//            //先查找index表，找该企业的许可证索引，
+            SupervisionEnFoodProIndex supervisionEnFoodProIndex = supervisionEnFoodProIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+//            //若无改企业的许可证索引。则建立。
+            SupervisionEnFoodProIndex supervisionEnFoodProIndex1 = new SupervisionEnFoodProIndex();
+            if (supervisionEnFoodProIndex == null) {
+                supervisionEnFoodProIndex1.setEnterpriseId(supervisionEnterprise.getId());
+                supervisionEnFoodProIndexMapper.insertSelective(supervisionEnFoodProIndex1);//返回此条目的id
+            }
+//            //若存在则删除许可证表中的所有的许可证给信息。
+            else {
+                supervisionEnFoodProMapper.deleteByIndexId(supervisionEnFoodProIndex.getId());
+            }
+            SupervisionEnFoodProIndex supervisionEnFoodProIndex2 = supervisionEnFoodProIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnFoodProIndex supervisionEnFoodProIndex3 = new SupervisionEnFoodProIndex();
+            supervisionEnFoodProIndex3.setId(supervisionEnFoodProIndex2.getId());
+            supervisionEnFoodProIndex3.setNumber("");
+            for (EnFoodProduceParam enFoodProduceParam : enFoodProduceParamList) {
+            ValidationResult result = validator.validate(enFoodProduceParam);
+            if(result.isHasErrors()){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+            }
+            SupervisionEnFoodPro supervisionEnFoodPro = new SupervisionEnFoodPro();
+            BeanUtils.copyProperties(enFoodProduceParam,supervisionEnFoodPro);
+            supervisionEnFoodProIndex3.setNumber(supervisionEnFoodProIndex3.getNumber() + ","+ supervisionEnFoodPro.getNumber());
+            dateList.add(enFoodProduceParam.getEndTime());
+            supervisionEnFoodPro.setIndexId(supervisionEnFoodProIndex3.getId());
+            supervisionEnFoodPro.setOperatorIp("124.124.124");
+            supervisionEnFoodPro.setOperatorTime(new Date());
+            supervisionEnFoodPro.setOperator("zcc");
+            supervisionEnFoodProMapper.insertSelective(supervisionEnFoodPro);
+            supervisionEnProCategoryMapper.deleteByParentId(supervisionEnFoodPro.getId());
+            List<SupervisionEnProCategory> supervisionEnProCategoryList = enFoodProduceParam.getList();
+            if(supervisionEnProCategoryList.size()>0){
+                supervisionEnProCategoryMapper.batchInsert(supervisionEnProCategoryList.stream().map((list)->{
+                    list.setOperateIp("124.124.124");
+                    list.setOperateTime(new Date());
+                    list.setOperator("zcc");
+                    list.setParentId(supervisionEnFoodPro.getId());
+                    return list;}).collect(Collectors.toList()));
+            }
+            }
+            List<Date> afterDateList =(List<Date>) ListSortUtil.sort(dateList,null);
+            supervisionEnFoodProIndex3.setEndTime(afterDateList.get(0));
+            supervisionEnFoodProIndexMapper.updateByPrimaryKeySelective(supervisionEnFoodProIndex3);
+        }
+
+        if(enterpriseParam.getPermissionFamily().contains("drugsBusiness")){
+            List<SupervisionEnDrugsBu> supervisionEnDrugsBuList = enterpriseParam.getDrugsBusinessList();
+            //检测许可证内容有无。
+            if(enterpriseParam.getDrugsBusinessList().size()==0){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入药品经营许可证内容");
+            }
+            //先查找index表，找该企业的许可证索引，
+            SupervisionEnDrugsBuIndex supervisionEnDrugsBuIndex = supervisionEnDrugsBuIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            //若无改企业的许可证索引。则建立。
+            SupervisionEnDrugsBuIndex supervisionEnDrugsBuIndex1 = new SupervisionEnDrugsBuIndex();
+            if (supervisionEnDrugsBuIndex == null) {
+                supervisionEnDrugsBuIndex1.setEnterpriseId(supervisionEnterprise.getId());
+                supervisionEnDrugsBuIndexMapper.insertSelective(supervisionEnDrugsBuIndex1);//返回此条目的id
+            }
+            //若存在则删除许可证表中的所有的许可证给信息。
+            else{
+                supervisionEnDrugsBuMapper.deleteByIndexId(supervisionEnDrugsBuIndex.getId());
+            }
+            SupervisionEnDrugsBuIndex supervisionEnDrugsBuIndex2 = supervisionEnDrugsBuIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnDrugsBuIndex supervisionEnDrugsBuIndex3 = new SupervisionEnDrugsBuIndex();
+            supervisionEnDrugsBuIndex3.setId(supervisionEnDrugsBuIndex2.getId());
+            supervisionEnDrugsBuIndex3.setNumber("");
+            supervisionEnDrugsBuList  = ListSortUtil.sort(supervisionEnDrugsBuList,"endTime",null);
+            supervisionEnDrugsBuIndex3.setEndTime(supervisionEnDrugsBuList.get(0).getEndTime());
+            //开始循环传入的list。
+            for (SupervisionEnDrugsBu supervisionEnDrugsBu : supervisionEnDrugsBuList){
+                ValidationResult result = validator.validate(supervisionEnDrugsBu);
+                if(result.isHasErrors()){
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+                }//检测validator校验。
+                supervisionEnDrugsBu.setIndexId(supervisionEnDrugsBuIndex3.getId());
+                supervisionEnDrugsBu.setOperatorIp("124.124.124");
+                supervisionEnDrugsBu.setOperatorTime(new Date());
+                supervisionEnDrugsBu.setOperator("zcc");
+                supervisionEnDrugsBuMapper.insertSelective(supervisionEnDrugsBu);
+                supervisionEnDrugsBuIndex3.setNumber(supervisionEnDrugsBuIndex3.getNumber() + ","+ supervisionEnDrugsBu.getNumber());
+            }
+            supervisionEnDrugsBuIndexMapper.updateByPrimaryKeySelective(supervisionEnDrugsBuIndex3);
+        }
+
+        if(enterpriseParam.getPermissionFamily().contains("drugsProduce")){
+            List<SupervisionEnDrugsPro> supervisionEnDrugsProList = enterpriseParam.getDrugsProduceList();
+            //检测许可证内容有无。
+            if(supervisionEnDrugsProList.size()==0){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入药品经营许可证内容");
+            }
+            //先查找index表，找该企业的许可证索引，
+            SupervisionEnDrugsProIndex supervisionEnDrugsProIndex= supervisionEnDrugsProIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            //若无改企业的许可证索引。则建立。
+            SupervisionEnDrugsProIndex supervisionEnDrugsProIndex1 = new SupervisionEnDrugsProIndex();
+            if (supervisionEnDrugsProIndex == null) {
+                supervisionEnDrugsProIndex1.setEnterpriseId(supervisionEnterprise.getId());
+                supervisionEnDrugsProIndexMapper.insertSelective(supervisionEnDrugsProIndex1);//返回此条目的id
+            }
+            //若存在则删除许可证表中的所有的许可证给信息。
+            else{
+                supervisionEnDrugsProMapper.deleteByIndexId(supervisionEnDrugsProIndex.getId());
+            }
+            SupervisionEnDrugsProIndex supervisionEnDrugsProIndex2 = supervisionEnDrugsProIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnDrugsProIndex supervisionEnDrugsProIndex3 = new SupervisionEnDrugsProIndex();
+            supervisionEnDrugsProIndex3.setId(supervisionEnDrugsProIndex2.getId());
+            supervisionEnDrugsProIndex3.setNumber("");
+            supervisionEnDrugsProList  = ListSortUtil.sort(supervisionEnDrugsProList,"endTime",null);
+            supervisionEnDrugsProIndex3.setEndTime(supervisionEnDrugsProList.get(0).getEndTime());
+            //开始循环传入的list。
+            for (SupervisionEnDrugsPro supervisionEnDrugsPro : supervisionEnDrugsProList){
+                ValidationResult result = validator.validate(supervisionEnDrugsPro);
+                if(result.isHasErrors()){
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+                }//检测validator校验。
+                supervisionEnDrugsPro.setIndexId(supervisionEnDrugsProIndex3.getId());
+                supervisionEnDrugsPro.setOperatorIp("124.124.124");
+                supervisionEnDrugsPro.setOperatorTime(new Date());
+                supervisionEnDrugsPro.setOperator("zcc");
+                supervisionEnDrugsProMapper.insertSelective(supervisionEnDrugsPro);
+                supervisionEnDrugsProIndex3.setNumber(supervisionEnDrugsProIndex3.getNumber() + ","+ supervisionEnDrugsPro.getNumber());
+            }
+            supervisionEnDrugsProIndexMapper.updateByPrimaryKeySelective(supervisionEnDrugsProIndex3);
+        }
+
+        if(enterpriseParam.getPermissionFamily().contains("cosmeticsUse")){
+            List<SupervisionEnCosmetics> supervisionEnCosmeticsList = enterpriseParam.getCosmeticsList();
+            //检测许可证内容有无。
+            if(supervisionEnCosmeticsList.size()==0){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入化妆品许可证内容");
+            }
+            //先查找index表，找该企业的许可证索引，
+            SupervisionEnCosmeticsIndex supervisionEnCosmeticsIndex= supervisionEnCosmeticsIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            //若无改企业的许可证索引。则建立。
+            SupervisionEnCosmeticsIndex supervisionEnCosmeticsIndex1 = new SupervisionEnCosmeticsIndex();
+            if (supervisionEnCosmeticsIndex == null) {
+                supervisionEnCosmeticsIndex1.setEnterpriseId(supervisionEnterprise.getId());
+                supervisionEnCosmeticsIndexMapper.insertSelective(supervisionEnCosmeticsIndex1);//返回此条目的id
+            }
+            //若存在则删除许可证表中的所有的许可证给信息。
+            else{
+                supervisionEnCosmeticsMapper.deleteByIndexId(supervisionEnCosmeticsIndex.getId());
+            }
+            SupervisionEnCosmeticsIndex supervisionEnCosmeticsIndex2 = supervisionEnCosmeticsIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnCosmeticsIndex supervisionEnCosmeticsIndex3= new SupervisionEnCosmeticsIndex();
+            supervisionEnCosmeticsIndex3.setId(supervisionEnCosmeticsIndex2.getId());
+            supervisionEnCosmeticsIndex3.setNumber("");
+            supervisionEnCosmeticsList  = ListSortUtil.sort(supervisionEnCosmeticsList,"endTime",null);
+            supervisionEnCosmeticsIndex3.setEndTime(supervisionEnCosmeticsList.get(0).getEndTime());
+            //开始循环传入的list。
+            for (SupervisionEnCosmetics supervisionEnCosmetics : supervisionEnCosmeticsList){
+                ValidationResult result = validator.validate(supervisionEnCosmetics);
+                if(result.isHasErrors()){
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+                }//检测validator校验。
+                supervisionEnCosmetics.setIndexId(supervisionEnCosmeticsIndex3.getId());
+                supervisionEnCosmetics.setOperateIp("124.124.124");
+                supervisionEnCosmetics.setOperateTime(new Date());
+                supervisionEnCosmetics.setOperator("zcc");
+                supervisionEnCosmeticsMapper.insertSelective(supervisionEnCosmetics);
+                supervisionEnCosmeticsIndex3.setNumber(supervisionEnCosmeticsIndex3.getNumber() + ","+ supervisionEnCosmetics.getRegisterCode());
+            }
+            supervisionEnCosmeticsIndexMapper.updateByPrimaryKeySelective(supervisionEnCosmeticsIndex3);
+        }
+
+        if(enterpriseParam.getPermissionFamily().contains("medicalProduce")){
+            List<SupervisionEnMedicalPro> supervisionEnMedicalProList = enterpriseParam.getMedicalProduceList();
+            //检测许可证内容有无。
+            if(supervisionEnMedicalProList.size()==0){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入药品生产许可证内容");
+            }
+            //先查找index表，找该企业的许可证索引，
+            SupervisionEnMedicalProIndex supervisionEnMedicalProIndex= supervisionEnMedicalProIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            //若无改企业的许可证索引。则建立。
+            SupervisionEnMedicalProIndex supervisionEnMedicalProIndex1 = new SupervisionEnMedicalProIndex();
+            if (supervisionEnMedicalProIndex == null) {
+                supervisionEnMedicalProIndex1.setEnterpriseId(supervisionEnterprise.getId());
+                supervisionEnMedicalProIndexMapper.insertSelective(supervisionEnMedicalProIndex1);//返回此条目的id
+            }
+            //若存在则删除许可证表中的所有的许可证给信息。
+            else{
+                supervisionEnMedicalProMapper.deleteByIndexId(supervisionEnMedicalProIndex.getId());
+            }
+            SupervisionEnMedicalProIndex supervisionEnMedicalProIndex2 = supervisionEnMedicalProIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnMedicalProIndex supervisionEnMedicalProIndex3 = new SupervisionEnMedicalProIndex();
+            supervisionEnMedicalProIndex3.setId(supervisionEnMedicalProIndex2.getId());
+            supervisionEnMedicalProIndex3.setNumber("");
+            supervisionEnMedicalProList  = ListSortUtil.sort(supervisionEnMedicalProList,"endTime",null);
+            supervisionEnMedicalProIndex3.setEndTime(supervisionEnMedicalProList.get(0).getEndTime());
+            //开始循环传入的list。
+            for (SupervisionEnMedicalPro supervisionEnMedicalPro : supervisionEnMedicalProList){
+                ValidationResult result = validator.validate(supervisionEnMedicalPro);
+                if(result.isHasErrors()){
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+                }//检测validator校验。
+                supervisionEnMedicalPro.setIndexId(supervisionEnMedicalProIndex3.getId());
+                supervisionEnMedicalPro.setOperateIp("124.124.124");
+                supervisionEnMedicalPro.setOperateTime(new Date());
+                supervisionEnMedicalPro.setOperator("zcc");
+                supervisionEnMedicalProMapper.insertSelective(supervisionEnMedicalPro);
+                supervisionEnMedicalProIndex3.setNumber(supervisionEnMedicalProIndex3.getNumber() + ","+ supervisionEnMedicalPro.getRegisterNumber());
+            }
+            supervisionEnMedicalProIndexMapper.updateByPrimaryKeySelective(supervisionEnMedicalProIndex3);
+        }
+
+        if(enterpriseParam.getPermissionFamily().contains("medicalBusiness")){
+            List<SupervisionEnMedicalBu> supervisionEnMedicalBuList = enterpriseParam.getMedicalBusinessList();
+            //检测许可证内容有无。
+            if(supervisionEnMedicalBuList.size()==0){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入药品经营许可证内容");
+            }
+            //先查找index表，找该企业的许可证索引，
+            SupervisionEnMedicalBuIndex supervisionEnMedicalBuIndex= supervisionEnMedicalBuIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            //若无改企业的许可证索引。则建立。
+            SupervisionEnMedicalBuIndex supervisionEnMedicalBuIndex1 = new SupervisionEnMedicalBuIndex();
+            if (supervisionEnMedicalBuIndex == null) {
+                supervisionEnMedicalBuIndex1.setEnterpriseId(supervisionEnterprise.getId());
+                supervisionEnMedicalBuIndexMapper.insertSelective(supervisionEnMedicalBuIndex1);//返回此条目的id
+            }
+            //若存在则删除许可证表中的所有的许可证给信息。
+            else{
+                supervisionEnMedicalBuMapper.deleteByIndexId(supervisionEnMedicalBuIndex.getId());
+            }
+            SupervisionEnMedicalBuIndex supervisionEnMedicalBuIndex2 = supervisionEnMedicalBuIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnMedicalBuIndex supervisionEnMedicalBuIndex3 = new SupervisionEnMedicalBuIndex();
+            supervisionEnMedicalBuIndex3.setId(supervisionEnMedicalBuIndex2.getId());
+            supervisionEnMedicalBuIndex3.setNumber("");
+            supervisionEnMedicalBuList  = ListSortUtil.sort(supervisionEnMedicalBuList,"endTime",null);
+            supervisionEnMedicalBuIndex3.setEndTime(supervisionEnMedicalBuList.get(0).getEndTime());
+            //开始循环传入的list。
+            for (SupervisionEnMedicalBu supervisionEnMedicalBu : supervisionEnMedicalBuList){
+                ValidationResult result = validator.validate(supervisionEnMedicalBu);
+                if(result.isHasErrors()){
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+                }//检测validator校验。
+                supervisionEnMedicalBu.setIndexId(supervisionEnMedicalBuIndex3.getId());
+                supervisionEnMedicalBu.setOperateIp("124.124.124");
+                supervisionEnMedicalBu.setOperateTime(new Date());
+                supervisionEnMedicalBu.setOperator("zcc");
+                supervisionEnMedicalBuMapper.insertSelective(supervisionEnMedicalBu);
+                supervisionEnMedicalBuIndex3.setNumber(supervisionEnMedicalBuIndex3.getNumber() + ","+ supervisionEnMedicalBu.getRegisterNumber());
+            }
+            supervisionEnMedicalBuIndexMapper.updateByPrimaryKeySelective(supervisionEnMedicalBuIndex3);
+        }
+
+        if(enterpriseParam.getPermissionFamily().contains("smallCater")){
+            List<SupervisionEnSmallCater> supervisionEnSmallCaterList = enterpriseParam.getSmallCaterList();
+            //检测许可证内容有无。
+            if(supervisionEnSmallCaterList.size()==0){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入小餐饮许可证内容");
+            }
+            //先查找index表，找该企业的许可证索引，
+            SupervisionEnSmallCaterIndex supervisionEnSmallCaterIndex= supervisionEnSmallCaterIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            //若无改企业的许可证索引。则建立。
+            SupervisionEnSmallCaterIndex supervisionEnSmallCaterIndex1 = new SupervisionEnSmallCaterIndex();
+            if (supervisionEnSmallCaterIndex == null) {
+                supervisionEnSmallCaterIndex1.setEnterpriseId(supervisionEnterprise.getId());
+                supervisionEnSmallCaterIndexMapper.insertSelective(supervisionEnSmallCaterIndex1);//返回此条目的id
+            }
+            //若存在则删除许可证表中的所有的许可证给信息。
+            else{
+                supervisionEnSmallCaterMapper.deleteByIndexId(supervisionEnSmallCaterIndex.getId());
+            }
+            SupervisionEnSmallCaterIndex supervisionEnSmallCaterIndex2 = supervisionEnSmallCaterIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnSmallCaterIndex supervisionEnSmallCaterIndex3 = new SupervisionEnSmallCaterIndex();
+            supervisionEnSmallCaterIndex3.setId(supervisionEnSmallCaterIndex2.getId());
+            supervisionEnSmallCaterIndex3.setNumber("");
+            supervisionEnSmallCaterList  = ListSortUtil.sort(supervisionEnSmallCaterList,"endTime",null);
+            supervisionEnSmallCaterIndex3.setEndTime(supervisionEnSmallCaterList.get(0).getEndTime());
+            //开始循环传入的list。
+            for (SupervisionEnSmallCater supervisionEnSmallCater : supervisionEnSmallCaterList){
+                ValidationResult result = validator.validate(supervisionEnSmallCater);
+                if(result.isHasErrors()){
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+                }//检测validator校验。
+                supervisionEnSmallCater.setIndexId(supervisionEnSmallCaterIndex3.getId());
+                supervisionEnSmallCater.setOperateIp("124.124.124");
+                supervisionEnSmallCater.setOperateTime(new Date());
+                supervisionEnSmallCater.setOperator("zcc");
+                supervisionEnSmallCaterMapper.insertSelective(supervisionEnSmallCater);
+                supervisionEnSmallCaterIndex3.setNumber(supervisionEnSmallCaterIndex3.getNumber() + ","+ supervisionEnSmallCater.getRegisterNumber());
+            }
+            supervisionEnSmallCaterIndexMapper.updateByPrimaryKeySelective(supervisionEnSmallCaterIndex3);
+        }
+
+        if(enterpriseParam.getPermissionFamily().contains("smallWorkshop")){
+            List<SupervisionEnSmallWorkshop> supervisionEnSmallWorkshopList = enterpriseParam.getSmallWorkshopList();
+            //检测许可证内容有无。
+            if(supervisionEnSmallWorkshopList.size()==0){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入小作坊许可证内容");
+            }
+            //先查找index表，找该企业的许可证索引，
+            SupervisionEnSmallWorkshopIndex supervisionEnSmallWorkshopIndex= supervisionEnSmallWorkshopIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            //若无改企业的许可证索引。则建立。
+            SupervisionEnSmallWorkshopIndex supervisionEnSmallWorkshopIndex1 = new SupervisionEnSmallWorkshopIndex();
+            if (supervisionEnSmallWorkshopIndex == null) {
+                supervisionEnSmallWorkshopIndex1.setEnterpriseId(supervisionEnterprise.getId());
+                supervisionEnSmallWorkshopIndexMapper.insertSelective(supervisionEnSmallWorkshopIndex1);//返回此条目的id
+            }
+            //若存在则删除许可证表中的所有的许可证给信息。
+            else{
+                supervisionEnSmallWorkshopMapper.deleteByIndexId(supervisionEnSmallWorkshopIndex.getId());
+            }
+            SupervisionEnSmallWorkshopIndex supervisionEnSmallWorkshopIndex2 = supervisionEnSmallWorkshopIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnSmallWorkshopIndex supervisionEnSmallWorkshopIndex3 = new SupervisionEnSmallWorkshopIndex();
+            supervisionEnSmallWorkshopIndex3.setId(supervisionEnSmallWorkshopIndex2.getId());
+            supervisionEnSmallWorkshopIndex3.setNumber("");
+            supervisionEnSmallWorkshopList  = ListSortUtil.sort(supervisionEnSmallWorkshopList,"endTime",null);
+            supervisionEnSmallWorkshopIndex3.setEndTime(supervisionEnSmallWorkshopList.get(0).getEndTime());
+            //开始循环传入的list。
+            for (SupervisionEnSmallWorkshop supervisionEnSmallWorkshop : supervisionEnSmallWorkshopList){
+                ValidationResult result = validator.validate(supervisionEnSmallWorkshop);
+                if(result.isHasErrors()){
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+                }//检测validator校验。
+                supervisionEnSmallWorkshop.setIndexId(supervisionEnSmallWorkshopIndex3.getId());
+                supervisionEnSmallWorkshop.setOperateIp("124.124.124");
+                supervisionEnSmallWorkshop.setOperateTime(new Date());
+                supervisionEnSmallWorkshop.setOperator("zcc");
+                supervisionEnSmallWorkshopMapper.insertSelective(supervisionEnSmallWorkshop);
+                supervisionEnSmallWorkshopIndex3.setNumber(supervisionEnSmallWorkshopIndex3.getNumber() + ","+ supervisionEnSmallWorkshop.getRegisterNumber());
+            }
+            supervisionEnSmallWorkshopIndexMapper.updateByPrimaryKeySelective(supervisionEnSmallWorkshopIndex3);
+        }
+
+        if(enterpriseParam.getPermissionFamily().contains("industrialProducts")){
+            List<SupervisionEnIndustrialProducts> supervisionEnIndustrialProductsList = enterpriseParam.getIndustrialProductsList();
+            //检测许可证内容有无。
+            if(supervisionEnIndustrialProductsList.size()==0){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"请输入工业产品许可证内容");
+            }
+            //先查找index表，找该企业的许可证索引，
+            SupervisionEnIndustrialProductsIndex supervisionEnIndustrialProductsIndex= supervisionEnIndustrialProductsIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            //若无改企业的许可证索引。则建立。
+            SupervisionEnIndustrialProductsIndex supervisionEnIndustrialProductsIndex1 = new SupervisionEnIndustrialProductsIndex();
+            if (supervisionEnIndustrialProductsIndex == null) {
+                supervisionEnIndustrialProductsIndex1.setEnterpriseId(supervisionEnterprise.getId());
+                supervisionEnIndustrialProductsIndexMapper.insertSelective(supervisionEnIndustrialProductsIndex1);//返回此条目的id
+            }
+            //若存在则删除许可证表中的所有的许可证给信息。
+            else{
+                supervisionEnIndustrialProductsMapper.deleteByIndexId(supervisionEnIndustrialProductsIndex.getId());
+            }
+            SupervisionEnIndustrialProductsIndex supervisionEnIndustrialProductsIndex2 = supervisionEnIndustrialProductsIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnIndustrialProductsIndex supervisionEnIndustrialProductsIndex3 = new SupervisionEnIndustrialProductsIndex();
+            supervisionEnIndustrialProductsIndex3.setId(supervisionEnIndustrialProductsIndex2.getId());
+            supervisionEnIndustrialProductsIndex3.setNumber("");
+            supervisionEnIndustrialProductsList  = ListSortUtil.sort(supervisionEnIndustrialProductsList,"endTime",null);
+            supervisionEnIndustrialProductsIndex3.setEndTime(supervisionEnIndustrialProductsList.get(0).getEndTime());
+            //开始循环传入的list。
+            for (SupervisionEnIndustrialProducts supervisionEnIndustrialProducts : supervisionEnIndustrialProductsList){
+                ValidationResult result = validator.validate(supervisionEnIndustrialProducts);
+                if(result.isHasErrors()){
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+                }//检测validator校验。
+                supervisionEnIndustrialProducts.setIndexId(supervisionEnIndustrialProductsIndex3.getId());
+                supervisionEnIndustrialProducts.setOperateIp("124.124.124");
+                supervisionEnIndustrialProducts.setOperateTime(new Date());
+                supervisionEnIndustrialProducts.setOperator("zcc");
+                supervisionEnIndustrialProductsMapper.insertSelective(supervisionEnIndustrialProducts);
+                supervisionEnIndustrialProductsIndex3.setNumber(supervisionEnIndustrialProductsIndex3.getNumber() + ","+ supervisionEnIndustrialProducts.getRegisterNumber());
+            }
+            supervisionEnIndustrialProductsIndexMapper.updateByPrimaryKeySelective(supervisionEnIndustrialProductsIndex3);
+        }
+
+
     }
 
     @Override

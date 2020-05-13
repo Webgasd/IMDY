@@ -6,7 +6,9 @@ public class ListSubUtil {
     public static <T> List<T> sub(List<T> list, Integer indexNum){
         Integer total = list.size();
         Integer start = (indexNum -1) * 10;
-        Integer end = (indexNum * 10) - 1;
+        Integer end = indexNum * 10;
+        System.out.println(start);
+        System.out.println(end);
         try {
             if (end < total){
                 list = list.subList(start,end);
