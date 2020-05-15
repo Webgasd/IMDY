@@ -131,7 +131,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     }
 
     @Override
-    public Map<String,Integer> getCount(EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry){
+    public Map<String,Integer> getCountPhone(EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry){
         if (sysUser.getUserType()==0){
             if(areaId==null){
                 enterpriseSearchParam.setAreaList(sysAreaService.getAll().stream().map((sysArea -> sysArea.getId())).collect(Collectors.toList()));
@@ -171,6 +171,93 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         enterpriseSearchParam.setOperationMode("其他");
         map.put("其他",supervisionEnterpriseMapper.countListPhone(enterpriseSearchParam));
         return map;
+    }
+
+    @Override
+    public EnterpriseCountParam getCount(EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry){
+        if (sysUser.getUserType()==0){
+            if(areaId==null){
+                enterpriseSearchParam.setAreaList(sysAreaService.getAll().stream().map((sysArea -> sysArea.getId())).collect(Collectors.toList()));
+            }else {
+                enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListSearch(areaId));
+            }
+            if(searchIndustry){
+                enterpriseSearchParam.setIndustryList(sysIndustryService.getAll().stream().map((sysIndustry -> sysIndustry.getRemark())).collect(Collectors.toList()));
+            }
+        }else if(sysUser.getUserType()==2){
+            SupervisionGa supervisionGa = supervisionGaService.getById(sysUser.getInfoId());
+            if(areaId==null){
+                enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListByDeptId(supervisionGa.getDepartment()));
+            }else {
+                enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListSearch(areaId));
+            }
+            if(searchIndustry){
+                enterpriseSearchParam.setIndustryList(sysDeptIndustryService.getListByDeptId(supervisionGa.getDepartment()).stream().map((sysIndustry -> sysIndustry.getRemark())).collect(Collectors.toList()));
+            }
+            SysDept sysDept = sysDeptService.getById(supervisionGa.getDepartment());
+            if(sysDept.getType()==2){
+                if(supervisionGa.getType()!=2){
+                    enterpriseSearchParam.setSupervisor(supervisionGa.getName());
+                }
+            }
+        }else{
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"非法用户");
+        }
+        EnterpriseCountParam enterpriseCountParam = new EnterpriseCountParam();
+            enterpriseSearchParam.setOperationMode("公司");
+            enterpriseCountParam.setEnterprise(supervisionEnterpriseMapper.countListPC(enterpriseSearchParam));
+            enterpriseSearchParam.setOperationMode("个体");
+            enterpriseCountParam.setIndividual(supervisionEnterpriseMapper.countListPC(enterpriseSearchParam));
+            enterpriseSearchParam.setOperationMode("合作社");
+            enterpriseCountParam.setCooperation(supervisionEnterpriseMapper.countListPC(enterpriseSearchParam));
+            enterpriseSearchParam.setOperationMode("其他");
+            enterpriseCountParam.setOthers(supervisionEnterpriseMapper.countListPC(enterpriseSearchParam));
+
+        if (enterpriseSearchParam.getIndexNum()==1) {
+            List<String> industryList1 = new ArrayList<>();
+            industryList1.clear();
+            industryList1.add("foodBusiness");
+            enterpriseSearchParam.setIndustryList(industryList1);
+            enterpriseCountParam.setFoodBu(supervisionEnterpriseMapper.countListPCHave(enterpriseSearchParam));
+            industryList1.clear();
+            industryList1.add("smallCater");
+            enterpriseSearchParam.setIndustryList(industryList1);
+            enterpriseCountParam.setSmallCater(supervisionEnterpriseMapper.countListPCHave(enterpriseSearchParam));
+            industryList1.clear();
+            industryList1.add("smallWorkshop");
+            enterpriseSearchParam.setIndustryList(industryList1);
+            enterpriseCountParam.setSmallWorkshop(supervisionEnterpriseMapper.countListPCHave(enterpriseSearchParam));
+            industryList1.clear();
+            industryList1.add("foodProduce");
+            enterpriseSearchParam.setIndustryList(industryList1);
+            enterpriseCountParam.setFoodPro(supervisionEnterpriseMapper.countListPCHave(enterpriseSearchParam));
+            industryList1.clear();
+            industryList1.add("drugsBusiness");
+            enterpriseSearchParam.setIndustryList(industryList1);
+            enterpriseCountParam.setDrugsBu(supervisionEnterpriseMapper.countListPCHave(enterpriseSearchParam));
+            industryList1.clear();
+            industryList1.add("drugsProduce");
+            enterpriseSearchParam.setIndustryList(industryList1);
+            enterpriseCountParam.setDrugsPro(supervisionEnterpriseMapper.countListPCHave(enterpriseSearchParam));
+            industryList1.clear();
+            industryList1.add("cosmeticsUse");
+            enterpriseSearchParam.setIndustryList(industryList1);
+            enterpriseCountParam.setCosmeticsUse(supervisionEnterpriseMapper.countListPCHave(enterpriseSearchParam));
+            industryList1.clear();
+            industryList1.add("medicalProduce");
+            enterpriseSearchParam.setIndustryList(industryList1);
+            enterpriseCountParam.setMedicalPro(supervisionEnterpriseMapper.countListPCHave(enterpriseSearchParam));
+            industryList1.clear();
+            industryList1.add("medicalBusiness");
+            enterpriseSearchParam.setIndustryList(industryList1);
+            enterpriseCountParam.setMedicalBu(supervisionEnterpriseMapper.countListPCHave(enterpriseSearchParam));
+            industryList1.clear();
+            industryList1.add("industrialProducts");
+            enterpriseSearchParam.setIndustryList(industryList1);
+            enterpriseCountParam.setIndustrialProducts(supervisionEnterpriseMapper.countListPCHave(enterpriseSearchParam));
+            enterpriseCountParam.setNone(supervisionEnterpriseMapper.countListPCNone(enterpriseSearchParam));
+        }
+        return enterpriseCountParam;
     }
 
 

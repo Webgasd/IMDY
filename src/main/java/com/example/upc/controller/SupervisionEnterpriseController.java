@@ -233,6 +233,25 @@ public class SupervisionEnterpriseController {
         if(sysUser.getUserType()==1){
             return CommonReturnType.create("企业用户无统计数据");
         }else{
+            return CommonReturnType.create(supervisionEnterpriseService.getCountPhone(enterpriseSearchParam,sysUser,areaId,searchIndustry));
+        }
+    }
+
+    @RequestMapping("/getCountPC")
+    @ResponseBody
+    public CommonReturnType getCountPC(@RequestBody String json, SysUser sysUser){
+        JSONObject jsonObject = JSON.parseObject(json);
+        EnterpriseSearchParam enterpriseSearchParam= JSON.parseObject(json,EnterpriseSearchParam.class);
+        Integer areaId = null;
+        if(!StringUtils.isEmpty(jsonObject.getJSONArray("areaList").get(0)))
+        {
+            areaId = (Integer)jsonObject.getJSONArray("areaList").get(0);
+        }
+        boolean searchIndustry = StringUtils.isEmpty(jsonObject.getJSONArray("industryList").get(0));
+
+        if(sysUser.getUserType()==1){
+            return CommonReturnType.create("企业用户无统计数据");
+        }else{
             return CommonReturnType.create(supervisionEnterpriseService.getCount(enterpriseSearchParam,sysUser,areaId,searchIndustry));
         }
     }

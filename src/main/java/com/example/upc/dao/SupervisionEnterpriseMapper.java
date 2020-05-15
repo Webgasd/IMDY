@@ -84,4 +84,7 @@ public interface SupervisionEnterpriseMapper {
     int countListPhone( @Param("search") EnterpriseSearchParam search);
     List<SmilePoints> getListPhone(@Param("search") EnterpriseSearchParam search);
 
+    int countListPC( @Param("search") EnterpriseSearchParam search);
+    int countListPCHave( @Param("search") EnterpriseSearchParam search);
+    int countListPCNone( @Param("search") EnterpriseSearchParam search);
 }
