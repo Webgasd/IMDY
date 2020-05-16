@@ -271,6 +271,8 @@
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =0
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+
+    <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
     <!--基础小表是根据地区权限和supervisor筛查出来的 -->
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
@@ -414,6 +416,8 @@
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =0 and permission_type = ''
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+
+    <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
     <!--基础小表是根据地区权限和supervisor筛查出来的 -->
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
@@ -541,6 +545,8 @@
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =1
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+    <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
+
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
     <!--基础小表是根据地区权限和supervisor筛查出来的 -->
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
@@ -684,6 +690,8 @@
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =1 and permission_type = ''
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+    <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
+
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
     <!--基础小表是根据地区权限和supervisor筛查出来的 -->
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
