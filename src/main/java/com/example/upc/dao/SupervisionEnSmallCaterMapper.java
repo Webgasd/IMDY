@@ -55,5 +55,7 @@ public interface SupervisionEnSmallCaterMapper {
     int updateByPrimaryKey(SupervisionEnSmallCater record);
 
     List<SupervisionEnSmallCater> getListByEnterpriseId(@Param("enterpriseId") int eid);
+
+    List<SupervisionEnSmallCater> getAll();
     void deleteByIndexId(@Param("iid") int iid);
 }

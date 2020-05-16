@@ -56,5 +56,7 @@ public interface SupervisionEnMedicalProMapper {
     int updateByPrimaryKey(SupervisionEnMedicalPro record);
 
     List<SupervisionEnMedicalPro> getListByEnterpriseId(@Param("enterpriseId") int eid);
+
+    List<SupervisionEnMedicalPro> getAll();
     void deleteByIndexId(@Param("iid") int iid);
 }

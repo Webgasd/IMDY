@@ -59,5 +59,6 @@ public interface SupervisionEnCosmeticsMapper {
     void deleteByEnterpriseId(@Param("enterpriseId") int enterpriseId);
     void batchInsert(@Param("cosmeticsList") List<SupervisionEnCosmetics> cosmeticsList);
     void deleteByEnterpriseIds(@Param("enterpriseIds")List<Integer> enterpriseIds);
+    List<SupervisionEnCosmetics> getAll();
     void deleteByIndexId(@Param("iid") int iid);
 }

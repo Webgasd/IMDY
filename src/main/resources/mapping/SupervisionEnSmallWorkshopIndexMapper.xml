@@ -131,4 +131,9 @@
     from supervision_en_small_workshop_index
     where enterprise_id = #{eid,jdbcType=INTEGER}
   </select>
+
+  <select id="getAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from supervision_en_small_workshop_index
+  </select>
 </mapper>

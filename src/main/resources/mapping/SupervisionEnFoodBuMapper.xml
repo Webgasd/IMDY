@@ -372,4 +372,9 @@
     DELETE FROM supervision_en_food_bu
     WHERE index_id = #{iid}
   </delete>
+
+  <select id="getAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from supervision_en_food_bu
+  </select>
 </mapper>

@@ -108,7 +108,6 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     @Autowired
     private GridPointsMapper gridPointsMapper;
 
-
     @Override
     public List<SmilePoints> getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam){
         CaculateDisUtil caculateDisUtil = new CaculateDisUtil();
@@ -259,6 +258,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         }
         return enterpriseCountParam;
     }
+
 
 
     @Override
@@ -1093,11 +1093,13 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     @Override
     @Transactional
     public JSONObject importExcel(MultipartFile file, Integer type) {
-        List<SysDept> sysDeptList = sysDeptMapper.getAllDept();//将数据库中的部门和id拿出来组成map
-        Map<String,Integer> deptMap = new HashMap<>();
+
         JSONObject changedNumbers = new JSONObject();
         int updateNumber=0;
         int insertNumber=0;
+
+        List<SysDept> sysDeptList = sysDeptMapper.getAllDept();//将数据库中的部门和id拿出来组成map
+        Map<String,Integer> deptMap = new HashMap<>();
         for (SysDept sysDept : sysDeptList){
             deptMap.put(sysDept.getName(),sysDept.getId());
         }
@@ -1130,8 +1132,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                 XSSFSheet sheet0 = workbook.getSheetAt(0);
                 Map<String, String> errorMap = new HashMap<>();
                 List<String> errorList = new ArrayList<String>();
-                //开始对企业的信用代码和id对应，存在了就删除许可证
                 List<SysUser> sysUserList = new ArrayList<>();
+
+                //开始对企业的信用代码和id对应，存在了就删除许可证
                 int rowNumber=sheet0.getPhysicalNumberOfRows();
                 for (int j = 0; j <rowNumber; j++) {
                     if (j == 0) {
@@ -1140,94 +1143,122 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     XSSFRow titleRow = sheet0.getRow(0);
                     XSSFRow row = sheet0.getRow(j);
                     XSSFRow nextRow = sheet0.getRow(j+1);
-                    if(row.getCell(0).getCellType()==CellType.BLANK)
+                    if((row.getCell(0).getCellType()==CellType.BLANK)&&(row.getCell(1).getCellType()==CellType.BLANK))
                     {
                         break;
                     }
                     int a = j + 1;
+                    if(row.getCell(0).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(0).toString()+"为空");
+                    }
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+                    if(row.getCell(3).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(3).toString()+"为空");
+                    }
+                    if(row.getCell(4).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(4).toString()+"为空");
+                    }
+                    if(row.getCell(5).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(5).toString()+"为空");
+                    }
+                    if(row.getCell(14).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(14).toString()+"为空");
+                    }
+                    if(row.getCell(15).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(15).toString()+"为空");
+                    }
                     if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
                     }
                     if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
                     }
                     if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
                     }
                     if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
                     }
                     if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
                     }
                     if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
                     }
                     if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
                     }
                     if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
                     }
                     if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(8).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(8).toString()+"不是文本类型");
                     }
                     if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(9).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(9).toString()+"不是文本类型");
                     }
                     if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(10).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(10).toString()+"不是文本类型");
                     }
                     if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(11).toString()+"不是日期类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(11).toString()+"不是日期类型");
                     }
                     if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
                     }
                     if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
                     }
-                    if ((row.getCell(14) != null)&& row.getCell(14).getCellType() != CellType.BLANK && row.getCell(14).getCellType() != CellType.NUMERIC) {
+                    if ((row.getCell(14) != null)&& row.getCell(14).getCellType() != CellType.BLANK && row.getCell(14).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(14).toString(),"不是数字类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(14).toString()+"不是数字类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(14).toString()+"不是文本类型");
                     }
-                    if ((row.getCell(15) != null) && row.getCell(15).getCellType() != CellType.BLANK && row.getCell(15).getCellType() != CellType.NUMERIC) {
+                    if ((row.getCell(15) != null) && row.getCell(15).getCellType() != CellType.BLANK && row.getCell(15).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(15).toString(),"不是数字类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(15).toString()+"不是数字类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(15).toString()+"不是文本类型");
                     }
                     if ((row.getCell(16) != null) && row.getCell(16).getCellType() != CellType.BLANK && row.getCell(16).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(16).toString(),"不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(16).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(16).toString()+"不是文本类型");
                     }
-                    if ((row.getCell(17) != null)&& row.getCell(17).getCellType() != CellType.BLANK  && row.getCell(17).getCellType() != CellType.NUMERIC) {
+                    if ((row.getCell(17) != null)&& row.getCell(17).getCellType() != CellType.BLANK  && row.getCell(17).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(17).toString(),"不是数字类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(17).toString()+"不是数字类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(17).toString()+"不是文本类型");
                     }
                     if ((row.getCell(18) != null) && row.getCell(18).getCellType() != CellType.BLANK && row.getCell(18).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(18).toString(), "不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(18).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(18).toString()+"不是文本类型");
                     }
                     if ((row.getCell(19) != null) && row.getCell(19).getCellType() != CellType.BLANK && row.getCell(19).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(19).toString(),"不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(19).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(19).toString()+"不是文本类型");
                     }
                     if ((row.getCell(20) != null) && row.getCell(20).getCellType() != CellType.BLANK && row.getCell(20).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(20).toString(),"不是文本类型");
-                        errorList.add("第" + a + "行"+titleRow.getCell(20).toString()+"不是文本类型");
+                        errorList.add("企业基本信息表主表 第" + a + "行"+titleRow.getCell(20).toString()+"不是文本类型");
                     }
                 }
                 if (!errorList.isEmpty()) {
@@ -1254,10 +1285,10 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     supervisionEnterprise.setGivenDate(ExcalUtils.handleDateXSSF(row.getCell(11)));
                     supervisionEnterprise.setGivenGov(ExcalUtils.handleStringXSSF(row.getCell(12)));
                     supervisionEnterprise.setBusinessScale(ExcalUtils.handleStringXSSF(row.getCell(13)));
-                    supervisionEnterprise.setArea(ExcalUtils.handleIntegerXSSF(row.getCell(14)));
-                    supervisionEnterprise.setRegulators(ExcalUtils.handleIntegerXSSF(row.getCell(15)));
+                    supervisionEnterprise.setArea(areaMap.get(ExcalUtils.handleStringXSSF(row.getCell(14))));
+                    supervisionEnterprise.setRegulators(deptMap.get(ExcalUtils.handleStringXSSF(row.getCell(15))));
                     supervisionEnterprise.setSupervisor(ExcalUtils.handleStringXSSF(row.getCell(16)));
-                    supervisionEnterprise.setGrid(ExcalUtils.handleIntegerXSSF(row.getCell(17)));
+                    supervisionEnterprise.setGrid(areaMap.get(ExcalUtils.handleStringXSSF(row.getCell(17))));
                     supervisionEnterprise.setGridPerson(ExcalUtils.handleStringXSSF(row.getCell(18)));
                     supervisionEnterprise.setTransformationType(ExcalUtils.handleStringXSSF(row.getCell(19)));
                     supervisionEnterprise.setIntegrityLevel(ExcalUtils.handleStringXSSF(row.getCell(20)));
@@ -1271,19 +1302,6 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                             updateNumber++;
                         } else {//新企业就注册
-                            SysUser sysUser = new SysUser();
-                            String encryptedPassword = MD5Util.md5("123456+");
-                            sysUser.setUsername(supervisionEnterprise.getEnterpriseName());
-                            sysUser.setLoginName(supervisionEnterprise.getIdNumber());
-                            sysUser.setPassword(encryptedPassword);
-                            sysUser.setUserType(1);
-                            sysUser.setInfoName(supervisionEnterprise.getEnterpriseName());
-                            sysUser.setInfoId(supervisionEnterprise.getId());
-                            sysUser.setStatus(0);
-                            sysUser.setOperator("操作人");
-                            sysUser.setOperateIp("124.124.124");
-                            sysUser.setOperateTime(new Date());
-                            sysUserList.add(sysUser);
                             supervisionEnterpriseMapper.insertSelective(supervisionEnterprise);
                             insertNumber++;
                         }
@@ -1291,64 +1309,1620 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                 }
                 changedNumbers.put("updateNumbers",updateNumber);
                 changedNumbers.put("insertNumbers",insertNumber);
-//                //食品经营许可证
-//                allEnterpriseList = supervisionEnterpriseMapper.getAll();//将数据库中的企业和id拿出来组成map
-//                enterpriseIdMap = new HashMap<>();
-//                for (EnterpriseListResult enterpriseListResult : allEnterpriseList){
-//                    enterpriseIdMap.put(enterpriseListResult.getIdNumber(),enterpriseListResult.getId());
-//                }
-//
-//                List<SupervisionEnFoodBuIndex> allSupervisionEnFoodBuIndexList = supervisionEnFoodBuIndexMapper.getAll();
-//                Map <String,Integer> numberMap =new HashMap<>();
-//                for (SupervisionEnFoodBuIndex supervisionEnFoodBuIndex:allSupervisionEnFoodBuIndexList){
-//                    numberMap.put(supervisionEnFoodBuIndex.getNumber(),supervisionEnFoodBuIndex.getId());
-//                }
-//
-//                XSSFSheet sheet1 = workbook.getSheetAt(1);
-//                for (int j = 0; j < sheet1.getPhysicalNumberOfRows(); j++) {
-//                    if (j == 0) {
-//                        continue;//标题行
-//                    }
-//
-//                    SupervisionEnFoodBu supervisionEnFoodBu = new SupervisionEnFoodBu();
-//                    SupervisionEnFoodBuIndex supervisionEnFoodBuIndex = new SupervisionEnFoodBuIndex();
-//                    XSSFRow row = sheet1.getRow(j);
-//                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
-//                    {
-//                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
-//                        supervisionEnFoodBu.setIndexId(id);
-//                        supervisionEnFoodBuIndex.setEnterpriseId(id);
-//                    }
-//                    supervisionEnFoodBu.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
-//                    supervisionEnFoodBu.setNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
-//                    supervisionEnFoodBu.setBusinessFormat(ExcalUtils.handleStringXSSF(row.getCell(3)));
-//                    supervisionEnFoodBu.setCategory(ExcalUtils.handleStringXSSF(row.getCell(4)));
-//                    supervisionEnFoodBu.setBusinessNotes(ExcalUtils.handleStringXSSF(row.getCell(5)));
-//                    supervisionEnFoodBu.setBusinessProject(ExcalUtils.handleStringXSSF(row.getCell(6)));
-//                    supervisionEnFoodBu.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(7)));
-//                    supervisionEnFoodBu.setStartTime(ExcalUtils.handleStringXSSF(row.getCell(8)));
-//                    supervisionEnFoodBu.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(9)));
-//                    supervisionEnFoodBu.setGiveTime(ExcalUtils.handleStringXSSF(row.getCell(10)));
-//                    supervisionEnFoodBu.setLicenseAuthority(ExcalUtils.handleStringXSSF(row.getCell(11)));
-//                    supervisionEnFoodBu.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(12)));
-//                    supervisionEnFoodBu.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(13)));
-//                    supervisionEnFoodBu.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(14)));
-//                    supervisionEnFoodBu.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(15)));
-//                    supervisionEnFoodBu.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(15)));
-//                    supervisionEnFoodBu.setOperator("操作人");
-//                    supervisionEnFoodBu.setOperateIp("123.123.123");
-//                    supervisionEnFoodBu.setOperateTime(new Date());
-//                    if(!supervisionEnFoodBu.getNumber().equals("")) {
-//                        if(numberMap.get(supervisionEnFoodBu.getNumber())!=null)
-//                        {
-//                            //只进行许可证表的更新
-//
-//                        }
-//
-//                    }
-//                }
-                workbook.close();
 
+                allEnterpriseList = supervisionEnterpriseMapper.getAll();//将数据库中的企业和id拿出来组成map
+                enterpriseIdMap = new HashMap<>();
+                for (EnterpriseListResult enterpriseListResult : allEnterpriseList){
+                    enterpriseIdMap.put(enterpriseListResult.getIdNumber(),enterpriseListResult.getId());
+                }
+
+                //食品经营许可证
+                List<SupervisionEnFoodBu> supervisionEnFoodBuList = supervisionEnFoodBuMapper.getAll();
+                Map <String,Integer> numberMap =new HashMap<>();
+                for (SupervisionEnFoodBu supervisionEnFoodBu:supervisionEnFoodBuList){
+                    numberMap.put(supervisionEnFoodBu.getNumber(),supervisionEnFoodBu.getId());
+                }
+                List<SupervisionEnFoodBuIndex> supervisionEnFoodBuIndexList = supervisionEnFoodBuIndexMapper.getAll();
+                Map <String,Integer> numberFoodBuIndexMap =new HashMap<>();
+                for (SupervisionEnFoodBuIndex supervisionEnFoodBuIndex:supervisionEnFoodBuIndexList){
+                    numberFoodBuIndexMap.put(supervisionEnFoodBuIndex.getNumber(),supervisionEnFoodBuIndex.getId());
+                }
+                XSSFSheet sheet1 = workbook.getSheetAt(1);
+                for (int j = 0; j <sheet1.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet1.getRow(0);
+                    XSSFRow row = sheet1.getRow(j);
+                    XSSFRow nextRow = sheet1.getRow(j+1);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+                    if(row.getCell(2).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(2).toString()+"为空");
+                    }
+                    if(row.getCell(12).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(12).toString()+"为空");
+                    }
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(11).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(14) != null)&& row.getCell(14).getCellType() != CellType.BLANK && row.getCell(14).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(14).toString(),"不是数字类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(14).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(15) != null) && row.getCell(15).getCellType() != CellType.BLANK && row.getCell(15).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(15).toString(),"不是数字类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(15).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(16) != null) && row.getCell(16).getCellType() != CellType.BLANK && row.getCell(16).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(16).toString(),"不是文本类型");
+                        errorList.add("食品经营许可证 第" + a + "行"+titleRow.getCell(16).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < sheet1.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnFoodBu supervisionEnFoodBu = new SupervisionEnFoodBu();
+                    SupervisionEnFoodBuIndex supervisionEnFoodBuIndex = new SupervisionEnFoodBuIndex();
+                    XSSFRow row = sheet1.getRow(j);
+                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+                    {
+                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                        supervisionEnFoodBuIndex.setEnterpriseId(id);
+                    }
+                    supervisionEnFoodBu.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
+                    supervisionEnFoodBu.setNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
+                    supervisionEnFoodBu.setBusinessFormat(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnFoodBu.setCategory(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnFoodBu.setBusinessNotes(ExcalUtils.handleStringXSSF(row.getCell(5)));
+                    supervisionEnFoodBu.setBusinessProject(ExcalUtils.handleStringXSSF(row.getCell(6)));
+                    supervisionEnFoodBu.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(7)));
+                    supervisionEnFoodBu.setStartTime(ExcalUtils.handleDateXSSF(row.getCell(8)));
+                    supervisionEnFoodBu.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(9)));
+                    supervisionEnFoodBu.setGiveTime(ExcalUtils.handleDateXSSF(row.getCell(10)));
+                    supervisionEnFoodBu.setLicenseAuthority(ExcalUtils.handleStringXSSF(row.getCell(11)));
+                    supervisionEnFoodBu.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(12)));
+                    supervisionEnFoodBu.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(13)));
+                    supervisionEnFoodBu.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(14)));
+                    supervisionEnFoodBu.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(15)));
+                    supervisionEnFoodBu.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(16)));
+                    supervisionEnFoodBu.setOperator("操作人");
+                    supervisionEnFoodBu.setOperateIp("123.123.123");
+                    supervisionEnFoodBu.setOperateTime(new Date());
+                    if(!supervisionEnFoodBu.getNumber().equals("")) {
+                        if(numberMap.get(supervisionEnFoodBu.getNumber())!=null)
+                        {
+                            //只进行许可证表的更新
+                            int id = numberMap.get(supervisionEnFoodBu.getNumber());
+                            supervisionEnFoodBu.setId(id);
+                            id = numberFoodBuIndexMap.get(supervisionEnFoodBu.getNumber());
+                            supervisionEnFoodBu.setIndexId(id);
+                            supervisionEnFoodBuMapper.updateByPrimaryKey(supervisionEnFoodBu);
+                        }
+                        else{
+                            supervisionEnFoodBuIndex.setNumber(supervisionEnFoodBu.getNumber());
+                            supervisionEnFoodBuIndex.setEndTime(new Date());
+                            int indexId=supervisionEnFoodBuIndexMapper.insertSelective(supervisionEnFoodBuIndex);
+                            supervisionEnFoodBu.setIndexId(indexId);
+                            supervisionEnFoodBuMapper.insertSelective(supervisionEnFoodBu);
+                        }
+                    }
+                }
+
+                //食品生产许可证
+                List<SupervisionEnFoodPro> supervisionEnFoodProList1 = supervisionEnFoodProMapper.getAll();
+                Map <String,Integer> numberFoodProMap =new HashMap<>();
+                for (SupervisionEnFoodPro supervisionEnFoodPro:supervisionEnFoodProList1){
+                    numberFoodProMap.put(supervisionEnFoodPro.getNumber(),supervisionEnFoodPro.getId());
+                }
+
+                List<SupervisionEnFoodProIndex> supervisionEnFoodProIndexList = supervisionEnFoodProIndexMapper.getAll();
+                Map <String,Integer> numberFoodBuProIndexMap =new HashMap<>();
+                for (SupervisionEnFoodProIndex supervisionEnFoodProIndex:supervisionEnFoodProIndexList){
+                    numberFoodBuProIndexMap.put(supervisionEnFoodProIndex.getNumber(),supervisionEnFoodProIndex.getId());
+                }
+                XSSFSheet sheet2 = workbook.getSheetAt(2);
+                for (int j = 0; j <sheet2.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet2.getRow(0);
+                    XSSFRow row = sheet2.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+                    if(row.getCell(2).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(2).toString()+"为空");
+                    }
+                    if(row.getCell(9).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(9).toString()+"为空");
+                    }
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(11).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < sheet2.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnFoodPro supervisionEnFoodPro = new SupervisionEnFoodPro();
+                    SupervisionEnFoodProIndex supervisionEnFoodProIndex = new SupervisionEnFoodProIndex();
+                    XSSFRow row = sheet2.getRow(j);
+                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+                    {
+                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                        supervisionEnFoodProIndex.setEnterpriseId(id);
+                    }
+                    supervisionEnFoodPro.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
+                    supervisionEnFoodPro.setNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
+                    supervisionEnFoodPro.setFoodType(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnFoodPro.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnFoodPro.setStartTime(ExcalUtils.handleDateXSSF(row.getCell(5)));
+                    supervisionEnFoodPro.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(6)));
+                    supervisionEnFoodPro.setGiveTime(ExcalUtils.handleDateXSSF(row.getCell(7)));
+                    supervisionEnFoodPro.setLicenseAuthority(ExcalUtils.handleStringXSSF(row.getCell(8)));
+                    supervisionEnFoodPro.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(9)));
+                    supervisionEnFoodPro.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(10)));
+                    supervisionEnFoodPro.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(11)));
+                    supervisionEnFoodPro.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(12)));
+                    supervisionEnFoodPro.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(13)));
+                    supervisionEnFoodPro.setOperator("操作人");
+                    supervisionEnFoodPro.setOperatorIp("123.123.123");
+                    supervisionEnFoodPro.setOperatorTime(new Date());
+                    if(!supervisionEnFoodPro.getNumber().equals("")) {
+                        if(numberFoodProMap.get(supervisionEnFoodPro.getNumber())!=null)
+                        {
+                            //只进行许可证表的更新
+                            int id = numberFoodProMap.get(supervisionEnFoodPro.getNumber());
+                            supervisionEnFoodPro.setId(id);
+                            id = numberFoodBuProIndexMap.get(supervisionEnFoodPro.getNumber());
+                            supervisionEnFoodPro.setIndexId(id);
+                            supervisionEnFoodProMapper.updateByPrimaryKey(supervisionEnFoodPro);
+                        }
+                        else{
+                            supervisionEnFoodProIndex.setNumber(supervisionEnFoodPro.getNumber());
+                            supervisionEnFoodProIndex.setEndTime(new Date());
+                            int indexId=supervisionEnFoodProIndexMapper.insertSelective(supervisionEnFoodProIndex);
+                            supervisionEnFoodPro.setIndexId(indexId);
+                            supervisionEnFoodProMapper.insertSelective(supervisionEnFoodPro);
+                        }
+                    }
+                }
+
+                //食品生产添加剂
+                supervisionEnFoodProList1 = supervisionEnFoodProMapper.getAll();
+                numberFoodProMap =new HashMap<>();
+                for (SupervisionEnFoodPro supervisionEnFoodPro:supervisionEnFoodProList1){
+                    numberFoodProMap.put(supervisionEnFoodPro.getNumber(),supervisionEnFoodPro.getId());
+                }
+                List<SupervisionEnProCategory> supervisionEnProCategoryList = supervisionEnProCategoryMapper.getAll();
+                Map <Integer,Integer> numberProCategoryMap =new HashMap<>();
+                for (SupervisionEnProCategory supervisionEnProCategory:supervisionEnProCategoryList){
+                    numberProCategoryMap.put(supervisionEnProCategory.getParentId(),supervisionEnProCategory.getId());
+                }
+                XSSFSheet sheet3 = workbook.getSheetAt(3);
+                for (int j = 0; j <sheet3.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet3.getRow(0);
+                    XSSFRow row = sheet3.getRow(j);
+                    if((row.getCell(0).getCellType()==CellType.BLANK)&&(row.getCell(1).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if(row.getCell(0).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(0).toString()+"为空");
+                    }
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < sheet3.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnProCategory supervisionEnProCategory = new SupervisionEnProCategory();
+                    XSSFRow row = sheet3.getRow(j);
+                    if(numberFoodProMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+                    {
+                        int id= numberFoodProMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                        supervisionEnProCategory.setParentId(id);
+                    }
+                    supervisionEnProCategory.setCategory(ExcalUtils.handleStringXSSF(row.getCell(2)));
+                    supervisionEnProCategory.setCode(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnProCategory.setName(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnProCategory.setDetail(ExcalUtils.handleStringXSSF(row.getCell(5)));
+                    supervisionEnProCategory.setOperator("操作人");
+                    supervisionEnProCategory.setOperateIp("123.123.123");
+                    supervisionEnProCategory.setOperateTime(new Date());
+                        if(numberProCategoryMap.get(supervisionEnProCategory.getParentId())!=null)
+                        {
+                            //只进行许可证表的更新
+                            int id = numberProCategoryMap.get(supervisionEnProCategory.getParentId());
+                            supervisionEnProCategory.setId(id);
+                            supervisionEnProCategoryMapper.updateByPrimaryKey(supervisionEnProCategory);
+                        }
+                        else{
+                            supervisionEnProCategoryMapper.insertSelective(supervisionEnProCategory);
+                        }
+                }
+
+                //药品经营许可证
+                List<SupervisionEnDrugsBu> supervisionEnDrugsBuList = supervisionEnDrugsBuMapper.getAll();
+                Map <String,Integer> numberDrugsMap =new HashMap<>();
+                for (SupervisionEnDrugsBu supervisionEnDrugsBu:supervisionEnDrugsBuList){
+                    numberDrugsMap.put(supervisionEnDrugsBu.getNumber(),supervisionEnDrugsBu.getId());
+                }
+                List<SupervisionEnDrugsBuIndex> supervisionEnDrugsBuIndexList = supervisionEnDrugsBuIndexMapper.getAll();
+                Map <String,Integer> numberDrugsIndexMap =new HashMap<>();
+                for (SupervisionEnDrugsBuIndex supervisionEnDrugsBuIndex:supervisionEnDrugsBuIndexList){
+                    numberDrugsIndexMap.put(supervisionEnDrugsBuIndex.getNumber(),supervisionEnDrugsBuIndex.getId());
+                }
+                XSSFSheet sheet6 = workbook.getSheetAt(6);
+                for (int j = 0; j <sheet6.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet6.getRow(0);
+                    XSSFRow row = sheet6.getRow(j);
+                    XSSFRow nextRow = sheet6.getRow(j+1);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+                    if(row.getCell(2).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(2).toString()+"为空");
+                    }
+                    if(row.getCell(12).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(12).toString()+"为空");
+                    }
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(11).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(14) != null)&& row.getCell(14).getCellType() != CellType.BLANK && row.getCell(14).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(14).toString(),"不是数字类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(14).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(15) != null) && row.getCell(15).getCellType() != CellType.BLANK && row.getCell(15).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(15).toString(),"不是数字类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(15).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(16) != null) && row.getCell(16).getCellType() != CellType.BLANK && row.getCell(16).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(16).toString(),"不是文本类型");
+                        errorList.add("药品经营许可证 第" + a + "行"+titleRow.getCell(16).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < sheet6.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnDrugsBu supervisionEnDrugsBu = new SupervisionEnDrugsBu();
+                    SupervisionEnDrugsBuIndex supervisionEnDrugsBuIndex = new SupervisionEnDrugsBuIndex();
+                    XSSFRow row = sheet6.getRow(j);
+                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+                    {
+                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                        supervisionEnDrugsBuIndex.setEnterpriseId(id);
+                    }
+                    supervisionEnDrugsBu.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
+                    supervisionEnDrugsBu.setNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
+                    supervisionEnDrugsBu.setOperationMode(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnDrugsBu.setBusinessScope(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnDrugsBu.setEnterprisePerson(ExcalUtils.handleStringXSSF(row.getCell(5)));
+                    supervisionEnDrugsBu.setQualityPerson(ExcalUtils.handleStringXSSF(row.getCell(6)));
+                    supervisionEnDrugsBu.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(7)));
+                    supervisionEnDrugsBu.setStartTime(ExcalUtils.handleDateXSSF(row.getCell(8)));
+                    supervisionEnDrugsBu.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(9)));
+                    supervisionEnDrugsBu.setGiveTime(ExcalUtils.handleDateXSSF(row.getCell(10)));
+                    supervisionEnDrugsBu.setLicenseAuthority(ExcalUtils.handleStringXSSF(row.getCell(11)));
+                    supervisionEnDrugsBu.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(12)));
+                    supervisionEnDrugsBu.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(13)));
+                    supervisionEnDrugsBu.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(14)));
+                    supervisionEnDrugsBu.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(15)));
+                    supervisionEnDrugsBu.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(16)));
+                    supervisionEnDrugsBu.setOperator("操作人");
+                    supervisionEnDrugsBu.setOperatorIp("123.123.123");
+                    supervisionEnDrugsBu.setOperatorTime(new Date());
+                    if(!supervisionEnDrugsBu.getNumber().equals("")) {
+                        if(numberDrugsMap.get(supervisionEnDrugsBu.getNumber())!=null)
+                        {
+                            //只进行许可证表的更新
+                            int id = numberDrugsMap.get(supervisionEnDrugsBu.getNumber());
+                            supervisionEnDrugsBu.setId(id);
+                            id=numberDrugsIndexMap.get(supervisionEnDrugsBu.getNumber());
+                            supervisionEnDrugsBu.setIndexId(id);
+                            supervisionEnDrugsBuMapper.updateByPrimaryKey(supervisionEnDrugsBu);
+                        }
+                        else{
+                            supervisionEnDrugsBuIndex.setNumber(supervisionEnDrugsBu.getNumber());
+                            supervisionEnDrugsBuIndex.setEndTime(new Date());
+                            int indexId = supervisionEnDrugsBuIndexMapper.insertSelective(supervisionEnDrugsBuIndex);
+                            supervisionEnDrugsBu.setIndexId(indexId);
+                            supervisionEnDrugsBuMapper.insertSelective(supervisionEnDrugsBu);
+                        }
+                    }
+                }
+
+                //药品生产许可证
+                List<SupervisionEnDrugsPro> supervisionEnDrugsProsList = supervisionEnDrugsProMapper.getAll();
+                Map <String,Integer> numberDrugsProMap =new HashMap<>();
+                for (SupervisionEnDrugsPro supervisionEnDrugsPro:supervisionEnDrugsProsList){
+                    numberDrugsProMap.put(supervisionEnDrugsPro.getNumber(),supervisionEnDrugsPro.getId());
+                }
+                List<SupervisionEnDrugsProIndex> supervisionEnDrugsProIndexList = supervisionEnDrugsProIndexMapper.getAll();
+                Map <String,Integer> numberDrugsProIndexMap =new HashMap<>();
+                for (SupervisionEnDrugsProIndex supervisionEnDrugsProIndex:supervisionEnDrugsProIndexList){
+                    numberDrugsProIndexMap.put(supervisionEnDrugsProIndex.getNumber(),supervisionEnDrugsProIndex.getId());
+                }
+
+                XSSFSheet sheet7 = workbook.getSheetAt(7);
+                for (int j = 0; j <sheet7.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet7.getRow(0);
+                    XSSFRow row = sheet7.getRow(j);
+                    XSSFRow nextRow = sheet7.getRow(j+1);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+                    if(row.getCell(2).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(2).toString()+"为空");
+                    }
+                    if(row.getCell(12).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(12).toString()+"为空");
+                    }
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(11).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(14) != null)&& row.getCell(14).getCellType() != CellType.BLANK && row.getCell(14).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(14).toString(),"不是数字类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(14).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(15) != null) && row.getCell(15).getCellType() != CellType.BLANK && row.getCell(15).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(15).toString(),"不是数字类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(15).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(16) != null) && row.getCell(16).getCellType() != CellType.BLANK && row.getCell(16).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(16).toString(),"不是文本类型");
+                        errorList.add("药品生产许可证 第" + a + "行"+titleRow.getCell(16).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < sheet7.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnDrugsPro supervisionEnDrugsPro = new SupervisionEnDrugsPro();
+                    SupervisionEnDrugsProIndex supervisionEnDrugsProIndex = new SupervisionEnDrugsProIndex();
+                    XSSFRow row = sheet7.getRow(j);
+                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+                    {
+                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                        supervisionEnDrugsProIndex.setEnterpriseId(id);
+                    }
+                    supervisionEnDrugsPro.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
+                    supervisionEnDrugsPro.setNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
+                    supervisionEnDrugsPro.setOperationMode(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnDrugsPro.setBusinessScope(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnDrugsPro.setEnterprisePerson(ExcalUtils.handleStringXSSF(row.getCell(5)));
+                    supervisionEnDrugsPro.setQualityPerson(ExcalUtils.handleStringXSSF(row.getCell(6)));
+                    supervisionEnDrugsPro.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(7)));
+                    supervisionEnDrugsPro.setStartTime(ExcalUtils.handleDateXSSF(row.getCell(8)));
+                    supervisionEnDrugsPro.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(9)));
+                    supervisionEnDrugsPro.setGiveTime(ExcalUtils.handleDateXSSF(row.getCell(10)));
+                    supervisionEnDrugsPro.setLicenseAuthority(ExcalUtils.handleStringXSSF(row.getCell(11)));
+                    supervisionEnDrugsPro.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(12)));
+                    supervisionEnDrugsPro.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(13)));
+                    supervisionEnDrugsPro.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(14)));
+                    supervisionEnDrugsPro.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(15)));
+                    supervisionEnDrugsPro.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(16)));
+                    supervisionEnDrugsPro.setOperator("操作人");
+                    supervisionEnDrugsPro.setOperatorIp("123.123.123");
+                    supervisionEnDrugsPro.setOperatorTime(new Date());
+                    if(!supervisionEnDrugsPro.getNumber().equals("")) {
+                        if(numberDrugsProMap.get(supervisionEnDrugsPro.getNumber())!=null)
+                        {
+                            //只进行许可证表的更新
+                            int id = numberDrugsProMap.get(supervisionEnDrugsPro.getNumber());
+                            supervisionEnDrugsPro.setId(id);
+                            id=numberDrugsProIndexMap.get(supervisionEnDrugsPro.getNumber());
+                            supervisionEnDrugsPro.setIndexId(id);
+                            supervisionEnDrugsProMapper.updateByPrimaryKey(supervisionEnDrugsPro);
+                        }
+                        else{
+                            supervisionEnDrugsProIndex.setNumber(supervisionEnDrugsPro.getNumber());
+                            supervisionEnDrugsProIndex.setEndTime(new Date());
+                            int indexId=supervisionEnDrugsProIndexMapper.insertSelective(supervisionEnDrugsProIndex);
+                            supervisionEnDrugsPro.setIndexId(indexId);
+                            supervisionEnDrugsProMapper.insertSelective(supervisionEnDrugsPro);
+                        }
+                    }
+                }
+
+                //化妆品生产许可证
+                List<SupervisionEnCosmetics> supervisionEnCosmeticsList = supervisionEnCosmeticsMapper.getAll();
+                Map <String,Integer> numberCosmeticsMap =new HashMap<>();
+                for (SupervisionEnCosmetics supervisionEnCosmetics:supervisionEnCosmeticsList){
+                    numberCosmeticsMap.put(supervisionEnCosmetics.getRegisterCode(),supervisionEnCosmetics.getId());
+                }
+                List<SupervisionEnCosmeticsIndex> supervisionEnCosmeticsIndexList = supervisionEnCosmeticsIndexMapper.getAll();
+                Map <String,Integer> numberCosmeticsIndexMap =new HashMap<>();
+                for (SupervisionEnCosmeticsIndex supervisionEnCosmeticsIndex:supervisionEnCosmeticsIndexList){
+                    numberCosmeticsIndexMap.put(supervisionEnCosmeticsIndex.getNumber(),supervisionEnCosmeticsIndex.getId());
+                }
+                XSSFSheet sheet10 = workbook.getSheetAt(10);
+                for (int j = 0; j <sheet10.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet10.getRow(0);
+                    XSSFRow row = sheet10.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+                    if(row.getCell(2).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(2).toString()+"为空");
+                    }
+                    if(row.getCell(10).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"为空");
+                    }
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(11).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(14) != null)&& row.getCell(14).getCellType() != CellType.BLANK && row.getCell(14).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(14).toString(),"不是数字类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(14).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < sheet10.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnCosmetics supervisionEnCosmetics = new SupervisionEnCosmetics();
+                    SupervisionEnCosmeticsIndex supervisionEnCosmeticsIndex = new SupervisionEnCosmeticsIndex();
+                    XSSFRow row = sheet10.getRow(j);
+                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+                    {
+                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                        supervisionEnCosmeticsIndex.setEnterpriseId(id);
+                    }
+                    supervisionEnCosmetics.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
+                    supervisionEnCosmetics.setRegisterCode(ExcalUtils.handleStringXSSF(row.getCell(2)));
+                    supervisionEnCosmetics.setLicenseProject(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnCosmetics.setQualityPerson(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnCosmetics.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(5)));
+                    supervisionEnCosmetics.setStartTime(ExcalUtils.handleDateXSSF(row.getCell(6)));
+                    supervisionEnCosmetics.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(7)));
+                    supervisionEnCosmetics.setGiveTime(ExcalUtils.handleDateXSSF(row.getCell(8)));
+                    supervisionEnCosmetics.setLicenseAuthority(ExcalUtils.handleStringXSSF(row.getCell(9)));
+                    supervisionEnCosmetics.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(10)));
+                    supervisionEnCosmetics.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(11)));
+                    supervisionEnCosmetics.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(12)));
+                    supervisionEnCosmetics.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(13)));
+                    supervisionEnCosmetics.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(14)));
+                    supervisionEnCosmetics.setOperator("操作人");
+                    supervisionEnCosmetics.setOperateIp("123.123.123");
+                    supervisionEnCosmetics.setOperateTime(new Date());
+                    if(!supervisionEnCosmetics.getRegisterCode().equals("")) {
+                        if(numberCosmeticsMap.get(supervisionEnCosmetics.getRegisterCode())!=null)
+                        {
+                            //只进行许可证表的更新
+                            int id = numberCosmeticsMap.get(supervisionEnCosmetics.getRegisterCode());
+                            supervisionEnCosmetics.setId(id);
+                            id=numberCosmeticsIndexMap.get(supervisionEnCosmetics.getRegisterCode());
+                            supervisionEnCosmetics.setIndexId(id);
+                            supervisionEnCosmeticsMapper.updateByPrimaryKey(supervisionEnCosmetics);
+                        }
+                        else{
+                            supervisionEnCosmeticsIndex.setNumber(supervisionEnCosmetics.getRegisterCode());
+                            supervisionEnCosmeticsIndex.setEndTime(new Date());
+                            int indexId=supervisionEnCosmeticsIndexMapper.insertSelective(supervisionEnCosmeticsIndex);
+                            supervisionEnCosmetics.setIndexId(indexId);
+                            supervisionEnCosmeticsMapper.insertSelective(supervisionEnCosmetics);
+                        }
+                    }
+                }
+
+                //医疗器械经营许可证
+                List<SupervisionEnMedicalBu> supervisionEnMedicalBuList = supervisionEnMedicalBuMapper.getAll();
+                Map <String,Integer> numberMedicalMap =new HashMap<>();
+                for (SupervisionEnMedicalBu supervisionEnMedicalBu:supervisionEnMedicalBuList){
+                    numberMedicalMap.put(supervisionEnMedicalBu.getRegisterNumber(),supervisionEnMedicalBu.getId());
+                }
+                List<SupervisionEnMedicalBuIndex> supervisionEnMedicalBuIndexList = supervisionEnMedicalBuIndexMapper.getAll();
+                Map <String,Integer> numberMedicalIndexMap =new HashMap<>();
+                for (SupervisionEnMedicalBuIndex supervisionEnMedicalBuIndex:supervisionEnMedicalBuIndexList){
+                    numberMedicalIndexMap.put(supervisionEnMedicalBuIndex.getNumber(),supervisionEnMedicalBuIndex.getId());
+                }
+                XSSFSheet sheet8 = workbook.getSheetAt(8);
+                for (int j = 0; j <sheet8.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet8.getRow(0);
+                    XSSFRow row = sheet8.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+                    if(row.getCell(2).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(2).toString()+"为空");
+                    }
+                    if(row.getCell(10).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(10).toString()+"为空");
+                    }
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(11).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(14) != null)&& row.getCell(14).getCellType() != CellType.BLANK && row.getCell(14).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(14).toString(),"不是数字类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(14).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < sheet8.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnMedicalBu supervisionEnMedicalBu = new SupervisionEnMedicalBu();
+                    SupervisionEnMedicalBuIndex supervisionEnMedicalBuIndex = new SupervisionEnMedicalBuIndex();
+                    XSSFRow row = sheet8.getRow(j);
+                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+                    {
+                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                        supervisionEnMedicalBuIndex.setEnterpriseId(id);
+                    }
+                    supervisionEnMedicalBu.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
+                    supervisionEnMedicalBu.setRegisterNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
+                    supervisionEnMedicalBu.setCategory(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnMedicalBu.setMedicalSubject(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnMedicalBu.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(5)));
+                    supervisionEnMedicalBu.setStartTime(ExcalUtils.handleDateXSSF(row.getCell(6)));
+                    supervisionEnMedicalBu.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(7)));
+                    supervisionEnMedicalBu.setGiveTime(ExcalUtils.handleDateXSSF(row.getCell(8)));
+                    supervisionEnMedicalBu.setLssueAuthority(ExcalUtils.handleStringXSSF(row.getCell(9)));
+                    supervisionEnMedicalBu.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(10)));
+                    supervisionEnMedicalBu.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(11)));
+                    supervisionEnMedicalBu.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(12)));
+                    supervisionEnMedicalBu.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(13)));
+                    supervisionEnMedicalBu.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(14)));
+                    supervisionEnMedicalBu.setOperator("操作人");
+                    supervisionEnMedicalBu.setOperateIp("123.123.123");
+                    supervisionEnMedicalBu.setOperateTime(new Date());
+                    if(!supervisionEnMedicalBu.getRegisterNumber().equals("")) {
+                        if(numberMedicalMap.get(supervisionEnMedicalBu.getRegisterNumber())!=null)
+                        {
+                            //只进行许可证表的更新
+                            int id = numberMedicalMap.get(supervisionEnMedicalBu.getRegisterNumber());
+                            supervisionEnMedicalBu.setId(id);
+                            id=numberMedicalIndexMap.get(supervisionEnMedicalBu.getRegisterNumber());
+                            supervisionEnMedicalBu.setIndexId(id);
+                            supervisionEnMedicalBuMapper.updateByPrimaryKey(supervisionEnMedicalBu);
+                        }
+                        else{
+                            supervisionEnMedicalBuIndex.setNumber(supervisionEnMedicalBu.getRegisterNumber());
+                            supervisionEnMedicalBuIndex.setEndTime(new Date());
+                            int indexId=supervisionEnMedicalBuIndexMapper.insertSelective(supervisionEnMedicalBuIndex);
+                            supervisionEnMedicalBu.setIndexId(indexId);
+                            supervisionEnMedicalBuMapper.insertSelective(supervisionEnMedicalBu);
+                        }
+                    }
+                }
+
+                //医疗器械生产许可证
+                List<SupervisionEnMedicalPro> supervisionEnMedicalProList = supervisionEnMedicalProMapper.getAll();
+                Map <String,Integer> numberMedicalProMap =new HashMap<>();
+                for (SupervisionEnMedicalPro supervisionEnMedicalPro:supervisionEnMedicalProList){
+                    numberMedicalProMap.put(supervisionEnMedicalPro.getRegisterNumber(),supervisionEnMedicalPro.getId());
+                }
+                List<SupervisionEnMedicalProIndex> supervisionEnMedicalProIndexList = supervisionEnMedicalProIndexMapper.getAll();
+                Map <String,Integer> numberMedicalProIndexMap =new HashMap<>();
+                for (SupervisionEnMedicalProIndex supervisionEnMedicalProIndex:supervisionEnMedicalProIndexList){
+                    numberMedicalProIndexMap.put(supervisionEnMedicalProIndex.getNumber(),supervisionEnMedicalProIndex.getId());
+                }
+                XSSFSheet sheet9 = workbook.getSheetAt(9);
+                for (int j = 0; j <sheet9.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet9.getRow(0);
+                    XSSFRow row = sheet9.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+                    if(row.getCell(2).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(2).toString()+"为空");
+                    }
+                    if(row.getCell(10).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"为空");
+                    }
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(11).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(14) != null)&& row.getCell(14).getCellType() != CellType.BLANK && row.getCell(14).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(14).toString(),"不是数字类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(14).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < sheet9.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnMedicalPro supervisionEnMedicalPro = new SupervisionEnMedicalPro();
+                    SupervisionEnMedicalProIndex supervisionEnMedicalProIndex = new SupervisionEnMedicalProIndex();
+                    XSSFRow row = sheet9.getRow(j);
+                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+                    {
+                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                        supervisionEnMedicalProIndex.setEnterpriseId(id);
+                    }
+                    supervisionEnMedicalPro.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
+                    supervisionEnMedicalPro.setRegisterNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
+                    supervisionEnMedicalPro.setProduceScale(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnMedicalPro.setEnterprisePerson(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnMedicalPro.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(5)));
+                    supervisionEnMedicalPro.setStartTime(ExcalUtils.handleDateXSSF(row.getCell(6)));
+                    supervisionEnMedicalPro.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(7)));
+                    supervisionEnMedicalPro.setGiveTime(ExcalUtils.handleDateXSSF(row.getCell(8)));
+                    supervisionEnMedicalPro.setLssueAuthority(ExcalUtils.handleStringXSSF(row.getCell(9)));
+                    supervisionEnMedicalPro.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(10)));
+                    supervisionEnMedicalPro.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(11)));
+                    supervisionEnMedicalPro.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(12)));
+                    supervisionEnMedicalPro.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(13)));
+                    supervisionEnMedicalPro.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(14)));
+                    supervisionEnMedicalPro.setOperator("操作人");
+                    supervisionEnMedicalPro.setOperateIp("123.123.123");
+                    supervisionEnMedicalPro.setOperateTime(new Date());
+                    if(!supervisionEnMedicalPro.getRegisterNumber().equals("")) {
+                        if(numberMedicalProMap.get(supervisionEnMedicalPro.getRegisterNumber())!=null)
+                        {
+                            //只进行许可证表的更新
+                            int id = numberMedicalProMap.get(supervisionEnMedicalPro.getRegisterNumber());
+                            supervisionEnMedicalPro.setId(id);
+                            id = numberMedicalProIndexMap.get(supervisionEnMedicalPro.getRegisterNumber());
+                            supervisionEnMedicalPro.setIndexId(id);
+                            supervisionEnMedicalProMapper.updateByPrimaryKey(supervisionEnMedicalPro);
+                        }
+                        else{
+                            supervisionEnMedicalProIndex.setNumber(supervisionEnMedicalPro.getRegisterNumber());
+                            supervisionEnMedicalProIndex.setEndTime(new Date());
+                            int indexId=supervisionEnMedicalProIndexMapper.insertSelective(supervisionEnMedicalProIndex);
+                            supervisionEnMedicalPro.setIndexId(indexId);
+                            supervisionEnMedicalProMapper.insertSelective(supervisionEnMedicalPro);
+                        }
+                    }
+                }
+
+                //小餐饮
+                List<SupervisionEnSmallCater> supervisionEnSmallCaterList = supervisionEnSmallCaterMapper.getAll();
+                Map <String,Integer> numberSmallCaterMap =new HashMap<>();
+                for (SupervisionEnSmallCater supervisionEnSmallCater:supervisionEnSmallCaterList){
+                    numberSmallCaterMap.put(supervisionEnSmallCater.getRegisterNumber(),supervisionEnSmallCater.getId());
+                }
+                List<SupervisionEnSmallCaterIndex> supervisionEnSmallCaterIndexList = supervisionEnSmallCaterIndexMapper.getAll();
+                Map <String,Integer> numberSmallCaterIndexMap =new HashMap<>();
+                for (SupervisionEnSmallCaterIndex supervisionEnSmallCaterIndex:supervisionEnSmallCaterIndexList){
+                    numberSmallCaterIndexMap.put(supervisionEnSmallCaterIndex.getNumber(),supervisionEnSmallCaterIndex.getId());
+                }
+                XSSFSheet sheet4 = workbook.getSheetAt(4);
+                for (int j = 0; j <sheet4.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet4.getRow(0);
+                    XSSFRow row = sheet4.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+                    if(row.getCell(2).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(2).toString()+"为空");
+                    }
+                    if(row.getCell(10).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(10).toString()+"为空");
+                    }
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(11).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(14) != null)&& row.getCell(14).getCellType() != CellType.BLANK && row.getCell(14).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(14).toString(),"不是数字类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(14).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < sheet4.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnSmallCater supervisionEnSmallCater = new SupervisionEnSmallCater();
+                    SupervisionEnSmallCaterIndex supervisionEnSmallCaterIndex = new SupervisionEnSmallCaterIndex();
+                    XSSFRow row = sheet9.getRow(j);
+                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+                    {
+                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                        supervisionEnSmallCaterIndex.setEnterpriseId(id);
+                    }
+                    supervisionEnSmallCater.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
+                    supervisionEnSmallCater.setRegisterNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
+                    supervisionEnSmallCater.setMainCategory(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnSmallCater.setMainSubject(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnSmallCater.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(5)));
+                    supervisionEnSmallCater.setStartTime(ExcalUtils.handleDateXSSF(row.getCell(6)));
+                    supervisionEnSmallCater.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(7)));
+                    supervisionEnSmallCater.setGiveTime(ExcalUtils.handleDateXSSF(row.getCell(8)));
+                    supervisionEnSmallCater.setLssueAuthority(ExcalUtils.handleStringXSSF(row.getCell(9)));
+                    supervisionEnSmallCater.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(10)));
+                    supervisionEnSmallCater.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(11)));
+                    supervisionEnSmallCater.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(12)));
+                    supervisionEnSmallCater.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(13)));
+                    supervisionEnSmallCater.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(14)));
+                    supervisionEnSmallCater.setOperator("操作人");
+                    supervisionEnSmallCater.setOperateTime(new Date());
+                    supervisionEnSmallCater.setOperateIp("123.123.123");
+                    if(!supervisionEnSmallCater.getRegisterNumber().equals("")) {
+                        if(numberSmallCaterMap.get(supervisionEnSmallCater.getRegisterNumber())!=null)
+                        {
+                            //只进行许可证表的更新
+                            int id = numberSmallCaterMap.get(supervisionEnSmallCater.getRegisterNumber());
+                            supervisionEnSmallCater.setId(id);
+                            id= numberSmallCaterIndexMap.get(supervisionEnSmallCater.getRegisterNumber());
+                            supervisionEnSmallCater.setIndexId(id);
+                            supervisionEnSmallCaterMapper.updateByPrimaryKey(supervisionEnSmallCater);
+                        }
+                        else{
+                            supervisionEnSmallCaterIndex.setNumber(supervisionEnSmallCater.getRegisterNumber());
+                            supervisionEnSmallCaterIndex.setEndTime(new Date());
+                            int indexId=supervisionEnSmallCaterIndexMapper.insertSelective(supervisionEnSmallCaterIndex);
+                            supervisionEnSmallCater.setIndexId(indexId);
+                            supervisionEnSmallCaterMapper.insertSelective(supervisionEnSmallCater);
+                        }
+                    }
+                }
+
+                //小作坊
+                List<SupervisionEnSmallWorkshop> supervisionEnSmallWorkshopList = supervisionEnSmallWorkshopMapper.getAll();
+                Map <String,Integer> numberSmallWorkshopMap =new HashMap<>();
+                for (SupervisionEnSmallWorkshop supervisionEnSmallWorkshop:supervisionEnSmallWorkshopList){
+                    numberSmallWorkshopMap.put(supervisionEnSmallWorkshop.getRegisterNumber(),supervisionEnSmallWorkshop.getId());
+                }
+                List<SupervisionEnSmallWorkshopIndex> supervisionEnSmallWorkshopIndexList = supervisionEnSmallWorkshopIndexMapper.getAll();
+                Map <String,Integer> numberSmallWorkshopIndexMap =new HashMap<>();
+                for (SupervisionEnSmallWorkshopIndex supervisionEnSmallWorkshopIndex:supervisionEnSmallWorkshopIndexList){
+                    numberSmallWorkshopIndexMap.put(supervisionEnSmallWorkshopIndex.getNumber(),supervisionEnSmallWorkshopIndex.getId());
+                }
+                XSSFSheet sheet5 = workbook.getSheetAt(5);
+                for (int j = 0; j <sheet5.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet5.getRow(0);
+                    XSSFRow row = sheet5.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+                    if(row.getCell(2).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(2).toString()+"为空");
+                    }
+                    if(row.getCell(10).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(10).toString()+"为空");
+                    }
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(11).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(14) != null)&& row.getCell(14).getCellType() != CellType.BLANK && row.getCell(14).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(14).toString(),"不是数字类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(14).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < sheet5.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnSmallWorkshop supervisionEnSmallWorkshop = new SupervisionEnSmallWorkshop();
+                    SupervisionEnSmallWorkshopIndex supervisionEnSmallWorkshopIndex= new SupervisionEnSmallWorkshopIndex();
+                    XSSFRow row = sheet9.getRow(j);
+                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+                    {
+                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                        supervisionEnSmallWorkshopIndex.setEnterpriseId(id);
+                    }
+                    supervisionEnSmallWorkshop.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
+                    supervisionEnSmallWorkshop.setRegisterNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
+//                    supervisionEnSmallWorkshop.(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnSmallWorkshop.setFoodType(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnSmallWorkshop.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(5)));
+                    supervisionEnSmallWorkshop.setStartTime(ExcalUtils.handleDateXSSF(row.getCell(6)));
+                    supervisionEnSmallWorkshop.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(7)));
+                    supervisionEnSmallWorkshop.setGiveTime(ExcalUtils.handleDateXSSF(row.getCell(8)));
+                    supervisionEnSmallWorkshop.setLssueAuthority(ExcalUtils.handleStringXSSF(row.getCell(9)));
+                    supervisionEnSmallWorkshop.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(10)));
+                    supervisionEnSmallWorkshop.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(11)));
+                    supervisionEnSmallWorkshop.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(12)));
+                    supervisionEnSmallWorkshop.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(13)));
+                    supervisionEnSmallWorkshop.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(14)));
+                    supervisionEnSmallWorkshop.setOperator("操作人");
+                    supervisionEnSmallWorkshop.setOperateIp("123.123.123");
+                    supervisionEnSmallWorkshop.setOperateTime(new Date());
+                    if(!supervisionEnSmallWorkshop.getRegisterNumber().equals("")) {
+                        if(numberSmallWorkshopMap.get(supervisionEnSmallWorkshop.getRegisterNumber())!=null)
+                        {
+                            //只进行许可证表的更新
+                            int id = numberSmallWorkshopMap.get(supervisionEnSmallWorkshop.getRegisterNumber());
+                            supervisionEnSmallWorkshop.setId(id);
+                            id=numberSmallWorkshopIndexMap.get(supervisionEnSmallWorkshop.getRegisterNumber());
+                            supervisionEnSmallWorkshop.setIndexId(id);
+                            supervisionEnSmallWorkshopMapper.updateByPrimaryKey(supervisionEnSmallWorkshop);
+                        }
+                        else{
+                            supervisionEnSmallWorkshopIndex.setNumber(supervisionEnSmallWorkshop.getRegisterNumber());
+                            supervisionEnSmallWorkshopIndex.setEndTime(new Date());
+                            int indexId=supervisionEnSmallWorkshopIndexMapper.insertSelective(supervisionEnSmallWorkshopIndex);
+                            supervisionEnSmallWorkshop.setIndexId(indexId);
+                            supervisionEnSmallWorkshopMapper.insertSelective(supervisionEnSmallWorkshop);
+                        }
+                    }
+                }
+
+                //工业产品许可证
+                List<SupervisionEnIndustrialProducts> supervisionEnIndustrialProductsList = supervisionEnIndustrialProductsMapper.getAll();
+                Map <String,Integer> numberIndustrialMap =new HashMap<>();
+                for (SupervisionEnIndustrialProducts supervisionEnIndustrialProducts:supervisionEnIndustrialProductsList){
+                    numberIndustrialMap.put(supervisionEnIndustrialProducts.getRegisterNumber(),supervisionEnIndustrialProducts.getId());
+                }
+                List<SupervisionEnIndustrialProductsIndex> supervisionEnIndustrialProductsIndexList = supervisionEnIndustrialProductsIndexMapper.getAll();
+                Map <String,Integer> numberIndustrialIndexMap =new HashMap<>();
+                for (SupervisionEnIndustrialProductsIndex supervisionEnIndustrialProductsIndex:supervisionEnIndustrialProductsIndexList){
+                    numberIndustrialIndexMap.put(supervisionEnIndustrialProductsIndex.getNumber(),supervisionEnIndustrialProductsIndex.getId());
+                }
+                XSSFSheet sheet11 = workbook.getSheetAt(11);
+                for (int j = 0; j <sheet11.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    XSSFRow titleRow = sheet11.getRow(0);
+                    XSSFRow row = sheet11.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
+                    int a = j + 1;
+                    if(row.getCell(1).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(1).toString()+"为空");
+                    }
+                    if(row.getCell(2).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(2).toString()+"为空");
+                    }
+                    if(row.getCell(9).getCellType()==CellType.BLANK)
+                    {
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(9).toString()+"为空");
+                    }
+                    if ((row.getCell(0) != null) && row.getCell(0).getCellType() != CellType.BLANK && row.getCell(0).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(0).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(0).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(1) != null) && row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(1).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(1).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(2) != null) && row.getCell(2).getCellType() != CellType.BLANK  && row.getCell(2).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(2).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(2).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(3) != null)&& row.getCell(3).getCellType() != CellType.BLANK  && row.getCell(3).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(3).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(3).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(4) != null) && (row.getCell(4).getCellType()!=CellType.BLANK)&& row.getCell(4).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                    }
+                    if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(11).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(12) != null)&& row.getCell(12).getCellType() != CellType.BLANK  && row.getCell(12).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(12).toString(), "不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(12).toString()+"不是文本类型");
+                    }
+                    if ((row.getCell(13) != null) && row.getCell(13).getCellType() != CellType.BLANK && row.getCell(13).getCellType() != CellType.STRING) {
+//                        errorMap.put("第" + a + "行"+titleRow.getCell(13).toString(),"不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(13).toString()+"不是文本类型");
+                    }
+                }
+                if (!errorList.isEmpty()) {
+                    System.out.println(errorList);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
+                }
+                for (int j = 0; j < sheet11.getPhysicalNumberOfRows(); j++) {
+                    if (j == 0) {
+                        continue;//标题行
+                    }
+                    SupervisionEnIndustrialProducts supervisionEnIndustrialProducts = new SupervisionEnIndustrialProducts();
+                    SupervisionEnIndustrialProductsIndex supervisionEnIndustrialProductsIndex= new SupervisionEnIndustrialProductsIndex();
+                    XSSFRow row = sheet11.getRow(j);
+                    if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
+                    {
+                        int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
+                        supervisionEnIndustrialProducts.setIndexId(id);
+                        supervisionEnIndustrialProductsIndex.setEnterpriseId(id);
+                    }
+                    supervisionEnIndustrialProducts.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
+                    supervisionEnIndustrialProducts.setRegisterNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
+                    supervisionEnIndustrialProducts.setProductsName(ExcalUtils.handleStringXSSF(row.getCell(3)));
+                    supervisionEnIndustrialProducts.setBusinessAddress(ExcalUtils.handleStringXSSF(row.getCell(4)));
+                    supervisionEnIndustrialProducts.setStartTime(ExcalUtils.handleDateXSSF(row.getCell(5)));
+                    supervisionEnIndustrialProducts.setEndTime(ExcalUtils.handleDateXSSF(row.getCell(6)));
+                    supervisionEnIndustrialProducts.setGiveTime(ExcalUtils.handleDateXSSF(row.getCell(7)));
+                    supervisionEnIndustrialProducts.setLssueAuthority(ExcalUtils.handleStringXSSF(row.getCell(8)));
+                    supervisionEnIndustrialProducts.setCheckType(ExcalUtils.handleStringXSSF(row.getCell(9)));
+                    supervisionEnIndustrialProducts.setDynamicGrade(ExcalUtils.handleStringXSSF(row.getCell(10)));
+                    supervisionEnIndustrialProducts.setYearAssessment(ExcalUtils.handleStringXSSF(row.getCell(11)));
+                    supervisionEnIndustrialProducts.setPatrolFrequency(ExcalUtils.handleStringXSSF(row.getCell(12)));
+                    supervisionEnIndustrialProducts.setEnterpriseScale(ExcalUtils.handleStringXSSF(row.getCell(13)));
+                    supervisionEnIndustrialProducts.setOperator("操作人");
+                    supervisionEnIndustrialProducts.setOperateIp("123.123.123");
+                    supervisionEnIndustrialProducts.setOperateTime(new Date());
+                    if(!supervisionEnIndustrialProducts.getRegisterNumber().equals("")) {
+                        if(numberIndustrialMap.get(supervisionEnIndustrialProducts.getRegisterNumber())!=null)
+                        {
+                            //只进行许可证表的更新
+                            int id = numberIndustrialMap.get(supervisionEnIndustrialProducts.getRegisterNumber());
+                            supervisionEnIndustrialProducts.setId(id);
+                            id = numberIndustrialIndexMap.get(supervisionEnIndustrialProducts.getRegisterNumber());
+                            supervisionEnIndustrialProducts.setIndexId(id);
+                            supervisionEnIndustrialProductsMapper.updateByPrimaryKey(supervisionEnIndustrialProducts);
+                        }
+                        else{
+                            supervisionEnIndustrialProductsIndex.setNumber(supervisionEnIndustrialProducts.getRegisterNumber());
+                            supervisionEnIndustrialProductsIndex.setEndTime(new Date());
+                            int indexId=supervisionEnIndustrialProductsIndexMapper.insertSelective(supervisionEnIndustrialProductsIndex);
+                            supervisionEnIndustrialProducts.setIndexId(indexId);
+                            supervisionEnIndustrialProductsMapper.insertSelective(supervisionEnIndustrialProducts);
+                        }
+                    }
+                }
+                workbook.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

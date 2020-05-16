@@ -55,5 +55,7 @@ public interface SupervisionEnSmallWorkshopMapper {
     int updateByPrimaryKey(SupervisionEnSmallWorkshop record);
 
     List<SupervisionEnSmallWorkshop> getListByEnterpriseId(@Param("enterpriseId") int eid);
+
+    List<SupervisionEnSmallWorkshop> getAll();
     void deleteByIndexId(@Param("iid") int iid);
 }

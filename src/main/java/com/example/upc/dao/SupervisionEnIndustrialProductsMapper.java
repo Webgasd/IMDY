@@ -55,5 +55,7 @@ public interface SupervisionEnIndustrialProductsMapper {
     int updateByPrimaryKey(SupervisionEnIndustrialProducts record);
 
     List<SupervisionEnIndustrialProducts> getListByEnterpriseId(@Param("enterpriseId") int eid);
+
+    List<SupervisionEnIndustrialProducts> getAll();
     void deleteByIndexId(@Param("iid") int iid);
 }

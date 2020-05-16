@@ -56,4 +56,6 @@ public interface SupervisionEnFoodProMapper {
 
     List<SupervisionEnFoodPro> getListByEnterpriseId(@Param("enterpriseId") int eid);
     void deleteByIndexId(@Param("iid") int iid);
+
+    List<SupervisionEnFoodPro> getAll();
 }

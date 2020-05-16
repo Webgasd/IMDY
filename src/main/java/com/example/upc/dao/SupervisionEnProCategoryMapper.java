@@ -16,4 +16,5 @@ public interface SupervisionEnProCategoryMapper {
     void deleteByParentId(@Param("parentId") int parentId);
     void batchInsert(@Param("supervisionEnProCategoryList") List<SupervisionEnProCategory> supervisionEnProCategoryList);
     void deleteByEnterpriseIds(@Param("enterpriseIds")List<Integer> enterpriseIds);
+    List<SupervisionEnProCategory> getAll();
 }
