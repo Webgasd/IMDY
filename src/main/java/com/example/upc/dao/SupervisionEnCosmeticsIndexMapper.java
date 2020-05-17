@@ -56,6 +56,6 @@ public interface SupervisionEnCosmeticsIndexMapper {
     int updateByPrimaryKey(SupervisionEnCosmeticsIndex record);
 
     SupervisionEnCosmeticsIndex selectByEnterpriseId(@Param("eid") Integer eid);
-
     List<SupervisionEnCosmeticsIndex> getAll();
+    int deleteByEnterpriseId(@Param("eid") Integer eid);
 }

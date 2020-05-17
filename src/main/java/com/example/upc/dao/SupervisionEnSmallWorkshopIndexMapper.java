@@ -1,5 +1,6 @@
 package com.example.upc.dao;
 
+import com.example.upc.dataobject.SupervisionEnSmallCaterIndex;
 import com.example.upc.dataobject.SupervisionEnSmallWorkshopIndex;
 import org.apache.ibatis.annotations.Param;
 
@@ -55,6 +56,6 @@ public interface SupervisionEnSmallWorkshopIndexMapper {
     int updateByPrimaryKey(SupervisionEnSmallWorkshopIndex record);
 
     SupervisionEnSmallWorkshopIndex selectByEnterpriseId(@Param("eid") Integer eid);
-
     List<SupervisionEnSmallWorkshopIndex> getAll();
+    int deleteByEnterpriseId(@Param("eid") Integer eid);
 }

@@ -101,12 +101,12 @@ public class GridPointsController {
     @Transactional
     public CommonReturnType transform(){
         JSONObject data=new JSONObject();
-        List<GridPoints1> list= gridPointsService.getAll1();
+        List<GridPoints1> list= gridPointsService.getAll1();//获取企业列表
         int l=list.size();
         if(l>0) {
             GaoDeMapUtil gaoDe = new GaoDeMapUtil();
             for (int x = 0; x < l; x++) {
-                String address = list.get(x).getRegistered_address();
+                String address = list.get(x).getRegistered_address();//拿出当前企业的地址
                 GridPoints gridPoints = new GridPoints();
                 if (address == null || address.equals("")) {
                     address = "东营区政府";

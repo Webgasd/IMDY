@@ -29,11 +29,14 @@
     <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
     <result column="enterprise_name" jdbcType="INTEGER" property="enterpriseName" />
     <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+    <result column="id_number" jdbcType="VARCHAR" property="idNumber"/>
     <result column="cantact_way" jdbcType="VARCHAR" property="cantactWay"/>
+    <result column="legal_person" jdbcType="VARCHAR" property="legalPerson"/>
     <result column="point" jdbcType="VARCHAR" property="point"/>
     <result column="area" jdbcType="INTEGER" property="area"/>
     <result column="grid" jdbcType="INTEGER" property="grid"/>
     <result column="registered_address" jdbcType="VARCHAR" property="registered_address"/>
+    <result column="propaganda_enclosure" jdbcType="VARCHAR" property="propagandaEnclosure"/>
     <result column="dynamic_grade" jdbcType="VARCHAR" property="dynamic_grade"/>
     <result column="operation_mode" jdbcType="VARCHAR" property="operationMode"/>
     <result column="business_state" jdbcType="INTEGER" property="businessState"/>
@@ -200,7 +203,7 @@
   </select>
 
   <select id="getSmileAll" resultMap="SmileMap">
-    select a.id, a.point,a.enterprise_id,b.enterprise_name,b.area,b.grid,b.registered_address,b.dynamic_grade,b.operation_mode,b.business_state,
+    select a.id, a.point,a.enterprise_id,b.enterprise_name,b.cantact_way,b.area,b.grid,b.registered_address,b.propaganda_enclosure,b.dynamic_grade,b.id_number,b.operation_mode,b.business_state,b.legal_person,
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
@@ -214,7 +217,7 @@
     b.max_time
     FROM grid_points as a inner JOIN
     (
-    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state,
+    SELECT id,enterprise_name,cantact_way,area,grid,registered_address,propaganda_enclosure,dynamic_grade,id_number,operation_mode,business_state,legal_person,
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
@@ -269,7 +272,7 @@
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =0
+    SELECT id,enterprise_name,cantact_way,area,grid,registered_address,propaganda_enclosure,dynamic_grade,id_number,operation_mode,business_state,legal_person FROM supervision_enterprise WHERE gps_flag =0
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
 
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -359,7 +362,7 @@
         </if>
     </trim><!--trim的用法，设置通用格式并删除前/后缀，在判断生效后添加格式，若前无删前缀，后无删后缀 -->
     union
-    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state,
+    SELECT id,enterprise_name,cantact_way,area,grid,registered_address,propaganda_enclosure,dynamic_grade,id_number,operation_mode,business_state,legal_person,
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
@@ -414,7 +417,7 @@
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =0 and permission_type = ''
+    SELECT id,enterprise_name,cantact_way,area,grid,registered_address,propaganda_enclosure,dynamic_grade,id_number,operation_mode,business_state,legal_person FROM supervision_enterprise WHERE gps_flag =0 and permission_type = ''
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
 
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -474,7 +477,7 @@
     ) as b<!-- 基础大表，根据权限/业态查企业 -->
     on a.enterprise_id=b.id
     union<!-- 组合两种定位方式 -->
-    select a.id, a.point,b.id as enterprise_id,b.enterprise_name,b.area,b.grid,b.registered_address,b.dynamic_grade,b.operation_mode,b.business_state,
+    select a.id, a.point,b.id as enterprise_id,b.enterprise_name,b.cantact_way,b.area,b.grid,b.registered_address,b.propaganda_enclosure,b.dynamic_grade,b.id_number,b.operation_mode,b.business_state,b.legal_person,
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
@@ -488,7 +491,7 @@
     b.max_time
     FROM grid_points_gps as a inner JOIN
     (
-    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state,
+    SELECT id,enterprise_name,cantact_way,area,grid,registered_address,propaganda_enclosure,dynamic_grade,id_number,operation_mode,business_state,legal_person,
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
@@ -543,7 +546,7 @@
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =1
+    SELECT id,enterprise_name,cantact_way,area,grid,registered_address,propaganda_enclosure,dynamic_grade,id_number,operation_mode,business_state,legal_person FROM supervision_enterprise WHERE gps_flag =1
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
 
@@ -633,7 +636,7 @@
       </if>
     </trim><!--trim的用法，设置通用格式并删除前/后缀，在判断生效后添加格式，若前无删前缀，后无删后缀 -->
     union
-    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state,
+    SELECT id,enterprise_name,cantact_way,area,grid,registered_address,propaganda_enclosure,dynamic_grade,id_number,operation_mode,business_state,legal_person,
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
@@ -688,7 +691,7 @@
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT id,enterprise_name,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state FROM supervision_enterprise WHERE gps_flag =1 and permission_type = ''
+    SELECT id,enterprise_name,cantact_way,area,grid,registered_address,propaganda_enclosure,dynamic_grade,id_number,operation_mode,business_state,legal_person FROM supervision_enterprise WHERE gps_flag =1 and permission_type = ''
     AND area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
 
@@ -750,7 +753,7 @@
   </select>
 
   <select id="getSmileAllPhone" resultMap="SmileMap">
-select * from (
+   select * from (
     select a.id, a.point,a.enterprise_id,b.enterprise_name,b.area,b.grid,b.registered_address,b.dynamic_grade,b.operation_mode,b.business_state,b.shop_name,b.cantact_way,
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>

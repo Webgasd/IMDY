@@ -10,11 +10,14 @@ public class SmilePoints {
     private String point;
     private String enterpriseName;
     private String shopName;
+    private String idNumber;
+    private String legalPerson;
     private String cantactWay;
     private Integer area;
     private Integer grid;
     private String registered_address;
     private String dynamic_grade;
+    private String propagandaEnclosure;
     private String operationMode;
     private Integer businessState;
     private Integer foodBusiness;
@@ -27,6 +30,30 @@ public class SmilePoints {
     private Integer cosmeticsUse;
     private Date endTime;
     private Integer distance;
+
+    public String getPropagandaEnclosure() {
+        return propagandaEnclosure;
+    }
+
+    public void setPropagandaEnclosure(String propagandaEnclosure) {
+        this.propagandaEnclosure = propagandaEnclosure;
+    }
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
+    }
+
+    public String getLegalPerson() {
+        return legalPerson;
+    }
+
+    public void setLegalPerson(String legalPerson) {
+        this.legalPerson = legalPerson;
+    }
 
     public Integer getDistance() {
         return distance;

@@ -1,5 +1,6 @@
 package com.example.upc.dao;
 
+import com.example.upc.dataobject.SupervisionEnFoodProIndex;
 import com.example.upc.dataobject.SupervisionEnIndustrialProductsIndex;
 import com.example.upc.dataobject.SupervisionEnMedicalBuIndex;
 import org.apache.ibatis.annotations.Param;
@@ -56,6 +57,6 @@ public interface SupervisionEnIndustrialProductsIndexMapper {
     int updateByPrimaryKey(SupervisionEnIndustrialProductsIndex record);
 
     SupervisionEnIndustrialProductsIndex selectByEnterpriseId(@Param("eid") Integer eid);
-
     List<SupervisionEnIndustrialProductsIndex> getAll();
+    int deleteByEnterpriseId(@Param("eid") Integer eid);
 }

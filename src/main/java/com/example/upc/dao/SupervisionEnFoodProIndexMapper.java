@@ -56,6 +56,6 @@ public interface SupervisionEnFoodProIndexMapper {
     int updateByPrimaryKey(SupervisionEnFoodProIndex record);
 
     SupervisionEnFoodProIndex selectByEnterpriseId(@Param("eid") Integer eid);
-
     List<SupervisionEnFoodProIndex> getAll();
+    int deleteByEnterpriseId(@Param("eid") Integer eid);
 }

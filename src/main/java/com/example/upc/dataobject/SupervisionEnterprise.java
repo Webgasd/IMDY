@@ -660,7 +660,7 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Sun Apr 19 00:46:37 CST 2020
      */
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date givenDate;
 
@@ -734,7 +734,6 @@ public class SupervisionEnterprise {
      *
      * @mbg.generated Sun Apr 19 00:46:37 CST 2020
      */
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date operateTime;
 
