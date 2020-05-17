@@ -1435,7 +1435,7 @@
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
@@ -1455,22 +1455,22 @@
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     ) as a
       <trim prefix="WHERE" prefixOverrides="OR">
@@ -1540,7 +1540,7 @@
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
@@ -1560,22 +1560,22 @@
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>) as a
   </select>
 
@@ -1660,7 +1660,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
@@ -1680,22 +1680,22 @@ select * from (
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     ) as a
       <trim prefix="WHERE" prefixOverrides="OR">
@@ -1810,7 +1810,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
@@ -1830,22 +1830,22 @@ select * from (
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     ) as a
     ) as a
@@ -1888,7 +1888,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
@@ -1908,22 +1908,22 @@ select * from (
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">
@@ -1991,7 +1991,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
@@ -2011,22 +2011,22 @@ select * from (
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>) as a
   </select>
 
@@ -2109,7 +2109,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
@@ -2129,22 +2129,22 @@ select * from (
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">
@@ -2257,7 +2257,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
@@ -2277,22 +2277,22 @@ select * from (
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     ) as a
     ) as a
@@ -2329,7 +2329,7 @@ select * from (
     </if>
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
 
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
 
@@ -2345,19 +2345,19 @@ select * from (
     </if>
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
 
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
 
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
 
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
 
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     union
     <if test="search.industryList.contains('industrialProducts')">SELECT a.*,b.id as a10_id FROM (</if>
@@ -2383,7 +2383,7 @@ select * from (
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -2395,16 +2395,16 @@ select * from (
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
   ) as a where 1=1
     <if test="search.operationMode != null and search.operationMode != ''">
@@ -2454,7 +2454,7 @@ select * from (
     </if>
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
 
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
 
@@ -2470,19 +2470,19 @@ select * from (
     </if>
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
 
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
 
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
 
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
 
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">
@@ -2556,7 +2556,7 @@ select * from (
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -2568,16 +2568,16 @@ select * from (
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     ) as a
   </select>
@@ -2613,7 +2613,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
@@ -2633,22 +2633,22 @@ select * from (
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">
@@ -2712,7 +2712,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
@@ -2732,22 +2732,22 @@ select * from (
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>)as a
   </select>
 
@@ -2781,7 +2781,7 @@ select * from (
     <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.credit_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
@@ -2801,22 +2801,22 @@ select * from (
     <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.register_code LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">

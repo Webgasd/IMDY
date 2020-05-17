@@ -5,11 +5,16 @@ import com.example.upc.controller.param.PageQuery;
 import com.example.upc.dataobject.AbnormalContent;
 import com.example.upc.service.AbnormalContentService;
 import com.example.upc.service.SupervisionEnterpriseService;
+import com.example.upc.util.DateComparedUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/abnormal")
@@ -24,6 +29,17 @@ public class AbnormalContentController {
     @ResponseBody
     public CommonReturnType getPage(PageQuery pageQuery){
         return CommonReturnType.create(abnormalContentService.getPage(pageQuery));
+
+    }
+
+    @RequestMapping("/com")
+    @ResponseBody
+    public CommonReturnType com (String date1, String date2) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date3 = sdf.parse(date1);
+        Date date4 = sdf.parse(date2);
+        DateComparedUtil dateComparedUtil = new DateComparedUtil();
+        return CommonReturnType.create(dateComparedUtil.DateCompared(date3,date4));
 
     }
     @RequestMapping("/insert")
