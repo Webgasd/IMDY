@@ -640,34 +640,74 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     void insertEnterpriseChildrenList(SupervisionEnterprise supervisionEnterprise,EnterpriseParam enterpriseParam){
 
         if(!enterpriseParam.getPermissionFamily().contains("foodBusiness")){
-            supervisionEnFoodBuIndexMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnFoodBuIndex recordEFB = supervisionEnFoodBuIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            if (recordEFB!=null){
+                supervisionEnFoodBuIndexMapper.deleteByPrimaryKey(recordEFB.getId());
+                supervisionEnFoodBuMapper.deleteByIndexId(recordEFB.getId());
+            }
         }
         if(!enterpriseParam.getPermissionFamily().contains("foodProduce")){
-            supervisionEnFoodProIndexMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnFoodProIndex recordEFP = supervisionEnFoodProIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            if (recordEFP!=null){
+                supervisionEnFoodProIndexMapper.deleteByPrimaryKey(recordEFP.getId());
+                supervisionEnFoodProMapper.deleteByIndexId(recordEFP.getId());
+            }
         }
         if(!enterpriseParam.getPermissionFamily().contains("drugsBusiness")){
-            supervisionEnDrugsBuIndexMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnDrugsBuIndex recordEDB = supervisionEnDrugsBuIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            if (recordEDB!=null){
+                supervisionEnDrugsBuIndexMapper.deleteByPrimaryKey(recordEDB.getId());
+                supervisionEnDrugsBuMapper.deleteByIndexId(recordEDB.getId());
+            }
         }
         if(!enterpriseParam.getPermissionFamily().contains("drugsProduce")){
-            supervisionEnDrugsProIndexMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnDrugsProIndex recordEDP = supervisionEnDrugsProIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            if (recordEDP!=null){
+                supervisionEnDrugsProIndexMapper.deleteByPrimaryKey(recordEDP.getId());
+                supervisionEnDrugsProMapper.deleteByIndexId(recordEDP.getId());
+            }
         }
         if(!enterpriseParam.getPermissionFamily().contains("cosmeticsUse")){
-            supervisionEnCosmeticsIndexMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnCosmeticsIndex recordEC = supervisionEnCosmeticsIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            if (recordEC!=null){
+                supervisionEnCosmeticsIndexMapper.deleteByPrimaryKey(recordEC.getId());
+                supervisionEnCosmeticsMapper.deleteByIndexId(recordEC.getId());
+            }
         }
         if(!enterpriseParam.getPermissionFamily().contains("medicalProduce")){
-            supervisionEnMedicalProIndexMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnMedicalProIndex recordEMP = supervisionEnMedicalProIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            if (recordEMP!=null){
+                supervisionEnMedicalProIndexMapper.deleteByPrimaryKey(recordEMP.getId());
+                supervisionEnMedicalProMapper.deleteByIndexId(recordEMP.getId());
+            }
         }
         if(!enterpriseParam.getPermissionFamily().contains("medicalBusiness")){
-            supervisionEnMedicalBuIndexMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnMedicalBuIndex recordEMB = supervisionEnMedicalBuIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            if (recordEMB!=null){
+                supervisionEnMedicalBuIndexMapper.deleteByPrimaryKey(recordEMB.getId());
+                supervisionEnMedicalBuMapper.deleteByIndexId(recordEMB.getId());
+            }
         }
         if(!enterpriseParam.getPermissionFamily().contains("smallCater")){
-            supervisionEnSmallCaterIndexMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnSmallCaterIndex recordESC = supervisionEnSmallCaterIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            if (recordESC!=null){
+                supervisionEnSmallCaterIndexMapper.deleteByPrimaryKey(recordESC.getId());
+                supervisionEnSmallCaterMapper.deleteByIndexId(recordESC.getId());
+            }
         }
         if(!enterpriseParam.getPermissionFamily().contains("smallWorkshop")){
-            supervisionEnSmallWorkshopIndexMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnSmallWorkshopIndex recordESW = supervisionEnSmallWorkshopIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            if (recordESW!=null){
+                supervisionEnSmallWorkshopIndexMapper.deleteByPrimaryKey(recordESW.getId());
+                supervisionEnSmallWorkshopMapper.deleteByIndexId(recordESW.getId());
+            }
         }
         if(!enterpriseParam.getPermissionFamily().contains("industrialProducts")){
-            supervisionEnIndustrialProductsIndexMapper.deleteByEnterpriseId(supervisionEnterprise.getId());
+            SupervisionEnIndustrialProductsIndex recordEIP = supervisionEnIndustrialProductsIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
+            if (recordEIP!=null){
+                supervisionEnIndustrialProductsIndexMapper.deleteByPrimaryKey(recordEIP.getId());
+                supervisionEnIndustrialProductsMapper.deleteByIndexId(recordEIP.getId());
+            }
         }
         //如果存在这个type，先判断list是否为空（size），
         //然后找index表中是否存在了这个企业的索引，并拿到索引的id，然后在许可证表中删除indexid为这个id的所有许可证
