@@ -1545,14 +1545,16 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 
                 //食品经营许可证
                 List<SupervisionEnFoodBu> supervisionEnFoodBuList = supervisionEnFoodBuMapper.getAll();
+                SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
+                DateComparedUtil dateComparedUtil = new DateComparedUtil();
                 Map <String,Integer> numberMap =new HashMap<>();
                 for (SupervisionEnFoodBu supervisionEnFoodBu:supervisionEnFoodBuList){
                     numberMap.put(supervisionEnFoodBu.getNumber(),supervisionEnFoodBu.getId());
                 }
                 List<SupervisionEnFoodBuIndex> supervisionEnFoodBuIndexList = supervisionEnFoodBuIndexMapper.getAll();
-                Map <String,Integer> numberFoodBuIndexMap =new HashMap<>();
+                Map <Integer,Integer> numberFoodBuIndexMap =new HashMap<>();
                 for (SupervisionEnFoodBuIndex supervisionEnFoodBuIndex:supervisionEnFoodBuIndexList){
-                    numberFoodBuIndexMap.put(supervisionEnFoodBuIndex.getNumber(),supervisionEnFoodBuIndex.getId());
+                    numberFoodBuIndexMap.put(supervisionEnFoodBuIndex.getEnterpriseId(),supervisionEnFoodBuIndex.getId());
                 }
                 XSSFSheet sheet1 = workbook.getSheetAt(1);
                 for (int j = 0; j <sheet1.getPhysicalNumberOfRows(); j++) {
@@ -1659,10 +1661,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     SupervisionEnFoodBu supervisionEnFoodBu = new SupervisionEnFoodBu();
                     SupervisionEnFoodBuIndex supervisionEnFoodBuIndex = new SupervisionEnFoodBuIndex();
                     XSSFRow row = sheet1.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
                     if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
                     {
                         int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
                         supervisionEnFoodBuIndex.setEnterpriseId(id);
+                    }
+                    else
+                    {
+                        int a=j+1;
+                        throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "食品经营许可证 第"+a+"行许可证号没有对应企业");
                     }
                     supervisionEnFoodBu.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
                     supervisionEnFoodBu.setNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
@@ -1689,15 +1700,32 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             //只进行许可证表的更新
                             int id = numberMap.get(supervisionEnFoodBu.getNumber());
                             supervisionEnFoodBu.setId(id);
-                            id = numberFoodBuIndexMap.get(supervisionEnFoodBu.getNumber());
+                            id = numberFoodBuIndexMap.get(supervisionEnFoodBuIndex.getEnterpriseId());
                             supervisionEnFoodBu.setIndexId(id);
                             supervisionEnFoodBuMapper.updateByPrimaryKey(supervisionEnFoodBu);
                         }
                         else{
-                            supervisionEnFoodBuIndex.setNumber(supervisionEnFoodBu.getNumber());
-                            supervisionEnFoodBuIndex.setEndTime(new Date());
-                            int indexId=supervisionEnFoodBuIndexMapper.insertSelective(supervisionEnFoodBuIndex);
-                            supervisionEnFoodBu.setIndexId(indexId);
+                            Date dateNew = new Date();
+                            if(supervisionEnFoodBuIndexMapper.selectByEnterpriseId(supervisionEnFoodBuIndex.getEnterpriseId())!=null) {
+                                dateNew=supervisionEnFoodBu.getEndTime();
+                                supervisionEnFoodBuIndex=supervisionEnFoodBuIndexMapper.selectByEnterpriseId(supervisionEnFoodBuIndex.getEnterpriseId());
+                                if(dateComparedUtil.DateCompared(supervisionEnFoodBuIndex.getEndTime(),dateNew)==1)
+                                {
+                                    supervisionEnFoodBuIndex.setEndTime(dateNew);
+                                }
+                                supervisionEnFoodBuIndex.setNumber(supervisionEnFoodBuIndex.getNumber()+","+supervisionEnFoodBu.getNumber());
+                                supervisionEnFoodBuIndexMapper.updateByPrimaryKeySelective(supervisionEnFoodBuIndex);
+                                supervisionEnFoodBu.setIndexId(supervisionEnFoodBuIndex.getId());
+                            }
+                            else {
+                                supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnFoodBuIndex.getEnterpriseId());
+                                supervisionEnterprise.setPermissionType(supervisionEnterprise.getPermissionType() + ",foodBusiness");
+                                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+                                supervisionEnFoodBuIndex.setNumber(supervisionEnFoodBu.getNumber());
+                                supervisionEnFoodBuIndex.setEndTime(supervisionEnFoodBu.getEndTime());
+                                int indexId=supervisionEnFoodBuIndexMapper.insertSelective(supervisionEnFoodBuIndex);
+                                supervisionEnFoodBu.setIndexId(indexId);
+                            }
                             supervisionEnFoodBuMapper.insertSelective(supervisionEnFoodBu);
                         }
                     }
@@ -1711,10 +1739,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                 }
 
                 List<SupervisionEnFoodProIndex> supervisionEnFoodProIndexList = supervisionEnFoodProIndexMapper.getAll();
-                Map <String,Integer> numberFoodBuProIndexMap =new HashMap<>();
+                Map <Integer,Integer> numberFoodBuProIndexMap =new HashMap<>();
                 for (SupervisionEnFoodProIndex supervisionEnFoodProIndex:supervisionEnFoodProIndexList){
-                    numberFoodBuProIndexMap.put(supervisionEnFoodProIndex.getNumber(),supervisionEnFoodProIndex.getId());
+                    numberFoodBuProIndexMap.put(supervisionEnFoodProIndex.getEnterpriseId(),supervisionEnFoodProIndex.getId());
                 }
+
                 XSSFSheet sheet2 = workbook.getSheetAt(2);
                 for (int j = 0; j <sheet2.getPhysicalNumberOfRows(); j++) {
                     if (j == 0) {
@@ -1807,10 +1836,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     SupervisionEnFoodPro supervisionEnFoodPro = new SupervisionEnFoodPro();
                     SupervisionEnFoodProIndex supervisionEnFoodProIndex = new SupervisionEnFoodProIndex();
                     XSSFRow row = sheet2.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
                     if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
                     {
                         int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
                         supervisionEnFoodProIndex.setEnterpriseId(id);
+                    }
+                    else
+                    {
+                        int a=j+1;
+                        throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "食品生产许可证 第"+a+"行许可证号没有对应企业");
                     }
                     supervisionEnFoodPro.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
                     supervisionEnFoodPro.setNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
@@ -1834,15 +1872,32 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             //只进行许可证表的更新
                             int id = numberFoodProMap.get(supervisionEnFoodPro.getNumber());
                             supervisionEnFoodPro.setId(id);
-                            id = numberFoodBuProIndexMap.get(supervisionEnFoodPro.getNumber());
+                            id = numberFoodBuProIndexMap.get(supervisionEnFoodProIndex.getEnterpriseId());
                             supervisionEnFoodPro.setIndexId(id);
                             supervisionEnFoodProMapper.updateByPrimaryKey(supervisionEnFoodPro);
                         }
                         else{
-                            supervisionEnFoodProIndex.setNumber(supervisionEnFoodPro.getNumber());
-                            supervisionEnFoodProIndex.setEndTime(new Date());
-                            int indexId=supervisionEnFoodProIndexMapper.insertSelective(supervisionEnFoodProIndex);
-                            supervisionEnFoodPro.setIndexId(indexId);
+                            Date dateNew = new Date();
+                            if(supervisionEnFoodProIndexMapper.selectByEnterpriseId(supervisionEnFoodProIndex.getEnterpriseId())!=null){
+                                dateNew=supervisionEnFoodPro.getEndTime();
+                                supervisionEnFoodProIndex=supervisionEnFoodProIndexMapper.selectByEnterpriseId(supervisionEnFoodProIndex.getEnterpriseId());
+                                if(dateComparedUtil.DateCompared(supervisionEnFoodPro.getEndTime(),dateNew)==1)
+                                {
+                                    supervisionEnFoodProIndex.setEndTime(dateNew);
+                                }
+                                supervisionEnFoodProIndex.setNumber(supervisionEnFoodProIndex.getNumber()+","+supervisionEnFoodPro.getNumber());
+                                supervisionEnFoodProIndexMapper.updateByPrimaryKeySelective(supervisionEnFoodProIndex);
+                                supervisionEnFoodPro.setIndexId(supervisionEnFoodProIndex.getId());
+                            }
+                            else {
+                                supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnFoodProIndex.getEnterpriseId());
+                                supervisionEnterprise.setPermissionType(supervisionEnterprise.getPermissionType() + ",foodProduce");
+                                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+                                supervisionEnFoodProIndex.setNumber(supervisionEnFoodPro.getNumber());
+                                supervisionEnFoodProIndex.setEndTime(supervisionEnFoodPro.getEndTime());
+                                int indexId = supervisionEnFoodProIndexMapper.insertSelective(supervisionEnFoodProIndex);
+                                supervisionEnFoodPro.setIndexId(indexId);
+                            }
                             supervisionEnFoodProMapper.insertSelective(supervisionEnFoodPro);
                         }
                     }
@@ -1915,6 +1970,10 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     SupervisionEnProCategory supervisionEnProCategory = new SupervisionEnProCategory();
                     XSSFRow row = sheet3.getRow(j);
+                    if((row.getCell(0).getCellType()==CellType.BLANK)&&(row.getCell(1).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
                     if(numberFoodProMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
                     {
                         int id= numberFoodProMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
@@ -1946,9 +2005,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     numberDrugsMap.put(supervisionEnDrugsBu.getNumber(),supervisionEnDrugsBu.getId());
                 }
                 List<SupervisionEnDrugsBuIndex> supervisionEnDrugsBuIndexList = supervisionEnDrugsBuIndexMapper.getAll();
-                Map <String,Integer> numberDrugsIndexMap =new HashMap<>();
+                Map <Integer,Integer> numberDrugsIndexMap =new HashMap<>();
                 for (SupervisionEnDrugsBuIndex supervisionEnDrugsBuIndex:supervisionEnDrugsBuIndexList){
-                    numberDrugsIndexMap.put(supervisionEnDrugsBuIndex.getNumber(),supervisionEnDrugsBuIndex.getId());
+                    numberDrugsIndexMap.put(supervisionEnDrugsBuIndex.getEnterpriseId(),supervisionEnDrugsBuIndex.getId());
                 }
                 XSSFSheet sheet6 = workbook.getSheetAt(6);
                 for (int j = 0; j <sheet6.getPhysicalNumberOfRows(); j++) {
@@ -2055,11 +2114,16 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     SupervisionEnDrugsBu supervisionEnDrugsBu = new SupervisionEnDrugsBu();
                     SupervisionEnDrugsBuIndex supervisionEnDrugsBuIndex = new SupervisionEnDrugsBuIndex();
                     XSSFRow row = sheet6.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
                     if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
                     {
                         int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
                         supervisionEnDrugsBuIndex.setEnterpriseId(id);
                     }
+
                     supervisionEnDrugsBu.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
                     supervisionEnDrugsBu.setNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
                     supervisionEnDrugsBu.setOperationMode(ExcalUtils.handleStringXSSF(row.getCell(3)));
@@ -2085,17 +2149,36 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             //只进行许可证表的更新
                             int id = numberDrugsMap.get(supervisionEnDrugsBu.getNumber());
                             supervisionEnDrugsBu.setId(id);
-                            id=numberDrugsIndexMap.get(supervisionEnDrugsBu.getNumber());
+                            id=numberDrugsIndexMap.get(supervisionEnDrugsBuIndex.getEnterpriseId());
                             supervisionEnDrugsBu.setIndexId(id);
                             supervisionEnDrugsBuMapper.updateByPrimaryKey(supervisionEnDrugsBu);
                         }
                         else{
-                            supervisionEnDrugsBuIndex.setNumber(supervisionEnDrugsBu.getNumber());
-                            supervisionEnDrugsBuIndex.setEndTime(new Date());
-                            int indexId = supervisionEnDrugsBuIndexMapper.insertSelective(supervisionEnDrugsBuIndex);
-                            supervisionEnDrugsBu.setIndexId(indexId);
+                            Date dateNew = new Date();
+                            if(supervisionEnDrugsBuIndexMapper.selectByEnterpriseId(supervisionEnDrugsBuIndex.getEnterpriseId())!=null)
+                            {
+                                dateNew=supervisionEnDrugsBu.getEndTime();
+                                supervisionEnDrugsBuIndex=supervisionEnDrugsBuIndexMapper.selectByEnterpriseId(supervisionEnDrugsBuIndex.getEnterpriseId());
+                                if(dateComparedUtil.DateCompared(supervisionEnDrugsBuIndex.getEndTime(),dateNew)==1)
+                                {
+                                    supervisionEnDrugsBuIndex.setEndTime(dateNew);
+                                }
+                                supervisionEnDrugsBuIndex.setNumber(supervisionEnDrugsBuIndex.getNumber()+","+supervisionEnDrugsBu.getNumber());
+                                supervisionEnDrugsBuIndexMapper.updateByPrimaryKeySelective(supervisionEnDrugsBuIndex);
+                                supervisionEnDrugsBu.setIndexId(supervisionEnDrugsBuIndex.getId());
+                            }
+                            else {
+                                supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnDrugsBuIndex.getEnterpriseId());
+                                supervisionEnterprise.setPermissionType(supervisionEnterprise.getPermissionType() + ",drugsBusiness");
+                                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+                                supervisionEnDrugsBuIndex.setNumber(supervisionEnDrugsBu.getNumber());
+                                supervisionEnDrugsBuIndex.setEndTime(supervisionEnDrugsBu.getEndTime());
+                                int indexId = supervisionEnDrugsBuIndexMapper.insertSelective(supervisionEnDrugsBuIndex);
+                                supervisionEnDrugsBu.setIndexId(indexId);
+                            }
                             supervisionEnDrugsBuMapper.insertSelective(supervisionEnDrugsBu);
                         }
+
                     }
                 }
 
@@ -2106,9 +2189,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     numberDrugsProMap.put(supervisionEnDrugsPro.getNumber(),supervisionEnDrugsPro.getId());
                 }
                 List<SupervisionEnDrugsProIndex> supervisionEnDrugsProIndexList = supervisionEnDrugsProIndexMapper.getAll();
-                Map <String,Integer> numberDrugsProIndexMap =new HashMap<>();
+                Map <Integer,Integer> numberDrugsProIndexMap =new HashMap<>();
                 for (SupervisionEnDrugsProIndex supervisionEnDrugsProIndex:supervisionEnDrugsProIndexList){
-                    numberDrugsProIndexMap.put(supervisionEnDrugsProIndex.getNumber(),supervisionEnDrugsProIndex.getId());
+                    numberDrugsProIndexMap.put(supervisionEnDrugsProIndex.getEnterpriseId(),supervisionEnDrugsProIndex.getId());
                 }
 
                 XSSFSheet sheet7 = workbook.getSheetAt(7);
@@ -2216,10 +2299,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     SupervisionEnDrugsPro supervisionEnDrugsPro = new SupervisionEnDrugsPro();
                     SupervisionEnDrugsProIndex supervisionEnDrugsProIndex = new SupervisionEnDrugsProIndex();
                     XSSFRow row = sheet7.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
                     if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
                     {
                         int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
                         supervisionEnDrugsProIndex.setEnterpriseId(id);
+                    }
+                    else
+                    {
+                        int a=j+1;
+                        throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "药品生产许可证 第"+a+"行许可证号没有对应企业");
                     }
                     supervisionEnDrugsPro.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
                     supervisionEnDrugsPro.setNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
@@ -2246,15 +2338,32 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             //只进行许可证表的更新
                             int id = numberDrugsProMap.get(supervisionEnDrugsPro.getNumber());
                             supervisionEnDrugsPro.setId(id);
-                            id=numberDrugsProIndexMap.get(supervisionEnDrugsPro.getNumber());
+                            id=numberDrugsProIndexMap.get(supervisionEnDrugsProIndex.getEnterpriseId());
                             supervisionEnDrugsPro.setIndexId(id);
                             supervisionEnDrugsProMapper.updateByPrimaryKey(supervisionEnDrugsPro);
                         }
                         else{
-                            supervisionEnDrugsProIndex.setNumber(supervisionEnDrugsPro.getNumber());
-                            supervisionEnDrugsProIndex.setEndTime(new Date());
-                            int indexId=supervisionEnDrugsProIndexMapper.insertSelective(supervisionEnDrugsProIndex);
-                            supervisionEnDrugsPro.setIndexId(indexId);
+                            Date dateNew = new Date();
+                            if(supervisionEnDrugsProIndexMapper.selectByEnterpriseId(supervisionEnDrugsProIndex.getEnterpriseId())!=null){
+                                dateNew=supervisionEnDrugsPro.getEndTime();
+                                supervisionEnDrugsProIndex=supervisionEnDrugsProIndexMapper.selectByEnterpriseId(supervisionEnDrugsProIndex.getEnterpriseId());
+                                if(dateComparedUtil.DateCompared(supervisionEnDrugsProIndex.getEndTime(),dateNew)==1)
+                                {
+                                    supervisionEnDrugsProIndex.setEndTime(dateNew);
+                                }
+                                supervisionEnDrugsProIndex.setNumber(supervisionEnDrugsProIndex.getNumber()+","+supervisionEnDrugsProIndex.getNumber());
+                                supervisionEnDrugsProIndexMapper.updateByPrimaryKeySelective(supervisionEnDrugsProIndex);
+                                supervisionEnDrugsPro.setIndexId(supervisionEnDrugsProIndex.getId());
+                            }
+                            else {
+                                supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnDrugsProIndex.getEnterpriseId());
+                                supervisionEnterprise.setPermissionType(supervisionEnterprise.getPermissionType() + ",drugsProduce");
+                                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+                                supervisionEnDrugsProIndex.setNumber(supervisionEnDrugsPro.getNumber());
+                                supervisionEnDrugsProIndex.setEndTime(supervisionEnDrugsPro.getEndTime());
+                                int indexId = supervisionEnDrugsProIndexMapper.insertSelective(supervisionEnDrugsProIndex);
+                                supervisionEnDrugsPro.setIndexId(indexId);
+                            }
                             supervisionEnDrugsProMapper.insertSelective(supervisionEnDrugsPro);
                         }
                     }
@@ -2267,9 +2376,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     numberCosmeticsMap.put(supervisionEnCosmetics.getRegisterCode(),supervisionEnCosmetics.getId());
                 }
                 List<SupervisionEnCosmeticsIndex> supervisionEnCosmeticsIndexList = supervisionEnCosmeticsIndexMapper.getAll();
-                Map <String,Integer> numberCosmeticsIndexMap =new HashMap<>();
+                Map <Integer,Integer> numberCosmeticsIndexMap =new HashMap<>();
                 for (SupervisionEnCosmeticsIndex supervisionEnCosmeticsIndex:supervisionEnCosmeticsIndexList){
-                    numberCosmeticsIndexMap.put(supervisionEnCosmeticsIndex.getNumber(),supervisionEnCosmeticsIndex.getId());
+                    numberCosmeticsIndexMap.put(supervisionEnCosmeticsIndex.getEnterpriseId(),supervisionEnCosmeticsIndex.getId());
                 }
                 XSSFSheet sheet10 = workbook.getSheetAt(10);
                 for (int j = 0; j <sheet10.getPhysicalNumberOfRows(); j++) {
@@ -2367,10 +2476,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     SupervisionEnCosmetics supervisionEnCosmetics = new SupervisionEnCosmetics();
                     SupervisionEnCosmeticsIndex supervisionEnCosmeticsIndex = new SupervisionEnCosmeticsIndex();
                     XSSFRow row = sheet10.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
                     if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
                     {
                         int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
                         supervisionEnCosmeticsIndex.setEnterpriseId(id);
+                    }
+                    else
+                    {
+                        int a=j+1;
+                        throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "化妆品生产许可证 第"+a+"行许可证号没有对应企业");
                     }
                     supervisionEnCosmetics.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
                     supervisionEnCosmetics.setRegisterCode(ExcalUtils.handleStringXSSF(row.getCell(2)));
@@ -2395,15 +2513,33 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             //只进行许可证表的更新
                             int id = numberCosmeticsMap.get(supervisionEnCosmetics.getRegisterCode());
                             supervisionEnCosmetics.setId(id);
-                            id=numberCosmeticsIndexMap.get(supervisionEnCosmetics.getRegisterCode());
+                            id=numberCosmeticsIndexMap.get(supervisionEnCosmeticsIndex.getEnterpriseId());
                             supervisionEnCosmetics.setIndexId(id);
                             supervisionEnCosmeticsMapper.updateByPrimaryKey(supervisionEnCosmetics);
                         }
                         else{
-                            supervisionEnCosmeticsIndex.setNumber(supervisionEnCosmetics.getRegisterCode());
-                            supervisionEnCosmeticsIndex.setEndTime(new Date());
-                            int indexId=supervisionEnCosmeticsIndexMapper.insertSelective(supervisionEnCosmeticsIndex);
-                            supervisionEnCosmetics.setIndexId(indexId);
+                            Date dateNew = new Date();
+                            if(supervisionEnCosmeticsIndexMapper.selectByEnterpriseId(supervisionEnCosmeticsIndex.getEnterpriseId())!=null)
+                            {
+                                dateNew=supervisionEnCosmetics.getEndTime();
+                                supervisionEnCosmeticsIndex=supervisionEnCosmeticsIndexMapper.selectByEnterpriseId(supervisionEnCosmeticsIndex.getEnterpriseId());
+                                if(dateComparedUtil.DateCompared(supervisionEnCosmeticsIndex.getEndTime(),dateNew)==1)
+                                {
+                                    supervisionEnCosmeticsIndex.setEndTime(dateNew);
+                                }
+                                supervisionEnCosmeticsIndex.setNumber(supervisionEnCosmeticsIndex.getNumber()+","+supervisionEnCosmetics.getRegisterCode());
+                                supervisionEnCosmeticsIndexMapper.updateByPrimaryKeySelective(supervisionEnCosmeticsIndex);
+                                supervisionEnCosmetics.setIndexId(supervisionEnCosmeticsIndex.getId());
+                            }
+                            else {
+                                supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnCosmeticsIndex.getEnterpriseId());
+                                supervisionEnterprise.setPermissionType(supervisionEnterprise.getPermissionType() + ",cosmeticsUse");
+                                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+                                supervisionEnCosmeticsIndex.setNumber(supervisionEnCosmetics.getRegisterCode());
+                                supervisionEnCosmeticsIndex.setEndTime(supervisionEnCosmetics.getEndTime());
+                                int indexId = supervisionEnCosmeticsIndexMapper.insertSelective(supervisionEnCosmeticsIndex);
+                                supervisionEnCosmetics.setIndexId(indexId);
+                            }
                             supervisionEnCosmeticsMapper.insertSelective(supervisionEnCosmetics);
                         }
                     }
@@ -2416,9 +2552,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     numberMedicalMap.put(supervisionEnMedicalBu.getRegisterNumber(),supervisionEnMedicalBu.getId());
                 }
                 List<SupervisionEnMedicalBuIndex> supervisionEnMedicalBuIndexList = supervisionEnMedicalBuIndexMapper.getAll();
-                Map <String,Integer> numberMedicalIndexMap =new HashMap<>();
+                Map <Integer,Integer> numberMedicalIndexMap =new HashMap<>();
                 for (SupervisionEnMedicalBuIndex supervisionEnMedicalBuIndex:supervisionEnMedicalBuIndexList){
-                    numberMedicalIndexMap.put(supervisionEnMedicalBuIndex.getNumber(),supervisionEnMedicalBuIndex.getId());
+                    numberMedicalIndexMap.put(supervisionEnMedicalBuIndex.getEnterpriseId(),supervisionEnMedicalBuIndex.getId());
                 }
                 XSSFSheet sheet8 = workbook.getSheetAt(8);
                 for (int j = 0; j <sheet8.getPhysicalNumberOfRows(); j++) {
@@ -2516,10 +2652,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     SupervisionEnMedicalBu supervisionEnMedicalBu = new SupervisionEnMedicalBu();
                     SupervisionEnMedicalBuIndex supervisionEnMedicalBuIndex = new SupervisionEnMedicalBuIndex();
                     XSSFRow row = sheet8.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
                     if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
                     {
                         int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
                         supervisionEnMedicalBuIndex.setEnterpriseId(id);
+                    }
+                    else
+                    {
+                        int a=j+1;
+                        throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "医疗器械经营许可证 第"+a+"行许可证号没有对应企业");
                     }
                     supervisionEnMedicalBu.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
                     supervisionEnMedicalBu.setRegisterNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
@@ -2544,15 +2689,31 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             //只进行许可证表的更新
                             int id = numberMedicalMap.get(supervisionEnMedicalBu.getRegisterNumber());
                             supervisionEnMedicalBu.setId(id);
-                            id=numberMedicalIndexMap.get(supervisionEnMedicalBu.getRegisterNumber());
+                            id=numberMedicalIndexMap.get(supervisionEnMedicalBuIndex.getEnterpriseId());
                             supervisionEnMedicalBu.setIndexId(id);
                             supervisionEnMedicalBuMapper.updateByPrimaryKey(supervisionEnMedicalBu);
                         }
                         else{
-                            supervisionEnMedicalBuIndex.setNumber(supervisionEnMedicalBu.getRegisterNumber());
-                            supervisionEnMedicalBuIndex.setEndTime(new Date());
-                            int indexId=supervisionEnMedicalBuIndexMapper.insertSelective(supervisionEnMedicalBuIndex);
-                            supervisionEnMedicalBu.setIndexId(indexId);
+                            Date dateNew = new Date();
+                            if(supervisionEnMedicalBuIndexMapper.selectByEnterpriseId(supervisionEnMedicalBuIndex.getEnterpriseId())!=null) {
+                                dateNew = supervisionEnMedicalBu.getEndTime();
+                                if(dateComparedUtil.DateCompared(supervisionEnMedicalBuIndex.getEndTime(),dateNew)==1)
+                                {
+                                    supervisionEnMedicalBuIndex.setEndTime(dateNew);
+                                }
+                                supervisionEnMedicalBuIndex.setNumber(supervisionEnMedicalBuIndex.getNumber()+","+supervisionEnMedicalBu.getRegisterNumber());
+                                supervisionEnMedicalBuIndexMapper.updateByPrimaryKeySelective(supervisionEnMedicalBuIndex);
+                                supervisionEnMedicalBu.setIndexId(supervisionEnMedicalBuIndex.getId());
+                            }
+                            else {
+                                supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnMedicalBuIndex.getEnterpriseId());
+                                supervisionEnterprise.setPermissionType(supervisionEnterprise.getPermissionType() + ",medicalBusiness");
+                                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+                                supervisionEnMedicalBuIndex.setNumber(supervisionEnMedicalBu.getRegisterNumber());
+                                supervisionEnMedicalBuIndex.setEndTime(supervisionEnMedicalBu.getEndTime());
+                                int indexId = supervisionEnMedicalBuIndexMapper.insertSelective(supervisionEnMedicalBuIndex);
+                                supervisionEnMedicalBu.setIndexId(indexId);
+                            }
                             supervisionEnMedicalBuMapper.insertSelective(supervisionEnMedicalBu);
                         }
                     }
@@ -2565,9 +2726,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     numberMedicalProMap.put(supervisionEnMedicalPro.getRegisterNumber(),supervisionEnMedicalPro.getId());
                 }
                 List<SupervisionEnMedicalProIndex> supervisionEnMedicalProIndexList = supervisionEnMedicalProIndexMapper.getAll();
-                Map <String,Integer> numberMedicalProIndexMap =new HashMap<>();
+                Map <Integer,Integer> numberMedicalProIndexMap =new HashMap<>();
                 for (SupervisionEnMedicalProIndex supervisionEnMedicalProIndex:supervisionEnMedicalProIndexList){
-                    numberMedicalProIndexMap.put(supervisionEnMedicalProIndex.getNumber(),supervisionEnMedicalProIndex.getId());
+                    numberMedicalProIndexMap.put(supervisionEnMedicalProIndex.getEnterpriseId(),supervisionEnMedicalProIndex.getId());
                 }
                 XSSFSheet sheet9 = workbook.getSheetAt(9);
                 for (int j = 0; j <sheet9.getPhysicalNumberOfRows(); j++) {
@@ -2665,10 +2826,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     SupervisionEnMedicalPro supervisionEnMedicalPro = new SupervisionEnMedicalPro();
                     SupervisionEnMedicalProIndex supervisionEnMedicalProIndex = new SupervisionEnMedicalProIndex();
                     XSSFRow row = sheet9.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
                     if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
                     {
                         int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
                         supervisionEnMedicalProIndex.setEnterpriseId(id);
+                    }
+                    else
+                    {
+                        int a=j+1;
+                        throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "医疗器械生产许可证 第"+a+"行许可证号没有对应企业");
                     }
                     supervisionEnMedicalPro.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
                     supervisionEnMedicalPro.setRegisterNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
@@ -2693,16 +2863,34 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             //只进行许可证表的更新
                             int id = numberMedicalProMap.get(supervisionEnMedicalPro.getRegisterNumber());
                             supervisionEnMedicalPro.setId(id);
-                            id = numberMedicalProIndexMap.get(supervisionEnMedicalPro.getRegisterNumber());
+                            id = numberMedicalProIndexMap.get(supervisionEnMedicalProIndex.getEnterpriseId());
                             supervisionEnMedicalPro.setIndexId(id);
                             supervisionEnMedicalProMapper.updateByPrimaryKey(supervisionEnMedicalPro);
                         }
                         else{
-                            supervisionEnMedicalProIndex.setNumber(supervisionEnMedicalPro.getRegisterNumber());
-                            supervisionEnMedicalProIndex.setEndTime(new Date());
-                            int indexId=supervisionEnMedicalProIndexMapper.insertSelective(supervisionEnMedicalProIndex);
-                            supervisionEnMedicalPro.setIndexId(indexId);
+                            Date dateNew = new Date();
+                            if(supervisionEnMedicalProIndexMapper.selectByEnterpriseId(supervisionEnMedicalProIndex.getEnterpriseId())!=null){
+                                dateNew = supervisionEnMedicalPro.getEndTime();
+                                supervisionEnMedicalProIndex=supervisionEnMedicalProIndexMapper.selectByEnterpriseId(supervisionEnMedicalProIndex.getEnterpriseId());
+                                if(dateComparedUtil.DateCompared(supervisionEnMedicalProIndex.getEndTime(),dateNew)==1)
+                                {
+                                    supervisionEnMedicalProIndex.setEndTime(dateNew);
+                                }
+                                supervisionEnMedicalProIndex.setNumber(supervisionEnMedicalProIndex.getNumber()+","+supervisionEnMedicalPro.getRegisterNumber());
+                                supervisionEnMedicalProIndexMapper.updateByPrimaryKeySelective(supervisionEnMedicalProIndex);
+                                supervisionEnMedicalPro.setIndexId(supervisionEnMedicalProIndex.getId());
+                            }
+                            else{
+                                supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnMedicalProIndex.getEnterpriseId());
+                                supervisionEnterprise.setPermissionType(supervisionEnterprise.getPermissionType() + ",medicalProduce");
+                                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+                                supervisionEnMedicalProIndex.setNumber(supervisionEnMedicalPro.getRegisterNumber());
+                                supervisionEnMedicalProIndex.setEndTime(supervisionEnMedicalPro.getEndTime());
+                                int indexId=supervisionEnMedicalProIndexMapper.insertSelective(supervisionEnMedicalProIndex);
+                                supervisionEnMedicalPro.setIndexId(indexId);
+                            }
                             supervisionEnMedicalProMapper.insertSelective(supervisionEnMedicalPro);
+
                         }
                     }
                 }
@@ -2714,9 +2902,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     numberSmallCaterMap.put(supervisionEnSmallCater.getRegisterNumber(),supervisionEnSmallCater.getId());
                 }
                 List<SupervisionEnSmallCaterIndex> supervisionEnSmallCaterIndexList = supervisionEnSmallCaterIndexMapper.getAll();
-                Map <String,Integer> numberSmallCaterIndexMap =new HashMap<>();
+                Map <Integer,Integer> numberSmallCaterIndexMap =new HashMap<>();
                 for (SupervisionEnSmallCaterIndex supervisionEnSmallCaterIndex:supervisionEnSmallCaterIndexList){
-                    numberSmallCaterIndexMap.put(supervisionEnSmallCaterIndex.getNumber(),supervisionEnSmallCaterIndex.getId());
+                    numberSmallCaterIndexMap.put(supervisionEnSmallCaterIndex.getEnterpriseId(),supervisionEnSmallCaterIndex.getId());
                 }
                 XSSFSheet sheet4 = workbook.getSheetAt(4);
                 for (int j = 0; j <sheet4.getPhysicalNumberOfRows(); j++) {
@@ -2814,10 +3002,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     SupervisionEnSmallCater supervisionEnSmallCater = new SupervisionEnSmallCater();
                     SupervisionEnSmallCaterIndex supervisionEnSmallCaterIndex = new SupervisionEnSmallCaterIndex();
                     XSSFRow row = sheet9.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
                     if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
                     {
                         int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
                         supervisionEnSmallCaterIndex.setEnterpriseId(id);
+                    }
+                    else
+                    {
+                        int a=j+1;
+                        throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "小餐饮 第"+a+"行许可证号没有对应企业");
                     }
                     supervisionEnSmallCater.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
                     supervisionEnSmallCater.setRegisterNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
@@ -2842,15 +3039,31 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             //只进行许可证表的更新
                             int id = numberSmallCaterMap.get(supervisionEnSmallCater.getRegisterNumber());
                             supervisionEnSmallCater.setId(id);
-                            id= numberSmallCaterIndexMap.get(supervisionEnSmallCater.getRegisterNumber());
+                            id= numberSmallCaterIndexMap.get(supervisionEnSmallCaterIndex.getEnterpriseId());
                             supervisionEnSmallCater.setIndexId(id);
                             supervisionEnSmallCaterMapper.updateByPrimaryKey(supervisionEnSmallCater);
                         }
                         else{
-                            supervisionEnSmallCaterIndex.setNumber(supervisionEnSmallCater.getRegisterNumber());
-                            supervisionEnSmallCaterIndex.setEndTime(new Date());
-                            int indexId=supervisionEnSmallCaterIndexMapper.insertSelective(supervisionEnSmallCaterIndex);
-                            supervisionEnSmallCater.setIndexId(indexId);
+                            Date dateNew = new Date();
+                            if(supervisionEnSmallCaterIndexMapper.selectByEnterpriseId(supervisionEnSmallCaterIndex.getEnterpriseId())!=null){
+                                dateNew=supervisionEnSmallCater.getEndTime();
+                                supervisionEnSmallCaterIndex=supervisionEnSmallCaterIndexMapper.selectByEnterpriseId(supervisionEnSmallCaterIndex.getEnterpriseId());
+                                if(dateComparedUtil.DateCompared(supervisionEnSmallCaterIndex.getEndTime(),dateNew)==1)
+                                {
+                                    supervisionEnSmallCaterIndex.setEndTime(dateNew);
+                                }
+                                supervisionEnSmallCaterIndex.setNumber(supervisionEnSmallCaterIndex.getNumber()+","+supervisionEnSmallCater.getRegisterNumber());
+                                supervisionEnSmallCater.setIndexId(supervisionEnSmallCaterIndex.getId());
+                            }
+                            else {
+                                supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnSmallCaterIndex.getEnterpriseId());
+                                supervisionEnterprise.setPermissionType(supervisionEnterprise.getPermissionType() + ",smallCater");
+                                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+                                supervisionEnSmallCaterIndex.setNumber(supervisionEnSmallCater.getRegisterNumber());
+                                supervisionEnSmallCaterIndex.setEndTime(supervisionEnSmallCater.getEndTime());
+                                int indexId = supervisionEnSmallCaterIndexMapper.insertSelective(supervisionEnSmallCaterIndex);
+                                supervisionEnSmallCater.setIndexId(indexId);
+                            }
                             supervisionEnSmallCaterMapper.insertSelective(supervisionEnSmallCater);
                         }
                     }
@@ -2863,9 +3076,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     numberSmallWorkshopMap.put(supervisionEnSmallWorkshop.getRegisterNumber(),supervisionEnSmallWorkshop.getId());
                 }
                 List<SupervisionEnSmallWorkshopIndex> supervisionEnSmallWorkshopIndexList = supervisionEnSmallWorkshopIndexMapper.getAll();
-                Map <String,Integer> numberSmallWorkshopIndexMap =new HashMap<>();
+                Map <Integer,Integer> numberSmallWorkshopIndexMap =new HashMap<>();
                 for (SupervisionEnSmallWorkshopIndex supervisionEnSmallWorkshopIndex:supervisionEnSmallWorkshopIndexList){
-                    numberSmallWorkshopIndexMap.put(supervisionEnSmallWorkshopIndex.getNumber(),supervisionEnSmallWorkshopIndex.getId());
+                    numberSmallWorkshopIndexMap.put(supervisionEnSmallWorkshopIndex.getEnterpriseId(),supervisionEnSmallWorkshopIndex.getId());
                 }
                 XSSFSheet sheet5 = workbook.getSheetAt(5);
                 for (int j = 0; j <sheet5.getPhysicalNumberOfRows(); j++) {
@@ -2963,10 +3176,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     SupervisionEnSmallWorkshop supervisionEnSmallWorkshop = new SupervisionEnSmallWorkshop();
                     SupervisionEnSmallWorkshopIndex supervisionEnSmallWorkshopIndex= new SupervisionEnSmallWorkshopIndex();
                     XSSFRow row = sheet9.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
                     if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
                     {
                         int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
                         supervisionEnSmallWorkshopIndex.setEnterpriseId(id);
+                    }
+                    else
+                    {
+                        int a=j+1;
+                        throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "小作坊 第"+a+"行许可证号没有对应企业");
                     }
                     supervisionEnSmallWorkshop.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
                     supervisionEnSmallWorkshop.setRegisterNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
@@ -2991,15 +3213,32 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             //只进行许可证表的更新
                             int id = numberSmallWorkshopMap.get(supervisionEnSmallWorkshop.getRegisterNumber());
                             supervisionEnSmallWorkshop.setId(id);
-                            id=numberSmallWorkshopIndexMap.get(supervisionEnSmallWorkshop.getRegisterNumber());
+                            id=numberSmallWorkshopIndexMap.get(supervisionEnSmallWorkshopIndex.getEnterpriseId());
                             supervisionEnSmallWorkshop.setIndexId(id);
                             supervisionEnSmallWorkshopMapper.updateByPrimaryKey(supervisionEnSmallWorkshop);
                         }
                         else{
-                            supervisionEnSmallWorkshopIndex.setNumber(supervisionEnSmallWorkshop.getRegisterNumber());
-                            supervisionEnSmallWorkshopIndex.setEndTime(new Date());
-                            int indexId=supervisionEnSmallWorkshopIndexMapper.insertSelective(supervisionEnSmallWorkshopIndex);
-                            supervisionEnSmallWorkshop.setIndexId(indexId);
+                            Date dateNew = new Date();
+                            if(supervisionEnSmallWorkshopIndexMapper.selectByEnterpriseId(supervisionEnSmallWorkshopIndex.getEnterpriseId())!=null) {
+                                dateNew=supervisionEnSmallWorkshop.getEndTime();
+                                supervisionEnSmallWorkshopIndex=supervisionEnSmallWorkshopIndexMapper.selectByEnterpriseId(supervisionEnSmallWorkshopIndex.getEnterpriseId());
+                                if(dateComparedUtil.DateCompared(supervisionEnSmallWorkshopIndex.getEndTime(),dateNew)==1)
+                                {
+                                    supervisionEnSmallWorkshopIndex.setEndTime(dateNew);
+                                }
+                                supervisionEnSmallWorkshopIndex.setNumber(supervisionEnSmallWorkshopIndex.getNumber()+supervisionEnSmallWorkshop.getRegisterNumber());
+                                supervisionEnSmallWorkshopIndexMapper.updateByPrimaryKeySelective(supervisionEnSmallWorkshopIndex);
+                                supervisionEnSmallWorkshop.setIndexId(supervisionEnSmallWorkshopIndex.getId());
+                            }
+                            else {
+                                supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnSmallWorkshopIndex.getEnterpriseId());
+                                supervisionEnterprise.setPermissionType(supervisionEnterprise.getPermissionType() + ",smallWorkshop");
+                                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+                                supervisionEnSmallWorkshopIndex.setNumber(supervisionEnSmallWorkshop.getRegisterNumber());
+                                supervisionEnSmallWorkshopIndex.setEndTime(supervisionEnSmallWorkshop.getEndTime());
+                                int indexId = supervisionEnSmallWorkshopIndexMapper.insertSelective(supervisionEnSmallWorkshopIndex);
+                                supervisionEnSmallWorkshop.setIndexId(indexId);
+                            }
                             supervisionEnSmallWorkshopMapper.insertSelective(supervisionEnSmallWorkshop);
                         }
                     }
@@ -3012,9 +3251,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     numberIndustrialMap.put(supervisionEnIndustrialProducts.getRegisterNumber(),supervisionEnIndustrialProducts.getId());
                 }
                 List<SupervisionEnIndustrialProductsIndex> supervisionEnIndustrialProductsIndexList = supervisionEnIndustrialProductsIndexMapper.getAll();
-                Map <String,Integer> numberIndustrialIndexMap =new HashMap<>();
+                Map <Integer,Integer> numberIndustrialIndexMap =new HashMap<>();
                 for (SupervisionEnIndustrialProductsIndex supervisionEnIndustrialProductsIndex:supervisionEnIndustrialProductsIndexList){
-                    numberIndustrialIndexMap.put(supervisionEnIndustrialProductsIndex.getNumber(),supervisionEnIndustrialProductsIndex.getId());
+                    numberIndustrialIndexMap.put(supervisionEnIndustrialProductsIndex.getEnterpriseId(),supervisionEnIndustrialProductsIndex.getId());
                 }
                 XSSFSheet sheet11 = workbook.getSheetAt(11);
                 for (int j = 0; j <sheet11.getPhysicalNumberOfRows(); j++) {
@@ -3108,11 +3347,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     SupervisionEnIndustrialProducts supervisionEnIndustrialProducts = new SupervisionEnIndustrialProducts();
                     SupervisionEnIndustrialProductsIndex supervisionEnIndustrialProductsIndex= new SupervisionEnIndustrialProductsIndex();
                     XSSFRow row = sheet11.getRow(j);
+                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    {
+                        break;
+                    }
                     if(enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)))!=null)
                     {
                         int id= enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
-                        supervisionEnIndustrialProducts.setIndexId(id);
                         supervisionEnIndustrialProductsIndex.setEnterpriseId(id);
+                    }
+                    else
+                    {
+                        int a=j+1;
+                        throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "工业产品许可证 第"+a+"行许可证号没有对应企业");
                     }
                     supervisionEnIndustrialProducts.setBusinessName(ExcalUtils.handleStringXSSF(row.getCell(0)));
                     supervisionEnIndustrialProducts.setRegisterNumber(ExcalUtils.handleStringXSSF(row.getCell(2)));
@@ -3136,15 +3383,32 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             //只进行许可证表的更新
                             int id = numberIndustrialMap.get(supervisionEnIndustrialProducts.getRegisterNumber());
                             supervisionEnIndustrialProducts.setId(id);
-                            id = numberIndustrialIndexMap.get(supervisionEnIndustrialProducts.getRegisterNumber());
+                            id = numberIndustrialIndexMap.get(supervisionEnIndustrialProductsIndex.getEnterpriseId());
                             supervisionEnIndustrialProducts.setIndexId(id);
                             supervisionEnIndustrialProductsMapper.updateByPrimaryKey(supervisionEnIndustrialProducts);
                         }
                         else{
-                            supervisionEnIndustrialProductsIndex.setNumber(supervisionEnIndustrialProducts.getRegisterNumber());
-                            supervisionEnIndustrialProductsIndex.setEndTime(new Date());
-                            int indexId=supervisionEnIndustrialProductsIndexMapper.insertSelective(supervisionEnIndustrialProductsIndex);
-                            supervisionEnIndustrialProducts.setIndexId(indexId);
+                            Date dateNew = new Date();
+                            if(supervisionEnIndustrialProductsIndexMapper.selectByEnterpriseId(supervisionEnIndustrialProductsIndex.getEnterpriseId())!=null){
+                                dateNew=supervisionEnIndustrialProducts.getEndTime();
+                                supervisionEnIndustrialProductsIndex=supervisionEnIndustrialProductsIndexMapper.selectByEnterpriseId(supervisionEnIndustrialProductsIndex.getEnterpriseId());
+                                if(dateComparedUtil.DateCompared(supervisionEnIndustrialProductsIndex.getEndTime(),dateNew)==1)
+                                {
+                                    supervisionEnIndustrialProductsIndex.setEndTime(dateNew);
+                                }
+                                supervisionEnIndustrialProductsIndex.setNumber(supervisionEnIndustrialProductsIndex.getNumber()+","+supervisionEnIndustrialProducts.getRegisterNumber());
+                                supervisionEnIndustrialProductsIndexMapper.updateByPrimaryKeySelective(supervisionEnIndustrialProductsIndex);
+                                supervisionEnIndustrialProducts.setIndexId(supervisionEnIndustrialProductsIndex.getId());
+                            }
+                            else {
+                                supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnIndustrialProductsIndex.getEnterpriseId());
+                                supervisionEnterprise.setPermissionType(supervisionEnterprise.getPermissionType() + ",IndustrialProducts");
+                                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+                                supervisionEnIndustrialProductsIndex.setNumber(supervisionEnIndustrialProducts.getRegisterNumber());
+                                supervisionEnIndustrialProductsIndex.setEndTime(supervisionEnIndustrialProducts.getEndTime());
+                                int indexId = supervisionEnIndustrialProductsIndexMapper.insertSelective(supervisionEnIndustrialProductsIndex);
+                                supervisionEnIndustrialProducts.setIndexId(indexId);
+                            }
                             supervisionEnIndustrialProductsMapper.insertSelective(supervisionEnIndustrialProducts);
                         }
                     }
