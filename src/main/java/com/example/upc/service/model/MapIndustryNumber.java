@@ -5,27 +5,39 @@ package com.example.upc.service.model;
  * @date 2019/11/1 20:23
  */
 public class MapIndustryNumber {
-    private Integer foodCommon;
-    private Integer foodCirculate;
+    private Integer foodBusiness;
+    private Integer smallWorkshop;
+    private Integer smallCater;
     private Integer foodProduce;
     private Integer drugsBusiness;
-    private Integer medicalUse;
+    private Integer drugsProduce;
+    private Integer medicalBusiness;
+    private Integer medicalProduce;
+    private Integer industrialProducts;
     private Integer cosmeticsUse;
 
-    public Integer getFoodCommon() {
-        return foodCommon;
+    public Integer getFoodBusiness() {
+        return foodBusiness;
     }
 
-    public void setFoodCommon(Integer foodCommon) {
-        this.foodCommon = foodCommon;
+    public void setFoodBusiness(Integer foodBusiness) {
+        this.foodBusiness = foodBusiness;
     }
 
-    public Integer getFoodCirculate() {
-        return foodCirculate;
+    public Integer getSmallWorkshop() {
+        return smallWorkshop;
     }
 
-    public void setFoodCirculate(Integer foodCirculate) {
-        this.foodCirculate = foodCirculate;
+    public void setSmallWorkshop(Integer smallWorkshop) {
+        this.smallWorkshop = smallWorkshop;
+    }
+
+    public Integer getSmallCater() {
+        return smallCater;
+    }
+
+    public void setSmallCater(Integer smallCater) {
+        this.smallCater = smallCater;
     }
 
     public Integer getFoodProduce() {
@@ -44,12 +56,36 @@ public class MapIndustryNumber {
         this.drugsBusiness = drugsBusiness;
     }
 
-    public Integer getMedicalUse() {
-        return medicalUse;
+    public Integer getDrugsProduce() {
+        return drugsProduce;
     }
 
-    public void setMedicalUse(Integer medicalUse) {
-        this.medicalUse = medicalUse;
+    public void setDrugsProduce(Integer drugsProduce) {
+        this.drugsProduce = drugsProduce;
+    }
+
+    public Integer getMedicalBusiness() {
+        return medicalBusiness;
+    }
+
+    public void setMedicalBusiness(Integer medicalBusiness) {
+        this.medicalBusiness = medicalBusiness;
+    }
+
+    public Integer getMedicalProduce() {
+        return medicalProduce;
+    }
+
+    public void setMedicalProduce(Integer medicalProduce) {
+        this.medicalProduce = medicalProduce;
+    }
+
+    public Integer getIndustrialProducts() {
+        return industrialProducts;
+    }
+
+    public void setIndustrialProducts(Integer industrialProducts) {
+        this.industrialProducts = industrialProducts;
     }
 
     public Integer getCosmeticsUse() {

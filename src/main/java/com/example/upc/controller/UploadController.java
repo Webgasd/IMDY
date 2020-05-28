@@ -54,7 +54,8 @@ public class UploadController {
         if(!filed.exists()){
             filed.mkdir();
         }
-        File files = new File("upload/"+type);
+        File files = new File("/root/apache-tomcat-9.0.31/webapps/upload/"+type);
+        //File files = new File("upload/"+type);
         if(!files.exists()){
             files.mkdir();
         }
@@ -72,7 +73,8 @@ public class UploadController {
         OutputStream os = null;
         try {
             os = response.getOutputStream();
-            bis = new BufferedInputStream(new FileInputStream(new File("upload/report",fileName)));
+            bis = new BufferedInputStream(new FileInputStream(new File("/root/apache-tomcat-9.0.31/webapps/upload/report",fileName)));
+            //            bis = new BufferedInputStream(new FileInputStream(new File("upload/report",fileName)));
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment;filename=" +  java.net.URLEncoder.encode(fileName,"UTF-8"));
             int i = bis.read(buff);
@@ -97,7 +99,8 @@ public class UploadController {
     @RequestMapping(value = "/downloadFileEx", method=RequestMethod.GET)
     public static void downloadExcelModle(HttpServletResponse response,@RequestParam(name = "name") String fileName) {
         //下载
-        File file = new File("upload/report/"+fileName);//   1.获取要下载的文件的绝对路径
+        File file = new File("/root/apache-tomcat-9.0.31/webapps/upload/report/"+fileName);//   1.获取要下载的文件的绝对路径
+//        File file = new File("upload/report/"+fileName);//   1.获取要下载的文件的绝对路径
 //        File file = new File(fileName);//   1.获取要下载的文件的绝对路径
         String newDname = fileName;     //2.获取要下载的文件名
         System.out.println(fileName);

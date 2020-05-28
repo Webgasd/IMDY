@@ -326,36 +326,49 @@
     FROM supervision_ca
     WHERE company_id IN (
     SELECT id FROM (
-    <if test="caParam.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id FROM (</if>
-    <if test="caParam.industryList.contains('medicalUse')">SELECT a.*,b.id as a6_id FROM (</if>
-    <if test="caParam.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id FROM (</if>
-    <if test="caParam.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id FROM (</if>
-    <if test="caParam.industryList.contains('foodCirculate')">SELECT a.*,b.id as a3_id FROM (</if>
-    <if test="caParam.industryList.contains('foodCommon')">SELECT a.*,b.id as a2_id FROM (</if>
-    <if test="caParam.industryList.contains('foodBusiness') or caParam.industryList.contains('foodCirculate') or caParam.industryList.contains('foodCommon')">SELECT a.* ,b.id as a1_id FROM (</if>
+    <if test="caParam.industryList.contains('industrialProducts')">SELECT a.*,b.id as a10_id,b.end_time as a10_time FROM (</if>
+    <if test="caParam.industryList.contains('medicalBusiness')">SELECT a.*,b.id as a9_id,b.end_time as a9_time FROM (</if>
+    <if test="caParam.industryList.contains('medicalProduce')">SELECT a.*,b.id as a8_id,b.end_time as a8_time FROM (</if>
+    <if test="caParam.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,b.end_time as a7_time FROM (</if>
+    <if test="caParam.industryList.contains('drugsProduce')">SELECT a.*,b.id as a6_id,b.end_time as a6_time FROM (</if>
+    <if test="caParam.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,b.end_time as a5_time FROM (</if>
+    <if test="caParam.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
+    <if test="caParam.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
+    <if test="caParam.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
+    <if test="caParam.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT id  FROM supervision_enterprise WHERE area IN
     <foreach collection="caParam.areaList" item="area" open="(" close=")" separator=",">#{area}</foreach>
     <if test="caParam.supervisor != null and caParam.supervisor != ''">AND FIND_IN_SET(#{caParam.supervisor},supervisor)</if>
-    <if test="caParam.industryList.contains('foodBusiness') or caParam.industryList.contains('foodCirculate') or caParam.industryList.contains('foodCommon')">) as a LEFT JOIN supervision_en_food_bu as b on a.id =b.enterprise_id
-      <if test="!caParam.industryList.contains('foodBusiness')">
-        <if test="caParam.industryList.contains('foodCirculate') and !caParam.industryList.contains('foodCommon')">AND b.business_format IN ('食品销售经营者（非连锁）','食品销售经营者（连锁）','食品销售经营者')</if>
-        <if test="caParam.industryList.contains('foodCommon') and !caParam.industryList.contains('foodCirculate')">AND b.business_format IN ('餐饮服务经营者（非连锁）','餐饮服务经营者（连锁）','单位食堂','餐饮服务经营者')</if></if></if>
-    <if test="caParam.industryList.contains('foodCommon')">)as a LEFT JOIN supervision_en_common as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('foodCirculate')">)as a LEFT JOIN supervision_en_food_cir as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('drugsBusiness')">)as a LEFT JOIN supervision_en_drugs_bu as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('medicalUse')">)as a LEFT JOIN supervision_en_medical as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics as b on a.id =b.enterprise_id</if>
+    <if test="caParam.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('smallCater')">)as a LEFT JOIN supervision_en_small_cater_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('drugsBusiness')">)as a LEFT JOIN supervision_en_drugs_bu_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('drugsProduce')">)as a LEFT JOIN supervision_en_drugs_pro_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
+    </if>
     ) as a
     <if test="caParam.userType != 'admin'">
     <trim prefix="WHERE" prefixOverrides="OR">
-      <if test="caParam.industryList.contains('foodBusiness') or caParam.industryList.contains('foodCirculate') or caParam.industryList.contains('foodCommon')">
+      <if test="caParam.industryList.contains('foodBusiness')">
         a1_id
       </if>
-      <if test="caParam.industryList.contains('foodCommon')">
+      <if test="caParam.industryList.contains('smallCater')">
         OR a2_id
       </if>
-      <if test="caParam.industryList.contains('foodCirculate')">
+      <if test="caParam.industryList.contains('smallWorkshop')">
         OR a3_id
       </if>
       <if test="caParam.industryList.contains('foodProduce')">
@@ -364,11 +377,20 @@
       <if test="caParam.industryList.contains('drugsBusiness')">
         OR a5_id
       </if>
-      <if test="caParam.industryList.contains('medicalUse')">
+      <if test="caParam.industryList.contains('drugsProduce')">
         OR a6_id
       </if>
       <if test="caParam.industryList.contains('cosmeticsUse')">
         OR a7_id
+      </if>
+      <if test="caParam.industryList.contains('medicalProduce')">
+        OR a8_id
+      </if>
+      <if test="caParam.industryList.contains('medicalBusiness')">
+        OR a9_id
+      </if>
+      <if test="caParam.industryList.contains('industrialProducts')">
+        OR a10_id
       </if>
     </trim>
     </if>
@@ -389,36 +411,49 @@
     FROM supervision_ca
     WHERE company_id IN (
     SELECT id FROM (
-    <if test="caParam.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id FROM (</if>
-    <if test="caParam.industryList.contains('medicalUse')">SELECT a.*,b.id as a6_id FROM (</if>
-    <if test="caParam.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id FROM (</if>
-    <if test="caParam.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id FROM (</if>
-    <if test="caParam.industryList.contains('foodCirculate')">SELECT a.*,b.id as a3_id FROM (</if>
-    <if test="caParam.industryList.contains('foodCommon')">SELECT a.*,b.id as a2_id FROM (</if>
-    <if test="caParam.industryList.contains('foodBusiness') or caParam.industryList.contains('foodCirculate') or caParam.industryList.contains('foodCommon')">SELECT a.* ,b.id as a1_id FROM (</if>
+    <if test="caParam.industryList.contains('industrialProducts')">SELECT a.*,b.id as a10_id,b.end_time as a10_time FROM (</if>
+    <if test="caParam.industryList.contains('medicalBusiness')">SELECT a.*,b.id as a9_id,b.end_time as a9_time FROM (</if>
+    <if test="caParam.industryList.contains('medicalProduce')">SELECT a.*,b.id as a8_id,b.end_time as a8_time FROM (</if>
+    <if test="caParam.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,b.end_time as a7_time FROM (</if>
+    <if test="caParam.industryList.contains('drugsProduce')">SELECT a.*,b.id as a6_id,b.end_time as a6_time FROM (</if>
+    <if test="caParam.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,b.end_time as a5_time FROM (</if>
+    <if test="caParam.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
+    <if test="caParam.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
+    <if test="caParam.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
+    <if test="caParam.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT id  FROM supervision_enterprise WHERE area IN
     <foreach collection="caParam.areaList" item="area" open="(" close=")" separator=",">#{area}</foreach>
     <if test="caParam.supervisor != null and caParam.supervisor != ''">AND FIND_IN_SET(#{caParam.supervisor},supervisor)</if>
-    <if test="caParam.industryList.contains('foodBusiness') or caParam.industryList.contains('foodCirculate') or caParam.industryList.contains('foodCommon')">) as a LEFT JOIN supervision_en_food_bu as b on a.id =b.enterprise_id
-      <if test="!caParam.industryList.contains('foodBusiness')">
-        <if test="caParam.industryList.contains('foodCirculate') and !caParam.industryList.contains('foodCommon')">AND b.business_format IN ('食品销售经营者（非连锁）','食品销售经营者（连锁）','食品销售经营者')</if>
-        <if test="caParam.industryList.contains('foodCommon') and !caParam.industryList.contains('foodCirculate')">AND b.business_format IN ('餐饮服务经营者（非连锁）','餐饮服务经营者（连锁）','单位食堂','餐饮服务经营者')</if></if></if>
-    <if test="caParam.industryList.contains('foodCommon')">)as a LEFT JOIN supervision_en_common as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('foodCirculate')">)as a LEFT JOIN supervision_en_food_cir as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('drugsBusiness')">)as a LEFT JOIN supervision_en_drugs_bu as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('medicalUse')">)as a LEFT JOIN supervision_en_medical as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics as b on a.id =b.enterprise_id</if>
+    <if test="caParam.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('smallCater')">)as a LEFT JOIN supervision_en_small_cater_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('drugsBusiness')">)as a LEFT JOIN supervision_en_drugs_bu_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('drugsProduce')">)as a LEFT JOIN supervision_en_drugs_pro_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
+    </if>
     ) as a
     <if test="caParam.userType != 'admin'">
     <trim prefix="WHERE" prefixOverrides="OR">
-      <if test="caParam.industryList.contains('foodBusiness') or caParam.industryList.contains('foodCirculate') or caParam.industryList.contains('foodCommon')">
+      <if test="caParam.industryList.contains('foodBusiness')">
         a1_id
       </if>
-      <if test="caParam.industryList.contains('foodCommon')">
+      <if test="caParam.industryList.contains('smallCater')">
         OR a2_id
       </if>
-      <if test="caParam.industryList.contains('foodCirculate')">
+      <if test="caParam.industryList.contains('smallWorkshop')">
         OR a3_id
       </if>
       <if test="caParam.industryList.contains('foodProduce')">
@@ -427,11 +462,20 @@
       <if test="caParam.industryList.contains('drugsBusiness')">
         OR a5_id
       </if>
-      <if test="caParam.industryList.contains('medicalUse')">
+      <if test="caParam.industryList.contains('drugsProduce')">
         OR a6_id
       </if>
       <if test="caParam.industryList.contains('cosmeticsUse')">
         OR a7_id
+      </if>
+      <if test="caParam.industryList.contains('medicalProduce')">
+        OR a8_id
+      </if>
+      <if test="caParam.industryList.contains('medicalBusiness')">
+        OR a9_id
+      </if>
+      <if test="caParam.industryList.contains('industrialProducts')">
+        OR a10_id
       </if>
     </trim>
     </if>
@@ -473,35 +517,48 @@
     FROM supervision_ca
     WHERE company_id IN (
     SELECT id FROM (
-    <if test="caParam.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id FROM (</if>
-    <if test="caParam.industryList.contains('medicalUse')">SELECT a.*,b.id as a6_id FROM (</if>
-    <if test="caParam.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id FROM (</if>
-    <if test="caParam.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id FROM (</if>
-    <if test="caParam.industryList.contains('foodCirculate')">SELECT a.*,b.id as a3_id FROM (</if>
-    <if test="caParam.industryList.contains('foodCommon')">SELECT a.*,b.id as a2_id FROM (</if>
-    <if test="caParam.industryList.contains('foodBusiness') or caParam.industryList.contains('foodCirculate') or caParam.industryList.contains('foodCommon')">SELECT a.* ,b.id as a1_id FROM (</if>
+    <if test="caParam.industryList.contains('industrialProducts')">SELECT a.*,b.id as a10_id,b.end_time as a10_time FROM (</if>
+    <if test="caParam.industryList.contains('medicalBusiness')">SELECT a.*,b.id as a9_id,b.end_time as a9_time FROM (</if>
+    <if test="caParam.industryList.contains('medicalProduce')">SELECT a.*,b.id as a8_id,b.end_time as a8_time FROM (</if>
+    <if test="caParam.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,b.end_time as a7_time FROM (</if>
+    <if test="caParam.industryList.contains('drugsProduce')">SELECT a.*,b.id as a6_id,b.end_time as a6_time FROM (</if>
+    <if test="caParam.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,b.end_time as a5_time FROM (</if>
+    <if test="caParam.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
+    <if test="caParam.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
+    <if test="caParam.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
+    <if test="caParam.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT id  FROM supervision_enterprise WHERE area IN
     <foreach collection="caParam.areaList" item="area" open="(" close=")" separator=",">#{area}</foreach>
     <if test="caParam.supervisor != null and caParam.supervisor != ''">AND FIND_IN_SET(#{caParam.supervisor},supervisor)</if>
-    <if test="caParam.industryList.contains('foodBusiness') or caParam.industryList.contains('foodCirculate') or caParam.industryList.contains('foodCommon')">) as a LEFT JOIN supervision_en_food_bu as b on a.id =b.enterprise_id
-      <if test="!caParam.industryList.contains('foodBusiness')">
-        <if test="caParam.industryList.contains('foodCirculate') and !caParam.industryList.contains('foodCommon')">AND b.business_format IN ('食品销售经营者（非连锁）','食品销售经营者（连锁）','食品销售经营者')</if>
-        <if test="caParam.industryList.contains('foodCommon') and !caParam.industryList.contains('foodCirculate')">AND b.business_format IN ('餐饮服务经营者（非连锁）','餐饮服务经营者（连锁）','单位食堂','餐饮服务经营者')</if></if></if>
-    <if test="caParam.industryList.contains('foodCommon')">)as a LEFT JOIN supervision_en_common as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('foodCirculate')">)as a LEFT JOIN supervision_en_food_cir as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('drugsBusiness')">)as a LEFT JOIN supervision_en_drugs_bu as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('medicalUse')">)as a LEFT JOIN supervision_en_medical as b on a.id =b.enterprise_id</if>
-    <if test="caParam.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics as b on a.id =b.enterprise_id</if>
+    <if test="caParam.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('smallCater')">)as a LEFT JOIN supervision_en_small_cater_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('drugsBusiness')">)as a LEFT JOIN supervision_en_drugs_bu_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('drugsProduce')">)as a LEFT JOIN supervision_en_drugs_pro_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
+    </if>
+    <if test="caParam.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
+    </if>
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">
-      <if test="caParam.industryList.contains('foodBusiness') or caParam.industryList.contains('foodCirculate') or caParam.industryList.contains('foodCommon')">
+      <if test="caParam.industryList.contains('foodBusiness')">
         a1_id
       </if>
-      <if test="caParam.industryList.contains('foodCommon')">
+      <if test="caParam.industryList.contains('smallCater')">
         OR a2_id
       </if>
-      <if test="caParam.industryList.contains('foodCirculate')">
+      <if test="caParam.industryList.contains('smallWorkshop')">
         OR a3_id
       </if>
       <if test="caParam.industryList.contains('foodProduce')">
@@ -510,11 +567,20 @@
       <if test="caParam.industryList.contains('drugsBusiness')">
         OR a5_id
       </if>
-      <if test="caParam.industryList.contains('medicalUse')">
+      <if test="caParam.industryList.contains('drugsProduce')">
         OR a6_id
       </if>
       <if test="caParam.industryList.contains('cosmeticsUse')">
         OR a7_id
+      </if>
+      <if test="caParam.industryList.contains('medicalProduce')">
+        OR a8_id
+      </if>
+      <if test="caParam.industryList.contains('medicalBusiness')">
+        OR a9_id
+      </if>
+      <if test="caParam.industryList.contains('industrialProducts')">
+        OR a10_id
       </if>
     </trim>
     )

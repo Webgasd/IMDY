@@ -1410,7 +1410,7 @@
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state !=3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -1422,7 +1422,7 @@
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode LIKE CONCAT('%',#{search.operationMode},'%')</if>
     <if test="search.businessState != null">AND business_state = #{search.businessState}</if>
     <if test="search.permissionStatus != null and search.permissionStatus != ''">AND permission_state =#{search.permissionStatus}</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -1474,7 +1474,7 @@
     </if>
     ) as a
       <trim prefix="WHERE" prefixOverrides="OR">
-        <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">
+        <if test="search.industryList.contains('foodBusiness')">
           a1_id
         </if>
         <if test="search.industryList.contains('smallCater')">
@@ -1515,7 +1515,7 @@
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state !=3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -1527,7 +1527,7 @@
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode LIKE CONCAT('%',#{search.operationMode},'%')</if>
     <if test="search.businessState != null">AND business_state = #{search.businessState}</if>
     <if test="search.permissionStatus != null and search.permissionStatus != ''">AND permission_state =#{search.permissionStatus}</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -1582,7 +1582,7 @@
   <select id="getPage" resultMap="ListResultMap">
 select * from (
     SELECT <include refid="List_Column_List" />,
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
+    <if test="search.industryList.contains('foodBusiness')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
     <if test="search.industryList.contains('foodProduce')">a4_id,</if>
@@ -1594,7 +1594,7 @@ select * from (
     <if test="search.industryList.contains('industrialProducts')">a10_id,</if>
     (select MIN( maxtime ) from(
     <trim prefixOverrides="union">
-      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">
+      <if test="search.industryList.contains('foodBusiness')">
         select a1_time as maxtime
       </if>
       <if test="search.industryList.contains('smallCater')">
@@ -1635,7 +1635,7 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state !=3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -1647,7 +1647,7 @@ select * from (
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode LIKE CONCAT('%',#{search.operationMode},'%')</if>
     <if test="search.businessState != null">AND business_state = #{search.businessState}</if>
     <if test="search.permissionStatus != null and search.permissionStatus != ''">AND permission_state =#{search.permissionStatus}</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -1699,7 +1699,7 @@ select * from (
     </if>
     ) as a
       <trim prefix="WHERE" prefixOverrides="OR">
-        <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">
+        <if test="search.industryList.contains('foodBusiness')">
           a1_id
         </if>
         <if test="search.industryList.contains('smallCater')">
@@ -1732,7 +1732,7 @@ select * from (
       </trim>
       union
     SELECT <include refid="List_Column_List" />,
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
+    <if test="search.industryList.contains('foodBusiness')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
     <if test="search.industryList.contains('foodProduce')">a4_id,</if>
@@ -1744,7 +1744,7 @@ select * from (
     <if test="search.industryList.contains('industrialProducts')">a10_id,</if>
     (select MIN( maxtime ) from(
     <trim prefixOverrides="union">
-      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">
+      <if test="search.industryList.contains('foodBusiness')">
         select a1_time as maxtime
       </if>
       <if test="search.industryList.contains('smallCater')">
@@ -1785,7 +1785,7 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state !=3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -1797,7 +1797,7 @@ select * from (
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode LIKE CONCAT('%',#{search.operationMode},'%')</if>
     <if test="search.businessState != null">AND business_state = #{search.businessState}</if>
     <if test="search.permissionStatus != null and search.permissionStatus != ''">AND permission_state =#{search.permissionStatus}</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -1865,7 +1865,7 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state =3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -1875,7 +1875,7 @@ select * from (
     <if test="search.enterpriseScale != null and search.enterpriseScale != ''">AND enterprise_scale =#{search.enterpriseScale}</if>
     <if test="search.isStop != null">AND is_stop = #{search.isStop} </if>
     <if test="search.permissionStatus != null and search.permissionStatus != ''">AND permission_state =#{search.permissionStatus}</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -1927,7 +1927,7 @@ select * from (
     </if>
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">
-      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">
+      <if test="search.industryList.contains('foodBusiness')">
         a1_id
       </if>
       <if test="search.industryList.contains('smallCater')">
@@ -1968,7 +1968,7 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state =3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -1978,7 +1978,7 @@ select * from (
     <if test="search.enterpriseScale != null and search.enterpriseScale != ''">AND enterprise_scale =#{search.enterpriseScale}</if>
     <if test="search.isStop != null">AND is_stop = #{search.isStop} </if>
     <if test="search.permissionStatus != null and search.permissionStatus != ''">AND permission_state =#{search.permissionStatus}</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -2033,7 +2033,7 @@ select * from (
   <select id="getPageState" resultMap="ListResultMap">
     select * from (
     SELECT <include refid="List_Column_List" />,
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
+    <if test="search.industryList.contains('foodBusiness')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
     <if test="search.industryList.contains('foodProduce')">a4_id,</if>
@@ -2045,7 +2045,7 @@ select * from (
     <if test="search.industryList.contains('industrialProducts')">a10_id,</if>
     (select MIN( maxtime ) from(
     <trim prefixOverrides="union">
-      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">
+      <if test="search.industryList.contains('foodBusiness')">
         select a1_time as maxtime
       </if>
       <if test="search.industryList.contains('smallCater')">
@@ -2086,7 +2086,7 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state =3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -2096,7 +2096,7 @@ select * from (
     <if test="search.enterpriseScale != null and search.enterpriseScale != ''">AND enterprise_scale =#{search.enterpriseScale}</if>
     <if test="search.isStop != null">AND is_stop = #{search.isStop} </if>
     <if test="search.permissionStatus != null and search.permissionStatus != ''">AND permission_state =#{search.permissionStatus}</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -2148,7 +2148,7 @@ select * from (
     </if>
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">
-      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">
+      <if test="search.industryList.contains('foodBusiness')">
         a1_id
       </if>
       <if test="search.industryList.contains('smallCater')">
@@ -2181,7 +2181,7 @@ select * from (
     </trim>
     union
     SELECT <include refid="List_Column_List" />,
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
+    <if test="search.industryList.contains('foodBusiness')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
     <if test="search.industryList.contains('foodProduce')">a4_id,</if>
@@ -2193,7 +2193,7 @@ select * from (
     <if test="search.industryList.contains('industrialProducts')">a10_id,</if>
     (select MIN( maxtime ) from(
     <trim prefixOverrides="union">
-      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">
+      <if test="search.industryList.contains('foodBusiness')">
         select a1_time as maxtime
       </if>
       <if test="search.industryList.contains('smallCater')">
@@ -2234,7 +2234,7 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state =3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -2244,7 +2244,7 @@ select * from (
     <if test="search.enterpriseScale != null and search.enterpriseScale != ''">AND enterprise_scale =#{search.enterpriseScale}</if>
     <if test="search.isStop != null">AND is_stop = #{search.isStop} </if>
     <if test="search.permissionStatus != null and search.permissionStatus != ''">AND permission_state =#{search.permissionStatus}</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -2312,14 +2312,14 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id FROM (</if>
     SELECT id,enterprise_name,shop_name,registered_address,cantact_way,area,grid,dynamic_grade,business_state,operation_mode,permission_type,regulators,supervisor,point_id,point FROM view_enterprise_point WHERE area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.dept != null and search.dept != ''">AND regulators LIKE CONCAT('%',#{search.dept},'%')</if>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
 
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
 
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
@@ -2369,14 +2369,14 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id FROM (</if>
     SELECT id,enterprise_name,shop_name,registered_address,cantact_way,area,grid,dynamic_grade,business_state,operation_mode,permission_type,regulators,supervisor,point_id,point FROM view_enterprise_point WHERE permission_type = '' and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.dept != null and search.dept != ''">AND regulators LIKE CONCAT('%',#{search.dept},'%')</if>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
 
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('smallCater')">)as a LEFT JOIN supervision_en_small_cater_index as b on a.id =b.enterprise_id
@@ -2414,7 +2414,7 @@ select * from (
 
   <select id="getListPhone" resultMap="SmileMap">
     SELECT id,enterprise_name,shop_name,registered_address,cantact_way,area,grid,dynamic_grade,business_state,operation_mode,permission_type,regulators,supervisor,
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
+    <if test="search.industryList.contains('foodBusiness')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
     <if test="search.industryList.contains('foodProduce')">a4_id,</if>
@@ -2435,7 +2435,7 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id FROM (</if>
     SELECT id,enterprise_name,shop_name,registered_address,cantact_way,area,grid,dynamic_grade,business_state,operation_mode,permission_type,regulators,supervisor,point_id,point FROM view_enterprise_point WHERE area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -2444,7 +2444,7 @@ select * from (
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode LIKE CONCAT('%',#{search.operationMode},'%')</if>
     <if test="search.businessState != null">AND business_state = #{search.businessState}</if>
 
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
 
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
@@ -2486,7 +2486,7 @@ select * from (
     </if>
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">
-      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">
+      <if test="search.industryList.contains('foodBusiness')">
         a1_id
       </if>
       <if test="search.industryList.contains('smallCater')">
@@ -2519,7 +2519,7 @@ select * from (
     </trim>
     union
     SELECT id,enterprise_name,shop_name,registered_address,cantact_way,area,grid,dynamic_grade,business_state,operation_mode,permission_type,regulators,supervisor,
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">a1_id,</if>
+    <if test="search.industryList.contains('foodBusiness')">a1_id,</if>
     <if test="search.industryList.contains('smallCater')">a2_id,</if>
     <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
     <if test="search.industryList.contains('foodProduce')">a4_id,</if>
@@ -2540,7 +2540,7 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id FROM (</if>
     SELECT id,enterprise_name,shop_name,registered_address,cantact_way,area,grid,dynamic_grade,business_state,operation_mode,permission_type,regulators,supervisor,point_id,point FROM view_enterprise_point WHERE permission_type = '' and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
@@ -2549,7 +2549,7 @@ select * from (
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode LIKE CONCAT('%',#{search.operationMode},'%')</if>
     <if test="search.businessState != null">AND business_state = #{search.businessState}</if>
 
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
     </if>
     <if test="search.industryList.contains('smallCater')">)as a LEFT JOIN supervision_en_small_cater_index as b on a.id =b.enterprise_id
@@ -2594,13 +2594,13 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state !=3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.dept != null and search.dept != ''">AND regulators LIKE CONCAT('%',#{search.dept},'%')</if>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode = #{search.operationMode}</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -2652,7 +2652,7 @@ select * from (
     </if>
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">
-      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">
+      <if test="search.industryList.contains('foodBusiness')">
         a1_id
       </if>
       <if test="search.industryList.contains('smallCater')">
@@ -2693,13 +2693,13 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state !=3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.dept != null and search.dept != ''">AND regulators LIKE CONCAT('%',#{search.dept},'%')</if>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
     <if test="search.operationMode != null and search.operationMode != ''">AND operation_mode = #{search.operationMode}</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -2763,12 +2763,12 @@ select * from (
     <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    <if test="search.industryList.contains('foodBusiness')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state !=3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.dept != null and search.dept != ''">AND regulators LIKE CONCAT('%',#{search.dept},'%')</if>
     <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+    <if test="search.industryList.contains('foodBusiness')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
@@ -2820,7 +2820,7 @@ select * from (
     </if>
     ) as a
     <trim prefix="WHERE" prefixOverrides="OR">
-      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('smallCater') or search.industryList.contains('smallWorkshop')">
+      <if test="search.industryList.contains('foodBusiness')">
         a1_id
       </if>
       <if test="search.industryList.contains('smallCater')">
