@@ -127,10 +127,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
             smilePoints.setDistance((int) caculateDisUtil.Distance(gpsA, gpsB, gpsC, gpsD));
         }
         List<SmilePoints> afterSmilePointsPhoneList  = ListSortUtil.sort(SmilePointsList,"distance",null);
+        Integer a = afterSmilePointsPhoneList.size();
         afterSmilePointsPhoneList = ListSubUtil.sub(afterSmilePointsPhoneList,enterpriseSearchParam.getIndexNum());
         SmilePointsParam smilePointsParam = new SmilePointsParam();
         smilePointsParam.setSmilePointsList(afterSmilePointsPhoneList);
-        smilePointsParam.setTotal(afterSmilePointsPhoneList.size());
+        smilePointsParam.setTotal(a);
         return smilePointsParam;
     }
 
