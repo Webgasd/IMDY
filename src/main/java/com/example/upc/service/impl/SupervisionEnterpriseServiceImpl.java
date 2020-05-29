@@ -111,7 +111,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     private SupervisionEnterpriseDocumentMapper supervisionEnterpriseDocumentMapper;
 
     @Override
-    public List<SmilePoints> getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam){
+    public SmilePointsParam getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam){
         CaculateDisUtil caculateDisUtil = new CaculateDisUtil();
         if (enterpriseSearchParam.getLocation() == null||enterpriseSearchParam.getLocation().equals("")){
             enterpriseSearchParam.setLocation("118.5821878900,37.4489563700");
@@ -128,7 +128,10 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         }
         List<SmilePoints> afterSmilePointsPhoneList  = ListSortUtil.sort(SmilePointsList,"distance",null);
         afterSmilePointsPhoneList = ListSubUtil.sub(afterSmilePointsPhoneList,enterpriseSearchParam.getIndexNum());
-        return afterSmilePointsPhoneList;
+        SmilePointsParam smilePointsParam = new SmilePointsParam();
+        smilePointsParam.setSmilePointsList(afterSmilePointsPhoneList);
+        smilePointsParam.setTotal(afterSmilePointsPhoneList.size());
+        return smilePointsParam;
     }
 
     @Override

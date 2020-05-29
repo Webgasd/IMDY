@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author zcc
@@ -49,20 +51,23 @@ public class UploadController {
     }
 
     public String uploadFile(MultipartFile file,String type) throws IOException{
-        String fileName = file.getOriginalFilename();
-        File filed = new File("upload");
+        Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM");
+        String currentTime = dateFormat.format( now );
+
+        String fileName=file.getOriginalFilename();
+        System.out.println("源文件名："+fileName);
+        File filed=new File("upload/"+type+"/"+currentTime);
         if(!filed.exists()){
-            filed.mkdir();
+            filed.mkdirs();
         }
-        File files = new File("/root/apache-tomcat-9.0.31/webapps/upload/"+type);
-        //File files = new File("upload/"+type);
-        if(!files.exists()){
-            files.mkdir();
-        }
-        String filename = System.currentTimeMillis()+fileName.substring(fileName.lastIndexOf("."));
-        file.transferTo(new File(files.getAbsolutePath(),filename));
-        return filename;
+        String filename = System.currentTimeMillis()+(int)(1+Math.random()*1000)+fileName.substring(fileName.lastIndexOf("."));
+        file.transferTo(new File(filed.getAbsolutePath(),filename));
+        System.out.println(currentTime+"/"+filename);
+        return currentTime+"/"+filename;
     }
+
+
     //实现文件下载
     @RequestMapping(value = "/downloadFile", method=RequestMethod.GET)
     public void downFileFromServer(HttpServletResponse response, @RequestParam(name = "name") String fileName){
@@ -73,7 +78,7 @@ public class UploadController {
         OutputStream os = null;
         try {
             os = response.getOutputStream();
-            bis = new BufferedInputStream(new FileInputStream(new File("/root/apache-tomcat-9.0.31/webapps/upload/report",fileName)));
+            bis = new BufferedInputStream(new FileInputStream(new File("upload/report",fileName)));
             //            bis = new BufferedInputStream(new FileInputStream(new File("upload/report",fileName)));
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment;filename=" +  java.net.URLEncoder.encode(fileName,"UTF-8"));
@@ -99,7 +104,7 @@ public class UploadController {
     @RequestMapping(value = "/downloadFileEx", method=RequestMethod.GET)
     public static void downloadExcelModle(HttpServletResponse response,@RequestParam(name = "name") String fileName) {
         //下载
-        File file = new File("/root/apache-tomcat-9.0.31/webapps/upload/report/"+fileName);//   1.获取要下载的文件的绝对路径
+        File file = new File("upload/report/"+fileName);//   1.获取要下载的文件的绝对路径
 //        File file = new File("upload/report/"+fileName);//   1.获取要下载的文件的绝对路径
 //        File file = new File(fileName);//   1.获取要下载的文件的绝对路径
         String newDname = fileName;     //2.获取要下载的文件名
