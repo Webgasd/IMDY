@@ -393,16 +393,18 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         enterpriseParam.setPermissionFamily(supervisionEnterprise.getPermissionType());
         GridPoints gridPoints = gridPointsMapper.getPointByEnterpriseId(id);
         if (gridPoints==null){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业默认定位信息");
+            enterpriseParam.setPosition("");
+        }else{
+            enterpriseParam.setPosition(gridPoints.getPoint());
         }
-        enterpriseParam.setPosition(gridPoints.getPoint());
+
         if (supervisionEnterprise.getGpsFlag()==0){
-                enterpriseParam.setLocation(null);
+                enterpriseParam.setLocation("");
         }
         if (supervisionEnterprise.getGpsFlag()==1){
             GridPointsGps gridPointsGps = gridPointsGpsMapper.getPointByCodeId(supervisionEnterprise.getIdNumber());
             if (gridPointsGps==null){
-                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业更新定位信息");
+                enterpriseParam.setLocation("");
             }
             else {
                 enterpriseParam.setLocation(gridPointsGps.getPoint());

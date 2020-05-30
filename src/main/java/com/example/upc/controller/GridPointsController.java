@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -101,6 +103,7 @@ public class GridPointsController {
     @Transactional
     public CommonReturnType transform(){
         JSONObject data=new JSONObject();
+        Map<String,String> returnMap =new HashMap<>();
         List<GridPoints1> list= gridPointsService.getAll1();//获取企业列表
         int l=list.size();
         if(l>0) {
@@ -133,14 +136,15 @@ public class GridPointsController {
             }
                 else {
                     SupervisionEnterprise supervisionEnterprise=supervisionEnterpriseService.selectById(list.get(x).getId());
-                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "企业[ "+supervisionEnterprise.getEnterpriseName()+" ]地址有误，错误地址为："+address);
+                    returnMap.put("state","failed");
+                    returnMap.put("update","企业[ "+supervisionEnterprise.getEnterpriseName()+" ]地址有误，错误地址为："+address);
+                    break;
                 }
         }
-            data.put("update",true);
         }else {
-            data.put("update",false);
+            returnMap.put("state","success");
         }
-        return CommonReturnType.create(data);
+        return CommonReturnType.create(returnMap);
     }
     @RequestMapping("/getSmilePoints")
     @ResponseBody
