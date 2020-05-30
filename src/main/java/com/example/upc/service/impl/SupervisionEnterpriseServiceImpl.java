@@ -548,6 +548,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         supervisionEnterprise.setOperateIp("124.124.124");
         supervisionEnterprise.setOperateTime(new Date());
         supervisionEnterprise.setOperator("zcc");
+        if(supervisionEnterprise.getGpsFlag()==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"未设置定位标准");
+        }
         if (supervisionEnterprise.getGpsFlag()==1){
             JSONObject jsonResult = JSON.parseObject(json);
             String location = jsonResult.getString("location");
@@ -588,7 +591,10 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         sysUser1.setOperateIp("124.124.124");
         sysUser1.setOperateTime(new Date());
         sysUserMapper.insertSelective(sysUser1);
-        insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);//下方有这个方法，是用来做许可证插入
+        if(enterpriseParam.getPermissionFamily()!=null||enterpriseParam.getPermissionFamily()!=""){
+        insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);
+        }
+        //下方有这个方法，是用来做许可证插入
         insertEnterpriseDocumentList(supervisionEnterprise,enterpriseParam);
     }
 
