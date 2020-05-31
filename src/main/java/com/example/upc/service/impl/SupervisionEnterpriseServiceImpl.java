@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 @Service
 public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseService {
 
+
     @Autowired
     private SupervisionEnterpriseMapper supervisionEnterpriseMapper;
     @Autowired
@@ -1542,6 +1543,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             updateNumber++;
                         } else {//新企业就注册
                             supervisionEnterpriseMapper.insertSelective(supervisionEnterprise);
+                            SysUser sysUser1 = new SysUser();//同时进行用户的插入
+                            String encryptedPassword = MD5Util.md5("123456+");
+                            sysUser1.setUsername(supervisionEnterprise.getEnterpriseName());
+                            sysUser1.setLoginName(supervisionEnterprise.getIdNumber());
+                            sysUser1.setPassword(encryptedPassword);
+                            sysUser1.setUserType(1);
+                            sysUser1.setInfoName(supervisionEnterprise.getEnterpriseName());
+                            sysUser1.setInfoId(supervisionEnterprise.getId());
+                            sysUser1.setStatus(0);
+                            sysUser1.setOperator("操作人");
+                            sysUser1.setOperateIp("124.124.124");
+                            sysUser1.setOperateTime(new Date());
+                            sysUserMapper.insertSelective(sysUser1);
                             insertNumber++;
                         }
                     }
