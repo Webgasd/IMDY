@@ -1590,7 +1590,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     XSSFRow titleRow = sheet1.getRow(0);
                     XSSFRow row = sheet1.getRow(j);
                     XSSFRow nextRow = sheet1.getRow(j+1);
-                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+//                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    if((row.getCell(1)==null)&&(row.getCell(2)==null))
                     {
                         break;
                     }
@@ -1687,7 +1688,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     SupervisionEnFoodBu supervisionEnFoodBu = new SupervisionEnFoodBu();
                     SupervisionEnFoodBuIndex supervisionEnFoodBuIndex = new SupervisionEnFoodBuIndex();
                     XSSFRow row = sheet1.getRow(j);
-                    if((row.getCell(1).getCellType()==CellType.BLANK)&&(row.getCell(2).getCellType()==CellType.BLANK))
+                    if((row.getCell(1)==null)&&(row.getCell(2)==null))
                     {
                         break;
                     }
