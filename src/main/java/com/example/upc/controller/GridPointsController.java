@@ -106,6 +106,7 @@ public class GridPointsController {
         Map<String,String> returnMap =new HashMap<>();
         List<GridPoints1> list= gridPointsService.getAll1();//获取企业列表
         int l=list.size();
+        int flag=0;
         if(l>0) {
             GaoDeMapUtil gaoDe = new GaoDeMapUtil();
             for (int x = 0; x < l; x++) {
@@ -133,16 +134,22 @@ public class GridPointsController {
                 gridPoints.setEnterpriseId(list.get(x).getId());
                 gridPoints.setPoint(point);
                 gridPointsService.insertPoint(gridPoints);
-            }
-                else {
+                flag=1;
+            } else {
                     SupervisionEnterprise supervisionEnterprise=supervisionEnterpriseService.selectById(list.get(x).getId());
+                    flag=2;
                     returnMap.put("state","failed");
-                    returnMap.put("update","企业[ "+supervisionEnterprise.getEnterpriseName()+" ]地址有误，错误地址为："+address);
+                    returnMap.put("update","企业："+supervisionEnterprise.getEnterpriseName()+"地址有误，错误地址为："+address);
                     break;
                 }
-        }
+            }
+            if (flag==1){
+                returnMap.put("state","success");
+                returnMap.put("update","已更新："+l+"条。");
+            }
         }else {
             returnMap.put("state","success");
+            returnMap.put("update","默认定位已是最新，无需进行更新！");
         }
         return CommonReturnType.create(returnMap);
     }
