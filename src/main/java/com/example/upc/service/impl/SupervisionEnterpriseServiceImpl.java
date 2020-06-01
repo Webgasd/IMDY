@@ -1522,6 +1522,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     supervisionEnterprise.setCantactWay(ExcalUtils.handleStringXSSF(row.getCell(8)));
                     supervisionEnterprise.setBusinessTermStart(ExcalUtils.handleStringXSSF(row.getCell(9)));
                     supervisionEnterprise.setBusinessTermEnd(ExcalUtils.handleStringXSSF(row.getCell(10)));
+                    if (ExcalUtils.handleStringXSSF(row.getCell(10)).isEmpty()||ExcalUtils.handleStringXSSF(row.getCell(10))==null||ExcalUtils.handleStringXSSF(row.getCell(10))==""){
+                        supervisionEnterprise.setBusinessTermFlag(0);
+                    }else {
+                        supervisionEnterprise.setBusinessTermFlag(1);
+                    }
                     supervisionEnterprise.setGivenDate(ExcalUtils.handleDateXSSF(row.getCell(11)));
                     supervisionEnterprise.setGivenGov(ExcalUtils.handleStringXSSF(row.getCell(12)));
                     supervisionEnterprise.setBusinessScale(ExcalUtils.handleStringXSSF(row.getCell(13)));
