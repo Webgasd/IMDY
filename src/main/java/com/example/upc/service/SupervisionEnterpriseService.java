@@ -28,7 +28,7 @@ public interface SupervisionEnterpriseService {
    void update(String json, SysUser sysUser);
    void delete(int id);
    void changeStop(int id);
-   void changeNormal(Integer id);
+   void changeNormal(Integer id, Integer bId);
    void changeAbnormal(Integer id, Integer abId, String content);
    Map<Integer,Integer> getStatistics(List<SysIndustry> sysIndustryList, List<Integer> sysAreaList,String supervisor);
    JSONObject importExcel(MultipartFile file, Integer type);

@@ -64,8 +64,8 @@ public class AbnormalContentController {
 
     @RequestMapping("/changeNormal")
     @ResponseBody
-    public CommonReturnType changeNormal(Integer enterpriseId){
-        supervisionEnterpriseService.changeNormal(enterpriseId);
+    public CommonReturnType changeNormal(Integer enterpriseId, Integer businessState){
+        supervisionEnterpriseService.changeNormal(enterpriseId,businessState);
         return CommonReturnType.create(null);
     }
 

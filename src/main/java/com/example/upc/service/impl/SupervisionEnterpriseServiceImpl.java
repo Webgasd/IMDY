@@ -1241,10 +1241,10 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 
     @Override
     @Transactional
-    public void changeNormal(Integer id) {
+    public void changeNormal(Integer id, Integer bId) {
         SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
         supervisionEnterprise.setId(id);
-        supervisionEnterprise.setBusinessState(1);
+        supervisionEnterprise.setBusinessState(bId);
         supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
     }
 

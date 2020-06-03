@@ -11,9 +11,11 @@ public class EnterpriseListResult {
     private String enterpriseName;
     private String operationMode;
     private String legalPerson;
+    private String cantactWay;
     private Integer businessState;
     private Integer abnormalId;
     private String enterpriseScale;
+    private String abnormalContent;
     private String idNumber;
     private Integer area;
     private String grid;
@@ -28,6 +30,22 @@ public class EnterpriseListResult {
     private Integer medicalUse;
     private Integer cosmeticsUse;
     private Date endTime;
+
+    public String getAbnormalContent() {
+        return abnormalContent;
+    }
+
+    public void setAbnormalContent(String abnormalContent) {
+        this.abnormalContent = abnormalContent;
+    }
+
+    public String getCantactWay() {
+        return cantactWay;
+    }
+
+    public void setCantactWay(String cantactWay) {
+        this.cantactWay = cantactWay;
+    }
 
     public String getOperationMode() {
         return operationMode;
