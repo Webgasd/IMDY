@@ -1261,6 +1261,15 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 
     @Override
     @Transactional
+    public void changeGpsFlag() {
+        List<String> idNumberList = gridPointsGpsMapper.getIdNumber();
+        for (String idNumber : idNumberList){
+            supervisionEnterpriseMapper.changeFlagByIdNumber(idNumber);
+        }
+    }
+
+    @Override
+    @Transactional
     public void delete(int id) {
         SupervisionEnterprise before = supervisionEnterpriseMapper.selectByPrimaryKey(id);
         if(before==null){

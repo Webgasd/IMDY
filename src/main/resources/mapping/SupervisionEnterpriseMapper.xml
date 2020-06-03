@@ -3051,4 +3051,11 @@ select * from (
 
     limit #{page.offset}, #{page.pageSize}
   </select>
+
+  <update id="changeFlagByIdNumber" parameterType="String">
+      UPDATE supervision_enterprise
+      SET gps_flag = 1
+      WHERE id_number = #{idNumber}
+  </update>
+
 </mapper>

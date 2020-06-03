@@ -33,4 +33,5 @@ public interface SupervisionEnterpriseService {
    Map<Integer,Integer> getStatistics(List<SysIndustry> sysIndustryList, List<Integer> sysAreaList,String supervisor);
    JSONObject importExcel(MultipartFile file, Integer type);
    PageResult<EnterpriseListResult> getPageByEnterpriseId(int id);
+   void changeGpsFlag();
 }

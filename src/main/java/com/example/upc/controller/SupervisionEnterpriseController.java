@@ -292,4 +292,11 @@ public class SupervisionEnterpriseController {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"非法用户");
         }
     }
+
+    @RequestMapping("/changeGpsFlag")
+    @ResponseBody
+    public CommonReturnType changeGpsFlag(){
+        supervisionEnterpriseService.changeGpsFlag();
+        return CommonReturnType.create(null);
+    }
 }
