@@ -3054,7 +3054,8 @@ select * from (
 
   <update id="changeFlagByIdNumber" parameterType="String">
       UPDATE supervision_enterprise
-      SET gps_flag = 1
+      SET gps_flag = 1,
+      business_state = 2
       WHERE id_number = #{idNumber}
   </update>
 
