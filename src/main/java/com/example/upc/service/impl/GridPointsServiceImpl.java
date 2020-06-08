@@ -233,6 +233,7 @@ public class GridPointsServiceImpl implements GridPointsService {
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(id);
         if (supervisionEnterprise != null){
             supervisionEnterprise.setGpsFlag(1);
+            supervisionEnterprise.setBusinessState(2);
             supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
             GridPointsGps gridPointsGps = gridPointsGpsMapper.getPointByCodeId(code);
             if (gridPointsGps != null){

@@ -618,6 +618,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         if(before==null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"待更新企业不存在");
         }
+        supervisionEnterprise.setBusinessState(2);
         supervisionEnterprise.setOperateIp("124.124.124");
         supervisionEnterprise.setOperateTime(new Date());
         supervisionEnterprise.setOperator("zcc");
