@@ -28,7 +28,7 @@
 
         <!-- 生成对应表明及类名-->
 
-<!--        <table tableName="supervision_enterprise_document" domainObjectName="SupervisionEnterpriseDocument" enableCountByExample="false"-->
+<!--        <table tableName="sys_user_error" domainObjectName="SysUserError" enableCountByExample="false"-->
 <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--        selectByExampleQueryId="false"></table>-->
     </context>

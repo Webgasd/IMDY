@@ -13,15 +13,14 @@ public class FormatGoodsParam {
     private String name;
     @NotBlank(message = "供应商不能为空")
     private String supplier;
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @NotNull(message = "进货日期不能为空")
+    @NotNull(message = "进/出货日期不能为空")
     private Date time;
     @NotBlank(message = "有效期不能为空")
     private String day;
     @NotNull(message = "数量不能为空")
     private float num;
+    @NotBlank(message = "单位不能为空")
     private String goodsType;
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @NotNull(message = "生产日期不能为空")
     private Date date;
     private String brand;

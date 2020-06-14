@@ -3,8 +3,10 @@ package com.example.upc.redis;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.controller.param.UserParam;
+import com.example.upc.dao.SysUserErrorMapper;
 import com.example.upc.dao.SysUserMapper;
 import com.example.upc.dataobject.SysUser;
+import com.example.upc.dataobject.SysUserError;
 import com.example.upc.util.MD5Util;
 import com.example.upc.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +16,9 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author zcc
@@ -27,6 +32,8 @@ public class UserSessionService {
     RedisService redisService;
     @Autowired
     SysUserMapper sysUserMapper;
+    @Autowired
+    SysUserErrorMapper sysUserErrorMapper;
 
     public SysUser getByToken(HttpServletResponse response, String token) {
         if(StringUtils.isEmpty(token)) {
@@ -53,6 +60,13 @@ public class UserSessionService {
     }
 
     public boolean login(HttpServletResponse response, UserParam userParam) {
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+        Calendar calendar = Calendar.getInstance();//new一个Calendar类,把Date放进去
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, 1);
+
         if(userParam == null) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"参数错误");
         }
@@ -63,11 +77,25 @@ public class UserSessionService {
         if(sysUser == null) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"帐号不存在");
         }
+        SysUserError sysUserError = sysUserErrorMapper.selectByUserId(sysUser.getId(),formatter.format(date),formatter.format(calendar.getTime()));
+        if (sysUserError==null){
+            SysUserError sysUserError1 = new SysUserError();
+            sysUserError1.setUserId(sysUser.getId());
+            sysUserError1.setError(0);
+            sysUserErrorMapper.insertSelective(sysUserError1);
+        }
+        SysUserError sysUserError2 = sysUserErrorMapper.selectByUserId(sysUser.getId(),formatter.format(date),formatter.format(calendar.getTime()));
+        if (sysUserError2.getError()==5){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"您今日已经尝试登录5次，请明日再试！");
+        }
         //验证密码
         String dbPass = sysUser.getPassword();
         MD5Util md5Code =new MD5Util();
         if(!md5Code.md5(formPass).equals(dbPass)) {
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"密码错误");
+            int a = sysUserError2.getError()+1;
+            sysUserError2.setError(a);
+            sysUserErrorMapper.updateByPrimaryKeySelective(sysUserError2);
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"密码错误，可再尝试"+(5-a)+"次！");
         }
         //生成cookie
         String token	 = sysUser.getId().toString()+'_'+UUIDUtil.uuid();

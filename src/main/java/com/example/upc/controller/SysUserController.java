@@ -7,6 +7,7 @@ import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.PageResult;
 import com.example.upc.controller.param.UserParam;
 import com.example.upc.controller.searchParam.UserSearchParam;
+import com.example.upc.dao.SysUserErrorMapper;
 import com.example.upc.dataobject.*;
 import com.example.upc.redis.UserSessionService;
 import com.example.upc.service.*;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -57,12 +61,29 @@ public class SysUserController {
     private SysDeptService sysDeptService;
     @Autowired
     private SupervisionEnterpriseService supervisionEnterpriseService;
+    @Autowired
+    SysUserErrorMapper sysUserErrorMapper;
 
     @RequestMapping("/loginTest")
     @ResponseBody
     public CommonReturnType loginTest(HttpServletResponse response, UserParam userParam){
         return CommonReturnType.create(userSessionService.login(response,userParam));
     }
+
+    @RequestMapping("/dateTest")
+    @ResponseBody
+    public CommonReturnType dateTest(){
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+        System.out.println("今天的日期为:" + formatter.format(date));
+        Calendar calendar = Calendar.getInstance();//new一个Calendar类,把Date放进去
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, 1);
+        System.out.println("明天的日期为:" + formatter.format(calendar.getTime()));
+        SysUserError sysUserError = sysUserErrorMapper.selectByUserId(1,formatter.format(date),formatter.format(calendar.getTime()));
+        return CommonReturnType.create(sysUserError);
+    }
+
     @RequestMapping("/getTest")
     @ResponseBody
     public CommonReturnType getTest(SysUser sysUser){
