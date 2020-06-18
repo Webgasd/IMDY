@@ -354,7 +354,7 @@
     <if test="search.market != null and search.market != ''">AND market LIKE CONCAT('%',#{search.market},'%')</if>
     <if test="search.start1 != null">  AND date &gt;= #{search.start1}</if>
     <if test="search.end1 != null"> AND date &lt;= #{search.end1} </if>
-    order by id desc
+    order by date desc
     limit #{page.offset}, #{page.pageSize}
   </select>
 
@@ -380,7 +380,7 @@
     <if test="search.team != null and search.team != ''">AND team LIKE CONCAT('%',#{search.team},'%')</if>
     <if test="search.start1 != null">  AND date &gt;= #{search.start1}</if>
     <if test="search.end1 != null"> AND date &lt;= #{search.end1} </if>
-    order by id desc
+    order by date desc
     limit #{page.offset}, #{page.pageSize}
   </select>
 
@@ -406,7 +406,7 @@
     <if test="search.market != null and search.market != ''">AND market LIKE CONCAT('%',#{search.market},'%')</if>
     <if test="search.start1 != null">  AND date &gt;= #{search.start1}</if>
     <if test="search.end1 != null"> AND date &lt;= #{search.end1} </if>
-    order by id desc
+    order by date desc
     limit #{page.offset}, #{page.pageSize}
   </select>
 

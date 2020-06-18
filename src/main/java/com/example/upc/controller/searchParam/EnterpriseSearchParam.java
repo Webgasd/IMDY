@@ -23,6 +23,8 @@ public class EnterpriseSearchParam {
     private List<String> industryList;
     private String enterpriseScale;
     private Integer isStop;
+    private String legalPerson;
+    private Integer abnormalId;
     private String permissionStatus;
     private Integer dept;
     private String supervisor;
@@ -32,6 +34,22 @@ public class EnterpriseSearchParam {
     private String operationMode;
     private Integer businessState;
     private Integer indexNum;
+
+    public String getLegalPerson() {
+        return legalPerson;
+    }
+
+    public void setLegalPerson(String legalPerson) {
+        this.legalPerson = legalPerson;
+    }
+
+    public Integer getAbnormalId() {
+        return abnormalId;
+    }
+
+    public void setAbnormalId(Integer abnormalId) {
+        this.abnormalId = abnormalId;
+    }
 
     public Integer getIndexNum() {
         return indexNum;

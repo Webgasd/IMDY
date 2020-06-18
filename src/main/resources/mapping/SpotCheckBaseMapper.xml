@@ -621,7 +621,7 @@
     <if test="search.person != null and search.person != ''">AND sample_person LIKE CONCAT('%',#{search.person},'%')</if>
     <if test="search.orginization != null and search.orginization != ''">AND check_orginization LIKE CONCAT('%',#{search.orginization},'%')</if>
     <!--<if test="search.team != null and search.team != ''">AND team LIKE CONCAT('%',#{search.team},'%')</if>-->
-    order by id desc
+    order by date desc
     limit #{page.offset}, #{page.pageSize}
   </select>
 
@@ -655,7 +655,7 @@
     <if test="search.person != null and search.person != ''">AND sample_person LIKE CONCAT('%',#{search.person},'%')</if>
     <!--<if test="search.orginization != null and search.orginization != ''">AND check_orginization LIKE CONCAT('%',#{search.orginization},'%')</if>-->
     <if test="search.team != null and search.team != ''">AND team LIKE CONCAT('%',#{search.team},'%')</if>
-    order by id desc
+    order by date desc
     limit #{page.offset}, #{page.pageSize}
   </select>
 
@@ -690,7 +690,7 @@
     <if test="search.person != null and search.person != ''">AND sample_person LIKE CONCAT('%',#{search.person},'%')</if>
     <if test="search.orginization != null and search.orginization != ''">AND check_orginization LIKE CONCAT('%',#{search.orginization},'%')</if>
     <!--<if test="search.team != null and search.team != ''">AND team LIKE CONCAT('%',#{search.team},'%')</if>-->
-    order by id desc
+    order by date desc
     limit #{page.offset}, #{page.pageSize}
   </select>
 

@@ -1,6 +1,8 @@
 package com.example.upc.controller.searchParam;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class SpotCheckBaseSearchParam {
@@ -8,7 +10,9 @@ public class SpotCheckBaseSearchParam {
     private String name;
     private String result;
     private String person;
+    @DateTimeFormat(pattern="yyyy-MM-dd 00:00:00")
     private Date start1;
+    @DateTimeFormat(pattern="yyyy-MM-dd 00:00:00")
     private Date end1;
     private String team;
     private String orginization;

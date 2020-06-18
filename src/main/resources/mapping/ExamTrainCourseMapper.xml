@@ -246,7 +246,7 @@
     from exam_train_course_material as a INNER JOIN exam_train_material as b on a.material_id = b.id)
       as b where b.course_id = a.id GROUP BY b.course_id ) as course_score FROM
       (SELECT a.*,b.name as work_type_name  FROM exam_train_course as a
-            LEFT JOIN sys_work_type as b on a.worktype=b.id limit #{page.offset}, #{page.pageSize})as a LEFT JOIN
+            LEFT JOIN sys_work_type as b on a.worktype=b.id order by a.id desc limit #{page.offset}, #{page.pageSize})as a LEFT JOIN
         sys_industry as b on a.industry=b.id
   </select>
 
