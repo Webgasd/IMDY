@@ -131,4 +131,8 @@
     from sys_user_error
     where user_id = #{uid} AND error_date &gt;= #{startTime} AND error_date &lt;= #{endTime}
   </select>
+
+  <delete id="deleteAll">
+    delete from sys_user_error
+  </delete>
 </mapper>

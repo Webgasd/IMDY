@@ -8,6 +8,7 @@ import com.example.upc.controller.param.UserParam;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.controller.searchParam.UserSearchParam;
 import com.example.upc.dao.SupervisionEnterpriseMapper;
+import com.example.upc.dao.SysUserErrorMapper;
 import com.example.upc.dao.SysUserMapper;
 import com.example.upc.dataobject.SysIndustry;
 import com.example.upc.dataobject.SysUser;
@@ -31,6 +32,8 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserMapper sysUserMapper;
     @Autowired
     private SupervisionEnterpriseMapper supervisionEnterpriseMapper;
+    @Autowired
+    private SysUserErrorMapper sysUserErrorMapper;
 
     @Override
     public SysUser selectByLoginName(String loginName) throws BusinessException {
@@ -182,6 +185,11 @@ public class SysUserServiceImpl implements SysUserService {
 
     public boolean checkLoginNameExist(String loginName, Integer userId) {
         return sysUserMapper.countByLoginName(loginName, userId) > 0;
+    }
+
+    @Override
+    public void deleteAll() {
+        sysUserErrorMapper.deleteAll();
     }
 
 }

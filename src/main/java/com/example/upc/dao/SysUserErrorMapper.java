@@ -55,4 +55,5 @@ public interface SysUserErrorMapper {
     int updateByPrimaryKey(SysUserError record);
 
     SysUserError selectByUserId(@Param("uid") Integer uid, @Param("startTime") String startTime, @Param("endTime") String endTime);
+    int deleteAll();
 }

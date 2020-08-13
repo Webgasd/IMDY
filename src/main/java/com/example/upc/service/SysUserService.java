@@ -25,4 +25,5 @@ public interface SysUserService {
     Map<String,Object> govGet(List<SysIndustry> sysIndustryList, List<Integer> sysAreaList, String supervisor);
     PageResult<SysUser> getPageByDeptId(int deptId, PageQuery page);
     PageResult<SysUser> getAllPage(PageQuery page, UserSearchParam userSearchParam);
+    void deleteAll();
 }
