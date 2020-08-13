@@ -6,6 +6,7 @@ import com.example.upc.controller.searchParam.DisinfectionSearchParam;
 import com.example.upc.dataobject.FormatDisinfection;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface FormatDisinfectionMapper {
@@ -65,5 +66,10 @@ public interface FormatDisinfectionMapper {
     int countListAdmin(@Param("search") DisinfectionSearchParam search);
     List<FormatDisinfectionSupParam> getPageAdmin(@Param("page") PageQuery page, @Param("search") DisinfectionSearchParam search);
     void batchInsertEx(@Param("formatDisinfectionList") List<FormatDisinfection> formatDisinfectionList);
+    /**
+     * 小程序专用mapper
+     */
+// 根据开始日期和企业id查询消毒记录
+    List<FormatDisinfection> getDisinfectionRecord(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
 
 }

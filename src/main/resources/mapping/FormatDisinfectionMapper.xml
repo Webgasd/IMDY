@@ -386,5 +386,13 @@
     </foreach>
   </insert>
 
+  <select id="getDisinfectionRecord" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM format_disinfection
+    where unit=#{enterpriseId}
+    <if test="startDate != null">  AND date &gt;= #{startDate}</if>
+    <if test="startDate != null"> AND date &lt;= #{endDate} </if>
+    order by start1 desc
+  </select>
 
 </mapper>

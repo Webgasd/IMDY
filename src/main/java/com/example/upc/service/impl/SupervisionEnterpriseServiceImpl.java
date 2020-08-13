@@ -27,6 +27,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -3482,6 +3483,79 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         }else{
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,deptName+"部门不存在");
         }
+    }
+
+
+    /**
+     * 小程序专用serviceImpl
+     */
+    @Override
+    public Map<String,Object> getFoodBusinessLicenseById(int id) {
+        Map<String,Object> result = new HashMap<>();
+        List<SupervisionEnFoodBu> foodBusinessLicenseList = supervisionEnFoodBuMapper.getListByEnterpriseId(id);
+        result.put("number",foodBusinessLicenseList.get(0).getNumber());
+        result.put("businessFormat",foodBusinessLicenseList.get(0).getBusinessFormat());
+        result.put("category",foodBusinessLicenseList.get(0).getCategory());
+        result.put("businessNotes",foodBusinessLicenseList.get(0).getBusinessNotes());
+        result.put("businessProject",foodBusinessLicenseList.get(0).getBusinessProject());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        result.put("startTime",simpleDateFormat.format(foodBusinessLicenseList.get(0).getStartTime()));
+        result.put("endTime",simpleDateFormat.format(foodBusinessLicenseList.get(0).getEndTime()));
+        result.put("giveTime",simpleDateFormat.format(foodBusinessLicenseList.get(0).getGiveTime()));
+        result.put("licenseAuthority",foodBusinessLicenseList.get(0).getLicenseAuthority());
+        result.put("checkType",foodBusinessLicenseList.get(0).getCheckType());
+        result.put("dynamicGrade",foodBusinessLicenseList.get(0).getDynamicGrade());
+        result.put("yearAssessment",foodBusinessLicenseList.get(0).getYearAssessment());
+        result.put("patrolFrequency",foodBusinessLicenseList.get(0).getPatrolFrequency());
+        result.put("enterpriseScale",foodBusinessLicenseList.get(0).getEnterpriseScale());
+        return result;
+    }
+    @Override
+    public Map<String, Object> getLicensePhotosById(int id) {
+        SupervisionEnterprise supervisionEnterprise= supervisionEnterpriseMapper.selectByPrimaryKey(id);
+        if (supervisionEnterprise==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
+        }
+        Map<String, Object> result= new HashMap<>();
+        result.put("businessLicensePhoto","");
+        result.put("foodBusinessPhoto","");
+        List<SupervisionEnterpriseDocument> list = supervisionEnterpriseDocumentMapper.selectByEnterpriseId(id);
+        if (list.size()>0) {
+            for (SupervisionEnterpriseDocument supervisionEnterpriseDocument : list) {
+                if (supervisionEnterpriseDocument.getFlag() == 1) {
+                    result.put("businessLicensePhoto",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 2) {
+                    result.put("foodBusinessPhoto",supervisionEnterpriseDocument.getDocument());
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> updateLicensePhotosById(int enterpriseId,String businessLicensePhoto,String foodBusinessPhoto){
+        List<SupervisionEnterpriseDocument> list = supervisionEnterpriseDocumentMapper.selectByEnterpriseId(enterpriseId);
+        Map<String, Object> result= new HashMap<>();
+        result.put("businessLicensePhoto","");
+        result.put("foodBusinessPhoto","");
+        if (list.size()>0) {
+            for (SupervisionEnterpriseDocument supervisionEnterpriseDocument : list) {
+
+                if (supervisionEnterpriseDocument.getFlag() == 1) {
+                    supervisionEnterpriseDocument.setDocument(businessLicensePhoto);
+                    supervisionEnterpriseDocumentMapper.updateByPrimaryKey(supervisionEnterpriseDocument);
+                    result.put("businessLicensePhoto",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 2) {
+                    supervisionEnterpriseDocument.setDocument(foodBusinessPhoto);
+                    supervisionEnterpriseDocumentMapper.updateByPrimaryKey(supervisionEnterpriseDocument);
+                    result.put("foodBusinessPhoto",supervisionEnterpriseDocument.getDocument());
+                }
+            }
+        }
+
+        return result;
     }
 
 }

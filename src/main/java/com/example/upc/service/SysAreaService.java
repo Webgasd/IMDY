@@ -20,4 +20,8 @@ public interface SysAreaService {
     void insert(SysArea sysArea);
     void update(SysArea sysArea);
     void delete(int id);
+    /**
+     * 小程序专用service
+     */
+    SysArea getAreaById(int id);
 }

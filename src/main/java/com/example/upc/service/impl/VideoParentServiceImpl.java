@@ -18,8 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -231,5 +230,44 @@ public class VideoParentServiceImpl implements VideoParentService {
 
     public boolean checkidExist(Integer eid,Integer id) {
         return videoParentMapper.countById(eid,id) > 0;
+    }
+
+    /**
+     * 小程序专用serviceImpl
+     */
+    @Override
+    public List<Object> getVideoListById(int enterpriseId){
+        Integer a = videoParentMapper.selectByEnterpriseId(enterpriseId);
+        if (a == null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业视频信息，请检查后重试");
+        }else {
+            VideoParent videoParent = videoParentMapper.selectByPrimaryKey(a);
+            List<VideoConfigEx> videoList = videoConfigExMapper.selectByParentId(videoParent.getId());
+            List<Object> resultList= new ArrayList<>();
+            String tempUrl1 = "rtmp://"+videoParent.getRtmpIp()+":"+videoParent.getRtmpPort()+"/live/pag/"+videoParent.getVagIp()+"/"+videoParent.getVagPort()+"/";
+            String tempUrl2 = "http://"+videoParent.getHttpIp()+":"+videoParent.getHttpPort()+"/live/cameraid/";
+            int id = 1;
+            if(videoParent.getType()=="海康"){
+                for(VideoConfigEx attribute : videoList) {
+                    Map<String,Object> tempItem = new LinkedHashMap<>();
+                    tempItem.put("id",id);
+                    tempItem.put("videoPosition",attribute.getPosition());
+                    tempItem.put("videoUrl",tempUrl1+attribute.getNumber()+"/0/MAIN/TCP");
+                    resultList.add(tempItem);
+                }
+            }
+            else {
+                for(VideoConfigEx attribute : videoList) {
+                    Map<String,Object> tempItem = new LinkedHashMap<>();
+                    tempItem.put("id",id);
+                    tempItem.put("videoPosition",attribute.getPosition());
+                    tempItem.put("videoUrl",tempUrl2+attribute.getNumber()+"%24"+attribute.getChannelNumber()+"/substream/"+attribute.getByteType()+".m3u8");
+                    resultList.add(tempItem);
+                }
+            }
+
+            return resultList;
+        }
+
     }
 }

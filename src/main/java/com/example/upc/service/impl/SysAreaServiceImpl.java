@@ -186,4 +186,13 @@ public class SysAreaServiceImpl implements SysAreaService {
             return o1.getSeq() - o2.getSeq();
         }
     };
+
+    /**
+     * 小程序专用serviceImpl
+     */
+
+    @Override
+    public SysArea getAreaById(int id) {
+        return sysAreaMapper.selectByPrimaryKey(id);
+    }
 }

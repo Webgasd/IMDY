@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -492,4 +493,31 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
         }
         formatDisinfectionMapper.batchInsertEx(formatDisinfectionList);
     }
+    /**
+     * 小程序专用serviceImpl
+     */
+    @Override
+    public List<Object> getDisinfectionRecord(int enterpriseId,Date startDate) {
+        Date endDate = new Date();
+        endDate.setTime(startDate.getTime()+86399999);
+        List<FormatDisinfection> searchList = formatDisinfectionMapper.getDisinfectionRecord(enterpriseId, startDate, endDate);
+        List<Object> resultList = new LinkedList<>();
+        for (int i=0;i<searchList.size();i++){
+            Map<String,Object> tempItem = new LinkedHashMap<>();
+            tempItem.put("id",searchList.get(i).getId());
+            tempItem.put("name",searchList.get(i).getName());
+            tempItem.put("amount",searchList.get(i).getAmount());
+            tempItem.put("person",searchList.get(i).getPerson());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            tempItem.put("date",simpleDateFormat.format(searchList.get(i).getDate()));
+            tempItem.put("startTime",searchList.get(i).getStart1()+":"+String.format("%0"+2+"d", searchList.get(i).getStart2()));
+            tempItem.put("endTime",searchList.get(i).getEnd1()+":"+String.format("%0"+2+"d", searchList.get(i).getEnd2()));
+            tempItem.put("way",searchList.get(i).getWay());
+            tempItem.put("remark",searchList.get(i).getRemark());
+            resultList.add(tempItem);
+        }
+        return resultList;
+
+    }
+
 }

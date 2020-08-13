@@ -10,6 +10,7 @@ import com.example.upc.dataobject.SysUser;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 
 public interface FormatDisinfectionService {
     PageResult<FormatDisinfectionSupParam> getPage (PageQuery pageQuery, DisinfectionSearchParam disinfectionSearchParam);
@@ -21,4 +22,8 @@ public interface FormatDisinfectionService {
     void fail();
     void importExcel(MultipartFile file, Integer type,SysUser sysUser);
     void importExcelEx(MultipartFile file, Integer type);
+    /**
+     * 小程序专用service
+     */
+    List<Object> getDisinfectionRecord(int enterpeiseId, Date startDate);
 }
