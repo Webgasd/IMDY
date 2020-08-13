@@ -79,25 +79,34 @@ public class UserSessionService {
         if(sysUser == null) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"帐号不存在");
         }
-        SysUserError sysUserError = sysUserErrorMapper.selectByUserId(sysUser.getId(),formatter.format(date),formatter.format(calendar.getTime()));
-        if (sysUserError==null){
-            SysUserError sysUserError1 = new SysUserError();
-            sysUserError1.setUserId(sysUser.getId());
-            sysUserError1.setError(0);
-            sysUserErrorMapper.insertSelective(sysUserError1);
-        }
-        SysUserError sysUserError2 = sysUserErrorMapper.selectByUserId(sysUser.getId(),formatter.format(date),formatter.format(calendar.getTime()));
-        if (sysUserError2.getError()==5){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"您今日已经尝试登录5次，请明日再试！");
-        }
         //验证密码
         String dbPass = sysUser.getPassword();
         MD5Util md5Code =new MD5Util();
+        SysUserError sysUserError = sysUserErrorMapper.selectByUserId(sysUser.getId(),formatter.format(date),formatter.format(calendar.getTime()));
         if(!md5Code.md5(formPass).equals(dbPass)) {
-            int a = sysUserError2.getError()+1;
-            sysUserError2.setError(a);
-            sysUserErrorMapper.updateByPrimaryKeySelective(sysUserError2);
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"密码错误，可再尝试"+(5-a)+"次！");
+            //如果错误log为空，创建新记录，
+            if (sysUserError==null){
+                SysUserError sysUserError1 = new SysUserError();
+                sysUserError1.setUserId(sysUser.getId());
+                sysUserError1.setError(1);
+                sysUserErrorMapper.insertSelective(sysUserError1);
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"密码错误，可再尝试4次！");
+            }
+            //如果有记录，那么将记录中的
+            else {
+                if (sysUserError.getError()==5){
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"您今日已经尝试登录5次，请明日再试！");
+                }
+                else {
+                    int a = sysUserError.getError()+1;
+                    sysUserError.setError(a);
+                    sysUserErrorMapper.updateByPrimaryKeySelective(sysUserError);
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"密码错误，可再尝试"+(5-a)+"次！");
+                }
+            }
+        }
+        if (sysUserError.getError()==5){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"您今日已经尝试登录5次，请明日再试！");
         }
         //生成cookie
         String token	 = sysUser.getId().toString()+'_'+UUIDUtil.uuid();
