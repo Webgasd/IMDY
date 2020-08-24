@@ -61,7 +61,7 @@ public class UserSessionService {
         return true;
     }
 
-    public boolean login(HttpServletResponse response, UserParam userParam) {
+    public boolean login(HttpServletResponse response, UserParam userParam) throws BusinessException {
 
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
@@ -105,7 +105,7 @@ public class UserSessionService {
                 }
             }
         }
-        if (sysUserError.getError()==5){
+        if (sysUserError!=null&&sysUserError.getError()==5){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"您今日已经尝试登录5次，请明日再试！");
         }
         //生成cookie
