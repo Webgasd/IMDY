@@ -6,6 +6,7 @@ import com.example.upc.controller.searchParam.LeaveSearchParam;
 import com.example.upc.dataobject.FormatLeaveSample;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface FormatLeaveSampleMapper {
@@ -64,4 +65,5 @@ public interface FormatLeaveSampleMapper {
     List<FormatLeaveSample> getPageEnterprise(@Param("page") PageQuery page, @Param("unit") Integer unit, @Param("search") LeaveSearchParam leaveSearchParam);
     int countListAdmin(@Param("search") LeaveSearchParam leaveSearchParam);
     List<FormatLeaveSupParam> getPageAdmin(@Param("page") PageQuery page, @Param("search") LeaveSearchParam leaveSearchParam);
+    List<FormatLeaveSample> getFoodSamplesRecord(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
 }

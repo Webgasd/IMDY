@@ -328,5 +328,13 @@
     order by id desc
     limit #{page.offset}, #{page.pageSize}
   </select>
-
+  <!--小程序根据日期和企业id查询食品留样记录-->
+  <select id="getFoodSamplesRecord" resultMap="BaseResultMap">
+    SELECT *
+    FROM format_leave_sample
+    where unit=#{enterpriseId}
+    <if test="startDate != null">  AND date &gt;= #{startDate}</if>
+    <if test="startDate != null"> AND date &lt;= #{endDate} </if>
+    order by date desc
+  </select>
 </mapper>

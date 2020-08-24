@@ -28,8 +28,8 @@
 
         <!-- 生成对应表明及类名-->
 
-<!--        <table tableName="sys_user_error" domainObjectName="SysUserError" enableCountByExample="false"-->
-<!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--        selectByExampleQueryId="false"></table>-->
+        <table tableName="mini_food_samples_item" domainObjectName="MiniFoodSamplesItem" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>

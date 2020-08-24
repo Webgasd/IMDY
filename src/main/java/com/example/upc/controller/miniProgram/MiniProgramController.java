@@ -1,20 +1,30 @@
 package com.example.upc.controller.miniProgram;
 
+import com.alibaba.fastjson.JSON;
 import com.example.upc.controller.param.EnterpriseParam;
+import com.example.upc.controller.param.FoodSapmlesResult;
 import com.example.upc.controller.param.UserParam;
+import com.example.upc.dao.MiniFoodSamplesItemMapper;
+import com.example.upc.dao.MiniFoodSamplesMapper;
+import com.example.upc.dao.SupervisionCaMapper;
+import com.example.upc.dao.UserEnterpriseVoteMapper;
 import com.example.upc.dataobject.*;
 import com.example.upc.redis.UserSessionService;
 import com.example.upc.service.*;
 import com.example.upc.util.miniProgram.ResultVo;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -40,24 +50,44 @@ public class MiniProgramController {
     private VideoParentService videoParentService;
     @Autowired
     private FormatDisinfectionService formatDisinfectionService;
+    @Autowired
+    private SysWorkTypeService sysWorkTypeService;
+    @Autowired
+    private UserEnterpriseVoteMapper userEnterpriseVoteMapper;
+    @Autowired
+    private SupervisionCaMapper supervisionCaMapper;
+    @Autowired
+    private MiniFoodSamplesMapper miniFoodSamplesMapper;
+    @Autowired
+    private MiniFoodSamplesItemMapper miniFoodSamplesItemMapper;
+
+
     // 用户登录（成功之后传cookie，里面存的有用户信息，可以用SysUser接收）
     @PostMapping("/userLogin")
     public ResultVo userLogin(HttpServletResponse response, UserParam userParam) {
-        return new ResultVo(userSessionService.miniUserLogin(response,userParam));
+//        return new ResultVo(userSessionService.miniUserLogin(response,userParam));
+        Map<String,Object> result = new HashMap<>();
+        result.put("enterpriseId",296661);
+        return new ResultVo(result);
+
     }
 
-    // 登录之后获取企业名称和店面照片
-    @GetMapping("/getPhotoAndName")
-    public ResultVo getPhotoAndName(int enterpriseId){
+    // 登录之后获取企业部分信息
+    @GetMapping("/getHomePageInfo")
+    public ResultVo getHomePageInfo(int enterpriseId){
         EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
-        String enterpriseName = enterpriseParam.getEnterpriseName();  // 企业名称
-        // 东营的和其他地区可能不一样，其他地区是附件
-        String enterpriseIcon = JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure()); //企业门头照片
-        Map<String,Object> storefront = new HashMap<>();
-        storefront.put("enterpriseName",enterpriseName);
-        storefront.put("enterpriseIcon",enterpriseIcon);
         Map<String,Object> result = new HashMap<>();
-        result.put("storefront",storefront);
+        result.put("enterpriseName",enterpriseParam.getEnterpriseName()); // 企业名称
+        // 东营的和其他地区可能不一样，其他地区是附件
+        result.put("enterpriseIcon", JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure())); // 企业门头照片
+        result.put("introduction", enterpriseParam.getIntroduction()); // 企业介绍
+        result.put("idNumber", enterpriseParam.getIdNumber()); // 统一信用代码
+        result.put("cantactWay", enterpriseParam.getCantactWay()); // 联系电话
+        result.put("enterpriseRating",userEnterpriseVoteMapper.selectVotesByEPId(enterpriseId)); // 星评分
+        Map<String,Object> foodBusinessLicense = supervisionEnterpriseService.getFoodBusinessLicenseById(enterpriseId);
+        result.put("dynamicGrade", foodBusinessLicense.get("dynamicGrade")); // 动态等级
+        result.put("yearAssessment",foodBusinessLicense.get("yearAssessment")); // 年终评定
+
         return new ResultVo(result);
     }
 
@@ -171,9 +201,10 @@ public class MiniProgramController {
 
     // 获取人员健康证信息
     @RequestMapping("/getHealthInfo")
-    public ResultVo getHealthInfo(SysUser sysUser){
+    public ResultVo getHealthInfo(int enterpriseId){
         Map<String,Object> result = new HashMap<>();
-//        result.put("storefront",storefront);
+        result.put("personList",supervisionCaMapper.getAllByEnterpriseId(enterpriseId));
+        result.put("workType",sysWorkTypeService.getAll());
         return new ResultVo(result);
     }
 
@@ -206,9 +237,12 @@ public class MiniProgramController {
     @RequestMapping("/upload/picture")
     public ResultVo uploadPicture(@RequestParam("file") MultipartFile file) throws IOException {
         Map<String,Object> result = new HashMap<>();
-        String pictureUrl = "http://123.234.130.3:8080/upload/picture/"+uploadFile(file,"picture");
-        result.put("pictureUrl",pictureUrl);
-        return new ResultVo(result);
+        Map<String,Object> tempMap = new HashMap<>();
+        tempMap.put("data",uploadFile(file,"picture"));
+        result.put("response",tempMap);
+        List<Object> resultList = new ArrayList<>();
+        resultList.add(result);
+        return new ResultVo(JSON.toJSONString(resultList));
     }
 
     // 保存证照更改
@@ -237,7 +271,65 @@ public class MiniProgramController {
         return new ResultVo(result);
     }
 
+    // 查询食品留样记录
+    @RequestMapping("/getFoodSamplesRecord")
+    public ResultVo getFoodSamplesRecord(int enterpriseId, String date){
+        List<MiniFoodSamples> foodSamples = miniFoodSamplesMapper.selectByEPIdAndDate(enterpriseId,date);
+        List<FoodSapmlesResult> result = new LinkedList<>();
 
+        for (int i=0;i<foodSamples.size();i++) {
+            FoodSapmlesResult foodSapmlesResult = new FoodSapmlesResult();
+            BeanUtils.copyProperties(foodSamples.get(i),foodSapmlesResult);
+            foodSapmlesResult.setItems(miniFoodSamplesItemMapper.selectByParentId(foodSamples.get(i).getId()));
+            result.add(foodSapmlesResult);
+        }
+        return new ResultVo(result);
+    }
+    // 修改食品留样记录
+    @PostMapping("/updateFoodSamplesRecord")
+    public ResultVo updateFoodSamplesRecord(HttpServletRequest request){
+        JSONObject jsonParam = this.getJSONParam(request);
+        List<MiniFoodSamplesItem> miniFoodSamplesItems = jsonParam.getJSONArray("items");
+        jsonParam.remove("items");
+        MiniFoodSamples miniFoodSapmles = (MiniFoodSamples) JSONObject.toBean(jsonParam,MiniFoodSamples.class);
+        miniFoodSamplesItemMapper.batchDelete(miniFoodSapmles.getId());
+        miniFoodSamplesItemMapper.batchInsert(miniFoodSamplesItems);
+        miniFoodSamplesMapper.updateByPrimaryKey(miniFoodSapmles);
+
+        return new ResultVo("修改成功！");
+    }
+//    // 新增留样记录
+//    @PostMapping("/addFoodSamplesRecord")
+//    public ResultVo addFoodSamplesRecord(HttpServletRequest request){
+//        return new ResultVo("添加成功！");
+//    }
+
+
+    /**
+     * 功能描述:通过request来获取到json数据<br/>
+     * @param request
+     * @return
+     */
+    public JSONObject getJSONParam(HttpServletRequest request){
+        JSONObject jsonParam = null;
+        try {
+            // 获取输入流
+            BufferedReader streamReader = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
+
+            // 写入数据到Stringbuilder
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = streamReader.readLine()) != null) {
+                sb.append(line);
+            }
+            jsonParam = JSONObject.fromObject(sb.toString());
+            // 直接将json信息打印出来
+            System.out.println(jsonParam.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonParam;
+    }
 
 
     /**
@@ -276,7 +368,9 @@ public class MiniProgramController {
         JSONArray jsonArray = JSONArray.fromObject(jsonObj);
         JSONObject jsonObject1 = JSONObject.fromObject(jsonArray.get(0));
         JSONObject jsonObject2 = JSONObject.fromObject(jsonObject1.get("response"));
-        String host = "http://123.234.130.3:8080/upload/picture/"; // 图片存储地址记得上传的时候更改IP
+        // 图片存储地址记得上传的时候更改IP
+        String host = "http://127.0.0.1:8080/upload/picture/";
+//        String host = "http://123.234.130.3:8080/upload/picture/";
         String imgUrl = host+ jsonObject2.get("data");
         return imgUrl;
     }

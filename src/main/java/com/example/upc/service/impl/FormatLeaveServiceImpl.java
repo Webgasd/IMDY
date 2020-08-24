@@ -1,5 +1,6 @@
 package com.example.upc.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -1560,4 +1562,38 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
         }
 
     }
+
+    /**
+     * 小程序专用serviceImpl
+     */
+
+    @Override
+    public List<Object> getFoodSamplesRecord(int enterpriseId,Date startDate) {
+        Date endDate = new Date();
+        endDate.setTime(startDate.getTime()+86399999);
+        List<FormatLeaveSample> searchList = formatLeaveSampleMapper.getFoodSamplesRecord(enterpriseId, startDate, endDate);
+        List<Object> resultList = new LinkedList<>();
+        for (int i=0;i<searchList.size();i++){
+            Map<String,Object> tempItem = new LinkedHashMap<>();
+            int id = searchList.get(i).getId();
+            tempItem.put("id",id);  // 食品留样id
+            tempItem.put("meal",searchList.get(i).getMeal());
+            tempItem.put("number",searchList.get(i).getNumber());
+            tempItem.put("person",searchList.get(i).getPerson());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            tempItem.put("date",simpleDateFormat.format(searchList.get(i).getDate()));
+            tempItem.put("matter",searchList.get(i).getMatter());
+            tempItem.put("type",searchList.get(i).getType());
+            tempItem.put("list1",formatLeaveCoolCourseMapper.selectByParentId(id));
+            tempItem.put("list2",formatLeaveFruitMapper.selectByParentId(id));
+            tempItem.put("list3",formatLeaveMainCourseMapper.selectByParentId(id));
+            tempItem.put("list4",formatLeaveMainFoodMapper.selectByParentId(id));
+            tempItem.put("list5",formatLeaveSoupMapper.selectByParentId(id));
+            tempItem.put("description","list1～5：凉菜类、水果辅食类、主食类、热菜类、汤/奶类；matter、type是事项、就餐类型，web端必填内容");
+
+            resultList.add(tempItem);
+        }
+        return resultList;
+    }
+
 }
