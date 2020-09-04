@@ -1833,27 +1833,27 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
-                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是日期类型");
                     }
                     if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
-                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是日期类型");
                     }
                     if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
-                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是日期类型");
                     }
                     if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
-                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是文本类型");
                     }
                     if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
-                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是文本类型");
                     }
                     if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
-                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                        errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是文本类型");
                     }
                     if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
@@ -1998,7 +1998,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(4).toString(), "不是文本类型");
                         errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(4).toString()+"不是文本类型");
                     }
-                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.NUMERIC) {
+                    if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
                         errorList.add("食品生产许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
                     }
@@ -2473,11 +2473,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
-                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是日期类型");
                     }
                     if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
-                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是日期类型");
                     }
                     if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
@@ -2485,11 +2485,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
-                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是文本类型");
                     }
                     if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
-                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                        errorList.add("化妆品生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是文本类型");
                     }
                     if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
@@ -2649,11 +2649,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
-                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是日期类型");
                     }
                     if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
-                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是日期类型");
                     }
                     if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
@@ -2661,11 +2661,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
-                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是文本类型");
                     }
                     if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
-                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                        errorList.add("医疗器械经营许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是文本类型");
                     }
                     if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
@@ -2823,11 +2823,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
-                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是日期类型");
                     }
                     if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
-                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是日期类型");
                     }
                     if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
@@ -2835,11 +2835,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
-                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是文本类型");
                     }
                     if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
-                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                        errorList.add("医疗器械生产许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是文本类型");
                     }
                     if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
@@ -2999,11 +2999,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
-                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(6).toString()+"不是日期类型");
                     }
                     if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
-                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(7).toString()+"不是日期类型");
                     }
                     if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
@@ -3011,11 +3011,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
-                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(9).toString()+"不是文本类型");
                     }
                     if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
-                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                        errorList.add("小餐饮 第" + a + "行"+titleRow.getCell(10).toString()+"不是文本类型");
                     }
                     if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
@@ -3173,11 +3173,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
-                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(6).toString()+"不是日期类型");
                     }
                     if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
-                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(7).toString()+"不是日期类型");
                     }
                     if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
@@ -3185,11 +3185,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
-                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(9).toString()+"不是文本类型");
                     }
                     if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
-                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                        errorList.add("小作坊 第" + a + "行"+titleRow.getCell(10).toString()+"不是文本类型");
                     }
                     if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");
@@ -3344,27 +3344,27 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     }
                     if ((row.getCell(5) != null) &&(row.getCell(5).getCellType()!=CellType.BLANK)&& row.getCell(5).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(5).toString(), "不是文本类型");
-                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(5).toString()+"不是日期类型");
                     }
                     if ((row.getCell(6) != null) && row.getCell(6).getCellType() != CellType.BLANK && row.getCell(6).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(6).toString(), "不是文本类型");
-                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(6).toString()+"不是日期类型");
                     }
                     if ((row.getCell(7) != null) && (row.getCell(7).getCellType()!=CellType.BLANK)&& row.getCell(7).getCellType() != CellType.NUMERIC) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(7).toString(), "不是文本类型");
-                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是文本类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(7).toString()+"不是日期类型");
                     }
                     if ((row.getCell(8) != null) && row.getCell(8).getCellType() != CellType.BLANK && row.getCell(8).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(8).toString(), "不是文本类型");
-                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是日期类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(8).toString()+"不是文本类型");
                     }
                     if ((row.getCell(9) != null)&& row.getCell(9).getCellType() != CellType.BLANK  &&row.getCell(9).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(9).toString(), "不是文本类型");
-                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是日期类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(9).toString()+"不是文本类型");
                     }
                     if ((row.getCell(10) != null) && row.getCell(10).getCellType() != CellType.BLANK &&row.getCell(10).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(10).toString(), "不是文本类型");
-                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是日期类型");
+                        errorList.add("工业产品许可证 第" + a + "行"+titleRow.getCell(10).toString()+"不是文本类型");
                     }
                     if ((row.getCell(11) != null)&& row.getCell(11).getCellType() != CellType.BLANK  &&row.getCell(11).getCellType() != CellType.STRING) {
 //                        errorMap.put("第" + a + "行"+titleRow.getCell(11).toString(), "不是日期类型");

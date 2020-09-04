@@ -34,4 +34,6 @@ public interface SysUserMapper {
     void batchInsert(@Param("userList") List<SysUser> userList);
 
     int changePsd(@Param("id") int id,@Param("password") String password);
+
+    int getEnterpriseIdByInfoId(@Param("infoId") int infoId);
 }

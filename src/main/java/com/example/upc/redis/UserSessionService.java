@@ -9,6 +9,7 @@ import com.example.upc.dataobject.SysUser;
 import com.example.upc.dataobject.SysUserError;
 import com.example.upc.util.MD5Util;
 import com.example.upc.util.UUIDUtil;
+import org.apache.catalina.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,7 @@ public class UserSessionService {
         }
         return sysUser;
     }
+
     public boolean logout(HttpServletRequest request,HttpServletResponse response){
         String paramToken = request.getParameter(UserSessionService.COOKIE_NAME_TOKEN);
         String cookieToken = getCookieValue(request, UserSessionService.COOKIE_NAME_TOKEN);
@@ -182,5 +184,10 @@ public class UserSessionService {
         result.put("userId",sysUser.getId());   //用户id
         result.put("enterpriseId",sysUser.getInfoId()); // 企业id
         return result;
+    }
+
+    public int getEnterpriseIdByInfoId(SysUser sysUser){
+        int infoId = sysUser.getInfoId();
+        return sysUserMapper.getEnterpriseIdByInfoId(infoId);
     }
 }

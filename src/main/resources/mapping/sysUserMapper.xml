@@ -322,6 +322,9 @@
     where id = #{id}
   </update>
 
-
-
+  <select id="getEnterpriseIdByInfoId" parameterType="map" resultType="int">
+    select company_id
+    from view_supervision_ca
+    where id= #{infoId}
+  </select>
 </mapper>
