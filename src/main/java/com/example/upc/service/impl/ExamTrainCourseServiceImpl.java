@@ -6,9 +6,12 @@ import com.example.upc.controller.param.ExamCaTrainParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.PageResult;
 import com.example.upc.controller.param.TrainCourseParam;
+import com.example.upc.controller.searchParam.ExamTrainCourseSearchParam;
+import com.example.upc.controller.searchParam.ExamTrainMaterialSearchParam;
 import com.example.upc.dao.ExamTrainCourseMapper;
 import com.example.upc.dao.ExamTrainCourseMaterialMapper;
 import com.example.upc.dao.SupervisionCaMapper;
+import com.example.upc.dao.SysUserMapper;
 import com.example.upc.dataobject.ExamTrainCourse;
 import com.example.upc.dataobject.SupervisionCa;
 import com.example.upc.dataobject.SysUser;
@@ -37,12 +40,13 @@ public class ExamTrainCourseServiceImpl implements ExamTrainCourseService {
     private ExamTrainCourseMaterialMapper examTrainCourseMaterialMapper;
     @Autowired
     private SupervisionCaMapper supervisionCaMapper;
-
+    @Autowired
+    private SysUserMapper sysUserMapper;
     @Override
-    public PageResult<TrainCourseParam> getPage(PageQuery pageQuery) {
+    public PageResult<TrainCourseParam> getPage(PageQuery pageQuery, ExamTrainCourseSearchParam examTrainCourseSearchParam) {
         int count=examTrainCourseMapper.countList();
         if (count > 0) {
-            List<TrainCourseParam> examTrainCourseList = examTrainCourseMapper.getPage(pageQuery);
+            List<TrainCourseParam> examTrainCourseList = examTrainCourseMapper.getPage(pageQuery, examTrainCourseSearchParam);
             PageResult<TrainCourseParam> pageResult = new PageResult<>();
             pageResult.setData(examTrainCourseList);
             pageResult.setTotal(count);
@@ -57,14 +61,14 @@ public class ExamTrainCourseServiceImpl implements ExamTrainCourseService {
     @Override
     @Transactional
     public void insert(ExamTrainCourse examTrainCourse, List<Integer> materialIds) {
-      if(examTrainCourseMapper.countByName(examTrainCourse.getName())>0){
-          throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"存在相同名称课程");
-      }
-      examTrainCourse.setOperateIp("124.124.124");
-      examTrainCourse.setOperator("操作人");
-      examTrainCourse.setOperateTime(new Date());
-      examTrainCourseMapper.insertSelective(examTrainCourse);
-      examTrainCourseMaterialService.changeCourseMaterials(examTrainCourse.getId(),materialIds);
+        if(examTrainCourseMapper.countByName(examTrainCourse.getName())>0){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"存在相同名称课程");
+        }
+        examTrainCourse.setOperateIp("124.124.124");
+        examTrainCourse.setOperator("操作人");
+        examTrainCourse.setOperateTime(new Date());
+        examTrainCourseMapper.insertSelective(examTrainCourse);
+        examTrainCourseMaterialService.changeCourseMaterials(examTrainCourse.getId(),materialIds);
     }
 
     @Override
@@ -102,6 +106,15 @@ public class ExamTrainCourseServiceImpl implements ExamTrainCourseService {
         Map<String,Object> map = new HashMap<>();
         map.put("course",examTrainCourseMapper.selectByPrimaryKey(courseId));
         map.put("list",examTrainCourseMaterialService.getCaListByCourseId(caId,courseId));
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getCourseIds(int caId) {
+        Map<String,Object> map = new HashMap<>();
+        SysUser sysUser =sysUserMapper.selectByPrimaryKey(caId);
+        SupervisionCa supervisionCa = supervisionCaMapper.selectByPrimaryKey(sysUser.getInfoId());
+        map.put("list",examTrainCourseMapper.getCaTrainList(supervisionCa.getWorkType(),caId));
         return map;
     }
 }

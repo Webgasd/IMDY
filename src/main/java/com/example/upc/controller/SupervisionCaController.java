@@ -127,12 +127,14 @@ public class SupervisionCaController {
         supervisionCaService.insert(caParam);
         return CommonReturnType.create(null);
     }
+
     @RequestMapping("/delete")
     @ResponseBody
     public CommonReturnType delete(int caId) {
         supervisionCaService.delete(caId);
         return CommonReturnType.create(null);
     }
+
     @RequestMapping("/update")
     @ResponseBody
     public CommonReturnType update(@RequestBody String json){

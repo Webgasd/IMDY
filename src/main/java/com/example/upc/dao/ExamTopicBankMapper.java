@@ -1,8 +1,9 @@
 package com.example.upc.dao;
 
-import com.example.upc.controller.param.ExamCaTopic;
-import com.example.upc.controller.param.PageQuery;
+import com.example.upc.controller.param.*;
+import com.example.upc.controller.searchParam.ExamSubjectSearchParam;
 import com.example.upc.controller.searchParam.ExamTopicSearchParam;
+import com.example.upc.dataobject.ExamSubject;
 import com.example.upc.dataobject.ExamTopicBank;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,5 +23,7 @@ public interface ExamTopicBankMapper {
     List<ExamTopicBank> getPage(@Param("page") PageQuery page,@Param("search") ExamTopicSearchParam examTopicSearchParam);
     int countByTitle(@Param("title") String title);
     List<ExamTopicBank> getByIdList(@Param("idList") List<Integer> idList);
-    List<ExamCaTopic> getCaExamList(@Param("caId") int caId, @Param("examId") int examId, @Param("idList") List<Integer> idList);
+    List<ExamCaTopic> getCaExamList(@Param("paramList") CaTopicParam caTopicParam, @Param("idList") List<Integer> idList);
+    TopicNumParam getNum(@Param("search") ExamSubjectSearchParam examSubjectSearchParam);
+    List<ExamTopicBank> selectRandomByNum(@Param("search") ExamSubject examSubject);
 }

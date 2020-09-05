@@ -15,4 +15,5 @@ public interface ExamTrainCaMaterialMapper {
 
     int countList(@Param("search") TrainPersonSearchParam trainPersonSearchParam);
     List<TrainPersonParam> getPage(@Param("page") PageQuery page,@Param("search") TrainPersonSearchParam trainPersonSearchParam);
+    int selectByCaId(@Param("caId") int caId);
 }

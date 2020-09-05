@@ -1,6 +1,9 @@
 package com.example.upc.service;
 
+import com.example.upc.controller.param.CaTopicParam;
 import com.example.upc.controller.param.ExamCaTopic;
+import com.example.upc.controller.searchParam.ExamSubjectSearchParam;
+import com.example.upc.dataobject.ExamSubject;
 import com.example.upc.dataobject.ExamTopicBank;
 
 import java.util.List;
@@ -11,7 +14,7 @@ import java.util.List;
  */
 public interface ExamSubjectTopicService {
     List<ExamTopicBank> getListBySubject(int SubjectId);
-    List<ExamCaTopic> getCaListBySubject(int caId,int examId,int SubjectId);
-    void changeSubjectTopics(int subjectId,List<Integer> topicIdList);
+    List<ExamCaTopic> getCaListBySubject(CaTopicParam caTopicParam);
+    void changeSubjectTopics(ExamSubject examSubject, List<ExamTopicBank> examTopicBankList);
     void deleteBySubjectId(int id);
 }

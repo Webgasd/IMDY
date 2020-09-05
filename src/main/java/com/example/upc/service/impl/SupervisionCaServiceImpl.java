@@ -82,6 +82,7 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
         supervisionCa.setOperateIp("124.214.124");
         supervisionCa.setOperator("zcc");
         supervisionCaMapper.insertSelective(supervisionCa);
+
         SysUser sysUser = new SysUser();
         String encryptedPassword = MD5Util.md5("123456+");
         sysUser.setUsername(supervisionCa.getName());
@@ -240,7 +241,7 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
                 e.printStackTrace();
             }
         }else {
-           throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"文件错误");
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"文件错误");
         }
         List<Integer> updateIds = new ArrayList<>();
         List<SysUser> sysUserList = new ArrayList<>();
@@ -356,6 +357,12 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
         }
         PageResult<SupervisionCa> pageResult = new PageResult<>();
         return pageResult;
+    }
+
+    @Override
+    public SupervisionCa getCaInfo(int id)
+    {
+        return supervisionCaMapper.getCaInfoByUserId(id);
     }
 
 }

@@ -12,6 +12,7 @@ public class ExamCaTrainParam extends ExamTrainCourse {
     private int videoCourseScore;
     private int bookCourseScore;
     private float caScore;
+    private float courseScore;
 
     public int getMaterialNumber() {
         return materialNumber;
@@ -51,5 +52,13 @@ public class ExamCaTrainParam extends ExamTrainCourse {
 
     public void setCaScore(float caScore) {
         this.caScore = caScore;
+    }
+
+    public float getCourseScore() {
+        return courseScore;
+    }
+
+    public void setCourseScore(float courseScore) {
+        this.courseScore = courseScore;
     }
 }

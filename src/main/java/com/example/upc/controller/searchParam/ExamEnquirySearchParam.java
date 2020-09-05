@@ -8,6 +8,10 @@ public class ExamEnquirySearchParam {
     private String caName;
     private String examName;
     private Integer examResult;
+    private String idNumber;
+    private String companyName;
+    private Integer industry;
+    private Integer workType;
 
     public String getCaName() {
         return caName;
@@ -31,5 +35,37 @@ public class ExamEnquirySearchParam {
 
     public void setExamResult(Integer examResult) {
         this.examResult = examResult;
+    }
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public Integer getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(Integer industry) {
+        this.industry = industry;
+    }
+
+    public Integer getWorkType() {
+        return workType;
+    }
+
+    public void setWorkType(Integer workType) {
+        this.workType = workType;
     }
 }

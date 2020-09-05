@@ -26,4 +26,5 @@ public interface SupervisionCaService {
     PageResult<SupervisionCa> getCaPageByEnterprise (PageQuery pageQuery, int id);
     List<SupervisionCa> getAllByEnterpriseId(Integer id);
     PageResult<SupervisionCa> getNameByEnterpriseId (PageQuery pageQuery, SysUser sysUser, MeasurementSearchParam measurementSearchParam);
+    public SupervisionCa getCaInfo(int id);
 }

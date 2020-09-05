@@ -9,6 +9,9 @@ import java.util.Date;
  * @date 2019/5/13 16:22
  */
 public class ExamExamParam extends ExamExam {
+    private Integer industryCategory;
+    private Integer workType;
+    private String name;
     private String workTypeName;
     private String industryName;
     private Float totalScore;
@@ -53,5 +56,33 @@ public class ExamExamParam extends ExamExam {
 
     public void setQualifiedScore(Float qualifiedScore) {
         this.qualifiedScore = qualifiedScore;
+    }
+
+    public Integer getIndustryCategory() {
+        return industryCategory;
+    }
+
+    public void setIndustryCategory(Integer industryCategory) {
+        this.industryCategory = industryCategory;
+    }
+
+    @Override
+    public Integer getWorkType() {
+        return workType;
+    }
+
+    @Override
+    public void setWorkType(Integer workType) {
+        this.workType = workType;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 }

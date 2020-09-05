@@ -1,13 +1,15 @@
 package com.example.upc.service.impl;
 
+import com.example.upc.controller.param.CaTopicParam;
 import com.example.upc.controller.param.ExamCaTopic;
+import com.example.upc.controller.searchParam.ExamSubjectSearchParam;
 import com.example.upc.dao.ExamSubjectTopicMapper;
 import com.example.upc.dao.ExamTopicBankMapper;
+import com.example.upc.dataobject.ExamSubject;
 import com.example.upc.dataobject.ExamSubjectTopic;
 import com.example.upc.dataobject.ExamTopicBank;
 import com.example.upc.service.ExamSubjectTopicService;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,14 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author zcc
  * @date 2019/4/29 22:11
  */
 @Service
-public class       ExamSubjectTopicServiceImpl implements ExamSubjectTopicService {
+public class ExamSubjectTopicServiceImpl implements ExamSubjectTopicService {
     @Autowired
     private ExamSubjectTopicMapper examSubjectTopicMapper;
     @Autowired
@@ -38,26 +39,21 @@ public class       ExamSubjectTopicServiceImpl implements ExamSubjectTopicServic
     }
 
     @Override
-    public List<ExamCaTopic> getCaListBySubject(int caId, int examId, int SubjectId) {
-        List<Integer> topicIdList = examSubjectTopicMapper.getTopicIdListBySubjectId(SubjectId);
+    public List<ExamCaTopic> getCaListBySubject(CaTopicParam caTopicParam) {
+        int subjectId = caTopicParam.getSubjectId();
+        List<Integer> topicIdList = examSubjectTopicMapper.getTopicIdListBySubjectId(subjectId);
         if (CollectionUtils.isEmpty(topicIdList)) {
             return Lists.newArrayList();
         }
-        return examTopicBankMapper.getCaExamList(caId,examId,topicIdList);
+        return examTopicBankMapper.getCaExamList(caTopicParam,topicIdList);
     }
 
     @Override
-    public void changeSubjectTopics(int subjectId, List<Integer> topicIdList) {
-        List<Integer> originTopicIdList = examSubjectTopicMapper.getTopicIdListBySubjectId(subjectId);
-        if (originTopicIdList.size() == topicIdList.size()) {
-            Set<Integer> originTopicIdSet = Sets.newHashSet(originTopicIdList);
-            Set<Integer> topicIdSet = Sets.newHashSet(topicIdList);
-            originTopicIdSet.removeAll(topicIdSet);
-            if (CollectionUtils.isEmpty(originTopicIdSet)) {
-                return;
-            }
-        }
-        updateRoleUsers(subjectId, topicIdList);
+    public void changeSubjectTopics(ExamSubject examSubject, List<ExamTopicBank> examTopicBankList) {
+
+//        List<Integer> originTopicIdList = examSubjectTopicMapper.getTopicIdListBySubjectId(subjectId);
+
+        updateRoleUsers(examSubject, examTopicBankList);
     }
 
     @Override
@@ -66,17 +62,28 @@ public class       ExamSubjectTopicServiceImpl implements ExamSubjectTopicServic
     }
 
     @Transactional
-    public void updateRoleUsers(int subjectId, List<Integer> topicIdList) {
-         examSubjectTopicMapper.deleteBySubjectId(subjectId);
+    public void updateRoleUsers(ExamSubject examSubject, List<ExamTopicBank> examTopicBankList) {
 
-        if (CollectionUtils.isEmpty(topicIdList)) {
+        if (CollectionUtils.isEmpty(examTopicBankList)) {
             return;
         }
+
         List<ExamSubjectTopic> subjectTopicList = Lists.newArrayList();
-        for (Integer topicId : topicIdList) {
+        for (ExamTopicBank examTopicBank : examTopicBankList) {
             ExamSubjectTopic examSubjectTopic = new ExamSubjectTopic();
-            examSubjectTopic.setSubjectId(subjectId);
-            examSubjectTopic.setTopicId(topicId);
+            examSubjectTopic.setSubjectId(examSubject.getId());
+            examSubjectTopic.setTopicId(examTopicBank.getId());
+            switch (examTopicBank.getType()){
+                case 1:
+                    examSubjectTopic.setScore(examSubject.getJudgementScore());
+                    break;
+                case 2:
+                    examSubjectTopic.setScore(examSubject.getSingleScore());
+                    break;
+                case 3:
+                    examSubjectTopic.setScore(examSubject.getMultipleScore());
+                    break;
+            }
             examSubjectTopic.setOperator("操作人");
             examSubjectTopic.setOperateIp("124.124.124");
             examSubjectTopic.setOperateTime(new Date());

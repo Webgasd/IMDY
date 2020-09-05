@@ -40,4 +40,8 @@ public class ExamCaExamServiceImpl implements ExamCaExamService {
         PageResult<ExamEnquiryParam> pageResult = new PageResult<>();
         return pageResult;
     }
+    @Override
+    public List<ExamCaExam>getCaExamByCaId(int caId) {
+        return (examCaExamMapper.getByCaId(caId));
+    }
 }

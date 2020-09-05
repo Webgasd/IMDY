@@ -10,6 +10,7 @@ public class ExamCaExamParam extends ExamExam {
     private int qualifiedScore;
     private int totalScore;
     private int examTime;
+    private int examCaId;
 
     public int getQualifiedScore() {
         return qualifiedScore;
@@ -33,5 +34,13 @@ public class ExamCaExamParam extends ExamExam {
 
     public void setExamTime(int examTime) {
         this.examTime = examTime;
+    }
+
+    public int getExamCaId() {
+        return examCaId;
+    }
+
+    public void setExamCaId(int examCaId) {
+        this.examCaId = examCaId;
     }
 }

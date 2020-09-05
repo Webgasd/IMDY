@@ -23,6 +23,11 @@ public class ExamEnquiryParam {
     private int subjectId;
     private Date examDate;
     private String electronicNumber;
+    private String creditNumber;
+    private String businessAddress;
+    private Float totalScore;
+    private Float qualifiedScore;
+    private Integer examTime;
 
     public String getElectronicNumber() {
         return electronicNumber;
@@ -152,4 +157,43 @@ public class ExamEnquiryParam {
         this.examName = examName;
     }
 
+    public String getCreditNumber() {
+        return creditNumber;
+    }
+
+    public void setCreditNumber(String creditNumber) {
+        this.creditNumber = creditNumber;
+    }
+
+    public String getBusinessAddress() {
+        return businessAddress;
+    }
+
+    public void setBusinessAddress(String businessAddress) {
+        this.businessAddress = businessAddress;
+    }
+
+    public Float getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(Float totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public Float getQualifiedScore() {
+        return qualifiedScore;
+    }
+
+    public void setQualifiedScore(Float qualifiedScore) {
+        this.qualifiedScore = qualifiedScore;
+    }
+
+    public Integer getExamTime() {
+        return examTime;
+    }
+
+    public void setExamTime(Integer examTime) {
+        this.examTime = examTime;
+    }
 }
