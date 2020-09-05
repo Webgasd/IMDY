@@ -79,8 +79,6 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
         SupervisionCa supervisionCa = new SupervisionCa();
         BeanUtils.copyProperties(caParam,supervisionCa);
 
-        supervisionCa.setEducation(caParam.getIndustryName());
-
         supervisionCa.setOperateTime(new Date());
         supervisionCa.setOperateIp("124.214.124");
         supervisionCa.setOperator("zcc");
