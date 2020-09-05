@@ -75,7 +75,7 @@ public class MiniProgramController {
     // 登录之后获取企业部分信息
     @GetMapping("/getHomePageInfo")
     public ResultVo getHomePageInfo(SysUser sysUser){
-        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        int enterpriseId=sysUser.getInfoId();
         EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
         Map<String,Object> result = new HashMap<>();
         result.put("enterpriseName",enterpriseParam.getEnterpriseName()); // 企业名称
@@ -95,7 +95,7 @@ public class MiniProgramController {
     // 获取企业相关信息（基本信息/监管信息）
     @RequestMapping("/getEPInfoById")
     public ResultVo getEPInfoById(SysUser sysUser){
-        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        int enterpriseId=sysUser.getInfoId();
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseService.selectById(enterpriseId);
 
         List<Object> companyInfo = new ArrayList<Object>(); //返回信息
@@ -194,7 +194,7 @@ public class MiniProgramController {
     // 获取企业许可信息（只有食品经营）
     @RequestMapping("/getBusinessLicenseInfo")
     public ResultVo getBusinessLicenseInfo(SysUser sysUser){
-        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        int enterpriseId=sysUser.getInfoId();
         Map<String,Object> result = new HashMap<>();
         result.put("foodBusinessLicenseList",supervisionEnterpriseService.getFoodBusinessLicenseById(enterpriseId));
         return new ResultVo(result);
@@ -203,7 +203,7 @@ public class MiniProgramController {
     // 获取人员健康证信息
     @RequestMapping("/getHealthInfo")
     public ResultVo getHealthInfo(SysUser sysUser){
-        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        int enterpriseId=sysUser.getInfoId();
         Map<String,Object> result = new HashMap<>();
         result.put("personList",supervisionCaMapper.getAllByEnterpriseId(enterpriseId));
         result.put("workType",sysWorkTypeService.getAll());
@@ -214,7 +214,7 @@ public class MiniProgramController {
     @RequestMapping("/getBrightKitchenById")
     @ResponseBody
     public ResultVo getBrightKitchenById(SysUser sysUser){
-        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        int enterpriseId=sysUser.getInfoId();
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseService.selectById(enterpriseId);
         Map<String, Object> result = new HashMap<>();
 
@@ -230,13 +230,14 @@ public class MiniProgramController {
     // 获取证照/公示的照片
     @RequestMapping("/getLicensePhotos")
     public ResultVo getLicensePhotos(SysUser sysUser){
-        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        int enterpriseId=sysUser.getInfoId();
         Map<String,Object> result = new HashMap<>();
         Map<String,Object> data = supervisionEnterpriseService.getLicensePhotosById(enterpriseId);
         result.put("businessLicensePhoto",JSON2ImageUrl(data.get("businessLicensePhoto")));
         result.put("foodBusinessPhoto",JSON2ImageUrl(data.get("foodBusinessPhoto")));
         return new ResultVo(result);
     }
+
     // 上传照片
     @RequestMapping("/upload/picture")
     public ResultVo uploadPicture(@RequestParam("file") MultipartFile file) throws IOException {
@@ -252,7 +253,7 @@ public class MiniProgramController {
     // 保存证照更改
     @RequestMapping("/save/licensePhotos")
     public ResultVo updateLicensePhotosById(SysUser sysUser,String businessLicensePhoto,String foodBusinessPhoto){
-        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        int enterpriseId=sysUser.getInfoId();
         Map<String,Object> result = new HashMap<>();
         Map<String,Object> data = supervisionEnterpriseService.updateLicensePhotosById(enterpriseId,businessLicensePhoto,foodBusinessPhoto);
         result.put("businessLicensePhoto",JSON2ImageUrl(data.get("businessLicensePhoto")));
@@ -263,7 +264,7 @@ public class MiniProgramController {
     // 查询消毒记录
     @RequestMapping("/getDisinfectionRecord")
     public ResultVo getDisinfectionRecord(SysUser sysUser, String date){
-        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        int enterpriseId=sysUser.getInfoId();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = null;
         try {
@@ -280,7 +281,7 @@ public class MiniProgramController {
     // 查询食品留样记录
     @RequestMapping("/getFoodSamplesRecord")
     public ResultVo getFoodSamplesRecord(SysUser sysUser, String date){
-        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        int enterpriseId=sysUser.getInfoId();
         List<MiniFoodSamples> foodSamples = miniFoodSamplesMapper.selectByEPIdAndDate(enterpriseId,date);
         List<FoodSapmlesResult> result = new LinkedList<>();
 

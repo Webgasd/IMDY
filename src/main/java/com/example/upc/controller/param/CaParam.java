@@ -35,6 +35,8 @@ public class CaParam {
     private String issuingAuthority;
     private String photo;
 
+    private String industryName;
+
     public Integer getCompanyId() {
         return companyId;
     }
@@ -177,5 +179,13 @@ public class CaParam {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getIndustryName() {
+        return industryName;
+    }
+
+    public void setIndustryName(String industryName) {
+        this.industryName = industryName;
     }
 }
