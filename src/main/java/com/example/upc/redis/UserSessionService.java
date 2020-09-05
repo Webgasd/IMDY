@@ -74,6 +74,7 @@ public class UserSessionService {
         }
         String loginName = userParam.getLoginName();
         String formPass = userParam.getPassword();
+        System.out.println(loginName+" "+formPass);
         //判断账号是否存在
         SysUser sysUser = sysUserMapper.selectByLoginName(loginName);
         if(sysUser == null) {
