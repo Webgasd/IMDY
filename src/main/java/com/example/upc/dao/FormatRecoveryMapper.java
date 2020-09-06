@@ -59,4 +59,5 @@ public interface FormatRecoveryMapper {
     int countList(@Param("search") MeasurementSearchParam search, @Param("id") Integer id);
     List<FormatRecovery> getPage(@Param("page") PageQuery page, @Param("search") MeasurementSearchParam search, @Param("id") Integer id);
     int countByAll(@Param("id") Integer id, @Param("enterprise") String enterprise, @Param("charger") String charger, @Param("address") String address,@Param("phone") String phone, @Param("Id") Integer Id);
+    List<FormatRecovery> getPage2(@Param("search") MeasurementSearchParam search, @Param("id") Integer id);
 }

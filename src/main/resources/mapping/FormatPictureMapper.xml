@@ -325,4 +325,17 @@
     limit #{page.offset}, #{page.pageSize}
   </select>
 
+  <select id="getPageByEnterpriseId2" resultMap="ResultMapParam">
+    SELECT
+    *
+    FROM
+    (select a.*,b.enterprise_name as enterprise_name FROM (select a.*,b.name as area_name FROM format_picture as a LEFT JOIN
+    sys_area as b on a.area=b.id) as a LEFT JOIN supervision_enterprise as b on a.enterprise = b.id) as a
+    WHERE  a.enterprise = #{id}
+    <if test="search.start1 != null">  AND purchasedate &gt;= #{search.start1}</if>
+    <if test="search.end1 != null"> AND purchasedate &lt;= #{search.end1} </if>
+
+    order by id desc
+  </select>
+
 </mapper>

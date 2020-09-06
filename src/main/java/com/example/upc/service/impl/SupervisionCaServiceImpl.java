@@ -4,10 +4,7 @@ import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.common.ValidationResult;
 import com.example.upc.common.ValidatorImpl;
-import com.example.upc.controller.param.CaParam;
-import com.example.upc.controller.param.EnterpriseListResult;
-import com.example.upc.controller.param.PageQuery;
-import com.example.upc.controller.param.PageResult;
+import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.CaSearchParam;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.controller.searchParam.MeasurementSearchParam;
@@ -307,6 +304,7 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
         return map;
     }
 
+    @Override
     public PageResult getListByEnterpriseId(PageQuery pageQuery, SysUser sysUser) {
         int count = supervisionCaMapper.countListByEnterprise(sysUser.getInfoId());
         if (count > 0) {
@@ -356,6 +354,11 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
         }
         PageResult<SupervisionCa> pageResult = new PageResult<>();
         return pageResult;
+    }
+
+    @Override
+    public List<SupervisionCaParam> getAllByEnterpriseId2(Integer id){
+        return supervisionCaMapper.getAllByEnterpriseId2(id);
     }
 
 }

@@ -63,4 +63,6 @@ public interface FormatWasteMapper {
     List<FormatWasteSupParam> getPageAdmin(@Param("page") PageQuery page, @Param("search") WasteSearchParam wasteSearchParam);
     int countListEnterprise(@Param("enterprise") Integer enterprise, @Param("search") WasteSearchParam wasteSearchParam);
     List<FormatWaste> getPageEnterprise(@Param("page") PageQuery page, @Param("enterprise") Integer enterprise, @Param("search") WasteSearchParam wasteSearchParam);
+    List<FormatWaste> getPageEnterprise2(@Param("enterprise") Integer enterprise, @Param("search") WasteSearchParam wasteSearchParam);
+
 }

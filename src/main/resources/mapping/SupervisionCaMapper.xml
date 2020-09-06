@@ -29,6 +29,12 @@
     <result column="operator" jdbcType="VARCHAR" property="operator" />
     <result column="operate_ip" jdbcType="VARCHAR" property="operateIp" />
   </resultMap>
+
+  <resultMap id="SupervisionCaParam" type="com.example.upc.controller.param.SupervisionCaParam" extends="BaseResultMap">
+    <result column="industry_name" jdbcType="VARCHAR" property="industryName" />
+    <result column="ca_score" jdbcType="REAL" property="caScore" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
@@ -653,6 +659,12 @@
     ORDER BY id DESC
     limit #{page.offset}, #{page.pageSize}
 
+  </select>
+
+  <select id="getAllByEnterpriseId2" resultMap="SupervisionCaParam">
+    SELECT *
+    FROM view_supervision_ca
+    where company_id = #{enterpriseId}
   </select>
 
 

@@ -9,6 +9,7 @@ import com.example.upc.controller.param.FormatPictureSupParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.PageResult;
 import com.example.upc.controller.searchParam.PictureSearchParam;
+import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dao.*;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.FormatPictureService;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -101,6 +103,17 @@ public class FormatPictureServiceImpl implements FormatPictureService {
             return pageResult;
         }
         PageResult<FormatPictureSupParam> pageResult = new PageResult<>();
+        return pageResult;
+    }
+
+    @Override
+    public List<FormatPictureSupParam> getPageByEnterpriseId2(WasteSearchParam wasteSearchParam , int id){
+        int count=formatPictureMapper.countListByEnterpriseId(id);
+        if (count > 0) {
+            List<FormatPictureSupParam> fpList = formatPictureMapper.getPageByEnterpriseId2(wasteSearchParam,id);
+            return fpList;
+        }
+        List<FormatPictureSupParam> pageResult = new ArrayList<>();
         return pageResult;
     }
 

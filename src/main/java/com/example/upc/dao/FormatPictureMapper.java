@@ -3,6 +3,7 @@ package com.example.upc.dao;
 import com.example.upc.controller.param.FormatPictureSupParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.PictureSearchParam;
+import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dataobject.FormatPicture;
 import org.apache.ibatis.annotations.Param;
 
@@ -65,4 +66,5 @@ public interface FormatPictureMapper {
     List<FormatPicture> getPageEnterprise(@Param("page") PageQuery page, @Param("enterprise") Integer enterprise, @Param("search") PictureSearchParam search);
     int countListByEnterpriseId(@Param("id") Integer id);
     List<FormatPictureSupParam> getPageByEnterpriseId(@Param("page") PageQuery page, @Param("id") Integer id);
+    List<FormatPictureSupParam> getPageByEnterpriseId2(@Param("search") WasteSearchParam wasteSearchParam, @Param("id") Integer id);
 }

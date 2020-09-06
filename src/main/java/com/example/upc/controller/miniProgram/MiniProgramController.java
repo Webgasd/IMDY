@@ -1,9 +1,10 @@
 package com.example.upc.controller.miniProgram;
 
 import com.alibaba.fastjson.JSON;
-import com.example.upc.controller.param.EnterpriseParam;
-import com.example.upc.controller.param.FoodSapmlesResult;
-import com.example.upc.controller.param.UserParam;
+import com.example.upc.common.CommonReturnType;
+import com.example.upc.controller.param.*;
+import com.example.upc.controller.searchParam.MeasurementSearchParam;
+import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dao.MiniFoodSamplesItemMapper;
 import com.example.upc.dao.MiniFoodSamplesMapper;
 import com.example.upc.dao.SupervisionCaMapper;
@@ -60,6 +61,12 @@ public class MiniProgramController {
     private MiniFoodSamplesMapper miniFoodSamplesMapper;
     @Autowired
     private MiniFoodSamplesItemMapper miniFoodSamplesItemMapper;
+    @Autowired
+    private FormatWasteService formatWasteService;
+    @Autowired
+    private FormatPictureService formatPictureService;
+    @Autowired
+    private FormatRecoveryService formatRecoveryService;
 
 
     // 用户登录（成功之后传cookie，里面存的有用户信息，可以用SysUser接收）
@@ -74,7 +81,8 @@ public class MiniProgramController {
 
     // 登录之后获取企业部分信息
     @GetMapping("/getHomePageInfo")
-    public ResultVo getHomePageInfo(int enterpriseId){
+    public ResultVo getHomePageInfo(SysUser sysUser){
+        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
         EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
         Map<String,Object> result = new HashMap<>();
         result.put("enterpriseName",enterpriseParam.getEnterpriseName()); // 企业名称
@@ -93,7 +101,8 @@ public class MiniProgramController {
 
     // 获取企业相关信息（基本信息/监管信息）
     @RequestMapping("/getEPInfoById")
-    public ResultVo getEPInfoById(int enterpriseId){
+    public ResultVo getEPInfoById(SysUser sysUser){
+        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseService.selectById(enterpriseId);
 
         List<Object> companyInfo = new ArrayList<Object>(); //返回信息
@@ -103,7 +112,6 @@ public class MiniProgramController {
         basicInfo.put( "categoryName","企业基本信息" );
         supervisionInfo.put( "categoryId",2 );
         supervisionInfo.put( "categoryName","企业监管信息（监管人员检验）" );
-
 
         Map<String,Object> tempInfo = new LinkedHashMap<>();
         tempInfo.put("主体名称",supervisionEnterprise.getEnterpriseName());
@@ -146,7 +154,6 @@ public class MiniProgramController {
             categoryInfoItem.put("itemShow",entry.getValue());
             categoryInfo1.add(categoryInfoItem);
             count++;
-
         }
         basicInfo.put( "categoryInfo",categoryInfo1);
 
@@ -191,9 +198,46 @@ public class MiniProgramController {
 
     }
 
+    /**
+     * 企业简介
+     * @param sysUser
+     * @return
+     */
+    @RequestMapping("/getBusinessIntroduce")
+    public CommonReturnType getBusinessIntroduce(SysUser sysUser){
+        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        Map<String,Object> result = new HashMap<>();
+        EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
+        result.put("enterpriseIcon", JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure())); // 企业门头照片
+        result.put("introduction", enterpriseParam.getIntroduction()); // 企业介绍
+        Map<String,Object> data = supervisionEnterpriseService.getLicensePhotosById(enterpriseId);
+        result.put("businessLicensePhoto",JSON2ImageUrl(data.get("businessLicensePhoto")));//证件
+        result.put("foodBusinessPhoto",JSON2ImageUrl(data.get("foodBusinessPhoto")));//证件
+        result.put("propaganda",JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure()).equals("")?"":JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure()));//宣传文件
+        return CommonReturnType.create(result);
+    }
+
+    /**
+     * 企业联系方式
+     * @param sysUser
+     * @return
+     */
+    @RequestMapping("/getConnet")
+    public CommonReturnType getConnet(SysUser sysUser){
+        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        Map<String,Object> result = new HashMap<>();
+        EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
+        result.put("manageTime", "");
+        result.put("cantactWay1", enterpriseParam.getCantactWay());
+        result.put("cantactWay2", enterpriseParam.getIpMobilePhone());
+        result.put("route", "");
+        return CommonReturnType.create(result);
+    }
+
     // 获取企业许可信息（只有食品经营）
     @RequestMapping("/getBusinessLicenseInfo")
-    public ResultVo getBusinessLicenseInfo(int enterpriseId){
+    public ResultVo getBusinessLicenseInfo(SysUser sysUser){
+        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
         Map<String,Object> result = new HashMap<>();
         result.put("foodBusinessLicenseList",supervisionEnterpriseService.getFoodBusinessLicenseById(enterpriseId));
         return new ResultVo(result);
@@ -201,9 +245,10 @@ public class MiniProgramController {
 
     // 获取人员健康证信息
     @RequestMapping("/getHealthInfo")
-    public ResultVo getHealthInfo(int enterpriseId){
+    public ResultVo getHealthInfo(SysUser sysUser){
+        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
         Map<String,Object> result = new HashMap<>();
-        result.put("personList",supervisionCaMapper.getAllByEnterpriseId(enterpriseId));
+        result.put("personList",supervisionCaMapper.getAllByEnterpriseId2(enterpriseId));
         result.put("workType",sysWorkTypeService.getAll());
         return new ResultVo(result);
     }
@@ -211,7 +256,8 @@ public class MiniProgramController {
     // 获取名厨亮灶页面内容
     @RequestMapping("/getBrightKitchenById")
     @ResponseBody
-    public ResultVo getBrightKitchenById(int enterpriseId){
+    public ResultVo getBrightKitchenById(SysUser sysUser){
+        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseService.selectById(enterpriseId);
         Map<String, Object> result = new HashMap<>();
 
@@ -226,7 +272,8 @@ public class MiniProgramController {
 
     // 获取证照/公示的照片
     @RequestMapping("/getLicensePhotos")
-    public ResultVo getLicensePhotos(int enterpriseId){
+    public ResultVo getLicensePhotos(SysUser sysUser){
+        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
         Map<String,Object> result = new HashMap<>();
         Map<String,Object> data = supervisionEnterpriseService.getLicensePhotosById(enterpriseId);
         result.put("businessLicensePhoto",JSON2ImageUrl(data.get("businessLicensePhoto")));
@@ -247,7 +294,8 @@ public class MiniProgramController {
 
     // 保存证照更改
     @RequestMapping("/save/licensePhotos")
-    public ResultVo updateLicensePhotosById(int enterpriseId,String businessLicensePhoto,String foodBusinessPhoto){
+    public ResultVo updateLicensePhotosById(SysUser sysUser,String businessLicensePhoto,String foodBusinessPhoto){
+        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
         Map<String,Object> result = new HashMap<>();
         Map<String,Object> data = supervisionEnterpriseService.updateLicensePhotosById(enterpriseId,businessLicensePhoto,foodBusinessPhoto);
         result.put("businessLicensePhoto",JSON2ImageUrl(data.get("businessLicensePhoto")));
@@ -257,7 +305,8 @@ public class MiniProgramController {
 
     // 查询消毒记录
     @RequestMapping("/getDisinfectionRecord")
-    public ResultVo getDisinfectionRecord(int enterpriseId, String date){
+    public ResultVo getDisinfectionRecord(SysUser sysUser, String date){
+        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = null;
         try {
@@ -273,7 +322,8 @@ public class MiniProgramController {
 
     // 查询食品留样记录
     @RequestMapping("/getFoodSamplesRecord")
-    public ResultVo getFoodSamplesRecord(int enterpriseId, String date){
+    public ResultVo getFoodSamplesRecord(SysUser sysUser, String date){
+        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
         List<MiniFoodSamples> foodSamples = miniFoodSamplesMapper.selectByEPIdAndDate(enterpriseId,date);
         List<FoodSapmlesResult> result = new LinkedList<>();
 
@@ -303,6 +353,45 @@ public class MiniProgramController {
 //    public ResultVo addFoodSamplesRecord(HttpServletRequest request){
 //        return new ResultVo("添加成功！");
 //    }
+
+    /**
+     * 按时间获取废弃物记录
+     * @param
+     * @return
+     */
+    @RequestMapping("/getWasteByDate")
+    public CommonReturnType getWasteByDate(@RequestBody WasteSearchParam wasteSearchParam, SysUser sysUser){
+        wasteSearchParam.setStart1(new Date(wasteSearchParam.getStart1().getTime()-(long)8*60*60*1000));
+        wasteSearchParam.setEnd1(new Date(wasteSearchParam.getStart1().getTime()+(long)24*60*60*1000));
+        return CommonReturnType.create(formatWasteService.getPageEnterprise2( sysUser.getInfoId(), wasteSearchParam));
+    }
+
+    /**
+     * 获取回收单位
+     * @param
+     * @return
+     */
+    @RequestMapping("/getRecoveryUnit")
+    public CommonReturnType getRecoveryUnit(MeasurementSearchParam measurementSearchParam,SysUser sysUser){
+        return CommonReturnType.create(formatRecoveryService.getPage2(measurementSearchParam, sysUser));
+    }
+
+    /**
+     * 按时间获取自检记录
+     * @param
+     * @return
+     */
+    @RequestMapping("/getInspection")
+    public CommonReturnType getInspection(@RequestBody WasteSearchParam wasteSearchParam,SysUser sysUser){
+        wasteSearchParam.setStart1(new Date(wasteSearchParam.getStart1().getTime()-(long)8*60*60*1000));
+        wasteSearchParam.setEnd1(new Date(wasteSearchParam.getStart1().getTime()+(long)24*60*60*1000));
+        List<FormatPictureSupParam> formatPictureSupParamList = formatPictureService.getPageByEnterpriseId2(wasteSearchParam, sysUser.getInfoId());
+        for (FormatPictureSupParam f:formatPictureSupParamList
+             ) {
+            f.setDocument(JSON2ImageUrl(f.getDocument()));
+        }
+        return CommonReturnType.create(formatPictureSupParamList);
+    }
 
 
     /**

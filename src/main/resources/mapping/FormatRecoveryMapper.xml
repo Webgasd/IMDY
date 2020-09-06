@@ -229,4 +229,13 @@
     </if>
   </select>
 
+  <select id="getPage2" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM format_recovery
+    where  enterprise_id = #{id}
+
+    <if test="search.name != null and search.name != ''">and recovery_enterprise LIKE CONCAT('%',#{search.name},'%')</if>
+    order by id desc
+  </select>
+
 </mapper>

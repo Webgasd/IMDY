@@ -356,4 +356,19 @@
     limit #{page.offset}, #{page.pageSize}
   </select>
 
+  <select id="getPageEnterprise2" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM format_waste
+    where enterprise=#{enterprise}
+
+    <if test="search.kind != null and search.kind != ''">AND kind = #{search.kind}</if>
+    <if test="search.person != null and search.person != ''">AND disposalperson = #{search.person}</if>
+    <if test="search.start1 != null">  AND disposaltime &gt;= #{search.start1}</if>
+    <if test="search.end1 != null"> AND disposaltime &lt;= #{search.end1} </if>
+    <if test="search.start2 != null">  AND registrationtime &gt;= #{search.start2}</if>
+    <if test="search.end2 != null"> AND registrationtime &lt;= #{search.end2} </if>
+    order by id desc
+  </select>
+
 </mapper>

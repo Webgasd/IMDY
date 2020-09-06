@@ -6,6 +6,8 @@ import com.example.upc.controller.searchParam.MeasurementSearchParam;
 import com.example.upc.dataobject.FormatRecovery;
 import com.example.upc.dataobject.SysUser;
 
+import java.util.List;
+
 public interface FormatRecoveryService {
 
     PageResult getPage (PageQuery pageQuery, MeasurementSearchParam measurementSearchParam, SysUser sysUser);
@@ -13,4 +15,5 @@ public interface FormatRecoveryService {
     void delete(int fsId);
     void update(FormatRecovery formatRecovery, SysUser sysUser);
     void fail();
+    List<FormatRecovery> getPage2 ( MeasurementSearchParam measurementSearchParam, SysUser sysUser);
 }

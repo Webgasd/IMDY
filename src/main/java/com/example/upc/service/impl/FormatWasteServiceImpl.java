@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -83,6 +84,18 @@ public class FormatWasteServiceImpl implements FormatWasteService {
             return pageResult;
         }
         PageResult<FormatWaste> pageResult = new PageResult<>();
+        return pageResult;
+    }
+
+    @Override
+    public List<FormatWaste> getPageEnterprise2( Integer id, WasteSearchParam wasteSearchParam) {
+
+        int count=formatWasteMapper.countListEnterprise(id, wasteSearchParam);
+        if (count > 0) {
+            List<FormatWaste> fdList = formatWasteMapper.getPageEnterprise2(id, wasteSearchParam);
+            return fdList;
+        }
+        List<FormatWaste> pageResult = new ArrayList<>();
         return pageResult;
     }
 

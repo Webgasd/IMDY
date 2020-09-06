@@ -1,6 +1,7 @@
 package com.example.upc.dao;
 
 import com.example.upc.controller.param.PageQuery;
+import com.example.upc.controller.param.SupervisionCaParam;
 import com.example.upc.controller.searchParam.CaSearchParam;
 import com.example.upc.controller.searchParam.MeasurementSearchParam;
 import com.example.upc.dataobject.SupervisionCa;
@@ -27,6 +28,7 @@ public interface SupervisionCaMapper {
     int countByIdNumber(@Param("idNumber") String idNumber, @Param("id") Integer id);
     List<SupervisionCa> getAll();
     List<SupervisionCa> getAllByEnterpriseId(@Param("enterpriseId") Integer id);
+    List<SupervisionCaParam> getAllByEnterpriseId2(@Param("enterpriseId") Integer id);
 
     int countListNameByEnterpriseId(@Param("id") Integer id, @Param("search") MeasurementSearchParam search);
     List<SupervisionCa> getNameByEnterpriseId(@Param("page") PageQuery page, @Param("id") Integer id, @Param("search") MeasurementSearchParam search);

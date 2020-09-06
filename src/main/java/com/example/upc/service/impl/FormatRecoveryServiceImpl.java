@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +43,17 @@ public class FormatRecoveryServiceImpl implements FormatRecoveryService {
             return pageResult;
         }
         PageResult<FormatRecovery> pageResult = new PageResult<>();
+        return pageResult;
+    }
+
+    @Override
+    public List<FormatRecovery> getPage2 ( MeasurementSearchParam measurementSearchParam, SysUser sysUser){
+        int count=formatRecoveryMapper.countList(measurementSearchParam, sysUser.getInfoId());
+        if (count > 0) {
+            List<FormatRecovery> fqtList = formatRecoveryMapper.getPage2( measurementSearchParam, sysUser.getInfoId());
+            return fqtList;
+        }
+        List<FormatRecovery> pageResult = new ArrayList<>();
         return pageResult;
     }
 

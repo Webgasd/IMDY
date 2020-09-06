@@ -3,6 +3,7 @@ package com.example.upc.service;
 import com.example.upc.controller.param.CaParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.PageResult;
+import com.example.upc.controller.param.SupervisionCaParam;
 import com.example.upc.controller.searchParam.CaSearchParam;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.controller.searchParam.MeasurementSearchParam;
@@ -26,4 +27,5 @@ public interface SupervisionCaService {
     PageResult<SupervisionCa> getCaPageByEnterprise (PageQuery pageQuery, int id);
     List<SupervisionCa> getAllByEnterpriseId(Integer id);
     PageResult<SupervisionCa> getNameByEnterpriseId (PageQuery pageQuery, SysUser sysUser, MeasurementSearchParam measurementSearchParam);
+    List<SupervisionCaParam> getAllByEnterpriseId2(Integer id);
 }
