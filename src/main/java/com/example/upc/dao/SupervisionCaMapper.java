@@ -1,5 +1,6 @@
 package com.example.upc.dao;
 
+import com.example.upc.controller.param.CaParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.SupervisionCaParam;
 import com.example.upc.controller.searchParam.CaSearchParam;
@@ -13,6 +14,7 @@ public interface SupervisionCaMapper {
     int deleteByPrimaryKey(Integer id);
     int insert(SupervisionCa record);
     int insertSelective(SupervisionCa record);
+
     SupervisionCa selectByPrimaryKey(Integer id);
     int updateByPrimaryKeySelective(SupervisionCa record);
     int updateByPrimaryKey(SupervisionCa record);
@@ -32,4 +34,5 @@ public interface SupervisionCaMapper {
 
     int countListNameByEnterpriseId(@Param("id") Integer id, @Param("search") MeasurementSearchParam search);
     List<SupervisionCa> getNameByEnterpriseId(@Param("page") PageQuery page, @Param("id") Integer id, @Param("search") MeasurementSearchParam search);
+    SupervisionCa getCaInfoByUserId(@Param("userId")int id);
 }

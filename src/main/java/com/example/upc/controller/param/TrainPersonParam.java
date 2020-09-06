@@ -18,6 +18,10 @@ public class TrainPersonParam {
     private int trainId;
     private String trainName;
     private float completionRate;
+    private float caScore;
+    private float allScore;
+    private String businessAddress;
+    private String creditNumber;
 
     public int getTrainId() {
         return trainId;
@@ -121,5 +125,37 @@ public class TrainPersonParam {
 
     public void setCompletionRate(float completionRate) {
         this.completionRate = completionRate;
+    }
+
+    public float getCaScore() {
+        return caScore;
+    }
+
+    public void setCaScore(float caScore) {
+        this.caScore = caScore;
+    }
+
+    public float getAllScore() {
+        return allScore;
+    }
+
+    public void setAllScore(float allScore) {
+        this.allScore = allScore;
+    }
+
+    public String getBusinessAddress() {
+        return businessAddress;
+    }
+
+    public void setBusinessAddress(String businessAddress) {
+        this.businessAddress = businessAddress;
+    }
+
+    public String getCreditNumber() {
+        return creditNumber;
+    }
+
+    public void setCreditNumber(String creditNumber) {
+        this.creditNumber = creditNumber;
     }
 }

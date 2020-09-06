@@ -5,6 +5,7 @@ import com.example.upc.common.EmBusinessError;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.PageResult;
 import com.example.upc.controller.param.TrainMaterialParam;
+import com.example.upc.controller.searchParam.ExamTrainMaterialSearchParam;
 import com.example.upc.dao.ExamTrainCourseMaterialMapper;
 import com.example.upc.dao.ExamTrainMaterialMapper;
 import com.example.upc.dataobject.ExamTrainMaterial;
@@ -30,10 +31,10 @@ public class ExamTrainMaterialServiceImpl implements ExamTrainMaterialService {
     private ExamTrainCourseMaterialMapper examTrainCourseMaterialMapper;
 
     @Override
-    public PageResult<TrainMaterialParam> getPage(PageQuery pageQuery) {
+    public PageResult<TrainMaterialParam> getPage(PageQuery pageQuery, ExamTrainMaterialSearchParam examTrainMaterialSearchParam) {
         int count=examTrainMaterialMapper.countList();
         if (count > 0) {
-            List<TrainMaterialParam> examTrainMaterialList = examTrainMaterialMapper.getPage(pageQuery);
+            List<TrainMaterialParam> examTrainMaterialList = examTrainMaterialMapper.getPage(pageQuery, examTrainMaterialSearchParam);
             PageResult<TrainMaterialParam> pageResult = new PageResult<>();
             pageResult.setData(examTrainMaterialList);
             pageResult.setTotal(count);

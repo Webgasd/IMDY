@@ -8,6 +8,8 @@ public class TrainPersonSearchParam {
     private String companyName;
     private String caName;
     private Integer completion;
+    private String idNumber;
+
 
     public String getCompanyName() {
         return companyName;
@@ -32,4 +34,13 @@ public class TrainPersonSearchParam {
     public void setCompletion(Integer completion) {
         this.completion = completion;
     }
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
+    }
+
 }

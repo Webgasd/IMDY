@@ -369,8 +369,9 @@ public class FormatOriginRecordExServiceImpl implements FormatOriginRecordExServ
                     throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, MapToStrUtil.getMapToString(errorMap));
                 }
                 if (!errorMap.isEmpty()){
-                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, MapToStrUtil.getMapToString(errorMap));                }
-                workbook.close();
+                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, MapToStrUtil.getMapToString(errorMap));
+                }
+                    workbook.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

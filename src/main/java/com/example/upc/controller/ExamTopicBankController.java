@@ -3,6 +3,7 @@ package com.example.upc.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.upc.common.CommonReturnType;
+import com.example.upc.controller.param.ExamTopicBankParam;
 import com.example.upc.controller.param.ExamTopicParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.ExamTopicSearchParam;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ExamTopicBankController {
     @Autowired
     private ExamTopicBankService examTopicBankService;
+
     @RequestMapping("/getPage")
     @ResponseBody
     public CommonReturnType getPage(PageQuery pageQuery, ExamTopicSearchParam examTopicSearchParam){
@@ -42,25 +44,31 @@ public class ExamTopicBankController {
     @ResponseBody
     public CommonReturnType insert(@RequestBody String json){
         JSONObject jsonObject = JSON.parseObject(json);
-        ExamTopicParam topicBankParam = JSON.toJavaObject(jsonObject,ExamTopicParam.class);
+        ExamTopicBankParam topicBankParam = JSON.toJavaObject(jsonObject,ExamTopicBankParam.class);
         ExamTopicBank examTopicBank =new ExamTopicBank();
         BeanUtils.copyProperties(topicBankParam,examTopicBank);
+        examTopicBank.setScore(topicBankParam.getIndustry());
+        examTopicBank.setStatus(topicBankParam.getWorkType());
         examTopicBankService.insert(examTopicBank);
         return CommonReturnType.create(null);
     }
+
     @RequestMapping("/delete")
     @ResponseBody
     public CommonReturnType delete(int id) {
         examTopicBankService.delete(id);
         return CommonReturnType.create(null);
     }
+
     @RequestMapping("/update")
     @ResponseBody
     public CommonReturnType update(@RequestBody String json){
         JSONObject jsonObject = JSON.parseObject(json);
-        ExamTopicParam topicBankParam = JSON.toJavaObject(jsonObject,ExamTopicParam.class);
+        ExamTopicBankParam topicBankParam = JSON.toJavaObject(jsonObject,ExamTopicBankParam.class);
         ExamTopicBank examTopicBank =new ExamTopicBank();
         BeanUtils.copyProperties(topicBankParam,examTopicBank);
+        examTopicBank.setScore(topicBankParam.getIndustry());
+        examTopicBank.setStatus(topicBankParam.getWorkType());
         examTopicBankService.update(examTopicBank);
         return CommonReturnType.create(null);
     }

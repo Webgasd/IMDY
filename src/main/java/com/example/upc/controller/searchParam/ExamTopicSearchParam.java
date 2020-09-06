@@ -7,6 +7,8 @@ package com.example.upc.controller.searchParam;
 public class ExamTopicSearchParam {
     private String title;
     private Integer type;
+    private Integer industryCategory;
+    private Integer workType;
 
     public String getTitle() {
         return title;
@@ -22,5 +24,23 @@ public class ExamTopicSearchParam {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+
+
+    public Integer getWorkType() {
+        return workType;
+    }
+
+    public void setWorkType(Integer workType) {
+        this.workType = workType;
+    }
+
+    public Integer getIndustryCategory() {
+        return industryCategory;
+    }
+
+    public void setIndustryCategory(Integer industryCategory) {
+        this.industryCategory = industryCategory;
     }
 }

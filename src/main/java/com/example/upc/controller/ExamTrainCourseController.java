@@ -7,14 +7,13 @@ import com.example.upc.common.CommonReturnType;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.TrainCaMaterialParam;
+import com.example.upc.controller.searchParam.ExamTrainCourseSearchParam;
 import com.example.upc.dataobject.ExamTrainCourse;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.ExamTrainCaMaterialService;
 import com.example.upc.service.ExamTrainCourseMaterialService;
 import com.example.upc.service.ExamTrainCourseService;
-import com.example.upc.service.ExamTrainMaterialService;
 import com.example.upc.util.StringUtil;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,14 +40,16 @@ public class ExamTrainCourseController {
 
     @RequestMapping("/getPage")
     @ResponseBody
-    public CommonReturnType getPage(PageQuery pageQuery){
-        return CommonReturnType.create(examTrainCourseService.getPage(pageQuery));
+    public CommonReturnType getPage(PageQuery pageQuery, ExamTrainCourseSearchParam examTrainCourseSearchParam){
+        return CommonReturnType.create(examTrainCourseService.getPage(pageQuery, examTrainCourseSearchParam));
     }
+
     @RequestMapping("/getCourseMaterialIds")
     @ResponseBody
     public CommonReturnType getCourseMaterialIds(int id){
         return CommonReturnType.create(examTrainCourseMaterialService.getListByCourseId(id));
     }
+
     @RequestMapping("/insert")
     @ResponseBody
     public CommonReturnType insert(@RequestBody String json){
@@ -58,12 +59,14 @@ public class ExamTrainCourseController {
         examTrainCourseService.insert(examTrainCourse,topicIdList);
         return CommonReturnType.create(null);
     }
+
     @RequestMapping("/delete")
     @ResponseBody
     public CommonReturnType delete(int id) {
         examTrainCourseService.delete(id);
         return CommonReturnType.create(null);
     }
+
     @RequestMapping("/update")
     @ResponseBody
     public CommonReturnType update(@RequestBody String json){
@@ -73,6 +76,7 @@ public class ExamTrainCourseController {
         examTrainCourseService.update(examTrainCourse,materialIdList);
         return CommonReturnType.create(null);
     }
+
     @RequestMapping("/getCaTrainList")
     @ResponseBody
     public CommonReturnType getCaTrainList(SysUser sysUser){
@@ -97,6 +101,7 @@ public class ExamTrainCourseController {
         }
         return CommonReturnType.create(examTrainCourseService.getCourseMaterialIds(courseId,sysUser.getId()));
     }
+
     @RequestMapping("/submitCaTrain")
     @ResponseBody
     public CommonReturnType submitCaTrain(@RequestBody String json,SysUser sysUser){

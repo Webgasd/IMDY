@@ -19,7 +19,7 @@ public interface ExamExamMapper {
     int updateByPrimaryKey(ExamExam record);
 
     int countList();
-    List<ExamExamParam> getPage(@Param("page") PageQuery page);
+    List<ExamExamParam> getPage(@Param("page") PageQuery page,@Param("search") ExamExamParam examExamParam);
     int countByName(@Param("name") String name);
     List<ExamCaExamParam> getByWorkType(@Param("workType") int workType);
 }

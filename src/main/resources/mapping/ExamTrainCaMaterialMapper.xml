@@ -32,6 +32,10 @@
     <result column="train_id" jdbcType="VARCHAR" property="trainId" />
     <result column="train_name" jdbcType="VARCHAR" property="trainName" />
     <result column="completion_rate" jdbcType="REAL" property="completionRate" />
+    <result column="ca_score" jdbcType="REAL" property="caScore" />
+    <result column="all_score" jdbcType="REAL" property="allScore" />
+    <result column="business_address" jdbcType="VARCHAR" property="businessAddress" />
+    <result column="credit_number" jdbcType="VARCHAR" property="creditNumber" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -58,34 +62,41 @@
   </insert>
 
   <select id="countList" resultType="int">
-    SELECT count(1) FROM (
-    <if test="search.completion != null ">SELECT * FROM (</if>
-    SELECT a.* FROM
-    (SELECT a.*,b.name as train_name,b.id as train_id FROM
-    (SELECT a.id,b.name,b.id_number,b.telephone,b.sexy,b.industry,b.work_type,b.company_name,b.photo,b.electronic_number
-    FROM sys_user as a INNER JOIN supervision_ca as b on a.info_id = b.id where a.user_type = 3
-    <if test="search.caName != null and search.caName != ''">AND b.name LIKE CONCAT('%',#{search.caName},'%')</if>
-    <if test="search.companyName != null and search.companyName != ''">AND b.company_name LIKE
-      CONCAT('%',#{search.companyName},'%')</if>) as a
-    LEFT JOIN exam_train_course as b on a.work_type=b.worktype ) as a
-    LEFT JOIN exam_train_ca_material as b on a.id = b.ca_id and a.train_id = b.course_id GROUP BY a.id,a.train_id
-    <if test="search.completion == 1 ">)as a WHERE a.completion_rate = 1</if>
-    <if test="search.completion == 2 ">)as a WHERE a.completion_rate != 1 OR a.completion_rate IS NULL </if>) as a
+   SELECT count(1) FROM sys_user as a INNER JOIN supervision_ca as b on a.info_id = b.id where a.user_type = 3
   </select>
 
   <select id="getPage" resultMap="PersonParamMap">
-    <if test="search.completion != null ">SELECT * FROM (</if>
-    SELECT a.*, SUM(b.completion_rate)/count(1) as completion_rate FROM
-    (SELECT a.*,b.name as train_name,b.id as train_id FROM
-    (SELECT a.id,b.name,b.id_number,b.telephone,b.sexy,b.industry,b.work_type,b.company_name,b.photo,b.electronic_number
+    SELECT * From
+    (SELECT a.*,(ca_score/all_score) as completion_rate From
+    (SELECT c.*,
+    (SELECT SUM(score*completion_rate) From
+    (SELECT a.score,b.ca_id,b.completion_rate,b.operate_time
+    FROM exam_train_material as a INNER JOIN exam_train_ca_material as b on a.id=b.train_material_id)
+    as a where a.ca_id=c.id) as ca_score,
+
+    (SELECT MAX(operate_time) From exam_train_ca_material WHERE ca_id=c.id)as operate_time,
+
+    (SELECT SUM(b.score) From exam_train_course as a INNER JOIN
+    (SELECT a.course_id,b.score from exam_train_course_material as a INNER JOIN exam_train_material as b on a.material_id = b.id) as b
+    on a.id=b.course_id where a.worktype= c.work_type) as all_score
+    From
+    (SELECT a.*,b.business_address,b.id_number as credit_number FROM
+    (SELECT a.id,b.company_id,b.name,b.id_number,b.telephone,b.sexy,b.industry,b.work_type,b.company_name,b.photo,b.electronic_number
     FROM sys_user as a INNER JOIN supervision_ca as b on a.info_id = b.id where a.user_type = 3
+    <if test="search.idNumber != null and search.idNumber != ''">AND b.id_number LIKE CONCAT('%',#{search.idNumber},'%')</if>
     <if test="search.caName != null and search.caName != ''">AND b.name LIKE CONCAT('%',#{search.caName},'%')</if>
-    <if test="search.companyName != null and search.companyName != ''">AND b.company_name LIKE
-      CONCAT('%',#{search.companyName},'%')</if>) as a
-    LEFT JOIN exam_train_course as b on a.work_type=b.worktype limit #{page.offset}, #{page.pageSize}) as a
-    LEFT JOIN exam_train_ca_material as b on a.id = b.ca_id and a.train_id = b.course_id GROUP BY a.id,a.train_id
-    <if test="search.completion == 1 ">)as a WHERE a.completion_rate = 1</if>
-    <if test="search.completion == 2 ">)as a WHERE a.completion_rate != 1 OR a.completion_rate IS NULL </if>
+    <if test="search.companyName != null and search.companyName != ''">AND b.company_name LIKE CONCAT('%',#{search.companyName},'%')</if>)
+    as a LEFT JOIN supervision_enterprise as b on a.company_id = b.id)as c
+    <if test="search.completion == 1 ">)as a)as a WHERE a.completion_rate = 1  ORDER BY a.operate_time DESC limit #{page.offset}, #{page.pageSize}</if>
+    <if test="search.completion == 2 ">)as a)as a WHERE a.completion_rate != 1 OR a.completion_rate IS NULL  ORDER BY a.operate_time DESC limit #{page.offset}, #{page.pageSize}</if>
+    <if test="search.completion == null ">)as a)as a ORDER BY a.operate_time DESC limit #{page.offset}, #{page.pageSize}</if>
   </select>
 
+  <select id="selectByCaId" parameterType="int" resultType="int">
+    SELECT SUM(score*completion_rate) From
+                  (SELECT a.score,b.ca_id,b.completion_rate,b.operate_time
+                  FROM exam_train_material as a
+                  INNER JOIN exam_train_ca_material as b on a.id=b.train_material_id)
+    as a where a.ca_id=#{caId}
+  </select>
 </mapper>
