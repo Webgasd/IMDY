@@ -208,7 +208,7 @@ public class MiniProgramController {
      */
     @RequestMapping("/getBusinessIntroduce")
     public CommonReturnType getBusinessIntroduce(SysUser sysUser){
-        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        int enterpriseId=sysUser.getInfoId();
         Map<String,Object> result = new HashMap<>();
         EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
         result.put("enterpriseIcon", JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure())); // 企业门头照片
@@ -227,7 +227,7 @@ public class MiniProgramController {
      */
     @RequestMapping("/getConnet")
     public CommonReturnType getConnet(SysUser sysUser){
-        int enterpriseId=userSessionService.getEnterpriseIdByInfoId(sysUser);
+        int enterpriseId=sysUser.getInfoId();
         Map<String,Object> result = new HashMap<>();
         EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
         result.put("manageTime", "");
