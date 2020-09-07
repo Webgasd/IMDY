@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +46,17 @@ public class FormatSupplierServiceImpl implements FormatSupplierService {
             return pageResult;
         }
         PageResult<FormatSupplier> pageResult = new PageResult<>();
+        return pageResult;
+    }
+
+    @Override
+    public List<FormatSupplier> getPage2 ( SupplierSearchParam supplierSearchParam, SysUser sysUser){
+        int count=formatSupplierMapper.countList(supplierSearchParam,sysUser.getInfoId());
+        if (count > 0) {
+            List<FormatSupplier> fsList = formatSupplierMapper.getPage2( sysUser.getInfoId(), supplierSearchParam);
+            return fsList;
+        }
+        List<FormatSupplier> pageResult = new ArrayList<>();
         return pageResult;
     }
 

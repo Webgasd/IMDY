@@ -7,6 +7,8 @@ import com.example.upc.controller.searchParam.SupplierSearchParam;
 import com.example.upc.dataobject.FormatSupplier;
 import com.example.upc.dataobject.SysUser;
 
+import java.util.List;
+
 public interface FormatSupplierService {
     PageResult getPage (PageQuery pageQuery, SupplierSearchParam supplierSearchParam, SysUser sysUser);
     PageResult getPageSup (PageQuery pageQuery, SupplierSearchParam supplierSearchParam);
@@ -17,4 +19,5 @@ public interface FormatSupplierService {
     FormatSupplier selectByName(String name);
     FormatSupplier selectById(Integer id, SysUser sysUser);
     void fail();
+    List<FormatSupplier> getPage2 ( SupplierSearchParam supplierSearchParam, SysUser sysUser);
 }

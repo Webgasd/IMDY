@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.MeasurementSearchParam;
+import com.example.upc.controller.searchParam.SupplierSearchParam;
 import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dao.MiniFoodSamplesItemMapper;
 import com.example.upc.dao.MiniFoodSamplesMapper;
@@ -67,6 +68,8 @@ public class MiniProgramController {
     private FormatPictureService formatPictureService;
     @Autowired
     private FormatRecoveryService formatRecoveryService;
+    @Autowired
+    private FormatSupplierService formatSupplierService;
 
 
     // 用户登录（成功之后传cookie，里面存的有用户信息，可以用SysUser接收）
@@ -393,9 +396,24 @@ public class MiniProgramController {
         List<FormatPictureSupParam> formatPictureSupParamList = formatPictureService.getPageByEnterpriseId2(wasteSearchParam, sysUser.getInfoId());
         for (FormatPictureSupParam f:formatPictureSupParamList
              ) {
-            f.setDocument(JSON2ImageUrl(f.getDocument()));
+            f.setDocument(JSON2ImageUrl(f.getDocument()).equals("")?"":JSON2ImageUrl(f.getDocument()));
         }
         return CommonReturnType.create(formatPictureSupParamList);
+    }
+
+    /**
+     * 获取供应商
+     * @param
+     * @return
+     */
+    @RequestMapping("/getSupplier")
+    public CommonReturnType getSupplier( SupplierSearchParam supplierSearchParam, SysUser sysUser){
+        List<FormatSupplier> formatSupplierList = formatSupplierService.getPage2(supplierSearchParam, sysUser);
+//        for (FormatSupplier f:formatSupplierList
+//        ) {
+//            f.setDocument(JSON2ImageUrl(f.getDocument()).equals("")?"":JSON2ImageUrl(f.getDocument()));
+//        }
+        return CommonReturnType.create(formatSupplierList);
     }
 
 

@@ -430,4 +430,16 @@
     </if>
   </select>
 
+  <select id="getPage2" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM format_supplier
+    where  enterprise_id=#{eid}
+
+    <if test="search.stype != null and search.stype != ''">and stype = #{search.stype}</if>
+    <if test="search.name != null and search.name != ''">and name LIKE CONCAT('%',#{search.name},'%')</if>
+    <if test="search.number != null and search.number != ''">and number LIKE CONCAT('%',#{search.number},'%')</if>
+    <if test="search.address != null and search.address != ''">and address LIKE CONCAT('%',#{search.address},'%')</if>
+    order by id desc
+  </select>
+
 </mapper>

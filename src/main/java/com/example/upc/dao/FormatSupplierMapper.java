@@ -64,4 +64,5 @@ public interface FormatSupplierMapper {
     FormatSupplier selectByName(@Param("name") String name);
     FormatSupplier selectByInfo(@Param("eid") Integer eid, @Param("name") String name, @Param("type") String type);
     int countByAll(@Param("eid") Integer eid, @Param("stype") String stype, @Param("address") String address, @Param("name") String name,@Param("license") String license, @Param("number") String number,@Param("Id") Integer Id);
+    List<FormatSupplier> getPage2( @Param("eid") Integer eid, @Param("search") SupplierSearchParam search);
 }
