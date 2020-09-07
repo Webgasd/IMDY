@@ -130,6 +130,7 @@ public class SupervisionCaController {
     @ResponseBody
     public CommonReturnType insert(@RequestBody String json){
         CaParam caParam = JSONObject.parseObject(json,CaParam.class);
+
         supervisionCaService.insert(caParam);
         return CommonReturnType.create(null);
     }
