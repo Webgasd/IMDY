@@ -120,6 +120,12 @@ public class SupervisionCaController {
         }
     }
 
+    @RequestMapping("/getByIdNumber")
+    @ResponseBody
+    public CommonReturnType getByIdNumber(String idNumber){
+        return CommonReturnType.create(supervisionCaService.getCaInfoByIdNumber(idNumber));
+    }
+
     @RequestMapping("/insert")
     @ResponseBody
     public CommonReturnType insert(@RequestBody String json){

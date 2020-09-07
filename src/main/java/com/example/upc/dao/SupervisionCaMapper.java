@@ -35,4 +35,6 @@ public interface SupervisionCaMapper {
     int countListNameByEnterpriseId(@Param("id") Integer id, @Param("search") MeasurementSearchParam search);
     List<SupervisionCa> getNameByEnterpriseId(@Param("page") PageQuery page, @Param("id") Integer id, @Param("search") MeasurementSearchParam search);
     SupervisionCa getCaInfoByUserId(@Param("userId")int id);
+
+    SupervisionCa getCaInfoByIdNumber(@Param("idNumber")String idNumber);
 }

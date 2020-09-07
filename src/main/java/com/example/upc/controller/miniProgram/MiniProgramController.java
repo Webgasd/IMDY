@@ -117,6 +117,7 @@ public class MiniProgramController {
         supervisionInfo.put( "categoryName","企业监管信息（监管人员检验）" );
 
         Map<String,Object> tempInfo = new LinkedHashMap<>();
+        tempInfo.put("企业id",supervisionEnterprise.getId());
         tempInfo.put("主体名称",supervisionEnterprise.getEnterpriseName());
         tempInfo.put("店招名称",supervisionEnterprise.getShopName());
         tempInfo.put("主体分类",supervisionEnterprise.getOperationMode());
@@ -252,10 +253,10 @@ public class MiniProgramController {
         int enterpriseId=sysUser.getInfoId();
         Map<String,Object> result = new HashMap<>();
         List<SupervisionCaParam> supervisionCaParamList = supervisionCaMapper.getAllByEnterpriseId2(enterpriseId);
-        for (SupervisionCaParam s:supervisionCaParamList
-             ) {
-            s.setPhoto(JSON2ImageUrl(s.getPhoto()));
-        }
+//        for (SupervisionCaParam s:supervisionCaParamList
+//             ) {
+//            s.setPhoto(JSON2ImageUrl(s.getPhoto()));
+//        }
         result.put("personList",supervisionCaParamList);
         return new ResultVo(result);
     }

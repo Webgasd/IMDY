@@ -103,6 +103,7 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
         sysRoleUser.setOperateIp("123.124.124");
         sysRoleUserMapper.insertSelective(sysRoleUser);
     }
+
     @Override
     public void delete(int caId) {
         SupervisionCa supervisionCa = supervisionCaMapper.selectByPrimaryKey(caId);
@@ -369,4 +370,11 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
         return supervisionCaMapper.getCaInfoByUserId(id);
     }
 
+    @Override
+    public SupervisionCa getCaInfoByIdNumber(String idNumber){
+        if(supervisionCaMapper.countByIdNumber(idNumber,null)==0){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"该人员未注册");
+        }
+        return supervisionCaMapper.getCaInfoByIdNumber(idNumber);
+    }
 }
