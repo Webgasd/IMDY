@@ -1,6 +1,7 @@
 package com.example.upc.dao;
 
 import com.example.upc.controller.param.PageQuery;
+import com.example.upc.controller.searchParam.SysNoticeSearchParam;
 import com.example.upc.dataobject.SysNotice;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,4 +19,5 @@ public interface SysNoticeMapper {
     int countList();
     List<SysNotice> getPage(@Param("page") PageQuery page);
     int changeStatus(@Param("id")Integer id,@Param("status")Integer status);
+    List<SysNotice> getPage2 (@Param("sysNoticeSearchParam") SysNoticeSearchParam sysNoticeSearchParam);
 }

@@ -4,6 +4,7 @@ import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.PageResult;
+import com.example.upc.controller.searchParam.SysNoticeSearchParam;
 import com.example.upc.dao.SysNoticeMapper;
 import com.example.upc.dataobject.SysNotice;
 import com.example.upc.service.SysNoticeService;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +38,17 @@ public class SysNoticeServiceImpl implements SysNoticeService {
             return pageResult;
         }
         PageResult<SysNotice> pageResult = new PageResult<>();
+        return pageResult;
+    }
+
+    @Override
+    public List<SysNotice> getPage2 (SysNoticeSearchParam sysNoticeSearchParam){
+        int count= sysNoticeMapper.countList();
+        if (count > 0) {
+            List<SysNotice> sysNoticeList = sysNoticeMapper.getPage2(sysNoticeSearchParam);
+            return sysNoticeList;
+        }
+        List<SysNotice> pageResult = new ArrayList<>();
         return pageResult;
     }
 

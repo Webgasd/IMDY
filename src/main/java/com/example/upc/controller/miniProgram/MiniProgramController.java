@@ -477,7 +477,7 @@ public class MiniProgramController {
      * @param jsonObj
      * @return imgUrl
      */
-    public String JSON2ImageUrl(Object jsonObj) {
+    public  String JSON2ImageUrl(Object jsonObj) {
         JSONArray jsonArray = JSONArray.fromObject(jsonObj);
         JSONObject jsonObject1 = JSONObject.fromObject(jsonArray.get(0));
         JSONObject jsonObject2 = JSONObject.fromObject(jsonObject1.get("response"));

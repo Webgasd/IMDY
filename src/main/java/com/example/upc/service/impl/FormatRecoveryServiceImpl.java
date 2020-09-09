@@ -52,9 +52,10 @@ public class FormatRecoveryServiceImpl implements FormatRecoveryService {
         if (count > 0) {
             List<FormatRecovery> fqtList = formatRecoveryMapper.getPage2( measurementSearchParam, sysUser.getInfoId());
             return fqtList;
+        }else {
+            List<FormatRecovery> pageResult = new ArrayList<>();
+            return pageResult;
         }
-        List<FormatRecovery> pageResult = new ArrayList<>();
-        return pageResult;
     }
 
     @Override

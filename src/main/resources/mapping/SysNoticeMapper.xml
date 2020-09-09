@@ -291,4 +291,17 @@
   <update id="changeStatus">
     UPDATE sys_notice SET status = #{status} WHERE id = #{id}
   </update>
+
+  <select id="getPage2" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" />
+    FROM sys_notice
+    WHERE send_object LIKE CONCAT('%',"",'%')
+    <if test="sysNoticeSearchParam.title != null">
+      AND title LIKE CONCAT('%',#{sysNoticeSearchParam.title},'%')
+    </if>
+    <if test="sysNoticeSearchParam.type != null">
+      AND type LIKE CONCAT('%',#{sysNoticeSearchParam.type},'%')
+    </if>
+    ORDER BY id DESC
+  </select>
 </mapper>
