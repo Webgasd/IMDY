@@ -5,6 +5,7 @@ public class OriginExtraSearchParam {
     private String materialname;
     private String materialcategory;
     private String brand;
+    private int listId;
 
     public String getMaterialname() {
         return materialname;
@@ -18,6 +19,8 @@ public class OriginExtraSearchParam {
         return brand;
     }
 
+    public int getListId(){return listId;}
+
     public void setMaterialname(String materialname) {
         this.materialname = materialname;
     }
@@ -29,4 +32,6 @@ public class OriginExtraSearchParam {
     public void setBrand(String brand) {
         this.brand = brand;
     }
+
+    public void setListId(int listId) {this.listId=listId;}
 }

@@ -29,6 +29,7 @@
 
         <!-- 生成对应表明及类名-->
 
+<<<<<<< HEAD
 <!--        <table tableName="distribution_list" domainObjectName="DistributionList" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
@@ -308,5 +309,10 @@
         <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--        selectByExampleQueryId="false"></table>-->
 
+=======
+        <table schema="pingyi" tableName="format_origin_extra" domainObjectName="FormatOriginExtra" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+>>>>>>> 6912f5f76d012eff771626cc60fea4634640d4cf
     </context>
 </generatorConfiguration>

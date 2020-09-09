@@ -29,12 +29,19 @@ public class FormatOriginExtraController {
         return CommonReturnType.create(formatOriginExtraService.getPage(pageQuery,originExtraSearchParam, sysUser));
     }
 
+    @RequestMapping("/getPageByListId")
+    @ResponseBody
+    public CommonReturnType getPageByListId(OriginExtraSearchParam originExtraSearchParam, SysUser sysUser){
+        return CommonReturnType.create(formatOriginExtraService.getPageByListId(originExtraSearchParam, sysUser));
+    }
+
     @RequestMapping("/insert")
     @ResponseBody
     public CommonReturnType insert(FormatOriginExtra formatOriginExtra, SysUser sysUser){
         formatOriginExtraService.insert(formatOriginExtra, sysUser);
         return CommonReturnType.create(null);
     }
+
     @RequestMapping("/delete")
     @ResponseBody
     public CommonReturnType delete(int id) {
