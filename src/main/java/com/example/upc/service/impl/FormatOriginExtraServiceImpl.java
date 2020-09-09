@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +47,17 @@ public class FormatOriginExtraServiceImpl implements FormatOriginExtraService {
     }
 
     @Override
+    public List<FormatOriginExtra> getPageByListId (OriginExtraSearchParam originExtraSearchParam, SysUser sysUser){
+        int count=formatOriginExtraMapper.countList(originExtraSearchParam,sysUser.getInfoId());
+        if (count > 0) {
+            List<FormatOriginExtra> foList = formatOriginExtraMapper.getPage2(sysUser.getInfoId(), originExtraSearchParam);
+            return foList;
+        }
+        List<FormatOriginExtra> pageResult = new ArrayList<>();
+        return pageResult;
+    }
+
+    @Override
     @Transactional
     public void insert(FormatOriginExtra formatOriginExtra, SysUser sysUser) {
 
@@ -67,6 +79,8 @@ public class FormatOriginExtraServiceImpl implements FormatOriginExtraService {
         formatOriginExtra1.setExtra(formatOriginExtra.getExtra());
         formatOriginExtra1.setOperator("操作人");
         formatOriginExtra1.setOperatorIp("124.124.124");
+        formatOriginExtra1.setListId(formatOriginExtra.getListId());
+        formatOriginExtra1.setQualityGuaranteePeriod(formatOriginExtra.getQualityGuaranteePeriod());
         formatOriginExtra1.setOperatorTime(new Date());
 
         // TODO: sendEmail

@@ -59,4 +59,5 @@ public interface FormatOriginExtraMapper {
     int countList(@Param("search") OriginExtraSearchParam search, @Param("id") Integer id);
     List<FormatOriginExtra> getPage(@Param("page") PageQuery page, @Param("id") Integer id, @Param("search")  OriginExtraSearchParam search);
     FormatOriginExtra selectByName(@Param("materialname") String materialname);
+    List<FormatOriginExtra> getPage2(@Param("id") Integer id, @Param("search")  OriginExtraSearchParam search);
 }

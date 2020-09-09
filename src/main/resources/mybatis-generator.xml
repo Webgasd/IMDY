@@ -8,9 +8,10 @@
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <!-- 数据库链接地址账号密码-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://106.15.181.173:3306/splatform"
+                        connectionURL="jdbc:mysql://106.15.181.173:3306/pingyi"
                         userId="root"
                         password="Zcc..934947091">
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
         <!-- 生成DataObject类存放地址-->
         <javaModelGenerator targetPackage="com.example.upc.dataobject" targetProject="src/main/java">
@@ -28,8 +29,8 @@
 
         <!-- 生成对应表明及类名-->
 
-<!--        <table tableName="distribution_list" domainObjectName="DistributionList" enableCountByExample="false"-->
-<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
+        <table schema="pingyi" tableName="format_origin_extra" domainObjectName="FormatOriginExtra" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>
