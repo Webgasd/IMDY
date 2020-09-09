@@ -12,6 +12,7 @@ import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.FormatDisinfectionService;
 import com.example.upc.util.ExcalUtils;
 import com.example.upc.util.MapToStrUtil;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -90,7 +92,7 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
 
     @Override
     @Transactional
-    public void insert(FormatDisinfectionParam formatDisinfectionParam, SysUser sysUser) {
+    public void insert(FormatDisinfectionParam formatDisinfectionParam, SysUser sysUser) throws InvocationTargetException, IllegalAccessException {
 
         ValidationResult result = validator.validate(formatDisinfectionParam);
         if(result.isHasErrors()){
@@ -102,39 +104,28 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
         }
         FormatDisinfection formatDisinfection1 = new FormatDisinfection();
+        BeanUtils.copyProperties(formatDisinfectionParam,formatDisinfection1);
         formatDisinfection1.setUnit(sysUser.getInfoId());
         formatDisinfection1.setArea(supervisionEnterprise.getArea());
-        formatDisinfection1.setName(formatDisinfectionParam.getName());
-        formatDisinfection1.setAmount(formatDisinfectionParam.getAmount());
-        formatDisinfection1.setDate(formatDisinfectionParam.getDate());
-        formatDisinfection1.setPerson(formatDisinfectionParam.getPerson());
-        formatDisinfection1.setStart1(formatDisinfectionParam.getStart1());
-        formatDisinfection1.setStart2(formatDisinfectionParam.getStart2());
-        formatDisinfection1.setEnd1(formatDisinfectionParam.getEnd1());
-        formatDisinfection1.setEnd2(formatDisinfectionParam.getEnd2());
-        formatDisinfection1.setWay(formatDisinfectionParam.getWay());
-        formatDisinfection1.setRemark(formatDisinfectionParam.getRemark());
         formatDisinfection1.setOperator("操作人");
         formatDisinfection1.setOperatorIp("124.124.124");
         formatDisinfection1.setOperatorTime(new Date());
-
-        // TODO: sendEmail
 
         formatDisinfectionMapper.insertSelective(formatDisinfection1);
 //        http://localhost:8080/formatdishes/update?id=1&unit=%E5%B1%B1%E4%B8%9C%E5%A6%82%E6%96%B0%E5%85%AC%E5%8F%B8&number=2&name=%E5%A4%A7%E7%B1%B3%E9%A5%AD&price=11&type=%E4%B8%BB%E9%A3%9F&remark=%E7%B1%B3%E9%A5%AD
     }
     @Override
-    public void delete(int fdId) {
-        FormatDisinfection formatDisinfection = formatDisinfectionMapper.selectByPrimaryKey(fdId);
+    public void delete(FormatDisinfectionParam formatDisinfectionParam) {
+        FormatDisinfection formatDisinfection = formatDisinfectionMapper.selectByPrimaryKey(formatDisinfectionParam.getId());
         if(formatDisinfection==null){
             throw new BusinessException(EmBusinessError.ID_ERROR);
         }
-        formatDisinfectionMapper.deleteByPrimaryKey(fdId);
+        formatDisinfectionMapper.deleteByPrimaryKey(formatDisinfectionParam.getId());
     }
 
     @Override
     @Transactional
-    public void update(FormatDisinfectionParam formatDisinfectionParam,SysUser sysUser) {
+    public void update(FormatDisinfectionParam formatDisinfectionParam,SysUser sysUser) throws InvocationTargetException, IllegalAccessException {
         ValidationResult result = validator.validate(formatDisinfectionParam);
         if(result.isHasErrors()){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
@@ -142,32 +133,19 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
         if(formatDisinfectionMapper.selectByPrimaryKey(formatDisinfectionParam.getId())==null){
             throw new BusinessException(EmBusinessError.UPDATE_ERROR);
         }
-
-        FormatDisinfection formatDisinfection1 = new FormatDisinfection();
-        formatDisinfection1.setId(formatDisinfectionParam.getId());
-
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
         if (supervisionEnterprise==null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
         }
+
+        FormatDisinfection formatDisinfection1 = new FormatDisinfection();
+        BeanUtils.copyProperties(formatDisinfectionParam,formatDisinfection1);
         formatDisinfection1.setUnit(sysUser.getInfoId());
-        formatDisinfection1.setArea(supervisionEnterprise.getArea());
-        formatDisinfection1.setName(formatDisinfectionParam.getName());
-        formatDisinfection1.setAmount(formatDisinfectionParam.getAmount());
-        formatDisinfection1.setDate(formatDisinfectionParam.getDate());
-        formatDisinfection1.setPerson(formatDisinfectionParam.getPerson());
-        formatDisinfection1.setStart1(formatDisinfectionParam.getStart1());
-        formatDisinfection1.setStart2(formatDisinfectionParam.getStart2());
-        formatDisinfection1.setEnd1(formatDisinfectionParam.getEnd1());
-        formatDisinfection1.setEnd2(formatDisinfectionParam.getEnd2());
-        formatDisinfection1.setWay(formatDisinfectionParam.getWay());
-        formatDisinfection1.setRemark(formatDisinfectionParam.getRemark());
         formatDisinfection1.setOperator("操作人");
         formatDisinfection1.setOperatorIp("124.124.124");
         formatDisinfection1.setOperatorTime(new Date());
 
         // TODO: sendEmail
-
         formatDisinfectionMapper.updateByPrimaryKeySelective(formatDisinfection1);
     }
 

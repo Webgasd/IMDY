@@ -147,6 +147,7 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
         if(formatLeaveSample.getId()==null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"插入失败");
         }
+
         //分列表插
 
         formatLeaveCoolCourseMapper.deleteByParentId(formatLeaveSample.getId());
@@ -175,10 +176,12 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
         List<FormatLeaveMainCourse> list3 = formatLeaveParam.getList3();
         if(list3.size()>0){
             formatLeaveMainCourseMapper.batchInsert(list3.stream().map((list)->{
+                list.setParentId(formatLeaveSample.getId());
+
                 list.setOperatorIp("124.124.124");
                 list.setOperatorTime(new Date());
                 list.setOperator("zcc");
-                list.setParentId(formatLeaveSample.getId());
+
                 return list;}).collect(Collectors.toList()));
         }
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,7 @@ public class FormatDisinfectionController {
             return CommonReturnType.create(formatDisinfectionService.getPage(pageQuery,disinfectionSearchParam));
         }
         else if (sysUser.getUserType()==1)
-            {
+        {
             return CommonReturnType.create(formatDisinfectionService.getPageEnterprise(pageQuery, sysUser.getInfoId(), disinfectionSearchParam));
         }
         else if (sysUser.getUserType()==0)
@@ -64,25 +65,27 @@ public class FormatDisinfectionController {
 
     @RequestMapping("/insert")
     @ResponseBody
-    public CommonReturnType insert(FormatDisinfectionParam formatDisinfectionParam,SysUser sysUser){
+    public CommonReturnType insert(FormatDisinfectionParam formatDisinfectionParam,SysUser sysUser) throws InvocationTargetException, IllegalAccessException {
         if (sysUser.getUserType()==1){
-    formatDisinfectionService.insert(formatDisinfectionParam,sysUser);
-    return CommonReturnType.create(null);
+        formatDisinfectionService.insert(formatDisinfectionParam,sysUser);
+            return CommonReturnType.create(null);
         }
         else {
             formatDisinfectionService.fail();
             return CommonReturnType.create(null);
         }
     }
+
     @RequestMapping("/delete")
     @ResponseBody
-    public CommonReturnType delete(int id) {
-        formatDisinfectionService.delete(id);
+    public CommonReturnType delete(FormatDisinfectionParam formatDisinfectionParam) {
+        formatDisinfectionService.delete(formatDisinfectionParam);
         return CommonReturnType.create(null);
     }
+
     @RequestMapping("/update")
     @ResponseBody
-    public CommonReturnType update(FormatDisinfectionParam formatDisinfectionParam,SysUser sysUser){
+    public CommonReturnType update(FormatDisinfectionParam formatDisinfectionParam,SysUser sysUser) throws InvocationTargetException, IllegalAccessException {
         if (sysUser.getUserType()==1){
         formatDisinfectionService.update(formatDisinfectionParam,sysUser);
         return CommonReturnType.create(null);

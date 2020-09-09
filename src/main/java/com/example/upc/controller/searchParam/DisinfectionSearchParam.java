@@ -1,17 +1,15 @@
 package com.example.upc.controller.searchParam;
 
 
+import com.example.upc.dataobject.FormatDisinfection;
+
 import java.util.Date;
 import java.util.List;
 
-public class DisinfectionSearchParam {
-
+public class DisinfectionSearchParam extends FormatDisinfection {
     private String enterprise;
-    private String name;
-    private Integer amount;
     private Date start;
     private Date end;
-    private String person;
     private List<Integer> areaList;
 
     public String getEnterprise() {
@@ -20,19 +18,6 @@ public class DisinfectionSearchParam {
 
     public void setEnterprise(String enterprise) {
         this.enterprise = enterprise;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-    public Integer getAmount() {
-        return amount;
-    }
-    public void setAmount(Integer amount) {
-        this.amount = amount;
     }
 
     public Date getStart() {
@@ -51,12 +36,6 @@ public class DisinfectionSearchParam {
         this.end = end;
     }
 
-    public String getPerson() {
-        return person;
-    }
-    public void setPerson(String person) {
-        this.person = person == null ? null : person.trim();
-    }
     public List<Integer> getAreaList() {
         return areaList;
     }
@@ -64,4 +43,6 @@ public class DisinfectionSearchParam {
     public void setAreaList(List<Integer> areaList) {
         this.areaList = areaList;
     }
+
+
 }

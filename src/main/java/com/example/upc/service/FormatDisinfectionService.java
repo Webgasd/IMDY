@@ -9,6 +9,7 @@ import com.example.upc.dataobject.FormatDisinfection;
 import com.example.upc.dataobject.SysUser;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
 
@@ -16,9 +17,10 @@ public interface FormatDisinfectionService {
     PageResult<FormatDisinfectionSupParam> getPage (PageQuery pageQuery, DisinfectionSearchParam disinfectionSearchParam);
     PageResult<FormatDisinfectionSupParam> getPageAdmin (PageQuery pageQuery, DisinfectionSearchParam disinfectionSearchParam);
     PageResult getPageEnterprise (PageQuery pageQuery, Integer id, DisinfectionSearchParam disinfectionSearchParam);
-    void insert(FormatDisinfectionParam formatDisinfectionParam, SysUser sysUser);
-    void delete(int fdId);
-    void update(FormatDisinfectionParam formatDisinfectionParam, SysUser sysUser);
+
+    void insert(FormatDisinfectionParam formatDisinfectionParam, SysUser sysUser) throws InvocationTargetException, IllegalAccessException;
+    void delete(FormatDisinfectionParam formatDisinfectionParam);
+    void update(FormatDisinfectionParam formatDisinfectionParam, SysUser sysUser) throws InvocationTargetException, IllegalAccessException;
     void fail();
     void importExcel(MultipartFile file, Integer type,SysUser sysUser);
     void importExcelEx(MultipartFile file, Integer type);
