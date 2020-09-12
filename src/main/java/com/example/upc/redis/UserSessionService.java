@@ -186,6 +186,20 @@ public class UserSessionService {
         return result;
     }
 
+    public boolean touristLogin(HttpServletResponse response, int id) throws BusinessException {
+
+        String loginName = "tourist";
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername("游客");
+        sysUser.setLoginName(loginName);
+        sysUser.setInfoId(id);
+
+        //生成cookie
+        String token	 = "12345"+'_'+UUIDUtil.uuid();
+        addCookie(response, token, sysUser);
+        return true;
+    }
+
     public int getEnterpriseIdByInfoId(SysUser sysUser){
         int infoId = sysUser.getInfoId();
         return sysUserMapper.getEnterpriseIdByInfoId(infoId);
