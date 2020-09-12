@@ -82,6 +82,11 @@ public class MiniProgramController {
 
     }
 
+    @RequestMapping("/touristLogin")
+    public CommonReturnType touristLogin(HttpServletResponse response,int enterpriseId) {
+        return CommonReturnType.create(userSessionService.touristLogin(response, enterpriseId));
+    }
+
     // 登录之后获取企业部分信息
     @GetMapping("/getHomePageInfo")
     public ResultVo getHomePageInfo(SysUser sysUser){
