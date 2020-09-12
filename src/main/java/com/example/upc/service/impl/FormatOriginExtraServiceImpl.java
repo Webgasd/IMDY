@@ -129,4 +129,48 @@ public class FormatOriginExtraServiceImpl implements FormatOriginExtraService {
 
         formatOriginExtraMapper.updateByPrimaryKeySelective(formatOriginExtra1);
     }
+
+    @Override
+    @Transactional
+    public void insertList(List<FormatOriginExtra> formatOriginExtraList, SysUser sysUser){
+        SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
+        Date date = new Date();
+        for (FormatOriginExtra item:formatOriginExtraList
+             ) {
+            ValidationResult result = validator.validate(item);
+            if(result.isHasErrors()){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+            }
+            item.setEnterpriseId(supervisionEnterprise.getId());
+            item.setEnterpriseName(supervisionEnterprise.getEnterpriseName());
+            item.setAreaId(supervisionEnterprise.getArea());
+            item.setOperator(sysUser.getUsername());
+            item.setOperatorIp("124.124.124");
+            item.setOperatorTime(date);
+
+            formatOriginExtraMapper.insertSelective(item);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateList(List<FormatOriginExtra> formatOriginExtraList, SysUser sysUser){
+        SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
+        Date date = new Date();
+        for (FormatOriginExtra item:formatOriginExtraList
+        ) {
+            ValidationResult result = validator.validate(item);
+            if(result.isHasErrors()){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+            }
+            item.setEnterpriseId(supervisionEnterprise.getId());
+            item.setEnterpriseName(supervisionEnterprise.getEnterpriseName());
+            item.setAreaId(supervisionEnterprise.getArea());
+            item.setOperator(sysUser.getUsername());
+            item.setOperatorIp("124.124.124");
+            item.setOperatorTime(date);
+
+            formatOriginExtraMapper.updateByPrimaryKeySelective(item);
+        }
+    }
 }

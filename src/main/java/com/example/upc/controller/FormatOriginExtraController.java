@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/formatoriginextra")
 @CrossOrigin(allowCredentials = "true",allowedHeaders = "*")
@@ -42,6 +44,13 @@ public class FormatOriginExtraController {
         return CommonReturnType.create(null);
     }
 
+    @RequestMapping("/insertList")
+    @ResponseBody
+    public CommonReturnType insertList(@RequestBody List<FormatOriginExtra> formatOriginExtraList, SysUser sysUser){
+        formatOriginExtraService.insertList(formatOriginExtraList, sysUser);
+        return CommonReturnType.create(null);
+    }
+
     @RequestMapping("/delete")
     @ResponseBody
     public CommonReturnType delete(int id) {
@@ -53,6 +62,13 @@ public class FormatOriginExtraController {
     @ResponseBody
     public CommonReturnType update(FormatOriginExtra formatOriginExtra, SysUser sysUser){
         formatOriginExtraService.update(formatOriginExtra, sysUser);
+        return CommonReturnType.create(null);
+    }
+
+    @RequestMapping("/updateList")
+    @ResponseBody
+    public CommonReturnType updateList(@RequestBody List<FormatOriginExtra> formatOriginExtraList, SysUser sysUser){
+        formatOriginExtraService.updateList(formatOriginExtraList, sysUser);
         return CommonReturnType.create(null);
     }
 }
