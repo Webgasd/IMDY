@@ -66,4 +66,5 @@ public interface FormatLeaveSampleMapper {
     int countListAdmin(@Param("search") LeaveSearchParam leaveSearchParam);
     List<FormatLeaveSupParam> getPageAdmin(@Param("page") PageQuery page, @Param("search") LeaveSearchParam leaveSearchParam);
     List<FormatLeaveSample> getFoodSamplesRecord(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
+
 }

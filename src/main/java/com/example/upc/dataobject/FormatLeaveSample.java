@@ -1,5 +1,8 @@
 package com.example.upc.dataobject;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -39,7 +42,7 @@ public class FormatLeaveSample {
      *
      * @mbg.generated Fri Sep 20 15:40:27 CST 2019
      */
-    @NotBlank(message = "就餐类型不能为空")
+//    @NotBlank(message = "就餐类型不能为空")
     private String type;
 
     /**
@@ -50,6 +53,8 @@ public class FormatLeaveSample {
      * @mbg.generated Fri Sep 20 15:40:27 CST 2019
      */
     @NotNull(message = "就餐日期不能为空")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date date;
 
     /**
@@ -69,7 +74,7 @@ public class FormatLeaveSample {
      *
      * @mbg.generated Fri Sep 20 15:40:27 CST 2019
      */
-    @NotBlank(message = "事项不能为空")
+//    @NotBlank(message = "事项不能为空")
     private String matter;
 
     /**

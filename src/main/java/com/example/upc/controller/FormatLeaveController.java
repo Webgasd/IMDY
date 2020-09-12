@@ -56,6 +56,12 @@ public class FormatLeaveController {
         }
     }
 
+    @RequestMapping("/getFormatLeaveSampleByDate")
+    @ResponseBody
+    public CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser, LeaveSearchParam leaveSearchParam){
+       return formatLeaveService.getFormatLeaveSampleByDate(sysUser,leaveSearchParam);
+    }
+
     @RequestMapping("/getById")
     @ResponseBody
     public CommonReturnType getById(int id){
@@ -67,8 +73,8 @@ public class FormatLeaveController {
     public CommonReturnType insert(@RequestBody String json, SysUser sysUser){
         if (sysUser.getUserType()==1)
         {
-        formatLeaveService.insert(json, sysUser);
-        return CommonReturnType.create(null);
+            formatLeaveService.insert(json, sysUser);
+            return CommonReturnType.create(null);
         }
         else
         {
@@ -89,6 +95,7 @@ public class FormatLeaveController {
             return CommonReturnType.create(null);
         }
     }
+
     @RequestMapping("/delete")
     @ResponseBody
     public CommonReturnType delete(int id) {
@@ -119,4 +126,31 @@ public class FormatLeaveController {
         return CommonReturnType.create(null);
     }
 
+    @RequestMapping("/miniInsert")
+    @ResponseBody
+    public CommonReturnType miniInsert(@RequestBody String json, SysUser sysUser){
+        if (sysUser.getUserType()==1)
+        {
+            formatLeaveService.miniInsert(json, sysUser);
+            return CommonReturnType.create(null);
+        }
+        else
+        {
+            formatLeaveService.fail();
+            return CommonReturnType.create(null);
+        }
+    }
+
+    @RequestMapping("/miniUpdate")
+    @ResponseBody
+    public CommonReturnType miniUpdate(@RequestBody String json, SysUser sysUser){
+        if (sysUser.getUserType()==1) {
+            formatLeaveService.miniUpdate(json, sysUser);
+            return CommonReturnType.create(null);
+        }
+        else {
+            formatLeaveService.fail();
+            return CommonReturnType.create(null);
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.upc.dataobject;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
@@ -62,8 +63,9 @@ public class FormatDisinfection {
      * @mbg.generated Tue Sep 08 21:58:30 CST 2020
      */
     @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     @NotNull(message = "消毒日期不能为空")
-    private Date date;
+        private Date date;
 
     /**
      *

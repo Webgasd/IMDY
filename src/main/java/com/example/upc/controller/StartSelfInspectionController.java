@@ -48,7 +48,7 @@ public class StartSelfInspectionController {
     @RequestMapping("/getByDate")
     @ResponseBody
     public CommonReturnType getByEnterpriseId(InspectionSearchParam inspectionSearchParam, SysUser sysUser){
-            inspectionSearchParam.setEnd1(new Date(inspectionSearchParam.getStart1().getTime() + (long) 24 * 60 * 60 * 1000));
+        inspectionSearchParam.setEnd1(new Date(inspectionSearchParam.getStart1().getTime() + (long) 24 * 60 * 60 * 1000));
         List<StartSelfInspection> startSelfInspections = new ArrayList<>();
         startSelfInspections = startSelfInspectionService.getByEnterpriseId(inspectionSearchParam,sysUser.getInfoId());
         return CommonReturnType.create(startSelfInspections);

@@ -29,7 +29,7 @@
 
         <!-- 生成对应表明及类名-->
 
-<<<<<<< HEAD
+<!--<<<<<<< HEAD-->
 <!--        <table tableName="distribution_list" domainObjectName="DistributionList" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
@@ -194,24 +194,24 @@
         <!--<table tableName="format_leave_sample" domainObjectName="FormatLeaveSample" enableCountByExample="false"-->
         <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="format_leave_main_course" domainObjectName="FormatLeaveMainCourse" enableCountByExample="false"-->
-        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="format_leave_cool_course" domainObjectName="FormatLeaveCoolCourse" enableCountByExample="false"-->
-        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="format_leave_main_food" domainObjectName="FormatLeaveMainFood" enableCountByExample="false"-->
-        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="format_leave_soup" domainObjectName="FormatLeaveSoup" enableCountByExample="false"-->
-        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="format_leave_fruit" domainObjectName="FormatLeaveFruit" enableCountByExample="false"-->
-        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="format_origin_record_ex" domainObjectName="FormatOriginRecordEx" enableCountByExample="false"-->
-        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="format_leave_main_course" schema="pingyi" domainObjectName="FormatLeaveMainCourse" enableCountByExample="false"-->
+<!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--        selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="format_leave_cool_course" schema="pingyi" domainObjectName="FormatLeaveCoolCourse" enableCountByExample="false"-->
+<!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--        selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="format_leave_main_food" schema="pingyi" domainObjectName="FormatLeaveMainFood" enableCountByExample="false"-->
+<!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--        selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="format_leave_soup" schema="pingyi" domainObjectName="FormatLeaveSoup" enableCountByExample="false"-->
+<!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--        selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="format_leave_fruit" schema="pingyi" domainObjectName="FormatLeaveFruit" enableCountByExample="false"-->
+<!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--        selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="format_origin_record_ex" domainObjectName="FormatOriginRecordEx" enableCountByExample="false"-->
+<!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--        selectByExampleQueryId="false"></table>-->
         <!--<table tableName="format_origin_record_config" domainObjectName="FormatOriginRecordConfig" enableCountByExample="false"-->
         <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--selectByExampleQueryId="false"></table>-->
@@ -309,10 +309,10 @@
         <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--        selectByExampleQueryId="false"></table>-->
 
-=======
-        <table schema="pingyi" tableName="format_origin_extra" domainObjectName="FormatOriginExtra" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
->>>>>>> 6912f5f76d012eff771626cc60fea4634640d4cf
+<!--=======-->
+<!--        <table schema="pingyi" tableName="format_origin_extra" domainObjectName="FormatOriginExtra" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--&gt;>>>>>> 6912f5f76d012eff771626cc60fea4634640d4cf-->
     </context>
 </generatorConfiguration>

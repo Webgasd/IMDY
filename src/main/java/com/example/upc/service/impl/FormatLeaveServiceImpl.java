@@ -1,11 +1,9 @@
 package com.example.upc.service.impl;
 
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.example.upc.common.BusinessException;
-import com.example.upc.common.EmBusinessError;
-import com.example.upc.common.ValidationResult;
-import com.example.upc.common.ValidatorImpl;
+import com.example.upc.common.*;
 import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.LeaveSearchParam;
 import com.example.upc.dao.*;
@@ -13,6 +11,7 @@ import com.example.upc.dataobject.*;
 import com.example.upc.service.FormatLeaveService;
 import com.example.upc.util.ExcalUtils;
 import com.example.upc.util.MapToStrUtil;
+import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -24,9 +23,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -73,7 +75,8 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
     @Override
     public PageResult getPageEnterprise(PageQuery pageQuery, Integer id, LeaveSearchParam leaveSearchParam) {
 
-        int count=formatLeaveSampleMapper.countListEnterprise(id, leaveSearchParam);
+        int count= formatLeaveSampleMapper.countListEnterprise(id, leaveSearchParam);
+
         if (count > 0) {
             List<FormatLeaveSample> fdList = formatLeaveSampleMapper.getPageEnterprise(pageQuery, id, leaveSearchParam);
             PageResult<FormatLeaveSample> pageResult = new PageResult<>();
@@ -83,9 +86,13 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
             pageResult.setPageSize(pageQuery.getPageSize());
             return pageResult;
         }
+
         PageResult<FormatLeaveSample> pageResult = new PageResult<>();
         return pageResult;
+
     }
+
+
 
     @Override
     public PageResult getPageAdmin(PageQuery pageQuery, LeaveSearchParam leaveSearchParam) {
@@ -103,22 +110,270 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
         return pageResult;
     }
 
+    public CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser,LeaveSearchParam leaveSearchParam)
+    {
+        leaveSearchParam.setEnd(new Date(leaveSearchParam.getStart().getTime() + (long) 24 * 60 * 60 * 1000));
+        return CommonReturnType.create(formatLeaveSampleMapper.getFoodSamplesRecord(sysUser.getInfoId(),leaveSearchParam.getStart(),leaveSearchParam.getEnd()));
+    }
+
     @Override
-    public FormatLeaveParam getById(int id) {
+    public FormatLeaveMiniParam getById(int id) {
         FormatLeaveSample formatLeaveSample= formatLeaveSampleMapper.selectByPrimaryKey(id);
-        FormatLeaveParam formatLeaveParam = new FormatLeaveParam();
-        BeanUtils.copyProperties(formatLeaveSample,formatLeaveParam);
+        FormatLeaveMiniParam formatLeaveMiniParam = new FormatLeaveMiniParam();
+        BeanUtils.copyProperties(formatLeaveSample,formatLeaveMiniParam);
+
+
+        List <FormatLeaveMini> list = Lists.newArrayList();
+
         List<FormatLeaveCoolCourse> list1 = formatLeaveCoolCourseMapper.selectByParentId(formatLeaveSample.getId());
-        formatLeaveParam.setList1(list1);
+        if(list1.size()>0){
+            for(FormatLeaveCoolCourse formatLeaveCoolCourse:list1)
+            {
+                FormatLeaveMini formatLeaveMini = new FormatLeaveMini();
+                BeanUtils.copyProperties(formatLeaveCoolCourse,formatLeaveMini);
+                list.add(formatLeaveMini);
+            }
+        }
         List<FormatLeaveFruit> list2 = formatLeaveFruitMapper.selectByParentId(formatLeaveSample.getId());
-        formatLeaveParam.setList2(list2);
+        if(list2.size()>0){
+            for(FormatLeaveFruit formatLeaveFruit:list2)
+            {
+                FormatLeaveMini formatLeaveMini = new FormatLeaveMini();
+                BeanUtils.copyProperties(formatLeaveFruit,formatLeaveMini);
+                list.add(formatLeaveMini);
+            }
+        }
         List<FormatLeaveMainCourse> list3 = formatLeaveMainCourseMapper.selectByParentId(formatLeaveSample.getId());
-        formatLeaveParam.setList3(list3);
+        if(list3.size()>0){
+            for(FormatLeaveMainCourse formatLeaveMainCourse:list3)
+            {
+                FormatLeaveMini formatLeaveMini = new FormatLeaveMini();
+                BeanUtils.copyProperties(formatLeaveMainCourse,formatLeaveMini);
+                list.add(formatLeaveMini);
+            }
+        }
         List<FormatLeaveMainFood> list4 = formatLeaveMainFoodMapper.selectByParentId(formatLeaveSample.getId());
-        formatLeaveParam.setList4(list4);
+        if(list4.size()>0){
+            for(FormatLeaveMainFood formatLeaveMainFood:list4)
+            {
+                FormatLeaveMini formatLeaveMini = new FormatLeaveMini();
+                BeanUtils.copyProperties(formatLeaveMainFood,formatLeaveMini);
+                list.add(formatLeaveMini);
+            }
+        }
         List<FormatLeaveSoup> list5 = formatLeaveSoupMapper.selectByParentId(formatLeaveSample.getId());
-        formatLeaveParam.setList5(list5);
-        return formatLeaveParam;
+        if(list5.size()>0){
+            for(FormatLeaveSoup formatLeaveSoup:list5)
+            {
+                FormatLeaveMini formatLeaveMini = new FormatLeaveMini();
+                BeanUtils.copyProperties(formatLeaveSoup,formatLeaveMini);
+                list.add(formatLeaveMini);
+            }
+        }
+        formatLeaveMiniParam.setList(list);
+        return formatLeaveMiniParam;
+    }
+
+    @Override
+    @Transactional
+    public void miniInsert(String json, SysUser sysUser) {
+
+        FormatLeaveMiniParam formatLeaveMiniParam = JSONObject.parseObject(json,FormatLeaveMiniParam.class);
+        FormatLeaveSample formatLeaveSample = new FormatLeaveSample();
+        BeanUtils.copyProperties(formatLeaveMiniParam,formatLeaveSample);
+
+        ValidationResult result = validator.validate(formatLeaveSample);
+        if(result.isHasErrors()){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+        }
+
+        SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
+        if (supervisionEnterprise==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
+        }
+
+        formatLeaveSample.setUnit(sysUser.getInfoId());
+        formatLeaveSample.setArea(supervisionEnterprise.getArea());
+        formatLeaveSample.setOperatorIp("124.124.124");
+        formatLeaveSample.setOperatorTime(new Date());
+        formatLeaveSample.setOperator("zcc");
+        formatLeaveSampleMapper.insertSelective(formatLeaveSample);
+
+        if(formatLeaveSample.getId()==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"插入失败");
+        }
+
+        //分列表插
+        List<FormatLeaveMini> formatLeaveMiniList = formatLeaveMiniParam.getList();
+
+        formatLeaveMainFoodMapper.deleteByParentId(formatLeaveSample.getId());
+        formatLeaveMainCourseMapper.deleteByParentId(formatLeaveSample.getId());
+        formatLeaveCoolCourseMapper.deleteByParentId(formatLeaveSample.getId());
+        formatLeaveSoupMapper.deleteByParentId(formatLeaveSample.getId());
+        formatLeaveFruitMapper.deleteByParentId(formatLeaveSample.getId());
+
+        if(formatLeaveMiniList.size()>0){
+                for (FormatLeaveMini formatLeaveMini:formatLeaveMiniList)
+                {
+                    formatLeaveMini.setOperatorIp("124.124.124");
+                    formatLeaveMini.setOperatorTime(new Date());
+                    formatLeaveMini.setOperator("zcc");
+                    formatLeaveMini.setParentId(formatLeaveSample.getId());
+
+                    switch (formatLeaveMini.getType()){
+                            case 1:
+                                FormatLeaveMainFood formatLeaveMainFood = new FormatLeaveMainFood();
+                                BeanUtils.copyProperties(formatLeaveMini,formatLeaveMainFood);
+                                formatLeaveMainFoodMapper.insert(formatLeaveMainFood);
+                            break;
+                            case 2:
+                                FormatLeaveMainCourse formatLeaveMainCourse = new FormatLeaveMainCourse();
+                                BeanUtils.copyProperties(formatLeaveMini,formatLeaveMainCourse);
+                                formatLeaveMainCourseMapper.insert(formatLeaveMainCourse);
+                            break;
+                            case 3:
+                                FormatLeaveCoolCourse formatLeaveCoolCourse = new FormatLeaveCoolCourse();
+                                BeanUtils.copyProperties(formatLeaveMini,formatLeaveCoolCourse);
+                                formatLeaveCoolCourseMapper.insert(formatLeaveCoolCourse);
+                            break;
+                            case 4:
+                                FormatLeaveSoup formatLeaveSoup = new FormatLeaveSoup();
+                                BeanUtils.copyProperties(formatLeaveMini,formatLeaveSoup);
+                                formatLeaveSoupMapper.insert(formatLeaveSoup);
+                            break;
+                            case 5:
+                                FormatLeaveFruit formatLeaveFruit  = new FormatLeaveFruit();
+                                BeanUtils.copyProperties(formatLeaveMini,formatLeaveFruit);
+                                formatLeaveFruitMapper.insert(formatLeaveFruit);
+                            break;
+                    }
+                }
+        }
+//        formatLeaveCoolCourseMapper.deleteByParentId(formatLeaveSample.getId());
+//        List<FormatLeaveCoolCourse> list1 = formatLeaveParam.getList1();
+//
+//        if(list1.size()>0){
+//            formatLeaveCoolCourseMapper.batchInsert(list1.stream().map((list)->{
+//                list.setOperatorIp("124.124.124");
+//                list.setOperatorTime(new Date());
+//                list.setOperator("zcc");
+//                list.setParentId(formatLeaveSample.getId());
+//                return list;}).collect(Collectors.toList()));
+//        }
+//
+//        formatLeaveFruitMapper.deleteByParentId(formatLeaveSample.getId());
+//        List<FormatLeaveFruit> list2 = formatLeaveParam.getList2();
+//        if(list2.size()>0){
+//            formatLeaveFruitMapper.batchInsert(list2.stream().map((list)->{
+//                list.setOperatorIp("124.124.124");
+//                list.setOperatorTime(new Date());
+//                list.setOperator("zcc");
+//                list.setParentId(formatLeaveSample.getId());
+//                return list;}).collect(Collectors.toList()));
+//        }
+//
+//        formatLeaveMainCourseMapper.deleteByParentId(formatLeaveSample.getId());
+//        List<FormatLeaveMainCourse> list3 = formatLeaveParam.getList3();
+//        if(list3.size()>0){
+//            formatLeaveMainCourseMapper.batchInsert(list3.stream().map((list)->{
+//                list.setParentId(formatLeaveSample.getId());
+//
+//                list.setOperatorIp("124.124.124");
+//                list.setOperatorTime(new Date());
+//                list.setOperator("zcc");
+//
+//                return list;}).collect(Collectors.toList()));
+//        }
+//
+//
+//
+//        formatLeaveSoupMapper.deleteByParentId(formatLeaveSample.getId());
+//        List<FormatLeaveSoup> list5 = formatLeaveParam.getList5();
+//        if(list5.size()>0){
+//            formatLeaveSoupMapper.batchInsert(list5.stream().map((list)->{
+//                list.setOperatorIp("124.124.124");
+//                list.setOperatorTime(new Date());
+//                list.setOperator("zcc");
+//                list.setParentId(formatLeaveSample.getId());
+//                return list;}).collect(Collectors.toList()));
+//        }
+    }
+
+    @Override
+    @Transactional
+    public void miniUpdate(String json, SysUser sysUser) {
+
+        FormatLeaveMiniParam formatLeaveMiniParam = JSONObject.parseObject(json,FormatLeaveMiniParam.class);
+        FormatLeaveSample formatLeaveSample = new FormatLeaveSample();
+        BeanUtils.copyProperties(formatLeaveMiniParam,formatLeaveSample);
+
+        ValidationResult result = validator.validate(formatLeaveSample);
+        if(result.isHasErrors()){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+        }
+
+        SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
+        if (supervisionEnterprise==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
+        }
+
+        formatLeaveSample.setUnit(sysUser.getInfoId());
+        formatLeaveSample.setArea(supervisionEnterprise.getArea());
+        formatLeaveSample.setOperatorIp("124.124.124");
+        formatLeaveSample.setOperatorTime(new Date());
+        formatLeaveSample.setOperator("zcc");
+        formatLeaveSampleMapper.updateByPrimaryKey(formatLeaveSample);
+
+        if(formatLeaveSample.getId()==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"插入失败");
+        }
+
+        //分列表插
+        List<FormatLeaveMini> formatLeaveMiniList = formatLeaveMiniParam.getList();
+
+        formatLeaveMainFoodMapper.deleteByParentId(formatLeaveSample.getId());
+        formatLeaveMainCourseMapper.deleteByParentId(formatLeaveSample.getId());
+        formatLeaveCoolCourseMapper.deleteByParentId(formatLeaveSample.getId());
+        formatLeaveSoupMapper.deleteByParentId(formatLeaveSample.getId());
+        formatLeaveFruitMapper.deleteByParentId(formatLeaveSample.getId());
+
+        if(formatLeaveMiniList.size()>0){
+            for (FormatLeaveMini formatLeaveMini:formatLeaveMiniList)
+            {
+                formatLeaveMini.setOperatorIp("124.124.124");
+                formatLeaveMini.setOperatorTime(new Date());
+                formatLeaveMini.setOperator("zcc");
+                formatLeaveMini.setParentId(formatLeaveSample.getId());
+
+                switch (formatLeaveMini.getType()){
+                    case 1:
+                        FormatLeaveMainFood formatLeaveMainFood = new FormatLeaveMainFood();
+                        BeanUtils.copyProperties(formatLeaveMini,formatLeaveMainFood);
+                        formatLeaveMainFoodMapper.insert(formatLeaveMainFood);
+                        break;
+                    case 2:
+                        FormatLeaveMainCourse formatLeaveMainCourse = new FormatLeaveMainCourse();
+                        BeanUtils.copyProperties(formatLeaveMini,formatLeaveMainCourse);
+                        formatLeaveMainCourseMapper.insert(formatLeaveMainCourse);
+                        break;
+                    case 3:
+                        FormatLeaveCoolCourse formatLeaveCoolCourse = new FormatLeaveCoolCourse();
+                        BeanUtils.copyProperties(formatLeaveMini,formatLeaveCoolCourse);
+                        formatLeaveCoolCourseMapper.insert(formatLeaveCoolCourse);
+                        break;
+                    case 4:
+                        FormatLeaveSoup formatLeaveSoup = new FormatLeaveSoup();
+                        BeanUtils.copyProperties(formatLeaveMini,formatLeaveSoup);
+                        formatLeaveSoupMapper.insert(formatLeaveSoup);
+                        break;
+                    case 5:
+                        FormatLeaveFruit formatLeaveFruit  = new FormatLeaveFruit();
+                        BeanUtils.copyProperties(formatLeaveMini,formatLeaveFruit);
+                        formatLeaveFruitMapper.insert(formatLeaveFruit);
+                        break;
+                }
+            }
+        }
     }
 
     @Override
@@ -207,8 +462,6 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
                 return list;}).collect(Collectors.toList()));
         }
     }
-
-
 
     @Override
     @Transactional
@@ -310,7 +563,6 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
         formatLeaveMainCourseMapper.deleteByParentId(id);
         formatLeaveMainFoodMapper.deleteByParentId(id);
         formatLeaveSoupMapper.deleteByParentId(id);
-
     }
 
     @Override

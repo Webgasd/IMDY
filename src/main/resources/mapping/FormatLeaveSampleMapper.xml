@@ -334,7 +334,7 @@
     FROM format_leave_sample
     where unit=#{enterpriseId}
     <if test="startDate != null">  AND date &gt;= #{startDate}</if>
-    <if test="startDate != null"> AND date &lt;= #{endDate} </if>
+    <if test="startDate != null"> AND date &lt; #{endDate} </if>
     order by date desc
   </select>
 </mapper>

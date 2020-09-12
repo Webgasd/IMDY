@@ -120,12 +120,6 @@ public class SupervisionCaController {
         }
     }
 
-    @RequestMapping("/getByIdNumber")
-    @ResponseBody
-    public CommonReturnType getByIdNumber(String idNumber){
-        return CommonReturnType.create(supervisionCaService.getCaInfoByIdNumber(idNumber));
-    }
-
     @RequestMapping("/insert")
     @ResponseBody
     public CommonReturnType insert(@RequestBody String json){
@@ -182,9 +176,17 @@ public class SupervisionCaController {
         MeasurementSearchParam measurementSearchParam = JSONObject.parseObject(json, MeasurementSearchParam.class);
         return CommonReturnType.create(supervisionCaService.getNameByEnterpriseId(pageQuery, sysUser, measurementSearchParam));
     }
+
     @RequestMapping("/getCaPageByEnterprise")
     @ResponseBody
     public CommonReturnType getCaPageByEnterprise(PageQuery pageQuery, int id) {
         return CommonReturnType.create(supervisionCaService.getCaPageByEnterprise(pageQuery, id));
     }
+
+    @RequestMapping("/getByIdNumber")
+    @ResponseBody
+    public CommonReturnType getByIdNumber(String idNumber){
+        return CommonReturnType.create(supervisionCaService.getCaInfoByIdNumber(idNumber));
+    }
 }
+

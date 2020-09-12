@@ -13,6 +13,8 @@ import com.example.upc.service.FormatDisinfectionService;
 import com.example.upc.util.ExcalUtils;
 import com.example.upc.util.MapToStrUtil;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -103,13 +105,27 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
         if (supervisionEnterprise==null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
         }
+
         FormatDisinfection formatDisinfection1 = new FormatDisinfection();
-        BeanUtils.copyProperties(formatDisinfectionParam,formatDisinfection1);
+
         formatDisinfection1.setUnit(sysUser.getInfoId());
         formatDisinfection1.setArea(supervisionEnterprise.getArea());
+        formatDisinfection1.setCaId(formatDisinfectionParam.getCaId());
+        formatDisinfection1.setName(formatDisinfectionParam.getName());
+        formatDisinfection1.setAmount(formatDisinfectionParam.getAmount());
+        formatDisinfection1.setDate(formatDisinfectionParam.getDate());
+        formatDisinfection1.setPerson(formatDisinfectionParam.getPerson());
+        formatDisinfection1.setStart1(formatDisinfectionParam.getStart1());
+        formatDisinfection1.setStart2(formatDisinfectionParam.getStart2());
+        formatDisinfection1.setEnd1(formatDisinfectionParam.getEnd1());
+        formatDisinfection1.setEnd2(formatDisinfectionParam.getEnd2());
+        formatDisinfection1.setWay(formatDisinfectionParam.getWay());
+        formatDisinfection1.setRemark(formatDisinfectionParam.getRemark());
         formatDisinfection1.setOperator("操作人");
         formatDisinfection1.setOperatorIp("124.124.124");
         formatDisinfection1.setOperatorTime(new Date());
+        formatDisinfection1.setUnit(sysUser.getInfoId());
+        formatDisinfection1.setArea(supervisionEnterprise.getArea());
 
         formatDisinfectionMapper.insertSelective(formatDisinfection1);
 //        http://localhost:8080/formatdishes/update?id=1&unit=%E5%B1%B1%E4%B8%9C%E5%A6%82%E6%96%B0%E5%85%AC%E5%8F%B8&number=2&name=%E5%A4%A7%E7%B1%B3%E9%A5%AD&price=11&type=%E4%B8%BB%E9%A3%9F&remark=%E7%B1%B3%E9%A5%AD
@@ -139,11 +155,25 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
         }
 
         FormatDisinfection formatDisinfection1 = new FormatDisinfection();
-        BeanUtils.copyProperties(formatDisinfectionParam,formatDisinfection1);
+        formatDisinfection1.setId(formatDisinfectionParam.getId());
         formatDisinfection1.setUnit(sysUser.getInfoId());
+        formatDisinfection1.setArea(supervisionEnterprise.getArea());
+        formatDisinfection1.setCaId(formatDisinfectionParam.getCaId());
+        formatDisinfection1.setName(formatDisinfectionParam.getName());
+        formatDisinfection1.setAmount(formatDisinfectionParam.getAmount());
+        formatDisinfection1.setDate(formatDisinfectionParam.getDate());
+        formatDisinfection1.setPerson(formatDisinfectionParam.getPerson());
+        formatDisinfection1.setStart1(formatDisinfectionParam.getStart1());
+        formatDisinfection1.setStart2(formatDisinfectionParam.getStart2());
+        formatDisinfection1.setEnd1(formatDisinfectionParam.getEnd1());
+        formatDisinfection1.setEnd2(formatDisinfectionParam.getEnd2());
+        formatDisinfection1.setWay(formatDisinfectionParam.getWay());
+        formatDisinfection1.setRemark(formatDisinfectionParam.getRemark());
         formatDisinfection1.setOperator("操作人");
         formatDisinfection1.setOperatorIp("124.124.124");
         formatDisinfection1.setOperatorTime(new Date());
+        formatDisinfection1.setUnit(sysUser.getInfoId());
+        formatDisinfection1.setArea(supervisionEnterprise.getArea());
 
         // TODO: sendEmail
         formatDisinfectionMapper.updateByPrimaryKeySelective(formatDisinfection1);
@@ -278,8 +308,6 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
         }else {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"文件错误");
         }
-
-
 
         List<FormatDisinfection> formatDisinfectionList = new ArrayList<>();
         if(type == 3){
@@ -475,27 +503,11 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
      * 小程序专用serviceImpl
      */
     @Override
-    public List<Object> getDisinfectionRecord(int enterpriseId,Date startDate) {
+    public List<FormatDisinfection> getDisinfectionRecord(int enterpriseId,Date startDate) {
         Date endDate = new Date();
         endDate.setTime(startDate.getTime()+86399999);
         List<FormatDisinfection> searchList = formatDisinfectionMapper.getDisinfectionRecord(enterpriseId, startDate, endDate);
-        List<Object> resultList = new LinkedList<>();
-        for (int i=0;i<searchList.size();i++){
-            Map<String,Object> tempItem = new LinkedHashMap<>();
-            tempItem.put("id",searchList.get(i).getId());
-            tempItem.put("name",searchList.get(i).getName());
-            tempItem.put("amount",searchList.get(i).getAmount());
-            tempItem.put("person",searchList.get(i).getPerson());
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            tempItem.put("date",simpleDateFormat.format(searchList.get(i).getDate()));
-            tempItem.put("startTime",searchList.get(i).getStart1()+":"+String.format("%0"+2+"d", searchList.get(i).getStart2()));
-            tempItem.put("endTime",searchList.get(i).getEnd1()+":"+String.format("%0"+2+"d", searchList.get(i).getEnd2()));
-            tempItem.put("way",searchList.get(i).getWay());
-            tempItem.put("remark",searchList.get(i).getRemark());
-            resultList.add(tempItem);
-        }
-        return resultList;
-
+        return searchList;
     }
 
 }

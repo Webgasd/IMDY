@@ -27,5 +27,5 @@ public interface FormatDisinfectionService {
     /**
      * 小程序专用service
      */
-    List<Object> getDisinfectionRecord(int enterpeiseId, Date startDate);
+    List<FormatDisinfection> getDisinfectionRecord(int enterpeiseId, Date startDate);
 }

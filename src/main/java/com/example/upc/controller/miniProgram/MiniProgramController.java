@@ -314,7 +314,7 @@ public class MiniProgramController {
 
     // 查询消毒记录
     @RequestMapping("/getDisinfectionRecord")
-    public ResultVo getDisinfectionRecord(SysUser sysUser, String date){
+    public CommonReturnType getDisinfectionRecord(SysUser sysUser, String date){
         int enterpriseId=sysUser.getInfoId();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = null;
@@ -323,10 +323,7 @@ public class MiniProgramController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Map<String,Object> result = new HashMap<>();
-        result.put("disinfectRecord","");
-        result.put("disinfectRecord",formatDisinfectionService.getDisinfectionRecord(enterpriseId,startDate));
-        return new ResultVo(result);
+        return CommonReturnType.create(formatDisinfectionService.getDisinfectionRecord(enterpriseId,startDate));
     }
 
     // 查询食品留样记录
@@ -344,6 +341,7 @@ public class MiniProgramController {
         }
         return new ResultVo(result);
     }
+
     // 修改食品留样记录
     @PostMapping("/updateFoodSamplesRecord")
     public ResultVo updateFoodSamplesRecord(HttpServletRequest request){

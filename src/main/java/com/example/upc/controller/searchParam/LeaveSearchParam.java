@@ -1,12 +1,16 @@
 package com.example.upc.controller.searchParam;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.util.List;
 
 public class LeaveSearchParam {
     private String enterprise;
     private String meal;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date start;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date end;
     private List<Integer> areaList;
 
