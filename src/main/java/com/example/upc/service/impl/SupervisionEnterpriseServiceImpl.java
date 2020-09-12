@@ -3558,4 +3558,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         return result;
     }
 
+    @Override
+    public List<SupervisionEnterprise> getAll(){
+        return supervisionEnterpriseMapper.getAll2();
+    }
+
 }
