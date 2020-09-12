@@ -3,6 +3,7 @@ package com.example.upc.dao;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.OriginExtraSearchParam;
 import com.example.upc.dataobject.FormatOriginExtra;
+import com.example.upc.dataobject.SysUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -60,4 +61,6 @@ public interface FormatOriginExtraMapper {
     List<FormatOriginExtra> getPage(@Param("page") PageQuery page, @Param("id") Integer id, @Param("search")  OriginExtraSearchParam search);
     FormatOriginExtra selectByName(@Param("materialname") String materialname);
     List<FormatOriginExtra> getPage2(@Param("id") Integer id, @Param("search")  OriginExtraSearchParam search);
+
+    void insertList(List<FormatOriginExtra> formatOriginExtraList, SysUser sysUser);
 }

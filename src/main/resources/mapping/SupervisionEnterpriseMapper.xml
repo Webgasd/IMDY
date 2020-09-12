@@ -2892,6 +2892,11 @@ select * from (
     from supervision_enterprise
   </select>
 
+  <select id="getAll2" resultMap="BaseResultMap">
+    select <include refid="List_Column_List" />
+    from supervision_enterprise
+  </select>
+
   <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
     insert into supervision_enterprise (id,enterprise_name, shop_name,
     postal_code, registered_address, business_address,

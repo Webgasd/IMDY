@@ -76,6 +76,12 @@ public class SupervisionEnterpriseController {
         }
     }
 
+    @RequestMapping("/getAll")
+    @ResponseBody
+    public CommonReturnType getAll(){
+        return CommonReturnType.create(supervisionEnterpriseService.getAll());
+    }
+
     @RequestMapping("/getPageState")
     @ResponseBody
     public CommonReturnType getPageState(@RequestBody String json, SysUser sysUser){

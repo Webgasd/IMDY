@@ -88,4 +88,5 @@ public interface SupervisionEnterpriseMapper {
     int countListPCHave( @Param("search") EnterpriseSearchParam search);
     int countListPCNone( @Param("search") EnterpriseSearchParam search);
     int changeFlagByIdNumber(@Param("idNumber") String idNumber);
+    List<SupervisionEnterprise> getAll2();
 }
