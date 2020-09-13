@@ -1,14 +1,16 @@
 package com.example.upc.controller.param;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class FormatOriginRecordExParam {
     private Integer id;
-    @NotBlank(message = "原料类型不能为空")
+    @NotBlank(message = "食品类型不能为空")
     private String originType;
-    @NotNull(message = "备案日期不能为空")
     private Date recordTime;
     @NotBlank(message = "原料名称不能为空")
     private String originName;
@@ -18,10 +20,12 @@ public class FormatOriginRecordExParam {
     private String brand;
     private String netContent;
     @NotNull(message = "生产日期不能为空")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date produceTime;
     @NotBlank(message = "保质期不能为空")
     private String keepTime;
-    @NotNull(message = "有效期不能为空")
+    private String keepTimeType;
     private Date deadTime;
     @NotNull(message = "进货数不能为空")
     private Float goodsIn;
@@ -29,13 +33,10 @@ public class FormatOriginRecordExParam {
     private String goodsType;
     @NotBlank(message = "供应商不能为空")
     private String supplier;
-    @NotBlank(message = "供应商类型不能为空")
     private String supplierType;
     private Float goodsOut;
     private Float goods;
-    @NotNull(message = "是否索证索票不能为空")
     private String state;
-    @NotNull(message = "验收人不能为空")
     private String person;
     private String document;
 
@@ -201,5 +202,13 @@ public class FormatOriginRecordExParam {
 
     public void setDocument(String document) {
         this.document = document;
+    }
+
+    public String getKeepTimeType() {
+        return keepTimeType;
+    }
+
+    public void setKeepTimeType(String keepTimeType) {
+        this.keepTimeType = keepTimeType;
     }
 }

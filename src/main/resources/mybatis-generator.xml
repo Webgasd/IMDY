@@ -209,7 +209,7 @@
 <!--        <table tableName="format_leave_fruit" schema="pingyi" domainObjectName="FormatLeaveFruit" enableCountByExample="false"-->
 <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--        selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="format_origin_record_ex" domainObjectName="FormatOriginRecordEx" enableCountByExample="false"-->
+<!--        <table tableName="format_origin_record_ex" schema="pingyi" domainObjectName="FormatOriginRecordEx" enableCountByExample="false"-->
 <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--        selectByExampleQueryId="false"></table>-->
         <!--<table tableName="format_origin_record_config" domainObjectName="FormatOriginRecordConfig" enableCountByExample="false"-->

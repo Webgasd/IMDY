@@ -128,6 +128,35 @@ public class FormatOriginRecordExServiceImpl implements FormatOriginRecordExServ
 
     @Override
     @Transactional
+    public void miniInsert(List<FormatOriginRecordEx> formatOriginExtraList, SysUser sysUser){
+
+        FormatOriginRecordEx formatOriginRecordEx = new FormatOriginRecordEx();
+
+        SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
+        if (supervisionEnterprise==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
+        }
+        formatOriginExtraList.forEach(item -> {
+            item.setEnterprise(sysUser.getInfoId());
+            item.setArea(supervisionEnterprise.getArea());
+            item.setOperator("操作人");
+            item.setOperatorIp("124.124.124");
+            item.setOperatorTime(new Date());
+        });
+
+        // TODO: sendEmail
+        formatOriginRecordExMapper.batchInsertEx(formatOriginExtraList);
+    }
+
+    @Override
+    @Transactional
+    public List<FormatOriginRecordEx> getRecordExByDate( Date date, SysUser sysUser){
+        Date endDate = new Date(date.getTime()+(long) 24 * 60 * 60 * 1000);
+        return formatOriginRecordExMapper.getRecordExByDate(sysUser.getInfoId(),date,endDate);
+    }
+
+    @Override
+    @Transactional
     public void update(FormatOriginRecordExParam formatOriginRecordExParam, SysUser sysUser) {
 
         ValidationResult result = validator.validate(formatOriginRecordExParam);

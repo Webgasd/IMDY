@@ -6,12 +6,15 @@ import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.param.FormatOriginRecordExParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.OriginRecordExSearchParam;
+import com.example.upc.dataobject.FormatOriginRecordEx;
 import com.example.upc.dataobject.SupervisionGa;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.FormatAdditiveService;
 import com.example.upc.service.FormatOriginRecordExService;
 import com.example.upc.service.SysDeptAreaService;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -66,12 +71,24 @@ public class FormatOriginRecordExController {
         return CommonReturnType.create(formatOriginRecordExService.getPageEnterprise(pageQuery,originRecordExSearchParam.getId(), originRecordExSearchParam));
     }
 
+    @RequestMapping("/getRecordExByDate")
+    @ResponseBody
+    public CommonReturnType getRecordExByDate(FormatOriginRecordEx formatOriginRecordEx, SysUser sysUser){
+        return CommonReturnType.create(formatOriginRecordExService.getRecordExByDate(formatOriginRecordEx.getProduceTime(),sysUser));
+    }
 
     @RequestMapping("/insert")
     @ResponseBody
     public CommonReturnType insert(@RequestBody String json,SysUser sysUser){
         FormatOriginRecordExParam formatOriginRecordExParam = JSONObject.parseObject(json,FormatOriginRecordExParam.class);
         formatOriginRecordExService.insert(formatOriginRecordExParam, sysUser);
+        return CommonReturnType.create(null);
+    }
+
+    @RequestMapping("/miniInsert")
+    @ResponseBody
+    public CommonReturnType miniInsert(@RequestBody List<FormatOriginRecordEx> formatOriginExtraList, SysUser sysUser){
+        formatOriginRecordExService.miniInsert(formatOriginExtraList, sysUser);
         return CommonReturnType.create(null);
     }
 
