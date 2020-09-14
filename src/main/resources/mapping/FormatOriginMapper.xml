@@ -147,7 +147,6 @@
     SELECT count(1)
     FROM format_origin
     where  1=1
-
     <if test="search.type != null and search.type != ''">and type LIKE CONCAT('%',#{search.type},'%')</if>
   </select>
 

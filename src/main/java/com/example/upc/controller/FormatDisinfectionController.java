@@ -67,7 +67,7 @@ public class FormatDisinfectionController {
     @ResponseBody
     public CommonReturnType insert(FormatDisinfectionParam formatDisinfectionParam,SysUser sysUser) throws InvocationTargetException, IllegalAccessException {
         if (sysUser.getUserType()==1){
-        formatDisinfectionService.insert(formatDisinfectionParam,sysUser);
+            formatDisinfectionService.insert(formatDisinfectionParam,sysUser);
             return CommonReturnType.create(null);
         }
         else {

@@ -29,6 +29,14 @@ public class FormatOriginController {
         return CommonReturnType.create(formatOriginService.getPage(pageQuery,typeSearchParam));
     }
 
+    @RequestMapping("/getOrigin")
+    @ResponseBody
+    public CommonReturnType getOrigin(@RequestBody String json){
+        TypeSearchParam typeSearchParam = JSON.parseObject(json,TypeSearchParam.class);
+        PageQuery pageQuery=JSON.parseObject(json,PageQuery.class);
+        return CommonReturnType.create(formatOriginService.getOrigin(pageQuery,typeSearchParam));
+    }
+
     @RequestMapping("/insert")
     @ResponseBody
     public CommonReturnType insert(FormatOrigin formatOrigin){

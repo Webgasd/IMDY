@@ -42,6 +42,16 @@ public class FormatOriginServiceImpl implements FormatOriginService {
     }
 
     @Override
+    public List<FormatOrigin> getOrigin(PageQuery pageQuery, TypeSearchParam typeSearchParam) {
+        int count=formatOriginMapper.countList(typeSearchParam);
+        if (count > 0) {
+            pageQuery.setPageSize(count);
+            return formatOriginMapper.getPage(pageQuery, typeSearchParam);
+        }
+        return null;
+    }
+
+    @Override
     @Transactional
     public void insert(FormatOrigin formatOrigin) {
 
