@@ -309,10 +309,8 @@
         <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--        selectByExampleQueryId="false"></table>-->
 
-<!--=======-->
-<!--        <table schema="pingyi" tableName="format_origin_extra" domainObjectName="FormatOriginExtra" enableCountByExample="false"-->
+<!--        <table schema="pingyi" tableName="start_self_inspection" domainObjectName="StartSelfInspection" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-<!--&gt;>>>>>> 6912f5f76d012eff771626cc60fea4634640d4cf-->
     </context>
 </generatorConfiguration>

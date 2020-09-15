@@ -56,4 +56,8 @@ public interface StartSelfInspectionMapper {
     int updateByPrimaryKey(StartSelfInspection record);
 
     List<StartSelfInspection> getByEnterpriseId(@Param("inspectionSearchParam") InspectionSearchParam inspectionSearchParam, @Param("id") int id);
+
+    void deleteByPosition(Integer id);
+
+    List<StartSelfInspection> getInspectionByPosition(int positionId);
 }
