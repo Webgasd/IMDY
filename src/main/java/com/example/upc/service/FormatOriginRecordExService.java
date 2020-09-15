@@ -24,5 +24,5 @@ public interface FormatOriginRecordExService {
     void importExcel(MultipartFile file, Integer type,SysUser sysUser);
 
     void miniInsert(List<FormatOriginRecordEx> formatOriginExtraList, SysUser sysUser);
-    List<FormatOriginRecordEx> getRecordExByDate(Date date, SysUser sysUser);
+    List<FormatOriginRecordEx> getRecordExByDate(FormatOriginRecordEx formatOriginRecordEx, SysUser sysUser);
 }
