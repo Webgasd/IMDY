@@ -2,6 +2,8 @@ package com.example.upc.controller;
 
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.searchParam.InspectionSearchParam;
+import com.example.upc.dataobject.InspectionList;
+import com.example.upc.dataobject.InspectionPosition;
 import com.example.upc.dataobject.StartSelfInspection;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.StartSelfInspectionService;
@@ -25,16 +27,16 @@ public class StartSelfInspectionController {
 
     @RequestMapping("/insert")
     @ResponseBody
-    public CommonReturnType insert( StartSelfInspection startSelfInspection, SysUser sysUser){
+    public CommonReturnType insert(@RequestBody InspectionList inspectionList, SysUser sysUser){
 //        startSelfInspection.setInspectTime(new Date(startSelfInspection.getInspectTime().getTime()+(long) 8 * 60 * 60 * 1000));
-        startSelfInspectionService.insert(startSelfInspection,sysUser);
+        startSelfInspectionService.insert(inspectionList,sysUser);
         return CommonReturnType.create(null);
     }
 
     @RequestMapping("/update")
     @ResponseBody
-    public CommonReturnType update( StartSelfInspection startSelfInspection, SysUser sysUser){
-        startSelfInspectionService.update(startSelfInspection,sysUser);
+    public CommonReturnType update( @RequestBody InspectionList inspectionList, SysUser sysUser){
+        startSelfInspectionService.update(inspectionList,sysUser);
         return CommonReturnType.create(null);
     }
 
@@ -45,12 +47,29 @@ public class StartSelfInspectionController {
         return CommonReturnType.create(null);
     }
 
-    @RequestMapping("/getByDate")
+//    @RequestMapping("/getByDate")
+//    @ResponseBody
+//    public CommonReturnType getByEnterpriseId(InspectionSearchParam inspectionSearchParam, SysUser sysUser){
+//        inspectionSearchParam.setEnd1(new Date(inspectionSearchParam.getStart1().getTime() + (long) 24 * 60 * 60 * 1000));
+//        List<StartSelfInspection> startSelfInspections = new ArrayList<>();
+//        startSelfInspections = startSelfInspectionService.getByEnterpriseId(inspectionSearchParam,sysUser.getInfoId());
+//        return CommonReturnType.create(startSelfInspections);
+//    }
+
+    @RequestMapping("/getInspectionPositionByDate")
     @ResponseBody
-    public CommonReturnType getByEnterpriseId(InspectionSearchParam inspectionSearchParam, SysUser sysUser){
+    public CommonReturnType getInspectionPositionByDate(InspectionSearchParam inspectionSearchParam, SysUser sysUser){
         inspectionSearchParam.setEnd1(new Date(inspectionSearchParam.getStart1().getTime() + (long) 24 * 60 * 60 * 1000));
-        List<StartSelfInspection> startSelfInspections = new ArrayList<>();
-        startSelfInspections = startSelfInspectionService.getByEnterpriseId(inspectionSearchParam,sysUser.getInfoId());
-        return CommonReturnType.create(startSelfInspections);
+        List<InspectionPosition> inspectionPositionList = new ArrayList<>();
+        inspectionPositionList = startSelfInspectionService.getInspectionPositionByDate(inspectionSearchParam,sysUser.getInfoId());
+        return CommonReturnType.create(inspectionPositionList);
+    }
+
+    @RequestMapping("/getInspectionByPosition")
+    @ResponseBody
+    public CommonReturnType getInspectionByPosition(int positionId){
+        List<StartSelfInspection> startSelfInspectionList = new ArrayList<>();
+        startSelfInspectionList = startSelfInspectionService.getInspectionByPosition(positionId);
+        return CommonReturnType.create(startSelfInspectionList);
     }
 }
