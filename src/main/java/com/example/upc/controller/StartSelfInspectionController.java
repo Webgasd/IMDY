@@ -7,6 +7,7 @@ import com.example.upc.dataobject.InspectionPosition;
 import com.example.upc.dataobject.StartSelfInspection;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.StartSelfInspectionService;
+import com.example.upc.util.JsonToImageUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -70,6 +71,10 @@ public class StartSelfInspectionController {
     public CommonReturnType getInspectionByPosition(int positionId){
         List<StartSelfInspection> startSelfInspectionList = new ArrayList<>();
         startSelfInspectionList = startSelfInspectionService.getInspectionByPosition(positionId);
+        for (StartSelfInspection item:startSelfInspectionList
+             ) {
+            item.setPicture(item.getPicture().equals("")?"":JsonToImageUrl.JSON2ImageUrl(item.getPicture()));
+        }
         return CommonReturnType.create(startSelfInspectionList);
     }
 }
