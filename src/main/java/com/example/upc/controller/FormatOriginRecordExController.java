@@ -74,7 +74,7 @@ public class FormatOriginRecordExController {
     @RequestMapping("/getRecordExByDate")
     @ResponseBody
     public CommonReturnType getRecordExByDate(FormatOriginRecordEx formatOriginRecordEx, SysUser sysUser){
-        return CommonReturnType.create(formatOriginRecordExService.getRecordExByDate(formatOriginRecordEx.getProduceTime(),sysUser));
+        return CommonReturnType.create(formatOriginRecordExService.getRecordExByDate(formatOriginRecordEx,sysUser));
     }
 
     @RequestMapping("/insert")

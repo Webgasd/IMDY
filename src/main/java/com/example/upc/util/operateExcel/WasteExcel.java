@@ -17,8 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class WasteExcel {
-    public static String path = "/Users/weixj/Desktop/wph/IMDY";
-//    public static String path = "upload";
+//    public static String path = "/Users/weixj/Desktop/wph/IMDY";
+    public static String path = "upload";
 //    public static String mdlpath = path+"/template/"+ "【导出】废弃物处理模板.xlsx";
 
     //public static String mdlpath = "/Users/weixj/Desktop/解压/vehicleCharge-1/templeteWord/隐患排查治理.xlsx";

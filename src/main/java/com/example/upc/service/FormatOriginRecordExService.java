@@ -1,9 +1,6 @@
 package com.example.upc.service;
 
-import com.example.upc.controller.param.FormatOriginRecordExEnParam;
-import com.example.upc.controller.param.FormatOriginRecordExParam;
-import com.example.upc.controller.param.PageQuery;
-import com.example.upc.controller.param.PageResult;
+import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.OriginRecordExSearchParam;
 import com.example.upc.dataobject.FormatOriginRecordEx;
 import com.example.upc.dataobject.SysUser;
@@ -24,5 +21,5 @@ public interface FormatOriginRecordExService {
     void importExcel(MultipartFile file, Integer type,SysUser sysUser);
 
     void miniInsert(List<FormatOriginRecordEx> formatOriginExtraList, SysUser sysUser);
-    List<FormatOriginRecordEx> getRecordExByDate(Date date, SysUser sysUser);
+    List<FormatOriginRecordExEnParam> getRecordExByDate(FormatOriginRecordEx formatOriginRecordEx, SysUser sysUser);
 }
