@@ -5,6 +5,7 @@ import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.OriginExtraSearchParam;
 import com.example.upc.dataobject.FormatOriginExtra;
+import com.example.upc.dataobject.FormatOriginExtraParam;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.FormatOriginExtraService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class FormatOriginExtraController {
 
     @RequestMapping("/insertList")
     @ResponseBody
-    public CommonReturnType insertList(@RequestBody List<FormatOriginExtra> formatOriginExtraList, SysUser sysUser){
+    public CommonReturnType insertList(@RequestBody List<FormatOriginExtra> formatOriginExtraList , SysUser sysUser){
         formatOriginExtraService.insertList(formatOriginExtraList, sysUser);
         return CommonReturnType.create(null);
     }

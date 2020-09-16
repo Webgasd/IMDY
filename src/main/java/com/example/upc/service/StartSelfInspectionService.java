@@ -6,6 +6,7 @@ import com.example.upc.dataobject.InspectionPosition;
 import com.example.upc.dataobject.StartSelfInspection;
 import com.example.upc.dataobject.SysUser;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface StartSelfInspectionService {
@@ -14,5 +15,5 @@ public interface StartSelfInspectionService {
     void delete(int id);
     List<StartSelfInspection> getByEnterpriseId (InspectionSearchParam inspectionSearchParam, int id);
     List<InspectionPosition> getInspectionPositionByDate (InspectionSearchParam inspectionSearchParam, int id);
-    List<StartSelfInspection> getInspectionByPosition(int positionId);
+    List<StartSelfInspection> getInspectionByPosition(int positionId) throws ParseException;
 }

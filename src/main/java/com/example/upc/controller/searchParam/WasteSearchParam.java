@@ -1,5 +1,6 @@
 package com.example.upc.controller.searchParam;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -9,7 +10,9 @@ public class WasteSearchParam {
     private String enterprise;
     private String kind;
     private String person;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date start1;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date end1;
     private Date start2;
     private Date end2;

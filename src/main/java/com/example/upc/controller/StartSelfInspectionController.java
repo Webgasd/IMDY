@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +61,7 @@ public class StartSelfInspectionController {
     @RequestMapping("/getInspectionPositionByDate")
     @ResponseBody
     public CommonReturnType getInspectionPositionByDate(InspectionSearchParam inspectionSearchParam, SysUser sysUser){
-        inspectionSearchParam.setEnd1(new Date(inspectionSearchParam.getStart1().getTime() + (long) 24 * 60 * 60 * 1000));
+        inspectionSearchParam.setEnd1(new Date(inspectionSearchParam.getStart1().getTime() + (long) 24 * 60 * 60 * 1000-1));
         List<InspectionPosition> inspectionPositionList = new ArrayList<>();
         inspectionPositionList = startSelfInspectionService.getInspectionPositionByDate(inspectionSearchParam,sysUser.getInfoId());
         return CommonReturnType.create(inspectionPositionList);
@@ -68,13 +69,9 @@ public class StartSelfInspectionController {
 
     @RequestMapping("/getInspectionByPosition")
     @ResponseBody
-    public CommonReturnType getInspectionByPosition(int positionId){
+    public CommonReturnType getInspectionByPosition(int positionId) throws ParseException {
         List<StartSelfInspection> startSelfInspectionList = new ArrayList<>();
         startSelfInspectionList = startSelfInspectionService.getInspectionByPosition(positionId);
-        for (StartSelfInspection item:startSelfInspectionList
-             ) {
-            item.setPicture(item.getPicture().equals("")?"":JsonToImageUrl.JSON2ImageUrl(item.getPicture()));
-        }
         return CommonReturnType.create(startSelfInspectionList);
     }
 }

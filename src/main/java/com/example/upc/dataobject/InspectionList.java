@@ -4,18 +4,18 @@ import java.util.List;
 
 public class InspectionList {
     private String inspectionPosition;
-    private int inspectionPositionId;
+    private Integer inspectionPositionId;
     private List<StartSelfInspection> startSelfInspectionList;
 
     public String getInspectionPosition(){return inspectionPosition;}
 
     public void setInspectionPosition(String inspectionPosition){this.inspectionPosition = inspectionPosition;}
 
-    public int getInspectionPositionId() {
+    public Integer getInspectionPositionId() {
         return inspectionPositionId;
     }
 
-    public void setInspectionPositionId(int inspectionPositionId) {
+    public void setInspectionPositionId(Integer inspectionPositionId) {
         this.inspectionPositionId = inspectionPositionId;
     }
 

@@ -8,14 +8,19 @@ import com.example.upc.controller.param.FormatWasteParam;
 import com.example.upc.controller.param.FormatWasteSupParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.PageResult;
+import com.example.upc.controller.searchParam.InspectionSearchParam;
 import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dao.*;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.FormatWasteService;
+import com.example.upc.util.operateExcel.WasteExcel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -178,6 +183,22 @@ public class FormatWasteServiceImpl implements FormatWasteService {
         // TODO: sendEmail
 
         formatWasteMapper.updateByPrimaryKeySelective(formatWaste1);
+    }
+
+    @Override
+    public String standingBook (WasteSearchParam wasteSearchParam,SysUser sysUser) throws IOException {
+        List<FormatWaste> formatWasteList = formatWasteMapper.getPageEnterprise2(sysUser.getInfoId(),wasteSearchParam);
+        List<String[]> data = new ArrayList<>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (FormatWaste item:formatWasteList
+             ) {
+            data.add(new String[]{
+                    dateFormat.format(item.getDisposaltime()),item.getKind(),item.getNumber(),item.getDisposalperson(),item.getRecyclingenterprises(),item.getRecycler(),item.getExtra()
+
+            });
+        }
+        String path = WasteExcel.getXLsx(data,"/template/【导出】废弃物处理模板.xlsx","",sysUser.getInfoId());
+        return path;
     }
 
     @Override
