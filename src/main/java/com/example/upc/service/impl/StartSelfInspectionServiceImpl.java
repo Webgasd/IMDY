@@ -10,10 +10,15 @@ import com.example.upc.dao.StartSelfInspectionMapper;
 import com.example.upc.dao.SupervisionEnterpriseMapper;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.StartSelfInspectionService;
+import com.example.upc.util.JsonToImageUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,10 +41,10 @@ public class StartSelfInspectionServiceImpl implements StartSelfInspectionServic
     public void insert(InspectionList inspectionList, SysUser sysUser){
         List<StartSelfInspection> startSelfInspection = inspectionList.getStartSelfInspectionList();
         String inspectionPositionName = inspectionList.getInspectionPosition();
-        ValidationResult result = validator.validate(startSelfInspection);
-        if(result.isHasErrors()){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
-        }
+//        ValidationResult result = validator.validate(startSelfInspection);
+//        if(result.isHasErrors()){
+//            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+//        }
 
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
         if (supervisionEnterprise==null){
@@ -53,7 +58,13 @@ public class StartSelfInspectionServiceImpl implements StartSelfInspectionServic
         inspectionPosition.setInspectionTime(inspectionDate);
         inspectionPosition.setInspector(inspector);
         inspectionPosition.setInspectionPositionName(inspectionPositionName);
-        inspectionPositionMapper.insertSelective(inspectionPosition);
+        if(inspectionList.getInspectionPositionId() == null){
+            inspectionPositionMapper.insertSelective(inspectionPosition);
+        } else {
+            inspectionPosition.setId(inspectionList.getInspectionPositionId());
+            inspectionPositionMapper.updateByPrimaryKeySelective(inspectionPosition);
+        }
+
 
         for (StartSelfInspection item:startSelfInspection
              ) {
@@ -61,7 +72,13 @@ public class StartSelfInspectionServiceImpl implements StartSelfInspectionServic
             item.setInspectionPosition(inspectionPosition.getId());
             item.setOperator(sysUser.getUsername());
             item.setOperatorIp("124.124.124");
-            startSelfInspectionMapper.insertSelective(item);
+            if(item.getId() == null){
+
+                startSelfInspectionMapper.insertSelective(item);
+            } else {
+                startSelfInspectionMapper.updateByPrimaryKeySelective(item);
+            }
+
         }
 
     }
@@ -71,10 +88,10 @@ public class StartSelfInspectionServiceImpl implements StartSelfInspectionServic
     public void update(InspectionList inspectionList ,SysUser sysUser){
         List<StartSelfInspection> startSelfInspection = inspectionList.getStartSelfInspectionList();
         String inspectionPositionName = inspectionList.getInspectionPosition();
-        ValidationResult result = validator.validate(startSelfInspection);
-        if(result.isHasErrors()){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
-        }
+//        ValidationResult result = validator.validate(startSelfInspection);
+//        if(result.isHasErrors()){
+//            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+//        }
 
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
         if (supervisionEnterprise==null){
@@ -122,7 +139,16 @@ public class StartSelfInspectionServiceImpl implements StartSelfInspectionServic
     }
 
     @Override
-    public List<StartSelfInspection> getInspectionByPosition(int positionId){
-        return startSelfInspectionMapper.getInspectionByPosition(positionId);
+    public List<StartSelfInspection> getInspectionByPosition(int positionId) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        List<StartSelfInspection> startSelfInspectionList = new ArrayList<>();
+        startSelfInspectionList = startSelfInspectionMapper.getInspectionByPosition(positionId);
+        for (StartSelfInspection item:startSelfInspectionList
+        ) {
+            item.setPicture(item.getPicture().equals("")?"": JsonToImageUrl.JSON2ImageUrl(item.getPicture()));
+            item.setInspectTime(dateFormat.parse(dateFormat.format(item.getInspectTime())));
+        }
+        System.out.println(startSelfInspectionList.size());
+        return startSelfInspectionList;
     }
 }

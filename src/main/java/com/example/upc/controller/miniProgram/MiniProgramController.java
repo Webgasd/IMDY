@@ -374,7 +374,7 @@ public class MiniProgramController {
     @RequestMapping("/getWasteByDate")
     public CommonReturnType getWasteByDate(@RequestBody WasteSearchParam wasteSearchParam, SysUser sysUser){
         wasteSearchParam.setStart1(new Date(wasteSearchParam.getStart1().getTime()-(long)8*60*60*1000));
-        wasteSearchParam.setEnd1(new Date(wasteSearchParam.getStart1().getTime()+(long)24*60*60*1000));
+        wasteSearchParam.setEnd1(new Date(wasteSearchParam.getStart1().getTime()+(long)24*60*60*1000-1));
         return CommonReturnType.create(formatWasteService.getPageEnterprise2( sysUser.getInfoId(), wasteSearchParam));
     }
 
