@@ -14,11 +14,9 @@ import com.example.upc.service.FormatWasteService;
 import com.example.upc.service.SysDeptAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -107,10 +105,10 @@ public class FormatWasteController {
 
     @RequestMapping("/standingBook")
     @ResponseBody
-    public CommonReturnType standingBook(@RequestBody WasteSearchParam wasteSearchParam,SysUser sysUser) throws IOException {
+    public CommonReturnType standingBook(@RequestBody WasteSearchParam wasteSearchParam, SysUser sysUser, HttpServletResponse response) throws IOException {
 //        wasteSearchParam.setEnd1(new Date(wasteSearchParam.getEnd1().getTime()-(long) 8 * 60 * 60 * 1000));
         wasteSearchParam.setEnd1(new Date(wasteSearchParam.getEnd1().getTime()+(long) 24 * 60 * 60 * 1000-1));
-        return CommonReturnType.create(formatWasteService.standingBook(wasteSearchParam,sysUser));
+        return CommonReturnType.create(formatWasteService.standingBook(wasteSearchParam,sysUser,response));
     }
 
 }

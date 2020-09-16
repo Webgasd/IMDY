@@ -4,6 +4,7 @@ import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.common.ValidationResult;
 import com.example.upc.common.ValidatorImpl;
+import com.example.upc.controller.UploadController;
 import com.example.upc.controller.param.FormatWasteParam;
 import com.example.upc.controller.param.FormatWasteSupParam;
 import com.example.upc.controller.param.PageQuery;
@@ -14,11 +15,13 @@ import com.example.upc.dao.*;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.FormatWasteService;
 import com.example.upc.util.operateExcel.WasteExcel;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -186,7 +189,7 @@ public class FormatWasteServiceImpl implements FormatWasteService {
     }
 
     @Override
-    public String standingBook (WasteSearchParam wasteSearchParam,SysUser sysUser) throws IOException {
+    public String standingBook ( WasteSearchParam wasteSearchParam, SysUser sysUser,HttpServletResponse response) throws IOException {
         List<FormatWaste> formatWasteList = formatWasteMapper.getPageEnterprise2(sysUser.getInfoId(),wasteSearchParam);
         List<String[]> data = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -197,7 +200,13 @@ public class FormatWasteServiceImpl implements FormatWasteService {
 
             });
         }
-        String path = WasteExcel.getXLsx(data,"/template/【导出】废弃物处理模板.xlsx","",sysUser.getInfoId());
+        String fileName = "废弃物处理";
+        String path = WasteExcel.getXLsx(data,"/template/【导出】废弃物处理模板.xlsx",fileName,sysUser.getInfoId());
+
+        //下载
+
+//        UploadController.downloadStandingBook(response, fileName,path);
+
         return path;
     }
 
