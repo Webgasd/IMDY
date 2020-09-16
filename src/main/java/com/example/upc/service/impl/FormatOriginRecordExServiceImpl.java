@@ -150,11 +150,11 @@ public class FormatOriginRecordExServiceImpl implements FormatOriginRecordExServ
 
     @Override
     @Transactional
-    public List<FormatOriginRecordEx> getRecordExByDate(FormatOriginRecordEx formatOriginRecordEx, SysUser sysUser){
-        if (formatOriginRecordEx.getProduceTime()!=null)
+    public List<FormatOriginRecordExEnParam> getRecordExByDate(FormatOriginRecordEx formatOriginRecordEx, SysUser sysUser){
+        if (formatOriginRecordEx.getRecordTime()!=null)
         {
-            Date endDate = new Date(formatOriginRecordEx.getProduceTime().getTime()+(long) 24 * 60 * 60 * 1000);
-            return formatOriginRecordExMapper.getRecordExByDate(sysUser.getInfoId(),formatOriginRecordEx.getProduceTime(),endDate);
+            Date endDate = new Date(formatOriginRecordEx.getRecordTime().getTime()+(long) 24 * 60 * 60 * 1000);
+            return formatOriginRecordExMapper.getRecordExByDate(sysUser.getInfoId(),formatOriginRecordEx.getRecordTime(),endDate);
         }
         return formatOriginRecordExMapper.getRecordExByDate(sysUser.getInfoId(),null,null);
     }

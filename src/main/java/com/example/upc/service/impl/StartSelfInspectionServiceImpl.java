@@ -36,10 +36,10 @@ public class StartSelfInspectionServiceImpl implements StartSelfInspectionServic
     public void insert(InspectionList inspectionList, SysUser sysUser){
         List<StartSelfInspection> startSelfInspection = inspectionList.getStartSelfInspectionList();
         String inspectionPositionName = inspectionList.getInspectionPosition();
-        ValidationResult result = validator.validate(startSelfInspection);
-        if(result.isHasErrors()){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
-        }
+//        ValidationResult result = validator.validate(startSelfInspection);
+//        if(result.isHasErrors()){
+//            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+//        }
 
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
         if (supervisionEnterprise==null){

@@ -49,6 +49,8 @@ public class FormatOriginRecordEx {
      *
      * @mbg.generated Sat Sep 12 22:54:55 CST 2020
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date recordTime;
 
     /**
