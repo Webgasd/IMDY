@@ -58,27 +58,15 @@ public class StartSelfInspectionServiceImpl implements StartSelfInspectionServic
         inspectionPosition.setInspectionTime(inspectionDate);
         inspectionPosition.setInspector(inspector);
         inspectionPosition.setInspectionPositionName(inspectionPositionName);
-        if(inspectionList.getInspectionPositionId() == null){
-            inspectionPositionMapper.insertSelective(inspectionPosition);
-        } else {
-            inspectionPosition.setId(inspectionList.getInspectionPositionId());
-            inspectionPositionMapper.updateByPrimaryKeySelective(inspectionPosition);
-        }
-
+        inspectionPositionMapper.insertSelective(inspectionPosition);
 
         for (StartSelfInspection item:startSelfInspection
-             ) {
+        ) {
             item.setEnterprise(sysUser.getInfoId());
             item.setInspectionPosition(inspectionPosition.getId());
             item.setOperator(sysUser.getUsername());
             item.setOperatorIp("124.124.124");
-            if(item.getId() == null){
-
-                startSelfInspectionMapper.insertSelective(item);
-            } else {
-                startSelfInspectionMapper.updateByPrimaryKeySelective(item);
-            }
-
+            startSelfInspectionMapper.insertSelective(item);
         }
 
     }

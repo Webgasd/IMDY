@@ -63,4 +63,6 @@ public interface FormatOriginExtraMapper {
     List<FormatOriginExtra> getPage2(@Param("id") Integer id, @Param("search")  OriginExtraSearchParam search);
 
     void insertList(List<FormatOriginExtra> formatOriginExtraList, SysUser sysUser);
+
+    void deleteByListId (@Param("listId") Integer listId);
 }

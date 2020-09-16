@@ -10,6 +10,7 @@ import com.example.upc.controller.searchParam.OriginExtraSearchParam;
 import com.example.upc.dao.FormatOriginExtraMapper;
 import com.example.upc.dao.SupervisionEnterpriseMapper;
 import com.example.upc.dataobject.FormatOriginExtra;
+import com.example.upc.dataobject.FormatOriginExtraParam;
 import com.example.upc.dataobject.SupervisionEnterprise;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.FormatOriginExtraService;
@@ -131,8 +132,10 @@ public class FormatOriginExtraServiceImpl implements FormatOriginExtraService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public void insertList(List<FormatOriginExtra> formatOriginExtraList, SysUser sysUser){
+        int listId = formatOriginExtraList.get(0).getListId();
+        formatOriginExtraMapper.deleteByListId(listId);
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
         Date date = new Date();
         for (FormatOriginExtra item:formatOriginExtraList
