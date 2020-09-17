@@ -5,10 +5,13 @@ import com.example.upc.controller.param.FormatDisinfectionSupParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.PageResult;
 import com.example.upc.controller.searchParam.DisinfectionSearchParam;
+import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dataobject.FormatDisinfection;
 import com.example.upc.dataobject.SysUser;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
@@ -28,4 +31,6 @@ public interface FormatDisinfectionService {
      * 小程序专用service
      */
     List<FormatDisinfection> getDisinfectionRecord(int enterpeiseId, Date startDate);
+
+    String standingBook (DisinfectionSearchParam disinfectionSearchParam, SysUser sysUser) throws IOException;
 }

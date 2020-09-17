@@ -6,6 +6,7 @@ import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.param.FormatDisinfectionParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.DisinfectionSearchParam;
+import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dataobject.FormatDisinfection;
 import com.example.upc.dataobject.SupervisionGa;
 import com.example.upc.dataobject.SysUser;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -116,6 +119,13 @@ public class FormatDisinfectionController {
             }
         }
         return CommonReturnType.create(null);
+    }
+
+    @RequestMapping("/standingBook")
+    @ResponseBody
+    public CommonReturnType standingBook(@RequestBody DisinfectionSearchParam disinfectionSearchParam, SysUser sysUser) throws IOException {
+        disinfectionSearchParam.setEnd(new Date(disinfectionSearchParam.getEnd().getTime()+(long) 24 * 60 * 60 * 1000-1));
+        return CommonReturnType.create(formatDisinfectionService.standingBook(disinfectionSearchParam,sysUser));
     }
 
 }

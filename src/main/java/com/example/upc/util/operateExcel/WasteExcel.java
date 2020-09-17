@@ -9,16 +9,16 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 public class WasteExcel {
     public static String path = "/Users/weixj/Desktop/wph/IMDY";
+//    public static String path = "upload";
 //    public static String mdlpath = path+"/template/"+ "【导出】废弃物处理模板.xlsx";
 
     //public static String mdlpath = "/Users/weixj/Desktop/解压/vehicleCharge-1/templeteWord/隐患排查治理.xlsx";
@@ -34,7 +34,10 @@ public class WasteExcel {
 
     }
 
-    public static String getXLsx(List<String[]> table1, String mdlpath, String dateTime, Integer businessId) throws IOException {
+    public static String getXLsx(List<String[]> table1, String mdlpath, String fileName, Integer businessId) throws IOException {
+        Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM");
+        String currentTime = dateFormat.format( now );
         try (FileInputStream is = new FileInputStream(path+mdlpath);
              XSSFWorkbook workBook = new XSSFWorkbook(is)) {
             XSSFSheet sheet1 = workBook.getSheetAt(0);
@@ -81,7 +84,7 @@ public class WasteExcel {
             System.out.println("总行数:" + sheet1.getLastRowNum());
                 //填入数据
                 int startindex=1;
-                int sumcloum = 7;//总列数
+                int sumcloum = table1.get(0).length;//总列数
                 for (int i = 0; i < table1.size(); i++) {
                     Row row = sheet1.getRow(i + startindex);
                     for (int j = 0; j < sumcloum; j++) {
@@ -92,15 +95,20 @@ public class WasteExcel {
                     }
                 }
 
-                Long time = System.currentTimeMillis();
-                try (FileOutputStream out = new FileOutputStream(path+"/standingBook/测试"+businessId+".xlsx");) {
+//                Long time = System.currentTimeMillis();
+
+            File filed = new File(path+"/standingBook/"+currentTime);
+            if(!filed.exists()){
+                filed.mkdirs();
+            }
+                try (FileOutputStream out = new FileOutputStream(path+"/standingBook/"+currentTime+"/"+fileName+businessId+".xlsx");) {
                     workBook.write(out);
                     out.flush();
                 }
 //            }
 
         }
-        return path+"/standingBook/测试"+businessId+".xlsx";
+        return path+"/standingBook/"+currentTime+"/"+fileName+businessId+".xlsx";
     }
 
 
