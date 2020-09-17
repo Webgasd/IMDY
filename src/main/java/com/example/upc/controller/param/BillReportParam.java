@@ -1,16 +1,15 @@
 package com.example.upc.controller.param;
 
 import com.example.upc.dataobject.BillReport;
-import com.example.upc.dataobject.FormatOriginRecordEx;
 
-public class BillReportParam extends FormatOriginRecordEx {
-    private String billList;
+public class BillReportParam extends BillReport{
+    private String recordList;
 
-    public String getBillList() {
-        return billList;
+    public String getRecordList() {
+        return recordList;
     }
 
-    public void setBillList(String billList) {
-        this.billList = billList;
+    public void setRecordList(String recordList) {
+        this.recordList = recordList;
     }
 }

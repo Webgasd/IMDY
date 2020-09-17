@@ -1,5 +1,6 @@
 package com.example.upc.dao;
 
+import com.example.upc.controller.param.BillReportParam;
 import com.example.upc.controller.searchParam.BillReportSearchParam;
 import com.example.upc.dataobject.BillReport;
 import com.example.upc.dataobject.Billdao;
@@ -56,7 +57,7 @@ public interface BillReportMapper {
      */
     int updateByPrimaryKey(BillReport record);
 
-    List<Billdao> selectBillReport(@Param("billParam") BillReportSearchParam billReportSearchParam);
+    List<BillReportParam> selectBillReport(@Param("billParam") BillReportSearchParam billReportSearchParam);
 
-    List<Billdao> selectBillReportByBillList(@Param("billList") List<Integer> billList);
+    List<BillReportParam> selectBillReportByBillList(@Param("billList") List<Integer> billList);
 }
