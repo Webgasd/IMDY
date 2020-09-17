@@ -30,6 +30,10 @@ public interface FormatLeaveService {
     void miniInsert(String json, SysUser sysUser);
     void miniUpdate(String json,SysUser sysUser);
     CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser, LeaveSearchParam leaveSearchParam);
+<<<<<<< HEAD
     String standingBook (LeaveSearchParam leaveSearchParam, SysUser sysUser) throws IOException;
+=======
+    
+>>>>>>> 4be513d... excel
 //    String updateFoodSamplesRecord(Map<String,Object> updateData);
 }

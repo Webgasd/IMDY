@@ -5,6 +5,7 @@ import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.DisinfectionSearchParam;
 import com.example.upc.controller.searchParam.LeaveSearchParam;
+import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dataobject.SupervisionGa;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.FormatAdditiveService;
