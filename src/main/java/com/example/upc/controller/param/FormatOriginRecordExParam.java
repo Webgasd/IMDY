@@ -11,7 +11,7 @@ public class FormatOriginRecordExParam {
     private Integer id;
     @NotBlank(message = "食品类型不能为空")
     private String originType;
-    @NotNull(message = "生产日期不能为空")
+    @NotNull(message = "采购日期不能为空")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date recordTime;

@@ -1,5 +1,6 @@
 package com.example.upc.service.impl;
 
+import com.example.upc.controller.param.BillReportParam;
 import com.example.upc.controller.searchParam.BillReportSearchParam;
 import com.example.upc.dao.BillReportMapper;
 import com.example.upc.dao.OriginRecordBillMapper;
@@ -25,7 +26,7 @@ public class BillReportServiceImpl implements BillReportService {
     OriginRecordBillMapper originRecordBillMapper;
 
     @Override
-    public List<Billdao> getBillReport(BillReportSearchParam billReportSearchParam, SysUser sysUser){
+    public List<BillReportParam> getBillReport(BillReportSearchParam billReportSearchParam, SysUser sysUser){
         if(billReportSearchParam.getDate()!=null)
         {
         billReportSearchParam.setEndTime(new Date(billReportSearchParam.getDate().getTime()+(long) 24 * 60 * 60 * 1000));
@@ -35,7 +36,7 @@ public class BillReportServiceImpl implements BillReportService {
     }
 
     @Override
-    public List<Billdao> getBillReportByBillId(BillReportSearchParam billReportSearchParam, SysUser sysUser){
+    public List<BillReportParam> getBillReportByBillId(BillReportSearchParam billReportSearchParam, SysUser sysUser){
         String billList=billReportSearchParam.getBillList();
         if(billList!=null && !"".equals(billList.trim()))
         {

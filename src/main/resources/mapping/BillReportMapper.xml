@@ -17,7 +17,7 @@
     <result column="operator_time" jdbcType="TIMESTAMP" property="operatorTime" />
   </resultMap>
 
-  <resultMap id="ResultMapParam" extends="BaseResultMap" type="com.example.upc.dataobject.Billdao">
+  <resultMap id="ResultMapParam" extends="BaseResultMap" type="com.example.upc.controller.param.BillReportParam">
     <result column="record_list" jdbcType="VARCHAR" property="recordList" />
   </resultMap>
 
