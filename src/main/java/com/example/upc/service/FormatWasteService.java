@@ -21,5 +21,5 @@ public interface FormatWasteService {
     void delete(int fwId);
     void fail();
     List<FormatWaste> getPageEnterprise2 ( Integer id, WasteSearchParam wasteSearchParam);
-    String standingBook (WasteSearchParam wasteSearchParam, SysUser sysUser, HttpServletResponse response) throws IOException;
+    String standingBook (WasteSearchParam wasteSearchParam, SysUser sysUser) throws IOException;
 }

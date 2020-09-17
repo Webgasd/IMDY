@@ -3,15 +3,18 @@ package com.example.upc.service.impl;
 import com.example.upc.common.*;
 import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.DisinfectionSearchParam;
+import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dao.FormatDisinfectionMapper;
 import com.example.upc.dao.SupervisionCaMapper;
 import com.example.upc.dao.SupervisionEnterpriseMapper;
 import com.example.upc.dataobject.FormatDisinfection;
+import com.example.upc.dataobject.FormatWaste;
 import com.example.upc.dataobject.SupervisionEnterprise;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.FormatDisinfectionService;
 import com.example.upc.util.ExcalUtils;
 import com.example.upc.util.MapToStrUtil;
+import com.example.upc.util.operateExcel.WasteExcel;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
@@ -29,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -508,6 +512,28 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
         endDate.setTime(startDate.getTime()+86399999);
         List<FormatDisinfection> searchList = formatDisinfectionMapper.getDisinfectionRecord(enterpriseId, startDate, endDate);
         return searchList;
+    }
+
+    @Override
+    public String standingBook (DisinfectionSearchParam disinfectionSearchParam, SysUser sysUser) throws IOException {
+        List<FormatDisinfection> formatDisinfectionList = formatDisinfectionMapper.getDisinfectionRecord(sysUser.getInfoId(),disinfectionSearchParam.getStart(),disinfectionSearchParam.getEnd());
+        List<String[]> data = new ArrayList<>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (FormatDisinfection item:formatDisinfectionList
+        ) {
+            data.add(new String[]{
+                    dateFormat.format(item.getDate()),item.getName(),item.getAmount().toString(),item.getWay(),item.getStart1().toString()+":"+item.getStart2(),item.getEnd1()+":"+item.getEnd2(),item.getPerson(),item.getRemark()
+
+            });
+        }
+        String fileName = "清洗消毒";
+        String path = WasteExcel.getXLsx(data,"/template/【导出】清洗消毒模板.xlsx",fileName,sysUser.getInfoId());
+
+        //下载
+
+//        UploadController.downloadStandingBook(response, fileName,path);
+
+        return path;
     }
 
 }

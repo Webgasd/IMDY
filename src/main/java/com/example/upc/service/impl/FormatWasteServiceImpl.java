@@ -189,7 +189,7 @@ public class FormatWasteServiceImpl implements FormatWasteService {
     }
 
     @Override
-    public String standingBook ( WasteSearchParam wasteSearchParam, SysUser sysUser,HttpServletResponse response) throws IOException {
+    public String standingBook ( WasteSearchParam wasteSearchParam, SysUser sysUser) throws IOException {
         List<FormatWaste> formatWasteList = formatWasteMapper.getPageEnterprise2(sysUser.getInfoId(),wasteSearchParam);
         List<String[]> data = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

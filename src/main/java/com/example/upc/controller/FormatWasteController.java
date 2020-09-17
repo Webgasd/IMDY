@@ -105,10 +105,10 @@ public class FormatWasteController {
 
     @RequestMapping("/standingBook")
     @ResponseBody
-    public CommonReturnType standingBook(@RequestBody WasteSearchParam wasteSearchParam, SysUser sysUser, HttpServletResponse response) throws IOException {
+    public CommonReturnType standingBook(@RequestBody WasteSearchParam wasteSearchParam, SysUser sysUser) throws IOException {
 //        wasteSearchParam.setEnd1(new Date(wasteSearchParam.getEnd1().getTime()-(long) 8 * 60 * 60 * 1000));
         wasteSearchParam.setEnd1(new Date(wasteSearchParam.getEnd1().getTime()+(long) 24 * 60 * 60 * 1000-1));
-        return CommonReturnType.create(formatWasteService.standingBook(wasteSearchParam,sysUser,response));
+        return CommonReturnType.create(formatWasteService.standingBook(wasteSearchParam,sysUser));
     }
 
 }
