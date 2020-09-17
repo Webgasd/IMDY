@@ -7,6 +7,7 @@ import com.example.upc.dataobject.FormatLeaveSample;
 import com.example.upc.dataobject.SysUser;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -29,5 +30,6 @@ public interface FormatLeaveService {
     void miniInsert(String json, SysUser sysUser);
     void miniUpdate(String json,SysUser sysUser);
     CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser, LeaveSearchParam leaveSearchParam);
+    String standingBook (LeaveSearchParam leaveSearchParam, SysUser sysUser) throws IOException;
 //    String updateFoodSamplesRecord(Map<String,Object> updateData);
 }

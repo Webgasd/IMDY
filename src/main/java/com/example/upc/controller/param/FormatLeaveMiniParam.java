@@ -8,6 +8,7 @@ import java.util.List;
 
 public class FormatLeaveMiniParam extends FormatLeaveSample {
     private List<FormatLeaveMini> list= Lists.newArrayList();
+
     public List<FormatLeaveMini> getList() {
         return list;
     }

@@ -3,6 +3,7 @@ package com.example.upc.controller;
 import com.alibaba.fastjson.JSON;
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.param.PageQuery;
+import com.example.upc.controller.searchParam.DisinfectionSearchParam;
 import com.example.upc.controller.searchParam.LeaveSearchParam;
 import com.example.upc.dataobject.SupervisionGa;
 import com.example.upc.dataobject.SysUser;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 @Controller
@@ -152,5 +155,12 @@ public class FormatLeaveController {
             formatLeaveService.fail();
             return CommonReturnType.create(null);
         }
+    }
+
+    @RequestMapping("/standingBook")
+    @ResponseBody
+    public CommonReturnType standingBook(@RequestBody LeaveSearchParam leaveSearchParam, SysUser sysUser) throws IOException {
+        leaveSearchParam.setEnd(new Date(leaveSearchParam.getEnd().getTime()+(long) 24 * 60 * 60 * 1000-1));
+        return CommonReturnType.create(formatLeaveService.standingBook(leaveSearchParam,sysUser));
     }
 }
