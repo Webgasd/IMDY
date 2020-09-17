@@ -2,13 +2,16 @@ package com.example.upc.controller.searchParam;
 
 
 import com.example.upc.dataobject.FormatDisinfection;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 import java.util.List;
 
 public class DisinfectionSearchParam extends FormatDisinfection {
     private String enterprise;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date start;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date end;
     private List<Integer> areaList;
 

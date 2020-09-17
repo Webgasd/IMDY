@@ -522,16 +522,16 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
         for (FormatDisinfection item:formatDisinfectionList
         ) {
             data.add(new String[]{
-                    dateFormat.format(item.getDate()),item.getName(),item.getAmount().toString(),item.getWay(),item.getStart1().toString()+":"+item.getStart2(),item.getEnd1()+":"+item.getEnd2(),item.getPerson(),item.getRemark()
+                    dateFormat.format(item.getDate()),item.getName(),item.getAmount().toString(),item.getWay(),
+                    item.getStart1()<10?("0"+item.getStart1()+" : "+(item.getStart2()<10?"0"+item.getStart2():item.getStart2())):(item.getStart1()+" : "+(item.getStart2()<10?"0"+item.getStart2():item.getStart2())),
+//                    item.getEnd1()+" : "+item.getEnd2(),item.getPerson(),item.getRemark()
+                    item.getEnd1()<10?("0"+item.getEnd1()+" : "+(item.getEnd2()<10?"0"+item.getEnd2():item.getEnd2())):(item.getEnd1()+" : "+(item.getEnd2()<10?"0"+item.getEnd2():item.getEnd2()))
 
             });
         }
         String fileName = "清洗消毒";
         String path = WasteExcel.getXLsx(data,"/template/【导出】清洗消毒模板.xlsx",fileName,sysUser.getInfoId());
 
-        //下载
-
-//        UploadController.downloadStandingBook(response, fileName,path);
 
         return path;
     }
