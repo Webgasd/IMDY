@@ -171,7 +171,7 @@ postman访问地址：
 
 负责人：刘宁
 
-### 根据日期查看消毒台账
+### 根据日期查看消毒台账（刘宁）
 
 `/mini/getDisinfectionRecord`
 
@@ -215,7 +215,7 @@ postman访问地址：
 
 ```
 
-### 新增消毒台账
+### 新增消毒台账（刘宁）
 
 `/formatdisinfection/insert`
 
@@ -248,7 +248,7 @@ postman访问地址：
     "data": null
 }
 ```
-### 更新消毒台账
+### 更新消毒台账（刘宁）
 
 `/formatdisinfection/insert`
 
@@ -285,7 +285,7 @@ postman访问地址：
 }
 ```
 
-### 删除消毒台账
+### 删除消毒台账（刘宁）
 
 `/formatdisinfection/delete`
 
@@ -322,21 +322,21 @@ postman访问地址：
 }
 ```
 
-### 企业从业人员列表
+### 企业从业人员列表（刘宁）
 
 **备注**：需要删除分页，但是后期可能不需要从业人员列表、暂时不做更改
 
-`/supervision/ca/getPage`
+`supervision/ca/getSelectByEnterpriseId`
 
 postman访问地址：
 
-`https://www.yiwifi1.com:8088/supervision/ca/getPage`
+`https://www.yiwifi1.com:8088/supervision/ca/getSelectByEnterpriseId`
 
 方法：GET/POST
 
 - 参数：
 ```javascript
-// 要传一个空对象
+// 要传一个空
 {}
 ```
 
@@ -368,10 +368,7 @@ postman访问地址：
                 "operateTime": "2020-09-07T04:13:08.000+0000",
                 "operator": "zcc",
                 "operateIp": "124.214.124"
-            }],
-        "total": 1,
-        "pageNo": 1,
-        "pageSize": 10
+            }]
     }
 }
 ```
@@ -382,9 +379,13 @@ postman访问地址：
 
 ### 新增食品留样（刘宁）
 
-`远程：https://www.yiwifi1.com:8088/formatleave/miniInsert`
+`/formatleave/miniInsert`
 
-方法：GET
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/formatleave/miniInsert`
+
+方法：POST  'content-type': 'application/json'
 注意
 
 >1 MainFood 主食 2 MainCourse 热菜 3 CoolCourse凉菜 4 soup 汤/奶 5 fruit /水果
@@ -414,11 +415,17 @@ postman访问地址：
 }
 ```
 
-## 修改食品留样（刘宁）
-`远程：https://www.yiwifi1.com:8088/formatleave/miniUpdate`
+### 修改食品留样（刘宁）
 
-方法：GET
+`/formatleave/miniUpdate`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/formatleave/miniUpdate`
+
+方法：POST 'content-type': 'application/json'
 注意
+
 >1 MainFood 主食 2 MainCourse 热菜 3 CoolCourse凉菜 4 soup 汤/奶 5 fruit /水果
 - 参数：
 ```json
@@ -447,16 +454,23 @@ postman访问地址：
 }
 ```
 
-## 删除食品留样（刘宁）
-`远程：https://www.yiwifi1.com:8088/formatleave/delete`
+### 删除食品留样（刘宁）
+
+`/formatleave/delete`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/formatleave/delete`
 
 方法：GET
 注意
+
 >1 MainFood 主食 2 MainCourse 热菜 3 CoolCourse凉菜 4 soup 汤/奶 5 fruit /水果
 - 参数：
-```
-Param
-   { id:256 }
+```javascript
+{
+		id: 256,
+}
 ```
 
 - 返回值
@@ -467,16 +481,22 @@ Param
 }
 ```
 
-## 根据日期查看食品留样（刘宁）
-`远程：https://www.yiwifi1.com:8088/formatleave/getFormatLeaveSampleByDate`
+### 根据日期查看食品留样（刘宁）
 
-方法：GET
+`/formatleave/getFormatLeaveSampleByDate`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/formatleave/getFormatLeaveSampleByDate`
+
+方法：POST 
 注意
+
 >1 MainFood 主食 2 MainCourse 热菜 3 CoolCourse凉菜 4 soup 汤/奶 5 fruit /水果
 - 参数：
 ```
-Param
-   { start:2020-09-10 }
+
+   {"start":"2020-09-10"}
 
 ```
 
@@ -515,17 +535,23 @@ Param
         }]
 ```
 
-## 根据留样Id查看菜品（刘宁）
-`远程：https://www.yiwifi1.com:8088/formatleave/getById`
+### 根据留样Id查看菜品（刘宁）
 
-方法：GET
+`/formatleave/getById`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/formatleave/getById`
+
+方法：GET 
 注意
+
 >1 MainFood 主食 2 MainCourse 热菜 3 CoolCourse凉菜 4 soup 汤/奶 5 fruit /水果
 - 参数：
 ```
-Param
-   { id:253 }
-   
+{ 
+   id:262 
+}
 ```
 
 - 返回值
@@ -565,10 +591,15 @@ Param
     }
     }
 ```
-## 获取原料(按照类型获取)（刘宁）
-`远程：https://www.yiwifi1.com:8088/formatorigin/getOrigin`
+### 获取原料(按照类型获取)（刘宁）
 
-方法：GET
+`/formatorigin/getOrigin`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/formatorigin/getOrigin`
+
+方法：POST 'content-type': 'application/json'
 
 - 参数：
 ```
@@ -600,10 +631,17 @@ Param
 }
 ```
 
-## 新增索证索票（刘宁）
-`远程：https://www.yiwifi1.com:8088/formatOriginRecordEx/miniInsert`
+## 新增索证索票
 
-方法：GET
+### 添加索证索票（刘宁）
+
+`/formatOriginRecordEx/miniInsert`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/formatOriginRecordEx/miniInsert`
+
+方法：POST 'content-type': 'application/json'
 
 - 参数：
 ```
@@ -643,10 +681,15 @@ Param
     "data": null
 }
 ```
-## 修改索证索票（刘宁）
-`远程：https://www.yiwifi1.com:8088/formatOriginRecordEx/update`
+### 修改索证索票（刘宁）
 
-方法：GET
+`/formatOriginRecordEx/update`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/formatOriginRecordEx/update`
+
+方法：POST  'content-type': 'application/json'
 
 - 参数：
 ```
@@ -663,11 +706,16 @@ Param
         "goodsIn":"7",//采购数量
         "goodsType":"吨",//采购数量单位
         "supplier":"供应商名称*"//供应商
-        }
+    }
 ```
 
-## 删除索证索票（刘宁）
-`远程：https://www.yiwifi1.com:8088/formatOriginRecordEx/delete`
+### 删除索证索票（刘宁）
+
+`/formatOriginRecordEx/delete`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/formatOriginRecordEx/delete`
 
 方法：GET
 
@@ -686,16 +734,21 @@ Param
 }
 ```
 
-## 根据日期查询索证索票（刘宁）
-`远程：https://www.yiwifi1.com:8088/formatOriginRecordEx/getRecordExByDate`
+### 根据日期查询索证索票（刘宁）
+
+`/formatOriginRecordEx/getRecordExByDate`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/formatOriginRecordEx/getRecordExByDate`
 
 方法：GET
 >注意 该接口返回的billList需要在下面查看票据照片的时候用
 - 参数：
 ```
-    {
-        "produceTime":2020-8-15
-    }
+ {
+        "recordTime":"2020-8-15"
+ }
 ```
 
 - 返回值
@@ -769,8 +822,13 @@ Param
 }
 ```
 
-## 索证索票查看票据照片（刘宁）
-`远程：https://www.yiwifi1.com:8088/billReport/getBillReportByBillId`
+### 索证索票查看票据照片（刘宁）
+
+`/billReport/getBillReportByBillId`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/billReport/getBillReportByBillId`
 
 方法：GET
 
@@ -812,10 +870,17 @@ Param
 }
 ```
 
-## 添加票据上报（刘宁）
-`远程：https://www.yiwifi1.com:8088/billReport/insert`
+## 票据上报
 
-方法：GET
+### 添加票据上报（刘宁）
+
+`/billReport/insert`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/billReport/insert`
+
+方法：POST  'content-type': 'application/json'
 
 - 参数：
 ```
@@ -834,10 +899,15 @@ Param
     "data": null
 }
 ```
-## 修改票据数据（刘宁）
-`远程：https://www.yiwifi1.com:8088/billReport/update`
+### 修改票据数据（刘宁）
 
-方法：GET
+`/billReport/update`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/billReport/update`
+
+方法：POST  'content-type': 'application/json'
 
 - 参数：
 ```
@@ -858,8 +928,13 @@ Param
 }
 ```
 
-## 删除票据数据（刘宁）
-`远程：https://www.yiwifi1.com:8088/billReport/delete`
+### 删除票据数据（刘宁）
+
+`/billReport/delete`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/billReport/delete`
 
 方法：GET
 
@@ -877,8 +952,13 @@ Param
     "data": null
 }
 ```
-## 根据日期查询票据（刘宁）
-`远程：https://www.yiwifi1.com:8088/billReport/getBillReport`
+### 根据日期查询票据（刘宁）
+
+`/billReport/getBillReport`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/billReport/getBillReport`
 
 方法：GET
 
@@ -1481,14 +1561,21 @@ name=回收 //回收单位名称
 }
 ```
 
-## 健康证 通过身份证号获取人员培训信息 (刘宁)
+## 健康证 
+
+### 通过身份证号获取人员培训信息 (刘宁)
+
 `/supervision/ca/getByIdNumber`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/supervision/ca/getByIdNumber`
 
 方法：GET
 
 - 参数：
 ```
-idNumber=12 //身份证号
+{idNumber:12} //身份证号
 ```
 
 - 返回值
@@ -1534,16 +1621,21 @@ idNumber=12 //身份证号
     }
 }    
 ```
-- postman访问地址
-http://localhost:8080/supervision/ca/getByIdNumber?idNumber=123
 
-## 健康证信息 新增人员信息(刘宁)
+
+### 新增人员信息(刘宁)
+
 >注意 主页接口/mini/getEPInfoById 有修改 目前返回有 企业id(itemId为1)和企业名称(itemId为2)
 
 接口:
 如果该人员用上面==通过身份证号获取人员培训信息==获取不到该人员信息，则调用
 `/supervision/ca/insert`
-方法：POST
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/supervision/ca/insert`
+
+方法：POST 'content-type': 'application/json'
 
 - 参数：
 ```json
@@ -1574,7 +1666,7 @@ http://localhost:8080/supervision/ca/getByIdNumber?idNumber=123
 
 `/supervision/ca/update`
 
-方法：POST
+方法：POST 'content-type': 'application/json'
 
 - 参数：
 ```json
@@ -1603,8 +1695,15 @@ http://localhost:8080/supervision/ca/getByIdNumber?idNumber=123
 }
 ```
 
-## 健康证信息 获取行业类别和工作种类列表 做选择(刘宁)
-接口:/exam/subject/getIndustryAndWorkType
+### 获取行业类别和工作种类列表 做选择(刘宁)
+`/exam/subject/getIndustryAndWorkType`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/exam/subject/getIndustryAndWorkType`
+
+方法：GET
+
 - 返回值
 ```json
 {
@@ -1636,11 +1735,20 @@ http://localhost:8080/supervision/ca/getByIdNumber?idNumber=123
     }
 }
 ```
-## 健康证信息 删除员工/如果设置成离岗(刘宁)
-接口: /supervision/ca/delete?caId=1493
+### 删除员工/如果设置成离岗(刘宁)
+`/supervision/ca/delete`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/supervision/ca/delete`
+
+方法：GET
+
 - 参数：
 ```
-caId=1493
+{
+	caId:1493
+}
 ```
 
 - 返回值
