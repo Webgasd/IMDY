@@ -472,10 +472,10 @@ public class MiniProgramController {
         resultVo.put("splat",data.getSplat());
         resultVo.put("examFlag",data.getExamFlag());
         resultVo.put("answer",data.getAnswer());
-        resultVo.put("场所校验图",csMessage);
-        resultVo.put("美团外卖公示",mtMessage);
-        resultVo.put("饿了么外卖公示",elmMessage);
-        resultVo.put("百度外卖公示",bdMessage);
+        resultVo.put("cs",csMessage);
+        resultVo.put("mt",mtMessage);
+        resultVo.put("elm",elmMessage);
+        resultVo.put("bd",bdMessage);
         return new ResultVo(resultVo);
     }
     /**
