@@ -378,11 +378,15 @@ postman访问地址：
 
 
 
-## 新增食品留样（刘宁）
+## 食品留样
+
+### 新增食品留样（刘宁）
+
 `远程：https://www.yiwifi1.com:8088/formatleave/miniInsert`
 
 方法：GET
 注意
+
 >1 MainFood 主食 2 MainCourse 热菜 3 CoolCourse凉菜 4 soup 汤/奶 5 fruit /水果
 - 参数：
 ```json
@@ -1970,6 +1974,55 @@ listId=1 //配货单id
     ]
 }
 ```
+
+
+
+## 模板下载和数据导出
+
+### 数据导出
+
+`废弃物：https://www.yiwifi1.com:8088/formatwaste/standingBook`
+
+`消毒：https://www.yiwifi1.com:8088/formatdisinfection/standingBook`
+
+`食品留样：https://www.yiwifi1.com:8088/formatleave/standingBook`
+
+`索证索票：https://www.yiwifi1.com:8088/formatOriginRecordEx/standingOriginRecord`
+
+方法：POST
+
+- 参数：
+
+```
+废弃物的：
+{
+    "start1":"2020-09-08",//开始日期
+    "end1":"2020-09-12"//结束日期
+}
+消毒、食品留样的：
+{
+    "start":"2020-09-08",//开始日期
+    "end":"2020-09-12"//结束日期
+}
+索证索票的：
+{
+    "start2":"2020-09-08",//开始日期
+    "end2":"2020-09-12"//结束日期
+}
+```
+
+- 返回值
+
+```json
+{
+    "status":"success",
+    "data":"upload/standingBook/202009/废弃物处理296661.xlsx" //Excel路径
+}
+```
+
+## 
+
+
 
 # 公众端
 
