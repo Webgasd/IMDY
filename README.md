@@ -376,11 +376,15 @@ postman访问地址：
 
 
 
-## 新增食品留样（刘宁）
+## 食品留样
+
+### 新增食品留样（刘宁）
+
 `远程：https://www.yiwifi1.com:8088/formatleave/miniInsert`
 
 方法：GET
 注意
+
 >1 MainFood 主食 2 MainCourse 热菜 3 CoolCourse凉菜 4 soup 汤/奶 5 fruit /水果
 - 参数：
 ```json
