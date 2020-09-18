@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class WasteExcel {
-//    public static String path = "/Users/75186/Desktop/wisdom";
+    //    public static String path = "/Users/75186/Desktop/wisdom";
 //    public static String path = "C:/Users/my/Desktop/weixin2/IMDY";
     public static String path = "upload";
 //    public static String mdlpath = path+"/template/"+ "【导出】废弃物处理模板.xlsx";
@@ -83,18 +83,18 @@ public class WasteExcel {
             }
 
             System.out.println("总行数:" + sheet1.getLastRowNum());
-                //填入数据
-                int startindex=1;
-                int sumcloum = table1.get(0).length;//总列数
-                for (int i = 0; i < table1.size(); i++) {
-                    Row row = sheet1.getRow(i + startindex);
-                    for (int j = 0; j < sumcloum; j++) {
-                        System.out.println(i+"行"+j+"列");
-                        System.out.println(table1.get(i)[j]);
-                        Cell cell = row.getCell(j);
-                        cell.setCellValue(table1.get(i)[j]);
-                    }
+            //填入数据
+            int startindex=1;
+            int sumcloum = table1.get(0).length;//总列数
+            for (int i = 0; i < table1.size(); i++) {
+                Row row = sheet1.getRow(i + startindex);
+                for (int j = 0; j < sumcloum; j++) {
+                    System.out.println(i+"行"+j+"列");
+                    System.out.println(table1.get(i)[j]);
+                    Cell cell = row.getCell(j);
+                    cell.setCellValue(table1.get(i)[j]);
                 }
+            }
 
 //                Long time = System.currentTimeMillis();
 
@@ -102,10 +102,10 @@ public class WasteExcel {
             if(!filed.exists()){
                 filed.mkdirs();
             }
-                try (FileOutputStream out = new FileOutputStream(path+"/standingBook/"+currentTime+"/"+fileName+businessId+".xlsx");) {
-                    workBook.write(out);
-                    out.flush();
-                }
+            try (FileOutputStream out = new FileOutputStream(path+"/standingBook/"+currentTime+"/"+fileName+businessId+".xlsx");) {
+                workBook.write(out);
+                out.flush();
+            }
 //            }
 
         }

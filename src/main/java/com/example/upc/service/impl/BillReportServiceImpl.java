@@ -12,6 +12,7 @@ import com.example.upc.service.BillReportService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,6 +93,8 @@ public class BillReportServiceImpl implements BillReportService {
         });
     }
 
+    @Override
+    @Transactional
     public void delete(BillReportSearchParam billReportSearchParam, SysUser sysUser){
         billreportMapper.deleteByPrimaryKey(billReportSearchParam.getId());
         originRecordBillMapper.deleteByBillId(billReportSearchParam.getId());

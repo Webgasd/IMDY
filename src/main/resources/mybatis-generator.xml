@@ -319,11 +319,10 @@
 <!--                        <table schema="pingyi" tableName="bill_report" domainObjectName="BillReport" enableCountByExample="false"-->
 <!--                               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--                               selectByExampleQueryId="false"></table>-->
-=======
+
         <!--        <table schema="pingyi" tableName="online_business" domainObjectName="OnlineBusiness" enableCountByExample="false"-->
         <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false"></table>-->
-<!--&gt;>>>>>> 6912f5f76d012eff771626cc60fea4634640d4cf-->
->>>>>>> Stashed changes
+
     </context>
 </generatorConfiguration>

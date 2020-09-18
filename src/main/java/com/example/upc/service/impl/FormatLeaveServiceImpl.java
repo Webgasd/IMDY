@@ -109,6 +109,7 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
         return pageResult;
     }
 
+    @Override
     public CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser,LeaveSearchParam leaveSearchParam)
     {
         if(leaveSearchParam.getStart()!=null) {
