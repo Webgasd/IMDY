@@ -4,9 +4,11 @@
 
 说明：方法GET/POST暂时并不清晰、但是写上的一定要通过测试
 
-##个人中心
+# 企业端
 
-###登录
+## 个人中心
+
+### 登录
 
 `/sys/user/loginTest`
 
@@ -1969,7 +1971,10 @@ listId=1 //配货单id
 }
 ```
 
+# 公众端
+
 ## 游客登录（董志涵）
+
 `远程：https://www.yiwifi1.com:8088/formatoriginextra/insert`
 
 方法：GET
