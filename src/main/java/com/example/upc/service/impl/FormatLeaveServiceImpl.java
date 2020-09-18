@@ -91,8 +91,6 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
 
     }
 
-
-
     @Override
     public PageResult getPageAdmin(PageQuery pageQuery, LeaveSearchParam leaveSearchParam) {
         int count= formatLeaveSampleMapper.countListAdmin(leaveSearchParam);
