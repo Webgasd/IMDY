@@ -9,11 +9,13 @@ import com.example.upc.controller.searchParam.OriginRecordExSearchParam;
 import com.example.upc.dao.FormatOriginRecordExMapper;
 import com.example.upc.dao.SupervisionEnterpriseMapper;
 import com.example.upc.dataobject.FormatOriginRecordEx;
+import com.example.upc.dataobject.FormatWaste;
 import com.example.upc.dataobject.SupervisionEnterprise;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.FormatOriginRecordExService;
 import com.example.upc.util.ExcalUtils;
 import com.example.upc.util.MapToStrUtil;
+import com.example.upc.util.operateExcel.WasteExcel;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -28,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -157,6 +161,27 @@ public class FormatOriginRecordExServiceImpl implements FormatOriginRecordExServ
             return formatOriginRecordExMapper.getRecordExByDate(sysUser.getInfoId(),formatOriginRecordEx.getRecordTime(),endDate);
         }
         return formatOriginRecordExMapper.getRecordExByDate(sysUser.getInfoId(),null,null);
+    }
+
+    @Override
+    public Object standingOriginRecord(OriginRecordExSearchParam originRecordExSearchParam, SysUser sysUser) throws IOException {
+        List<FormatOriginRecordEx> formatOriginRecordExList = formatOriginRecordExMapper.getPageEnterprise2(sysUser.getInfoId(),originRecordExSearchParam);
+        List<String[]> data = new ArrayList<>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+        for (FormatOriginRecordEx item:formatOriginRecordExList
+        ) {
+            String name = item.getProducer()+"/"+item.getBrand();
+            data.add(new String[]{
+                    item.getOriginTypeEx(),dateFormat.format(item.getRecordTime()),item.getOriginName(),item.getOriginType(),name,item.getNetContent(),dateFormat2.format(item.getProduceTime()),
+                    item.getKeepTime(),Float.toString(item.getGoodsIn()),item.getGoodsType(),item.getSupplier(),item.getState(),item.getPerson()
+            });
+        }
+        String fileName = "原料索证";
+        String path = WasteExcel.getXLsx(data,"/template/【导出】原料索证模版.xlsx",fileName,sysUser.getInfoId());
+
+
+        return path;
     }
 
     @Override

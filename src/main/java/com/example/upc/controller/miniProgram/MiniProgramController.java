@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.MeasurementSearchParam;
+import com.example.upc.controller.searchParam.OnlineBusinessSearchParam;
 import com.example.upc.controller.searchParam.SupplierSearchParam;
 import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dao.MiniFoodSamplesItemMapper;
@@ -70,6 +71,8 @@ public class MiniProgramController {
     private FormatRecoveryService formatRecoveryService;
     @Autowired
     private FormatSupplierService formatSupplierService;
+    @Autowired
+    private OnlineBusinessService onlineBusinessService;
 
 
     // 用户登录（成功之后传cookie，里面存的有用户信息，可以用SysUser接收）
@@ -420,6 +423,74 @@ public class MiniProgramController {
         return CommonReturnType.create(formatSupplierList);
     }
 
+    /**
+     * 获取线上售卖备案
+     * @param
+     * @return
+     */
+    @RequestMapping("/getOnlineBusiness")
+    public ResultVo getOnlineBusiness(@RequestBody OnlineBusinessSearchParam onlineBusinessSearchParam, SysUser sysUser){
+
+        Map<String,Object> result = new HashMap<>();
+        OnlineBusiness data =onlineBusinessService.getMessageByEnterpriseId(onlineBusinessSearchParam);
+        Map<String,Object> mtMessage = new HashMap<>();
+        Map<String,Object> elmMessage = new HashMap<>();
+        Map<String,Object> bdMessage = new HashMap<>();
+        Map<String,Object> csMessage = new HashMap<>();
+        Map<String,Object> otherMessage = new HashMap<>();
+        //美团
+        mtMessage.put("mtHomePage",data.getMtHomePage());
+        mtMessage.put("mtFoodSafe",data.getMtFoodSafe());
+        mtMessage.put("mtFoodLicense",data.getMtFoodLicense());
+        mtMessage.put("mtBusinessLicense",data.getMtBusinessLicense());
+        //饿了么
+        elmMessage.put("elmHomePage",data.getElmHomePage());
+        elmMessage.put("elmFoodSafe",data.getElmFoodSafe());
+        elmMessage.put("elmFoodLicence",data.getElmFoodLicence());
+        elmMessage.put("elmBusinessLicence",data.getElmBusinessLicence());
+        //百度
+        bdMessage.put("bdHomePage",data.getBdHomePage());
+        bdMessage.put("bdFoodSafe",data.getBdFoodSafe());
+        bdMessage.put("bdFoodLicence",data.getBdFoodSafe());
+        bdMessage.put("bdBusinessLicence",data.getBdBusinessLicence());
+        //其他
+        otherMessage.put("otherHomePage",data.getOtherHomePage());
+        otherMessage.put("otherFoodSafe",data.getOtherFoodSafe());
+        otherMessage.put("otherFoodLicence",data.getOtherFoodLicence());
+        otherMessage.put("otherBusinessLicence",data.getOtherBusinessLicence());
+        //场所校验图
+        csMessage.put("enterpriseIcon",data.getEnterpriseIcon());
+        csMessage.put("operationArea",data.getOperationArea());
+        csMessage.put("license",data.getLicense());
+
+        Map<String,Object> resultVo = new HashMap<>();
+        resultVo.put("id",data.getId());
+        resultVo.put("enterpriseId",data.getEnterpriseId());
+        resultVo.put("name",data.getName());
+        resultVo.put("address",data.getAddress());
+        resultVo.put("phone",data.getPhone());
+        resultVo.put("splat",data.getSplat());
+        resultVo.put("examFlag",data.getExamFlag());
+        resultVo.put("answer",data.getAnswer());
+        resultVo.put("场所校验图",csMessage);
+        resultVo.put("美团外卖公示",mtMessage);
+        resultVo.put("饿了么外卖公示",elmMessage);
+        resultVo.put("百度外卖公示",bdMessage);
+        return new ResultVo(resultVo);
+    }
+    /**
+     * 新增或修改线上售卖备案
+     * @param
+     * @return
+     */
+    @RequestMapping("/insertOnlineBusiness")
+    public ResultVo insertOnlineBusiness(@RequestBody OnlineBusiness onlineBusiness, SysUser sysUser){
+
+        onlineBusinessService.insertMessageByEnterpriseId(onlineBusiness);
+        return new ResultVo("成功！");
+    }
+
+
 
     /**
      * 功能描述:通过request来获取到json数据<br/>
@@ -446,8 +517,6 @@ public class MiniProgramController {
         }
         return jsonParam;
     }
-
-
     /**
      *  上传文件
      * @param file
@@ -472,9 +541,6 @@ public class MiniProgramController {
         System.out.println(currentTime+"/"+resFileName);
         return currentTime+"/"+resFileName;
     }
-
-
-
     /**
      * 将上传的照片JSON格式转换为String图片地址
      * @param jsonObj
@@ -486,7 +552,7 @@ public class MiniProgramController {
         JSONObject jsonObject2 = JSONObject.fromObject(jsonObject1.get("response"));
         // 图片存储地址记得上传的时候更改IP
         String host = "http://127.0.0.1:8080/upload/picture/";
-//        String host = "http://123.234.130.3:8080/upload/picture/";
+  //      String host = "http://123.234.130.3:8080/upload/picture/";
         String imgUrl = host+ jsonObject2.get("data");
         return imgUrl;
     }

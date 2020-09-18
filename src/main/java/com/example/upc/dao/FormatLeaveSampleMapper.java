@@ -1,5 +1,6 @@
 package com.example.upc.dao;
 
+import com.example.upc.controller.param.FormatLeaveExportParam;
 import com.example.upc.controller.param.FormatLeaveSupParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.LeaveSearchParam;
@@ -66,5 +67,6 @@ public interface FormatLeaveSampleMapper {
     int countListAdmin(@Param("search") LeaveSearchParam leaveSearchParam);
     List<FormatLeaveSupParam> getPageAdmin(@Param("page") PageQuery page, @Param("search") LeaveSearchParam leaveSearchParam);
     List<FormatLeaveSample> getFoodSamplesRecord(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
+    List<FormatLeaveExportParam> getFoodSamplesForExport(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
 
 }

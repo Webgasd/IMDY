@@ -6,6 +6,7 @@ import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.param.FormatOriginRecordExParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.OriginRecordExSearchParam;
+import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dataobject.FormatOriginRecordEx;
 import com.example.upc.dataobject.SupervisionGa;
 import com.example.upc.dataobject.SysUser;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -129,5 +131,11 @@ public class FormatOriginRecordExController {
             }
         return CommonReturnType.create(null);
     }
-
+    @RequestMapping("/standingOriginRecord")
+    @ResponseBody
+    public CommonReturnType standingOriginRecord(@RequestBody OriginRecordExSearchParam originRecordExSearchParam, SysUser sysUser) throws IOException {
+//        wasteSearchParam.setEnd1(new Date(wasteSearchParam.getEnd1().getTime()-(long) 8 * 60 * 60 * 1000));
+        originRecordExSearchParam.setEnd2(new Date(originRecordExSearchParam.getEnd2().getTime()+(long) 24 * 60 * 60 * 1000-1));
+        return CommonReturnType.create(formatOriginRecordExService.standingOriginRecord(originRecordExSearchParam,sysUser));
+    }
 }

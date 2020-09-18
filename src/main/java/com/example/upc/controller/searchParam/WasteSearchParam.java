@@ -34,13 +34,9 @@ public class WasteSearchParam {
         return person;
     }
 
-    public Date getStart1() {
-        return start1;
-    }
+    public Date getStart1() { return start1; }
 
-    public Date getEnd1() {
-        return end1;
-    }
+    public Date getEnd1() { return end1; }
 
     public Date getStart2() {
         return start2;

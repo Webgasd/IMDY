@@ -519,19 +519,16 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
         List<FormatDisinfection> formatDisinfectionList = formatDisinfectionMapper.getDisinfectionRecord(sysUser.getInfoId(),disinfectionSearchParam.getStart(),disinfectionSearchParam.getEnd());
         List<String[]> data = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        for (FormatDisinfection item:formatDisinfectionList
-        ) {
+        for (FormatDisinfection item:formatDisinfectionList) {
             data.add(new String[]{
                     dateFormat.format(item.getDate()),item.getName(),item.getAmount().toString(),item.getWay(),
                     item.getStart1()<10?("0"+item.getStart1()+" : "+(item.getStart2()<10?"0"+item.getStart2():item.getStart2())):(item.getStart1()+" : "+(item.getStart2()<10?"0"+item.getStart2():item.getStart2())),
 //                    item.getEnd1()+" : "+item.getEnd2(),item.getPerson(),item.getRemark()
                     item.getEnd1()<10?("0"+item.getEnd1()+" : "+(item.getEnd2()<10?"0"+item.getEnd2():item.getEnd2())):(item.getEnd1()+" : "+(item.getEnd2()<10?"0"+item.getEnd2():item.getEnd2()))
-
             });
         }
         String fileName = "清洗消毒";
         String path = WasteExcel.getXLsx(data,"/template/【导出】清洗消毒模板.xlsx",fileName,sysUser.getInfoId());
-
 
         return path;
     }

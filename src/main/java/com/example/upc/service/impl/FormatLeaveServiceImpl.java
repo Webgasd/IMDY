@@ -5,12 +5,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.upc.common.*;
 import com.example.upc.controller.param.*;
+import com.example.upc.controller.searchParam.DisinfectionSearchParam;
 import com.example.upc.controller.searchParam.LeaveSearchParam;
 import com.example.upc.dao.*;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.FormatLeaveService;
 import com.example.upc.util.ExcalUtils;
 import com.example.upc.util.MapToStrUtil;
+import com.example.upc.util.operateExcel.WasteExcel;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -28,10 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.text.Format;
-import java.text.ParseException;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -112,8 +111,11 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
 
     public CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser,LeaveSearchParam leaveSearchParam)
     {
-        leaveSearchParam.setEnd(new Date(leaveSearchParam.getStart().getTime() + (long) 24 * 60 * 60 * 1000));
-        return CommonReturnType.create(formatLeaveSampleMapper.getFoodSamplesRecord(sysUser.getInfoId(),leaveSearchParam.getStart(),leaveSearchParam.getEnd()));
+        if(leaveSearchParam.getStart()!=null) {
+            leaveSearchParam.setEnd(new Date(leaveSearchParam.getStart().getTime() + (long) 24 * 60 * 60 * 1000));
+            return CommonReturnType.create(formatLeaveSampleMapper.getFoodSamplesRecord(sysUser.getInfoId(),leaveSearchParam.getStart(),leaveSearchParam.getEnd()));
+        }
+        return CommonReturnType.create(formatLeaveSampleMapper.getFoodSamplesRecord(sysUser.getInfoId(),null,null));
     }
 
     @Override
@@ -170,6 +172,7 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
                 list.add(formatLeaveMini);
             }
         }
+
         formatLeaveMiniParam.setList(list);
         return formatLeaveMiniParam;
     }
@@ -249,54 +252,6 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
                     }
                 }
         }
-//        formatLeaveCoolCourseMapper.deleteByParentId(formatLeaveSample.getId());
-//        List<FormatLeaveCoolCourse> list1 = formatLeaveParam.getList1();
-//
-//        if(list1.size()>0){
-//            formatLeaveCoolCourseMapper.batchInsert(list1.stream().map((list)->{
-//                list.setOperatorIp("124.124.124");
-//                list.setOperatorTime(new Date());
-//                list.setOperator("zcc");
-//                list.setParentId(formatLeaveSample.getId());
-//                return list;}).collect(Collectors.toList()));
-//        }
-//
-//        formatLeaveFruitMapper.deleteByParentId(formatLeaveSample.getId());
-//        List<FormatLeaveFruit> list2 = formatLeaveParam.getList2();
-//        if(list2.size()>0){
-//            formatLeaveFruitMapper.batchInsert(list2.stream().map((list)->{
-//                list.setOperatorIp("124.124.124");
-//                list.setOperatorTime(new Date());
-//                list.setOperator("zcc");
-//                list.setParentId(formatLeaveSample.getId());
-//                return list;}).collect(Collectors.toList()));
-//        }
-//
-//        formatLeaveMainCourseMapper.deleteByParentId(formatLeaveSample.getId());
-//        List<FormatLeaveMainCourse> list3 = formatLeaveParam.getList3();
-//        if(list3.size()>0){
-//            formatLeaveMainCourseMapper.batchInsert(list3.stream().map((list)->{
-//                list.setParentId(formatLeaveSample.getId());
-//
-//                list.setOperatorIp("124.124.124");
-//                list.setOperatorTime(new Date());
-//                list.setOperator("zcc");
-//
-//                return list;}).collect(Collectors.toList()));
-//        }
-//
-//
-//
-//        formatLeaveSoupMapper.deleteByParentId(formatLeaveSample.getId());
-//        List<FormatLeaveSoup> list5 = formatLeaveParam.getList5();
-//        if(list5.size()>0){
-//            formatLeaveSoupMapper.batchInsert(list5.stream().map((list)->{
-//                list.setOperatorIp("124.124.124");
-//                list.setOperatorTime(new Date());
-//                list.setOperator("zcc");
-//                list.setParentId(formatLeaveSample.getId());
-//                return list;}).collect(Collectors.toList()));
-//        }
     }
 
     @Override
@@ -1851,4 +1806,20 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
         return resultList;
     }
 
+    @Override
+    public String standingBook (LeaveSearchParam leaveSearchParam, SysUser sysUser) throws IOException {
+        List<FormatLeaveExportParam> formatLeaveExportParamList = formatLeaveSampleMapper.getFoodSamplesForExport(sysUser.getInfoId(),leaveSearchParam.getStart(),leaveSearchParam.getEnd());
+        List<String[]> data = new ArrayList<>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (FormatLeaveExportParam item:formatLeaveExportParamList) {
+            data.add(new String[]{
+                    dateFormat.format(item.getDate()),item.getMeal(),item.getMealType(),item.getNumber(),item.getPerson(),item.getSampleType(),item.getName(),item.getMaterial1(),item.getState(),item.getNum()
+            });
+        }
+        String fileName = "食品留样";
+        String path = WasteExcel.getXLsx(data,"/template/【导出】食品留样模板.xlsx",fileName,sysUser.getInfoId());
+        //下载
+        //UploadController.downloadStandingBook(response, fileName,path);
+        return path;
+    }
 }

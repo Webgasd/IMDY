@@ -1,5 +1,7 @@
 package com.example.upc.controller.searchParam;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +15,10 @@ public class OriginRecordExSearchParam {
     public void setId(int id) {
         this.id = id;
     }
-
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date start2;   //录入时间
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date end2;
     private String enterprise;
     private String area;
     private String type;
@@ -22,6 +27,16 @@ public class OriginRecordExSearchParam {
     private Date end1;
     private List<Integer> areaList;
 
+    public Date getStart2() { return start2; }
+
+    public Date getEnd2() { return end2; }
+    public void setStart2(Date start2) {
+        this.start2 = start2;
+    }
+
+    public void setEnd2(Date end2) {
+        this.end2 = end2;
+    }
     public String getEnterprise() {
         return enterprise;
     }
