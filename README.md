@@ -1163,7 +1163,148 @@ name=回收 //回收单位名称
 }
 ```
 
+
+
+## 获取线上售卖备案
+
+接口名：/mini/getOnlineBusiness
+
+方法：POST
+
+前端传入企业Id
+
+```
+{
+
+  "enterpriseId":"22"
+
+}
+```
+
+返回值：
+
+```
+{
+    "code": 200,
+    "msg": "请求成功",
+    "data": {
+        "examFlag": null,//审核标志
+        "phone": "adaas",//外卖电话
+        "name": "asdhb",//外卖店铺名称
+        "id": 2,  
+        "enterpriseId": 22, //企业Id
+        "splat": null,//外卖平台
+        "address": "sadad",//商铺地址
+        "answer": null,    //审核答复
+        "elm": {//饿了么外卖公示
+            "elmFoodSafe": null,   //饿了么食品安全档案
+            "elmHomePage": null,   //饿了么商铺首页
+            "elmFoodLicence": null,//饿了么食品经营许可证
+            "elmBusinessLicence": null//饿了么营业执照
+        },
+        "bd": {//百度外卖公示
+            "bdHomePage": null,
+            "bdFoodLicence": null,
+            "bdBusinessLicence": null,
+            "bdFoodSafe": null
+        },
+        "cs": {  //场所校验图
+            "license": null,     //证件公示
+            "enterpriseIcon": null,//商铺门头
+            "operationArea": null  //操作区域
+        },
+        "mt": {//饿了么外卖公示
+            "mtHomePage": "sada",
+            "mtBusinessLicense": null,
+            "mtFoodLicense": null,
+            "mtFoodSafe": null
+        }
+    }
+}
+```
+
+## 新增或修改线上售卖备案
+
+方法：POST
+
+接口名称：/mini/insertOnlineBusiness
+
+前端：
+
+```
+{
+
+  "enterpriseId":222,  //企业Id,不可为空
+
+  "name":"aaaaaaaaaasd",//外卖店铺名,不可为空
+
+  "address":"sadad",//店铺地址,不可为空
+
+  "phone":"adaas",   //订餐电话,不可为空
+
+  "splat":"",   //企业平台
+
+  "examFlag":"",  //审核，0未审核/1通过/2不通过
+
+  "answer":"",//	审核答复
+
+  "enterpriseIcon":"",//商铺门头
+
+  "operationArea":"",//操作区域
+
+  "license":"",//证件公示
+
+  "mtHomePage":"",//美团商铺首页
+
+  "mtFoodSafe":"",//美团食品安全档案
+
+  "mtFoodLicense":"sada",//美团食品经营许可证
+
+  "mtBusinessLicense":"",//美团营业执照
+
+  "elmHomePage":"",
+
+  "elmFoodSafe":"",
+
+  "elmFoodLicence":"",
+
+  "elmBusinessLicence":"",
+
+  "bdHomePage":"",
+
+  "bdFoodSafe":"",
+
+  "bdFoodLicence":"",
+
+  "bdBusinessLicence":"",
+
+  "otherHomePage":"",
+
+  "otherFoodSafe":"",
+
+  "otherFoodLicence":"",
+
+  "otherBusinessLicence":""
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "code": 200,
+
+  "msg": "请求成功",
+
+  "data": "成功！"
+
+}
+```
+
 ## 新增自查（董志涵）
+
 `远程：https://www.yiwifi1.com:8088/startSelfInspection/insert`
 
 方法：GET
