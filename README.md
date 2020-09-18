@@ -2020,7 +2020,48 @@ listId=1 //配货单id
 }
 ```
 
-## 
+### 模板下载
+
+`废弃物模板：https://www.yiwifi1.com:8088/upload/template/【导出】废弃物处理模板.xlsx`
+
+`消毒模板：https://www.yiwifi1.com:8088/upload/template/【导出】清洗消毒模板.xlsx`
+
+`食品留样模板：https://www.yiwifi1.com:8088/upload/template/【导出】食品留样模板.xlsx`
+
+`索证索票模板：https://www.yiwifi1.com:8088/upload/template/【导出】原料索证模版.xlsx`
+
+方法：POST
+
+- 参数：
+
+```
+废弃物的：
+{
+    "start1":"2020-09-08",//开始日期
+    "end1":"2020-09-12"//结束日期
+}
+消毒、食品留样的：
+{
+    "start":"2020-09-08",//开始日期
+    "end":"2020-09-12"//结束日期
+}
+索证索票的：
+{
+    "start2":"2020-09-08",//开始日期
+    "end2":"2020-09-12"//结束日期
+}
+```
+
+- 返回值
+
+```json
+{
+    "status":"success",
+    "data":"upload/standingBook/202009/废弃物处理296661.xlsx" //Excel路径
+}
+```
+
+
 
 
 
