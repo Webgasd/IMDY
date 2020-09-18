@@ -94,10 +94,7 @@ public class BillReportServiceImpl implements BillReportService {
     }
 
     @Override
-<<<<<<< HEAD
     @Transactional
-=======
->>>>>>> LN update
     public void delete(BillReportSearchParam billReportSearchParam, SysUser sysUser){
         billreportMapper.deleteByPrimaryKey(billReportSearchParam.getId());
         originRecordBillMapper.deleteByBillId(billReportSearchParam.getId());
