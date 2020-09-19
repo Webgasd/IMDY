@@ -1243,9 +1243,9 @@ name=回收 //回收单位名称
 }
 ```
 
+## 线上售卖备案（晁展）
 
-
-## 获取线上售卖备案
+### 获取线上售卖备案
 
 接口名：/mini/getOnlineBusiness
 
@@ -1303,7 +1303,7 @@ name=回收 //回收单位名称
 }
 ```
 
-## 新增或修改线上售卖备案
+### 新增或修改线上售卖备案
 
 方法：POST
 
@@ -1382,6 +1382,66 @@ name=回收 //回收单位名称
 
 }
 ```
+
+## 获取证照公示（晁展）
+
+```
+远程：https://www.yiwifi1.com:8088/supervision/enterprise/getLicensePhoto
+```
+
+方法：post
+
+参数：无
+
+返回值：
+
+```
+{
+
+  "code": 200,
+
+  "msg": "请求成功",
+
+  "data": {
+
+​    "businessLicensePhoto": "http://127.0.0.1:8080/upload/picture/202008/1597073014062.JPG",
+
+​    "foodBusinessPhoto": "http://127.0.0.1:8080/upload/picture/202008/1597075448907.JPG"
+
+  }
+
+}
+```
+
+## 获取企业VR（晁展）
+
+```
+远程：https://www.yiwifi1.com:8088/supervision/enterprise/getVrUrl
+```
+
+方法：POST
+
+参数：无
+
+返回值：
+
+```
+{
+
+  "code": 200,
+
+  "msg": "请求成功",
+
+  "data": {
+
+​    "vrUrl":      "https://720yun.com/t/8fvknbrmdq9#scene_id=32741409\r\nhttps://720yun.com/t/8fvknbrmdq9#scene_id=32741409\r\nhttps://720yun.com/t/8fvknbrmdq9#scene_id=32741409\r\nhttps://720yun.com/t/8fvknbrmdq9#scene_id=32741409\r\nhttps://720yun.com/t/8fvknbrmdq9#scene_id=32741409\r\nhttps://720yun.com/t/8fvknbrmdq9#scene_id=32741409"    //企业VR的URL
+
+  }
+
+}
+```
+
+
 
 ## 新增自查（董志涵）
 

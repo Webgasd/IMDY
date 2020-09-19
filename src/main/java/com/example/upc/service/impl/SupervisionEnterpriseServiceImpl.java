@@ -3563,4 +3563,16 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         return supervisionEnterpriseMapper.getAll2();
     }
 
+    @Override
+    public Map<String, Object> getVrUrl(int enterpriseId) {
+
+        SupervisionEnterprise supervisionEnterprise= supervisionEnterpriseMapper.selectByPrimaryKey(enterpriseId);
+        if (supervisionEnterprise==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
+        }
+        Map<String, Object> result= new HashMap<>();
+        result.put("vrUrl",supervisionEnterprise.getVrUrl());
+        return result;
+    }
+
 }

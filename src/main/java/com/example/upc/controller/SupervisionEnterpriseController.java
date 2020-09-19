@@ -322,4 +322,14 @@ public class SupervisionEnterpriseController {
         result.put("foodBusinessPhoto",JSON2ImageUrl(data.get("foodBusinessPhoto")));
         return new ResultVo(result);
     }
+
+    //获取企业VR
+    @RequestMapping("/getVrUrl")
+    @ResponseBody
+    public ResultVo getVrUrl(SysUser sysUser){
+        int enterpriseId=sysUser.getInfoId();
+        Map<String,Object> result = new HashMap<>();
+        result = supervisionEnterpriseService.getVrUrl(enterpriseId);
+        return new ResultVo(result);
+    }
 }
