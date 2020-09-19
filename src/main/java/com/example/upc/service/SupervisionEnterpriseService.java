@@ -41,4 +41,6 @@ public interface SupervisionEnterpriseService {
    Map<String, Object> getLicensePhotosById(int id);  // 小程序获取证照图片
    Map<String, Object> updateLicensePhotosById(int enterpriseId,String businessLicensePhoto,String foodBusinessPhoto);   // 小程序更新证照图片
    List<SupervisionEnterprise> getAll();
+
+    Map<String, Object> getVrUrl(int enterpriseId);
 }

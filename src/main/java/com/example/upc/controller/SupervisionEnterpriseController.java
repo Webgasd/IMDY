@@ -9,6 +9,7 @@ import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.*;
+import com.example.upc.util.miniProgram.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -22,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.example.upc.util.JsonToImageUrl.JSON2ImageUrl;
 
 /**
  * @author zcc
@@ -304,5 +307,29 @@ public class SupervisionEnterpriseController {
     public CommonReturnType changeGpsFlag(){
         supervisionEnterpriseService.changeGpsFlag();
         return CommonReturnType.create(null);
+    }
+
+    //小程序专用
+
+    // 获取证照/公示的照片
+    @RequestMapping("/getLicensePhoto")
+    @ResponseBody
+    public ResultVo getLicensePhotos(SysUser sysUser){
+        int enterpriseId=sysUser.getInfoId();
+        Map<String,Object> result = new HashMap<>();
+        Map<String,Object> data = supervisionEnterpriseService.getLicensePhotosById(enterpriseId);
+        result.put("businessLicensePhoto",JSON2ImageUrl(data.get("businessLicensePhoto")));
+        result.put("foodBusinessPhoto",JSON2ImageUrl(data.get("foodBusinessPhoto")));
+        return new ResultVo(result);
+    }
+
+    //获取企业VR
+    @RequestMapping("/getVrUrl")
+    @ResponseBody
+    public ResultVo getVrUrl(SysUser sysUser){
+        int enterpriseId=sysUser.getInfoId();
+        Map<String,Object> result = new HashMap<>();
+        result = supervisionEnterpriseService.getVrUrl(enterpriseId);
+        return new ResultVo(result);
     }
 }

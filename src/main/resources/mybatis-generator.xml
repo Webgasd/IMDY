@@ -312,6 +312,11 @@
 <!--        <table schema="pingyi" tableName="start_self_inspection" domainObjectName="StartSelfInspection" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
+
+        <!-- <table schema="pingyi" tableName="supervision_enterprise" domainObjectName="SupervisionEnterprise" enableCountByExample="false"
+            enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+            selectByExampleQueryId="false"></table>-->
+
 <!--                <table schema="pingyi" tableName="origin_record_bill" domainObjectName="OriginRecordBill" enableCountByExample="false"-->
         <!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--                       selectByExampleQueryId="false"></table>-->
