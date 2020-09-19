@@ -377,4 +377,9 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
         }
         return supervisionCaMapper.getCaInfoByIdNumber(idNumber);
     }
+
+    @Override
+    public SupervisionCa selectByPrimaryKey(Integer id){
+        return supervisionCaMapper.selectByPrimaryKey(id);
+    }
 }

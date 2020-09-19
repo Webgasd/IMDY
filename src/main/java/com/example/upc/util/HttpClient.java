@@ -8,7 +8,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 public class HttpClient {
-    public JSONObject postJSONArrayClient(String url, JSONArray params){
+    public static JSONObject postJSONArrayClient(String url, JSONArray params){
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
@@ -30,7 +30,7 @@ public class HttpClient {
         return result;
     }
 
-    public String getClient(String url) {
+    public static String getClient(String url) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");

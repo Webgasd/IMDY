@@ -31,4 +31,5 @@ public interface SupervisionCaService {
     public SupervisionCa getCaInfo(int id);
 
     public SupervisionCa getCaInfoByIdNumber(String idNumber);
+    SupervisionCa selectByPrimaryKey(Integer id);
 }

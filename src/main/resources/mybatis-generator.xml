@@ -312,7 +312,6 @@
 <!--        <table schema="pingyi" tableName="start_self_inspection" domainObjectName="StartSelfInspection" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-<<<<<<< Updated upstream
 <!--                <table schema="pingyi" tableName="origin_record_bill" domainObjectName="OriginRecordBill" enableCountByExample="false"-->
         <!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--                       selectByExampleQueryId="false"></table>-->
@@ -320,9 +319,9 @@
 <!--                               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--                               selectByExampleQueryId="false"></table>-->
 
-        <!--        <table schema="pingyi" tableName="online_business" domainObjectName="OnlineBusiness" enableCountByExample="false"-->
-        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--               selectByExampleQueryId="false"></table>-->
+<!--                <table schema="pingyi" tableName="ai_token" domainObjectName="AiToken" enableCountByExample="false"-->
+<!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--                       selectByExampleQueryId="false"></table>-->
 
     </context>
 </generatorConfiguration>
