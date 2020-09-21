@@ -41,7 +41,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void save(UserParam param) {
         if(checkLoginNameExist(param.getLoginName(), param.getId())) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"用户名已被占用");
@@ -66,7 +66,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public void update(UserParam param) {
         if(checkLoginNameExist(param.getLoginName(), param.getId())) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"用户名已被占用");
@@ -95,7 +95,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void changePsd(int id,String password) {
         SysUser before = sysUserMapper.selectByPrimaryKey(id);
         if(before==null){
@@ -106,7 +106,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void changeUserPsd(int id, String oldPassword, String newPassword) {
         SysUser before = sysUserMapper.selectByPrimaryKey(id);
         if(before==null){

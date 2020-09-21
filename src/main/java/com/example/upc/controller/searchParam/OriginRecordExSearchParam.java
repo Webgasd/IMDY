@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author 75186
+ */
 public class OriginRecordExSearchParam {
     int id;
 

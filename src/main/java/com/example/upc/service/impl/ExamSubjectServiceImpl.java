@@ -179,7 +179,7 @@ public class ExamSubjectServiceImpl implements ExamSubjectService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void changeCaExam(int caId,ExamSubject examSubject, List<ExamCaTopic> examCaTopicList) {
         float totalScore = examCaTopicList.stream().filter(examCaTopic -> CollectionUtils.isEmpty(CheckAnswer(examCaTopic.getAnswer(),examCaTopic.getCheck()))).collect(Collectors.toList())
                 .stream()

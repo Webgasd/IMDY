@@ -16,6 +16,7 @@ public class UserParam {
     private Integer status;
     private String password;
     private String remark = "";
+    private String weChatId;
 
     public String getInfoName() {
         return infoName;
@@ -104,5 +105,13 @@ public class UserParam {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getWeChatId() {
+        return weChatId;
+    }
+
+    public void setWeChatId(String weChatId) {
+        this.weChatId = weChatId;
     }
 }

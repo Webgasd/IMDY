@@ -35,8 +35,9 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
         HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
         HttpServletResponse response = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
-
+        //获取request里的 token参数的值
         String paramToken = request.getParameter(UserSessionService.COOKIE_NAME_TOKEN);
+        //获取request里 cookie的 token值
         String cookieToken = getCookieValue(request, UserSessionService.COOKIE_NAME_TOKEN);
         if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
             throw new BusinessException(EmBusinessError.PLEASE_LOGIN);
