@@ -324,9 +324,9 @@
 <!--                               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--                               selectByExampleQueryId="false"></table>-->
 
-<!--                <table schema="pingyi" tableName="ai_token" domainObjectName="AiToken" enableCountByExample="false"-->
-<!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                       selectByExampleQueryId="false"></table>-->
+                <table schema="pingyi" tableName="supervision_enterprise" domainObjectName="SupervisionEnterprise" enableCountByExample="false"
+                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+                       selectByExampleQueryId="false"></table>
 
     </context>
 </generatorConfiguration>

@@ -134,10 +134,14 @@ postman访问地址：
 {
     "status": "success",
     "data": {
-        "route": "",//公交路线
-        "manageTime": "",//营业时间
-        "cantactWay1": "联系电话",//联系电话1
-        "cantactWay2": ""//联系电话2
+        "route": {
+            "bus": "3路、8路、12路", //公交路线
+            "destination": "石油大学站", //到达站
+            "operationTime": "6:00-20:00" //公交车运营时间
+        },
+        "manageTime": "9:00 - 20:00", //营业时间
+        "cantactWay1": "联系电话", //联系电话1
+        "cantactWay2": "" //联系电话2
     }
 }
 ```

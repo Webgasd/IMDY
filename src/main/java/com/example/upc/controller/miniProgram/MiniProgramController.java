@@ -239,10 +239,14 @@ public class MiniProgramController {
         int enterpriseId=sysUser.getInfoId();
         Map<String,Object> result = new HashMap<>();
         EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
-        result.put("manageTime", "");
+        Map<String,String> route = new HashMap<>();
+        route.put("destination",enterpriseParam.getDestination());
+        route.put("operationTime",enterpriseParam.getOperationTime());
+        route.put("bus",enterpriseParam.getBus());
+        result.put("manageTime", enterpriseParam.getManageStartTime()+"-"+enterpriseParam.getManageEndTime());
         result.put("cantactWay1", enterpriseParam.getCantactWay());
         result.put("cantactWay2", enterpriseParam.getIpMobilePhone());
-        result.put("route", "");
+        result.put("route", route);
         return CommonReturnType.create(result);
     }
 
