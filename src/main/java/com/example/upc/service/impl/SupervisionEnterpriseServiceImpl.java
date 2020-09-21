@@ -3532,13 +3532,82 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         }
         return result;
     }
+    @Override
+    public Map<String, Object> getLicensePhotos(int id) {
+        SupervisionEnterprise supervisionEnterprise= supervisionEnterpriseMapper.selectByPrimaryKey(id);
+        if (supervisionEnterprise==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
+        }
+        Map<String, Object> result= new HashMap<>();
+      //  EnterpriseParam enterpriseParam = new EnterpriseParam();
+        List<SupervisionEnterpriseDocument> list = supervisionEnterpriseDocumentMapper.selectByEnterpriseId(id);
+        if (list.size()>0) {
+            for (SupervisionEnterpriseDocument supervisionEnterpriseDocument : list) {
+                if (supervisionEnterpriseDocument.getFlag() == 1) {
+                 //   enterpriseParam.setBusinessLicensePhoto(supervisionEnterpriseDocument.getDocument());
+                    result.put("BusinessLicensePhoto",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 2) {
+                //    enterpriseParam.setFoodBusinessPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("FoodBusinessPhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 3) {
+                //    enterpriseParam.setSmallCaterPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("SmallCaterPhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 4) {
+                 //   enterpriseParam.setSmallWorkshopPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("SmallWorkshopPhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 5) {
+                 //   enterpriseParam.setFoodProducePhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("FoodProducePhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 6) {
+                 //   enterpriseParam.setDrugsBusinessPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("DrugsBusinessPhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 7) {
+                 //   enterpriseParam.setDrugsProducePhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("DrugsProducePhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 8) {
+                  //  enterpriseParam.setCosmeticsUsePhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("CosmeticsUsePhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 9) {
+                   // enterpriseParam.setMedicalProducePhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("MedicalProducePhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 10) {
+                   // enterpriseParam.setMedicalBusinessPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("MedicalBusinessPhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 11) {
+                  //  enterpriseParam.setIndustrialProductsPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("IndustrialProductsPhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 12) {
+                  //  enterpriseParam.setPublicityPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("PublicityPhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 13) {
+                  //  enterpriseParam.setCertificatePhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("CertificatePhotos",supervisionEnterpriseDocument.getDocument());
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 14) {
+                   // enterpriseParam.setOtherPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("OtherPhotos",supervisionEnterpriseDocument.getDocument());
+                }
+            }
+        }
+        return result;
+    }
 
     @Override
     public Map<String, Object> updateLicensePhotosById(int enterpriseId,String businessLicensePhoto,String foodBusinessPhoto){
         List<SupervisionEnterpriseDocument> list = supervisionEnterpriseDocumentMapper.selectByEnterpriseId(enterpriseId);
         Map<String, Object> result= new HashMap<>();
-        result.put("businessLicensePhoto","");
-        result.put("foodBusinessPhoto","");
         if (list.size()>0) {
             for (SupervisionEnterpriseDocument supervisionEnterpriseDocument : list) {
 
@@ -3575,4 +3644,16 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         return result;
     }
 
+    @Override
+    public void changeLicensePhoto(SysUser sysUser,EnterpriseParam enterpriseParam) {
+
+        SupervisionEnterprise before = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
+        if (before == null) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "待更新企业不存在");
+        }
+        SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
+        supervisionEnterprise.setId(sysUser.getInfoId());
+        insertEnterpriseDocumentList(supervisionEnterprise,enterpriseParam);
+        return;
+    }
 }

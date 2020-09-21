@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.common.EmBusinessError;
+import com.example.upc.controller.param.EnterpriseParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dataobject.*;
@@ -311,16 +312,22 @@ public class SupervisionEnterpriseController {
 
     //小程序专用
 
-    // 获取证照/公示的照片
-    @RequestMapping("/getLicensePhoto")
+    //修改证照/公示
+    @RequestMapping("/changeLicensePhoto")
     @ResponseBody
-    public ResultVo getLicensePhotos(SysUser sysUser){
+    public ResultVo changeLicensePhoto(@RequestBody EnterpriseParam enterpriseParam, SysUser sysUser){
+
+        supervisionEnterpriseService.changeLicensePhoto(sysUser,enterpriseParam);
+        return new ResultVo("新增或修改成功");
+    }
+
+    // 获取证照/公示的照片
+    @RequestMapping("/getLicensePhotos")
+    @ResponseBody
+    public CommonReturnType getLicensePhotos(SysUser sysUser){
         int enterpriseId=sysUser.getInfoId();
-        Map<String,Object> result = new HashMap<>();
-        Map<String,Object> data = supervisionEnterpriseService.getLicensePhotosById(enterpriseId);
-        result.put("businessLicensePhoto",JSON2ImageUrl(data.get("businessLicensePhoto")));
-        result.put("foodBusinessPhoto",JSON2ImageUrl(data.get("foodBusinessPhoto")));
-        return new ResultVo(result);
+        Map<String, Object> data = supervisionEnterpriseService.getLicensePhotos(enterpriseId);
+        return CommonReturnType.create(data);
     }
 
     //获取企业VR

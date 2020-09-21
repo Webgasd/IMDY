@@ -43,4 +43,6 @@ public interface SupervisionEnterpriseService {
    List<SupervisionEnterprise> getAll();
 
     Map<String, Object> getVrUrl(int enterpriseId);
+    Map<String, Object> getLicensePhotos(int id);
+    void changeLicensePhoto(SysUser sysUser,EnterpriseParam enterpriseParam);
 }
