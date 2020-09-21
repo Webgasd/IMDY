@@ -14,7 +14,7 @@
 
 postman访问地址：
 
-https://www.yiwifi1.com:8088/sys/user/loginTest?loginName=mini&password=123456%2B
+`https://www.yiwifi1.com:8088/sys/user/loginTest?loginName=mini&password=123456%2B`
 
 方法：GET/POST
 
@@ -32,6 +32,156 @@ https://www.yiwifi1.com:8088/sys/user/loginTest?loginName=mini&password=123456%2
     "data": true
 }
 ```
+
+### 人脸识别时输入企业账号密码
+
+`/mini/userLogin`
+
+postman访问地址：
+
+`http://www.yiwifi1.com:8088/mini/userLogin?loginName=mini&password=123456%2B&weChatId=1235a`
+
+方法：get
+
+- 参数：
+
+  ```javascript
+  {
+  "loginName":mini,
+  
+  "password":123456%2B,
+  
+  "weChatId":1235a
+  }
+  ```
+
+- 返回值
+
+  ```json
+  {
+    "code": 200,
+    "msg": "请求成功",
+    "data": {
+     "flag": true,//首次登录为false 非首次登录为true
+     "enterpriseId": 296661,//首次登录时用该企业id作为参数从企业人员中 选出 自己的userId
+     "userId": 1507 //如果首次登录该参数为空
+    }
+  }
+  ```
+
+### 首次登录时选择userId
+
+`/supervision/ca/firstLoginByEnterpriseId`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/supervision/ca/firstLoginByEnterpriseId`
+
+方法：GET
+
+> 首次登录调用此接口选择自己 并将id作为下一个接口的userId的参数
+
+- 参数
+
+```javascript
+{
+
+"enterprId":296661
+
+}
+```
+
+- 返回值
+
+  ```json
+  {
+  
+    "status": "success",
+  
+    "data": [
+  
+      {
+  
+        "id": 1497,//作为下面接口的userId参数
+  
+        "companyId": 296661,
+  
+        "companyName": "市场主体名称/石油大学",
+  
+  	 "name": "人脸比对",//姓名
+  
+       ......
+  
+        "operateTime": "2020-09-07T04:13:08.000+0000",
+  
+        "operator": "zcc",
+  
+        "operateIp": "124.214.124"
+  
+      },
+  
+      {
+  
+        "id": 1499,
+  
+        "companyId": 296661,
+  
+        "companyName": "市场主体名称*",
+  
+       "name": "人脸",
+  
+        ........
+  
+        "operateTime": "2020-09-21T11:07:35.000+0000",
+  
+       "operator": "zcc",
+  
+       "operateIp": "124.214.124"
+  
+     }]
+  
+  }
+  ```
+
+### 人脸识别登录接口
+
+`/mini/faceLogin`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/mini/faceLogin`
+
+方法：GET
+
+- 参数
+
+```javascript
+{
+
+     userId:1499,
+	 loginName:"mini",
+     wechatId:"",
+
+}
+```
+
+- 返回值
+
+```json
+{
+
+	status: "success", 
+
+	data: {
+
+	name:"人脸比对"//用户名
+
+	}
+
+}
+```
+
+
 
 ### 登出
 
@@ -648,7 +798,7 @@ postman访问地址：
 方法：POST 'content-type': 'application/json'
 
 - 参数：
-```
+```javascript
     [{
         "originType":"散装产品",//食品类型
         "recordTime":"2020-08-15",//采购日期
@@ -661,7 +811,8 @@ postman访问地址：
         "keepTimeType":"天",//保质期单位
         "goodsIn":"7",//采购数量
         "goodsType":"吨",//采购数量单位
-        "supplier":"供应商名称*"//供应商
+        "supplier":"供应商名称*",//供应商
+        "money":11.5//金额(float类型)
         },{
         "originType":"散装产品",
         "recordTime":"2020-08-15",
@@ -674,7 +825,8 @@ postman访问地址：
         "keepTimeType":"天",
         "goodsIn":"7",
         "goodsType":"吨",
-        "supplier":"供应商名称*"
+        "supplier":"供应商名称*",
+        "money":12
     }]
 ```
 
@@ -696,7 +848,7 @@ postman访问地址：
 方法：POST  'content-type': 'application/json'
 
 - 参数：
-```
+```javascript
     {
         "id":
         "originType":"散装产品",//食品类型
@@ -709,7 +861,8 @@ postman访问地址：
         "keepTimeType":"天",//保质期单位
         "goodsIn":"7",//采购数量
         "goodsType":"吨",//采购数量单位
-        "supplier":"供应商名称*"//供应商
+        "supplier":"供应商名称*",//供应商
+        "money":11.5//金额(float类型)
     }
 ```
 
@@ -781,6 +934,7 @@ postman访问地址：
             "supplierType": null,
             "goodsOut": null,
             "goods": null,
+            "money": 12.0,
             "state": null,
             "person": null,
             "document": null,

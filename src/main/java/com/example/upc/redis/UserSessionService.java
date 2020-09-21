@@ -2,6 +2,7 @@ package com.example.upc.redis;
 
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
+import com.example.upc.controller.param.FaceParam;
 import com.example.upc.controller.param.SysUserParam;
 import com.example.upc.controller.param.UserParam;
 import com.example.upc.dao.SupervisionCaMapper;
@@ -173,20 +174,51 @@ public class UserSessionService {
         }
 
         SupervisionCa supervisionCa = supervisionCaMapper.getCaInfoByWeChatId(weChatId);
-        // 数据返回格式修改
-        Map<String,Object> result = new HashMap<>();
-
-        result.put("flag",false);
+        Map<String, Object> result = new HashMap<>();
+        //默认是首次登录false
+        result.put("flag", false);
         // 企业id
-        result.put("enterpriseId",sysUser.getInfoId());
-        result.put("userId",null);
-        if(supervisionCa!=null)
-        {
-            result.put("flag",true);
-            //用户id
-            result.put("userId",supervisionCa.getId());
+        result.put("enterpriseId", sysUser.getInfoId());
+        if(supervisionCa==null){
+            result.put("userId", null);
+        }
+        else{
+            if(!supervisionCa.getCompanyId().equals(sysUser.getInfoId()))
+            {
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"您不是该公司的员工");
+            }
+            //是该公司员工且非首次登录
+            result.put("flag", true);
+            //userId
+            result.put("userId", supervisionCa.getId());
         }
         return result;
+    }
+
+    // 小程序登录
+    public FaceParam checkWeChatId(HttpServletResponse response,UserParam userParam) {
+        SupervisionCa supervisionCa = supervisionCaMapper.selectByPrimaryKey(userParam.getUserId());
+
+        if(supervisionCa.getWeChatId()==null||"".equals(supervisionCa.getWeChatId().trim()))
+        {
+            if(userParam.getWeChatId()!=null&&!"".equals(userParam.getWeChatId()))
+            {
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"微信id不存在");
+            }
+            supervisionCa.setWeChatId(userParam.getWeChatId());
+            supervisionCaMapper.updateByPrimaryKey(supervisionCa);
+        }
+
+        SysUser sysUser = sysUserMapper.selectByLoginName(userParam.getLoginName());
+        sysUser.setRemark(supervisionCa.getWeChatId());
+
+        String token = sysUser.getId().toString()+'_'+UUIDUtil.uuid();
+
+        addCookie(response, token, sysUser);
+
+        FaceParam faceParam = new FaceParam();
+        faceParam.setName(supervisionCa.getName());
+        return faceParam;
     }
 
     public boolean touristLogin(HttpServletResponse response, int id) throws BusinessException {

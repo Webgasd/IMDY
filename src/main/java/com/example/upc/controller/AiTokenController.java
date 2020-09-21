@@ -77,7 +77,5 @@ public class AiTokenController {
                 }
                 return CommonReturnType.create(result);
             }
-
-
     }
 }

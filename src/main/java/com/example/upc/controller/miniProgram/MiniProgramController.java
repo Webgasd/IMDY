@@ -1,7 +1,9 @@
 package com.example.upc.controller.miniProgram;
 
 import com.alibaba.fastjson.JSON;
+import com.example.upc.common.BusinessException;
 import com.example.upc.common.CommonReturnType;
+import com.example.upc.common.EmBusinessError;
 import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.MeasurementSearchParam;
 import com.example.upc.controller.searchParam.OnlineBusinessSearchParam;
@@ -17,6 +19,7 @@ import com.example.upc.service.*;
 import com.example.upc.util.miniProgram.ResultVo;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -73,13 +76,28 @@ public class MiniProgramController {
     private FormatSupplierService formatSupplierService;
     @Autowired
     private OnlineBusinessService onlineBusinessService;
-
+    @Autowired
+    private AiTokenService aiTokenService;
 
     // 用户登录（成功之后传cookie，里面存的有用户信息，可以用SysUser接收）
     @RequestMapping("/userLogin")
     @ResponseBody
     public ResultVo userLogin(HttpServletResponse response, UserParam userParam) {
         return new ResultVo(userSessionService.miniUserLogin(response,userParam));
+    }
+
+    @RequestMapping("/faceLogin")
+    @ResponseBody
+    public CommonReturnType faceLogin(@RequestParam("file") MultipartFile file,HttpServletResponse response,UserParam userParam) {
+        if(userParam.getUserId()==null)
+        {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"userId为空");
+        }
+        Integer score = aiTokenService.faceContrastByCaId(file,userParam.getUserId());
+        if(score < 80){
+            throw new BusinessException(EmBusinessError.FACE_ERROR,"人脸识别失败");
+        }
+        return CommonReturnType.create(userSessionService.checkWeChatId(response,userParam));
     }
 
     @RequestMapping("/touristLogin")
@@ -105,7 +123,9 @@ public class MiniProgramController {
         // 统一信用代码
         result.put("idNumber", enterpriseParam.getIdNumber());
         // 联系电话
-        result.put("cantactWay", enterpriseParam.getCantactWay());
+        result.put("cantactWay", enterpriseParam.getCantactWay(
+
+        ));
         // 星评分
         result.put("enterpriseRating",userEnterpriseVoteMapper.selectVotesByEPId(enterpriseId));
         Map<String,Object> foodBusinessLicense = supervisionEnterpriseService.getFoodBusinessLicenseById(enterpriseId);
