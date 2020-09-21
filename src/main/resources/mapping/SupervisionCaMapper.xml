@@ -673,6 +673,10 @@
     select * From supervision_ca WHERE id_number = #{idNumber}
   </select>
 
+  <select id="getCaInfoByWeChatId" resultMap="BaseResultMap">
+    select * From supervision_ca WHERE weChatId = #{weChatId}
+  </select>
+
 
   <update id="deleteCaInfo" parameterType="com.example.upc.dataobject.SupervisionCa">
     <!--

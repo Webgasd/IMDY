@@ -94,7 +94,7 @@ public class BillReportServiceImpl implements BillReportService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delete(BillReportSearchParam billReportSearchParam, SysUser sysUser){
         billreportMapper.deleteByPrimaryKey(billReportSearchParam.getId());
         originRecordBillMapper.deleteByBillId(billReportSearchParam.getId());

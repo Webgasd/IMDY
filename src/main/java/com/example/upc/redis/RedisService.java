@@ -1,6 +1,7 @@
 package com.example.upc.redis;
 
 import com.alibaba.fastjson.JSON;
+import com.example.upc.controller.param.SysUserParam;
 import com.example.upc.dataobject.SysUser;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,6 @@ public class RedisService {
         String realKey  = prefix.getPrefix() + key;
         return key == null ? null : redisTemplate.opsForValue().get(realKey);
     }
-
-
-
 
     public boolean setUser(KeyPrefix prefix,String key, SysUser value) {
         try {

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,7 +67,7 @@ public class SysUserController {
 
     @RequestMapping("/loginTest")
     @ResponseBody
-    public CommonReturnType loginTest(HttpServletResponse response, UserParam userParam){
+    public CommonReturnType loginTest(HttpServletResponse response, UserParam userParam) throws InvocationTargetException, IllegalAccessException {
         return CommonReturnType.create(userSessionService.login(response,userParam));
     }
 

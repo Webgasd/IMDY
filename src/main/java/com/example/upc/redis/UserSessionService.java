@@ -2,14 +2,18 @@ package com.example.upc.redis;
 
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
+import com.example.upc.controller.param.SysUserParam;
 import com.example.upc.controller.param.UserParam;
+import com.example.upc.dao.SupervisionCaMapper;
 import com.example.upc.dao.SysUserErrorMapper;
 import com.example.upc.dao.SysUserMapper;
+import com.example.upc.dataobject.SupervisionCa;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.dataobject.SysUserError;
 import com.example.upc.util.MD5Util;
 import com.example.upc.util.UUIDUtil;
 import org.apache.catalina.User;
+import org.springframework.beans.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,12 +42,15 @@ public class UserSessionService {
     SysUserMapper sysUserMapper;
     @Autowired
     SysUserErrorMapper sysUserErrorMapper;
+    @Autowired
+    SupervisionCaMapper supervisionCaMapper;
 
     public SysUser getByToken(HttpServletResponse response, String token) {
         if(StringUtils.isEmpty(token)) {
             throw new BusinessException(EmBusinessError.PLEASE_LOGIN);
         }
         SysUser sysUser =(SysUser)redisService.getUser(SessionUserKey.token, token);
+
         //延长有效期
         if(sysUser != null) {
             addCookie(response, token, sysUser);
@@ -63,17 +71,19 @@ public class UserSessionService {
         return true;
     }
 
-    public boolean login(HttpServletResponse response, UserParam userParam) throws BusinessException {
+    public boolean login(HttpServletResponse response, UserParam userParam) throws BusinessException, InvocationTargetException, IllegalAccessException {
 
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-        Calendar calendar = Calendar.getInstance();//new一个Calendar类,把Date放进去
+        //new一个Calendar类,把Date放进去
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, 1);
 
         if(userParam == null) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"参数错误");
         }
+
         String loginName = userParam.getLoginName();
         String formPass = userParam.getPassword();
         //判断账号是否存在
@@ -112,6 +122,7 @@ public class UserSessionService {
         }
         //生成cookie
         String token	 = sysUser.getId().toString()+'_'+UUIDUtil.uuid();
+
         addCookie(response, token, sysUser);
         return true;
     }
@@ -138,51 +149,43 @@ public class UserSessionService {
     }
 
     // 小程序登录
-    public Map<String, Object> miniUserLogin(HttpServletResponse response, UserParam userParam) {
-
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-        Calendar calendar = Calendar.getInstance();//new一个Calendar类,把Date放进去
-        calendar.setTime(date);
-        calendar.add(Calendar.DATE, 1);
-
+    public Map<String, Object>  miniUserLogin(HttpServletResponse response, UserParam userParam) {
         if(userParam == null) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"参数错误");
         }
+
         String loginName = userParam.getLoginName();
         String formPass = userParam.getPassword();
+        String weChatId = userParam.getWeChatId();
+
         //判断账号是否存在
         SysUser sysUser = sysUserMapper.selectByLoginName(loginName);
         if(sysUser == null) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"帐号不存在");
         }
-        SysUserError sysUserError = sysUserErrorMapper.selectByUserId(sysUser.getId(),formatter.format(date),formatter.format(calendar.getTime()));
-        if (sysUserError==null){
-            SysUserError sysUserError1 = new SysUserError();
-            sysUserError1.setUserId(sysUser.getId());
-            sysUserError1.setError(0);
-            sysUserErrorMapper.insertSelective(sysUserError1);
-        }
-        SysUserError sysUserError2 = sysUserErrorMapper.selectByUserId(sysUser.getId(),formatter.format(date),formatter.format(calendar.getTime()));
-        if (sysUserError2.getError()==5){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"您今日已经尝试登录5次，请明日再试！");
-        }
+
         //验证密码
         String dbPass = sysUser.getPassword();
         MD5Util md5Code =new MD5Util();
+
         if(!md5Code.md5(formPass).equals(dbPass)) {
-            int a = sysUserError2.getError()+1;
-            sysUserError2.setError(a);
-            sysUserErrorMapper.updateByPrimaryKeySelective(sysUserError2);
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"密码错误，可再尝试"+(5-a)+"次！");
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"密码错误");
         }
-        //生成cookie
-        String token	 = sysUser.getId().toString()+'_'+UUIDUtil.uuid();
-        addCookie(response, token, sysUser);
+
+        SupervisionCa supervisionCa = supervisionCaMapper.getCaInfoByWeChatId(weChatId);
         // 数据返回格式修改
         Map<String,Object> result = new HashMap<>();
-        result.put("userId",sysUser.getId());   //用户id
-        result.put("enterpriseId",sysUser.getInfoId()); // 企业id
+
+        result.put("flag",false);
+        // 企业id
+        result.put("enterpriseId",sysUser.getInfoId());
+        result.put("userId",null);
+        if(supervisionCa!=null)
+        {
+            result.put("flag",true);
+            //用户id
+            result.put("userId",supervisionCa.getId());
+        }
         return result;
     }
 
@@ -195,7 +198,7 @@ public class UserSessionService {
         sysUser.setInfoId(id);
 
         //生成cookie
-        String token	 = "12345"+'_'+UUIDUtil.uuid();
+        String token = "12345"+'_'+UUIDUtil.uuid();
         addCookie(response, token, sysUser);
         return true;
     }

@@ -169,6 +169,18 @@ public class SupervisionCaController {
         return CommonReturnType.create(supervisionCaService.getAllByEnterpriseId(sysUser.getInfoId()));
     }
 
+    @RequestMapping("/firstLoginByEnterpriseId")
+    @ResponseBody
+    public CommonReturnType firstLoginByEnterpriseId(int enterpriseId) {
+        return CommonReturnType.create(supervisionCaService.getAllByEnterpriseId(enterpriseId));
+    }
+
+    @RequestMapping("/getByIdNumber")
+    @ResponseBody
+    public CommonReturnType getByIdNumber(String idNumber){
+        return CommonReturnType.create(supervisionCaService.getCaInfoByIdNumber(idNumber));
+    }
+
     @RequestMapping("/getNameByEnterpriseId")
     @ResponseBody
     public CommonReturnType getNameByEnterpriseId(@RequestBody String json, SysUser sysUser) {
@@ -183,10 +195,6 @@ public class SupervisionCaController {
         return CommonReturnType.create(supervisionCaService.getCaPageByEnterprise(pageQuery, id));
     }
 
-    @RequestMapping("/getByIdNumber")
-    @ResponseBody
-    public CommonReturnType getByIdNumber(String idNumber){
-        return CommonReturnType.create(supervisionCaService.getCaInfoByIdNumber(idNumber));
-    }
+
 }
 

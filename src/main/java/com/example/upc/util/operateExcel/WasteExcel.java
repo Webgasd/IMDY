@@ -22,6 +22,7 @@ public class WasteExcel {
 //    public static String path = "C:/Users/my/Desktop/weixin2/IMDY";
 //    public static String path = "/Users/weixj/Desktop/wph/IMDY/upload";
 
+
     public static String path = "upload";
 //    public static String mdlpath = path+"/template/"+ "【导出】废弃物处理模板.xlsx";
 

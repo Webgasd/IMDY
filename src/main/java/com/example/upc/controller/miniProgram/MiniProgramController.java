@@ -76,13 +76,10 @@ public class MiniProgramController {
 
 
     // 用户登录（成功之后传cookie，里面存的有用户信息，可以用SysUser接收）
-    @PostMapping("/userLogin")
+    @RequestMapping("/userLogin")
+    @ResponseBody
     public ResultVo userLogin(HttpServletResponse response, UserParam userParam) {
-//        return new ResultVo(userSessionService.miniUserLogin(response,userParam));
-        Map<String,Object> result = new HashMap<>();
-        result.put("enterpriseId",296661);
-        return new ResultVo(result);
-
+        return new ResultVo(userSessionService.miniUserLogin(response,userParam));
     }
 
     @RequestMapping("/touristLogin")
@@ -96,16 +93,26 @@ public class MiniProgramController {
         int enterpriseId=sysUser.getInfoId();
         EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
         Map<String,Object> result = new HashMap<>();
-        result.put("enterpriseName",enterpriseParam.getEnterpriseName()); // 企业名称
+
+        result.put("enterpriseId",enterpriseParam.getId());
+        // 企业名称
+        result.put("enterpriseName",enterpriseParam.getEnterpriseName());
         // 东营的和其他地区可能不一样，其他地区是附件
-        result.put("enterpriseIcon", JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure())); // 企业门头照片
-        result.put("introduction", enterpriseParam.getIntroduction()); // 企业介绍
-        result.put("idNumber", enterpriseParam.getIdNumber()); // 统一信用代码
-        result.put("cantactWay", enterpriseParam.getCantactWay()); // 联系电话
-        result.put("enterpriseRating",userEnterpriseVoteMapper.selectVotesByEPId(enterpriseId)); // 星评分
+        // 企业门头照片
+        result.put("enterpriseIcon", JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure()));
+        // 企业介绍
+        result.put("introduction", enterpriseParam.getIntroduction());
+        // 统一信用代码
+        result.put("idNumber", enterpriseParam.getIdNumber());
+        // 联系电话
+        result.put("cantactWay", enterpriseParam.getCantactWay());
+        // 星评分
+        result.put("enterpriseRating",userEnterpriseVoteMapper.selectVotesByEPId(enterpriseId));
         Map<String,Object> foodBusinessLicense = supervisionEnterpriseService.getFoodBusinessLicenseById(enterpriseId);
-        result.put("dynamicGrade", foodBusinessLicense.get("dynamicGrade")); // 动态等级
-        result.put("yearAssessment",foodBusinessLicense.get("yearAssessment")); // 年终评定
+        // 动态等级
+        result.put("dynamicGrade", foodBusinessLicense.get("dynamicGrade"));
+        // 年终评定
+        result.put("yearAssessment",foodBusinessLicense.get("yearAssessment"));
 
         return new ResultVo(result);
     }
@@ -220,12 +227,17 @@ public class MiniProgramController {
         int enterpriseId=sysUser.getInfoId();
         Map<String,Object> result = new HashMap<>();
         EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
-        result.put("enterpriseIcon", JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure())); // 企业门头照片
-        result.put("introduction", enterpriseParam.getIntroduction()); // 企业介绍
+        // 企业门头照片
+        result.put("enterpriseIcon", JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure()));
+        // 企业介绍
+        result.put("introduction", enterpriseParam.getIntroduction());
         Map<String,Object> data = supervisionEnterpriseService.getLicensePhotosById(enterpriseId);
-        result.put("businessLicensePhoto",JSON2ImageUrl(data.get("businessLicensePhoto")));//证件
-        result.put("foodBusinessPhoto",JSON2ImageUrl(data.get("foodBusinessPhoto")));//证件
-        result.put("propaganda",JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure()).equals("")?"":JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure()));//宣传文件
+        //证件
+        result.put("businessLicensePhoto",JSON2ImageUrl(data.get("businessLicensePhoto")));
+        //证件
+        result.put("foodBusinessPhoto",JSON2ImageUrl(data.get("foodBusinessPhoto")));
+        //宣传文件
+        result.put("propaganda",JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure()).equals("")?"":JSON2ImageUrl(enterpriseParam.getPropagandaEnclosure()));
         return CommonReturnType.create(result);
     }
 
@@ -273,20 +285,25 @@ public class MiniProgramController {
         return new ResultVo(result);
     }
 
-    // 获取名厨亮灶页面内容
+    // 获取明厨亮灶页面内容
     @RequestMapping("/getBrightKitchenById")
     @ResponseBody
     public ResultVo getBrightKitchenById(SysUser sysUser){
         int enterpriseId=sysUser.getInfoId();
         SupervisionEnterprise supervisionEnterprise = supervisionEnterpriseService.selectById(enterpriseId);
         Map<String, Object> result = new HashMap<>();
-
-        result.put("enterpriseIcon",JSON2ImageUrl(supervisionEnterprise.getPropagandaEnclosure())); // 门头照片
-        result.put("shopName",supervisionEnterprise.getShopName());                   // 店招名称
-        result.put("enterpriseName",supervisionEnterprise.getEnterpriseName());             // 企业名称
-        result.put("contactWay",supervisionEnterprise.getCantactWay());                   // 联系方式
-        result.put("businessAddress",supervisionEnterprise.getRegisteredAddress());     // 住所/经营场所
-        result.put("videoList",videoParentService.getVideoListById(enterpriseId));  // 视频流和按钮
+        // 门头照片
+        result.put("enterpriseIcon",JSON2ImageUrl(supervisionEnterprise.getPropagandaEnclosure()));
+        // 店招名称
+        result.put("shopName",supervisionEnterprise.getShopName());
+        // 企业名称
+        result.put("enterpriseName",supervisionEnterprise.getEnterpriseName());
+        // 联系方式
+        result.put("contactWay",supervisionEnterprise.getCantactWay());
+        // 住所/经营场所
+        result.put("businessAddress",supervisionEnterprise.getRegisteredAddress());
+        // 视频流和按钮
+        result.put("videoList",videoParentService.getVideoListById(enterpriseId));
         return new ResultVo(result);
     }
 
@@ -367,11 +384,7 @@ public class MiniProgramController {
 
         return new ResultVo("修改成功！");
     }
-//    // 新增留样记录
-//    @PostMapping("/addFoodSamplesRecord")
-//    public ResultVo addFoodSamplesRecord(HttpServletRequest request){
-//        return new ResultVo("添加成功！");
-//    }
+
 
     /**
      * 按时间获取废弃物记录
@@ -482,6 +495,7 @@ public class MiniProgramController {
         resultVo.put("bd",bdMessage);
         return new ResultVo(resultVo);
     }
+
     /**
      * 新增或修改线上售卖备案
      * @param
