@@ -1431,7 +1431,12 @@ name=回收 //回收单位名称
         "name": "asdhb",//外卖店铺名称
         "id": 2,  
         "enterpriseId": 22, //企业Id
-        "splat": null,//外卖平台
+        "splat": [
+            1,//美团
+            2,//饿了么
+            3,//百度外卖
+            4//其他
+        ]，//外卖平台
         "address": "sadad",//商铺地址
         "answer": null,    //审核答复
         "elm": {//饿了么外卖公示
@@ -1480,7 +1485,7 @@ name=回收 //回收单位名称
 
   "phone":"adaas",   //订餐电话,不可为空
 
-  "splat":"",   //企业平台
+  "splatList":[1,2,3],   //企业平台1代表美团，2代表饿了么，3代表百度外卖，4代表其他
 
   "examFlag":"",  //审核，0未审核/1通过/2不通过
 
@@ -1541,15 +1546,90 @@ name=回收 //回收单位名称
 }
 ```
 
-## 获取证照公示（晁展）
+## 证照公示
+
+### 获取证照公示（晁展）
 
 ```
-远程：https://www.yiwifi1.com:8088/supervision/enterprise/getLicensePhoto
+接口：/supervision/enterprise/getLicensePhotos
 ```
+
+未完善
 
 方法：post
 
 参数：无
+
+返回值：
+
+```
+{
+    "status": "success",
+    "data": {
+        "FoodBusinessPhotos": "[{\"response\":{\"data\":\"202008/1597075448907.JPG\"}}]",
+        //食品经营许可证
+        "FoodProducePhotos": "[]",
+        "SmallWorkshopPhotos": "[]",
+        "MedicalProducePhotos": "[]",
+        "SmallCaterPhotos": "[]",
+        "IndustrialProductsPhotos": "[]",
+        "OtherPhotos": "[]",
+        "BusinessLicensePhoto": "[{\"response\":{\"data\":\"202008/1597073014062.JPG\"}}]",    //营业执照
+        "DrugsBusinessPhotos": "[]",
+        "DrugsProducePhotos": "[]",
+        "CertificatePhotos": "[]",
+        "MedicalBusinessPhotos": "[]",
+        "CosmeticsUsePhotos": "[]",
+        "PublicityPhotos": "[]"
+    }
+}
+```
+
+### 新增或修改证照公示（晁展）
+
+```
+接口：/supervision/enterprise/changeLicensePhoto
+```
+
+方法：post
+
+前端传入对应营业执照的url
+
+参数：
+
+```
+{
+
+  "businessLicensePhoto":"saas",  //营业执照
+
+  "foodBusinessPhotos":"",   //食品经营许可证
+
+  "smallCaterPhotos":"",
+
+  "smallWorkshopPhotos":"",
+
+  "foodProducePhotos":"ss",
+
+  "drugsBusinessPhotos":"",
+
+  "drugsProducePhotos":"",
+
+  "cosmeticsUsePhotos":"",
+
+  "medicalProducePhotos":"",
+
+  "medicalBusinessPhotos":"",
+
+  "industrialProductsPhotos":"",
+
+  "publicityPhotos":"",
+
+  "certificatePhotos":"",
+
+  "otherPhotos":""
+
+}
+```
 
 返回值：
 
@@ -1560,18 +1640,14 @@ name=回收 //回收单位名称
 
   "msg": "请求成功",
 
-  "data": {
-
-​    "businessLicensePhoto": "http://127.0.0.1:8080/upload/picture/202008/1597073014062.JPG",
-
-​    "foodBusinessPhoto": "http://127.0.0.1:8080/upload/picture/202008/1597075448907.JPG"
-
-  }
+  "data": "新增或修改成功"
 
 }
 ```
 
-## 获取企业VR（晁展）
+
+
+### 获取企业VR（晁展）
 
 ```
 远程：https://www.yiwifi1.com:8088/supervision/enterprise/getVrUrl

@@ -17,6 +17,8 @@ import com.example.upc.dataobject.*;
 import com.example.upc.redis.UserSessionService;
 import com.example.upc.service.*;
 import com.example.upc.util.miniProgram.ResultVo;
+import com.google.common.collect.Lists;
+import lombok.experimental.var;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -27,10 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -506,7 +505,16 @@ public class MiniProgramController {
         resultVo.put("name",data.getName());
         resultVo.put("address",data.getAddress());
         resultVo.put("phone",data.getPhone());
-        resultVo.put("splat",data.getSplat());
+        List<Integer> arr= Lists.newArrayList();
+        char ch;
+        for(int i=0;i<data.getSplat().length();++i){
+            if (Character.isDigit(data.getSplat().charAt(i))){  // 判断是否是数字
+                ch=data.getSplat().charAt(i);
+                int num = Integer.parseInt(String.valueOf(ch));
+                arr.add(num);
+            }
+        }
+        resultVo.put("splat",arr);
         resultVo.put("examFlag",data.getExamFlag());
         resultVo.put("answer",data.getAnswer());
         resultVo.put("cs",csMessage);
@@ -522,9 +530,9 @@ public class MiniProgramController {
      * @return
      */
     @RequestMapping("/insertOnlineBusiness")
-    public ResultVo insertOnlineBusiness(@RequestBody OnlineBusiness onlineBusiness, SysUser sysUser){
+    public ResultVo insertOnlineBusiness(@RequestBody OnlineBusinessParm onlineBusinessParm,SysUser sysUser){
 
-        onlineBusinessService.insertMessageByEnterpriseId(onlineBusiness);
+        onlineBusinessService.insertMessageByEnterpriseId(onlineBusinessParm);
         return new ResultVo("成功！");
     }
 
