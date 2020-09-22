@@ -59,11 +59,10 @@ public class AiTokenServiceImpl implements AiTokenService {
         File originalFile = new File(filePath);
         String face1=OperateBase64.imageToBase64(originalFile);
 
-        JSONObject result=new JSONObject();
-
         String accessToken = new String();
         accessToken = aiTokenMapper.selectByPrimaryKey(1).getAccessToken();
 
+        JSONObject result=new JSONObject();
         result = AiApi.faceContrast(face1,face2,accessToken);
 
         System.out.println("result："+result);

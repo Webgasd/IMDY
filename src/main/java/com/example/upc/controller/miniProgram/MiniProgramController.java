@@ -536,11 +536,6 @@ public class MiniProgramController {
         return new ResultVo("成功！");
     }
 
-
-
-
-
-
     /**
      * 功能描述:通过request来获取到json数据<br/>
      * @param request
