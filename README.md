@@ -1597,37 +1597,21 @@ name=回收 //回收单位名称
 参数：
 
 ```
-
 {
-
-  "businessLicensePhoto":"saas",  //营业执照
-
-  "foodBusinessPhotos":"",   //食品经营许可证
-
-  "smallCaterPhotos":"",
-
-  "smallWorkshopPhotos":"",
-
-  "foodProducePhotos":"ss",
-
-  "drugsBusinessPhotos":"",
-
-  "drugsProducePhotos":"",
-
-  "cosmeticsUsePhotos":"",
-
-  "medicalProducePhotos":"",
-
-  "medicalBusinessPhotos":"",
-
-  "industrialProductsPhotos":"",
-
-  "publicityPhotos":"",
-
-  "certificatePhotos":"",
-
-  "otherPhotos":""
-
+    "businessLicensePhoto":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],     //营业执照
+    "foodBusinessPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],    //食品经营许可证
+    "smallCaterPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "smallWorkshopPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "foodProducePhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "drugsBusinessPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "drugsProducePhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "cosmeticsUsePhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "medicalProducePhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "medicalBusinessPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "industrialProductsPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "publicityPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "certificatePhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "otherPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}]
 }
 ```
 
