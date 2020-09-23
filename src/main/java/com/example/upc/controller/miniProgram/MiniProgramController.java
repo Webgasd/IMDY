@@ -475,28 +475,47 @@ public class MiniProgramController {
         Map<String,Object> csMessage = new HashMap<>();
         Map<String,Object> otherMessage = new HashMap<>();
         //美团
+        if(data.getMtHomePage()!=null)
         mtMessage.put("mtHomePage",JSON2ImageUrl(data.getMtHomePage()));
+        if(data.getMtFoodSafe()!=null)
         mtMessage.put("mtFoodSafe",JSON2ImageUrl(data.getMtFoodSafe()));
+        if(data.getMtFoodLicense()!=null)
         mtMessage.put("mtFoodLicense",JSON2ImageUrl(data.getMtFoodLicense()));
+        if(data.getMtBusinessLicense()!=null)
         mtMessage.put("mtBusinessLicense",JSON2ImageUrl(data.getMtBusinessLicense()));
         //饿了么
+        if(data.getElmHomePage()!=null)
         elmMessage.put("elmHomePage",JSON2ImageUrl(data.getElmHomePage()));
+        if(data.getElmFoodSafe()!=null)
         elmMessage.put("elmFoodSafe",JSON2ImageUrl(data.getElmFoodSafe()));
+        if(data.getElmFoodLicence()!=null)
         elmMessage.put("elmFoodLicence",JSON2ImageUrl(data.getElmFoodLicence()));
+        if(data.getElmBusinessLicence()!=null)
         elmMessage.put("elmBusinessLicence",JSON2ImageUrl(data.getElmBusinessLicence()));
         //百度
+        if(data.getBdHomePage()!=null)
         bdMessage.put("bdHomePage",JSON2ImageUrl(data.getBdHomePage()));
+        if(data.getBdFoodSafe()!=null)
         bdMessage.put("bdFoodSafe",JSON2ImageUrl(data.getBdFoodSafe()));
+        if(data.getBdFoodSafe()!=null)
         bdMessage.put("bdFoodLicence",JSON2ImageUrl(data.getBdFoodSafe()));
+        if(data.getBdBusinessLicence()!=null)
         bdMessage.put("bdBusinessLicence",JSON2ImageUrl(data.getBdBusinessLicence()));
         //其他
+        if(data.getOtherHomePage()!=null)
         otherMessage.put("otherHomePage",JSON2ImageUrl(data.getOtherHomePage()));
+        if(data.getOtherFoodSafe()!=null)
         otherMessage.put("otherFoodSafe",JSON2ImageUrl(data.getOtherFoodSafe()));
+        if(data.getOtherFoodLicence()!=null)
         otherMessage.put("otherFoodLicence",JSON2ImageUrl(data.getOtherFoodLicence()));
+        if(data.getOtherBusinessLicence()!=null)
         otherMessage.put("otherBusinessLicence",JSON2ImageUrl(data.getOtherBusinessLicence()));
         //场所校验图
+        if(data.getEnterpriseIcon()!=null)
         csMessage.put("enterpriseIcon",JSON2ImageUrl(data.getEnterpriseIcon()));
+        if(data.getOperationArea()!=null)
         csMessage.put("operationArea",JSON2ImageUrl(data.getOperationArea()));
+        if(data.getLicense()!=null)
         csMessage.put("license",JSON2ImageUrl(data.getLicense()));
 
         Map<String,Object> resultVo = new HashMap<>();
