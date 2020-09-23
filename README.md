@@ -1472,6 +1472,8 @@ name=回收 //回收单位名称
 
 接口名称：/mini/insertOnlineBusiness
 
+注解：关于上传文件前端传入upLoad/picture返回地址
+
 前端：
 
 ```
@@ -1554,8 +1556,6 @@ name=回收 //回收单位名称
 接口：/supervision/enterprise/getLicensePhotos
 ```
 
-未完善
-
 方法：post
 
 参数：无
@@ -1566,21 +1566,20 @@ name=回收 //回收单位名称
 {
     "status": "success",
     "data": {
-        "FoodBusinessPhotos": "[{\"response\":{\"data\":\"202008/1597075448907.JPG\"}}]",
-        //食品经营许可证
-        "FoodProducePhotos": "[]",
-        "SmallWorkshopPhotos": "[]",
-        "MedicalProducePhotos": "[]",
-        "SmallCaterPhotos": "[]",
-        "IndustrialProductsPhotos": "[]",
-        "OtherPhotos": "[]",
-        "BusinessLicensePhoto": "[{\"response\":{\"data\":\"202008/1597073014062.JPG\"}}]",    //营业执照
-        "DrugsBusinessPhotos": "[]",
-        "DrugsProducePhotos": "[]",
-        "CertificatePhotos": "[]",
-        "MedicalBusinessPhotos": "[]",
-        "CosmeticsUsePhotos": "[]",
-        "PublicityPhotos": "[]"
+        "FoodBusinessPhotos":  "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",  //食品经营许可证
+        "FoodProducePhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "SmallWorkshopPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "MedicalProducePhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "SmallCaterPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "IndustrialProductsPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "OtherPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "BusinessLicensePhoto": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",  ////营业执照
+        "DrugsBusinessPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "DrugsProducePhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "CertificatePhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "MedicalBusinessPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "CosmeticsUsePhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "PublicityPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png"
     }
 }
 ```
@@ -1593,11 +1592,12 @@ name=回收 //回收单位名称
 
 方法：post
 
-前端传入对应营业执照的url
+前端传入upLoad/picture返回地址
 
 参数：
 
 ```
+
 {
 
   "businessLicensePhoto":"saas",  //营业执照

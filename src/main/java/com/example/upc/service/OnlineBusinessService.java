@@ -9,5 +9,5 @@ import java.util.Map;
 public interface OnlineBusinessService {
     OnlineBusiness getMessageByEnterpriseId(OnlineBusinessSearchParam onlineBusinessSearchParam);
 
-    void insertMessageByEnterpriseId(OnlineBusinessParm onlineBusinessParm);
+    void insertMessageByEnterpriseId(String json);
 }

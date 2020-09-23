@@ -475,29 +475,29 @@ public class MiniProgramController {
         Map<String,Object> csMessage = new HashMap<>();
         Map<String,Object> otherMessage = new HashMap<>();
         //美团
-        mtMessage.put("mtHomePage",data.getMtHomePage());
-        mtMessage.put("mtFoodSafe",data.getMtFoodSafe());
-        mtMessage.put("mtFoodLicense",data.getMtFoodLicense());
-        mtMessage.put("mtBusinessLicense",data.getMtBusinessLicense());
+        mtMessage.put("mtHomePage",JSON2ImageUrl(data.getMtHomePage()));
+        mtMessage.put("mtFoodSafe",JSON2ImageUrl(data.getMtFoodSafe()));
+        mtMessage.put("mtFoodLicense",JSON2ImageUrl(data.getMtFoodLicense()));
+        mtMessage.put("mtBusinessLicense",JSON2ImageUrl(data.getMtBusinessLicense()));
         //饿了么
-        elmMessage.put("elmHomePage",data.getElmHomePage());
-        elmMessage.put("elmFoodSafe",data.getElmFoodSafe());
-        elmMessage.put("elmFoodLicence",data.getElmFoodLicence());
-        elmMessage.put("elmBusinessLicence",data.getElmBusinessLicence());
+        elmMessage.put("elmHomePage",JSON2ImageUrl(data.getElmHomePage()));
+        elmMessage.put("elmFoodSafe",JSON2ImageUrl(data.getElmFoodSafe()));
+        elmMessage.put("elmFoodLicence",JSON2ImageUrl(data.getElmFoodLicence()));
+        elmMessage.put("elmBusinessLicence",JSON2ImageUrl(data.getElmBusinessLicence()));
         //百度
-        bdMessage.put("bdHomePage",data.getBdHomePage());
-        bdMessage.put("bdFoodSafe",data.getBdFoodSafe());
-        bdMessage.put("bdFoodLicence",data.getBdFoodSafe());
-        bdMessage.put("bdBusinessLicence",data.getBdBusinessLicence());
+        bdMessage.put("bdHomePage",JSON2ImageUrl(data.getBdHomePage()));
+        bdMessage.put("bdFoodSafe",JSON2ImageUrl(data.getBdFoodSafe()));
+        bdMessage.put("bdFoodLicence",JSON2ImageUrl(data.getBdFoodSafe()));
+        bdMessage.put("bdBusinessLicence",JSON2ImageUrl(data.getBdBusinessLicence()));
         //其他
-        otherMessage.put("otherHomePage",data.getOtherHomePage());
-        otherMessage.put("otherFoodSafe",data.getOtherFoodSafe());
-        otherMessage.put("otherFoodLicence",data.getOtherFoodLicence());
-        otherMessage.put("otherBusinessLicence",data.getOtherBusinessLicence());
+        otherMessage.put("otherHomePage",JSON2ImageUrl(data.getOtherHomePage()));
+        otherMessage.put("otherFoodSafe",JSON2ImageUrl(data.getOtherFoodSafe()));
+        otherMessage.put("otherFoodLicence",JSON2ImageUrl(data.getOtherFoodLicence()));
+        otherMessage.put("otherBusinessLicence",JSON2ImageUrl(data.getOtherBusinessLicence()));
         //场所校验图
-        csMessage.put("enterpriseIcon",data.getEnterpriseIcon());
-        csMessage.put("operationArea",data.getOperationArea());
-        csMessage.put("license",data.getLicense());
+        csMessage.put("enterpriseIcon",JSON2ImageUrl(data.getEnterpriseIcon()));
+        csMessage.put("operationArea",JSON2ImageUrl(data.getOperationArea()));
+        csMessage.put("license",JSON2ImageUrl(data.getLicense()));
 
         Map<String,Object> resultVo = new HashMap<>();
         resultVo.put("id",data.getId());
@@ -530,9 +530,9 @@ public class MiniProgramController {
      * @return
      */
     @RequestMapping("/insertOnlineBusiness")
-    public ResultVo insertOnlineBusiness(@RequestBody OnlineBusinessParm onlineBusinessParm,SysUser sysUser){
-
-        onlineBusinessService.insertMessageByEnterpriseId(onlineBusinessParm);
+    public ResultVo insertOnlineBusiness(@RequestBody String json,SysUser sysUser){
+      //OnlineBusinessParm onlineBusinessParm
+        onlineBusinessService.insertMessageByEnterpriseId(json);
         return new ResultVo("成功！");
     }
 
@@ -595,8 +595,8 @@ public class MiniProgramController {
         JSONObject jsonObject1 = JSONObject.fromObject(jsonArray.get(0));
         JSONObject jsonObject2 = JSONObject.fromObject(jsonObject1.get("response"));
         // 图片存储地址记得上传的时候更改IP
-        String host = "http://127.0.0.1:8080/upload/picture/";
-  //      String host = "http://123.234.130.3:8080/upload/picture/";
+        // String host = "http://127.0.0.1:8080/upload/picture/";
+           String host = "http://123.234.130.3:8080/upload/picture/";
         String imgUrl = host+ jsonObject2.get("data");
         return imgUrl;
     }

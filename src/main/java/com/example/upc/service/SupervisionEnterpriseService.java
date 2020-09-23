@@ -44,5 +44,5 @@ public interface SupervisionEnterpriseService {
 
     Map<String, Object> getVrUrl(int enterpriseId);
     Map<String, Object> getLicensePhotos(int id);
-    void changeLicensePhoto(SysUser sysUser,EnterpriseParam enterpriseParam);
+    void changeLicensePhoto(SysUser sysUser,String json);
 }

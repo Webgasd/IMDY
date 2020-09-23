@@ -315,9 +315,9 @@ public class SupervisionEnterpriseController {
     //修改证照/公示
     @RequestMapping("/changeLicensePhoto")
     @ResponseBody
-    public ResultVo changeLicensePhoto(@RequestBody EnterpriseParam enterpriseParam, SysUser sysUser){
-
-        supervisionEnterpriseService.changeLicensePhoto(sysUser,enterpriseParam);
+    public ResultVo changeLicensePhoto(@RequestBody String json, SysUser sysUser){
+        //EnterpriseParam enterpriseParam
+        supervisionEnterpriseService.changeLicensePhoto(sysUser,json);
         return new ResultVo("新增或修改成功");
     }
 

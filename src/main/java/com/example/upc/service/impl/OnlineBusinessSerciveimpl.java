@@ -1,12 +1,18 @@
 package com.example.upc.service.impl;
 
 import com.alibaba.druid.sql.ast.statement.SQLForeignKeyImpl;
+import com.alibaba.fastjson.JSONObject;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
+import com.example.upc.common.ValidationResult;
+import com.example.upc.common.ValidatorImpl;
 import com.example.upc.controller.param.OnlineBusinessParm;
 import com.example.upc.controller.searchParam.OnlineBusinessSearchParam;
 import com.example.upc.dao.OnlineBusinessMapper;
+import com.example.upc.dao.SupervisionCaMapper;
+import com.example.upc.dao.SupervisionEnterpriseMapper;
 import com.example.upc.dataobject.OnlineBusiness;
+import com.example.upc.dataobject.SupervisionEnterprise;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.util.miniProgram.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +27,10 @@ import java.util.Map;
 public class OnlineBusinessSerciveimpl implements OnlineBusinessService {
     @Autowired
     OnlineBusinessMapper onlineBusinessMapper;
-
+    @Autowired
+    SupervisionEnterpriseMapper supervisionEnterpriseMapper;
+    @Autowired
+    private ValidatorImpl validator;
     @Override
     public OnlineBusiness getMessageByEnterpriseId(OnlineBusinessSearchParam onlineBusinessSearchParam) {
         OnlineBusiness onlineBusiness = onlineBusinessMapper.getMessageByEnterpriseId(onlineBusinessSearchParam.getEnterpriseId());
@@ -32,9 +41,14 @@ public class OnlineBusinessSerciveimpl implements OnlineBusinessService {
     }
 
     @Override
-    public void insertMessageByEnterpriseId(OnlineBusinessParm onlineBusinessParm) {
+    public void insertMessageByEnterpriseId(String json) {
+        OnlineBusinessParm onlineBusinessParm = JSONObject.parseObject(json,OnlineBusinessParm.class);
+        ValidationResult result = validator.validate(onlineBusinessParm);
+        if(result.isHasErrors()){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+        }
+
         OnlineBusiness onlineBusiness = new OnlineBusiness();
-        OnlineBusiness onlineBusiness1 = onlineBusinessMapper.getMessageByEnterpriseId(onlineBusinessParm.getEnterpriseId());
         onlineBusiness.setOperateIp("124.124.124");
         onlineBusiness.setOperateTime(new Date());
         onlineBusiness.setOparetor("zcc");
@@ -66,12 +80,14 @@ public class OnlineBusinessSerciveimpl implements OnlineBusinessService {
         onlineBusiness.setOtherFoodLicence(onlineBusinessParm.getOtherBusinessLicence());
         onlineBusiness.setOtherFoodSafe(onlineBusinessParm.getOtherFoodSafe());
 
-        if (onlineBusiness1 == null) {
+        OnlineBusiness onlineBusiness1 = onlineBusinessMapper.getMessageByEnterpriseId(onlineBusinessParm.getEnterpriseId());
+        if (onlineBusiness1 == null) {    //新增
             onlineBusinessMapper.insert(onlineBusiness);
-        } else {
+        } else {                          //修改（删除并添加）
             onlineBusinessMapper.deleteByPrimaryKey(onlineBusiness1.getId());
             onlineBusinessMapper.insert(onlineBusiness);
         }
         return;
     }
+
 }

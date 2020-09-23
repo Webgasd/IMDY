@@ -12,6 +12,7 @@ import com.example.upc.dao.*;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.*;
 import com.example.upc.util.*;
+import net.sf.json.JSONArray;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -30,6 +31,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.example.upc.util.JsonToImageUrl.JSON2ImageUrl;
+
 
 /**
  * @author zcc
@@ -3545,59 +3549,59 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
             for (SupervisionEnterpriseDocument supervisionEnterpriseDocument : list) {
                 if (supervisionEnterpriseDocument.getFlag() == 1) {
                  //   enterpriseParam.setBusinessLicensePhoto(supervisionEnterpriseDocument.getDocument());
-                    result.put("BusinessLicensePhoto",supervisionEnterpriseDocument.getDocument());
+                    result.put("BusinessLicensePhoto",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 2) {
                 //    enterpriseParam.setFoodBusinessPhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("FoodBusinessPhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("FoodBusinessPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 3) {
                 //    enterpriseParam.setSmallCaterPhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("SmallCaterPhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("SmallCaterPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 4) {
                  //   enterpriseParam.setSmallWorkshopPhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("SmallWorkshopPhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("SmallWorkshopPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 5) {
                  //   enterpriseParam.setFoodProducePhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("FoodProducePhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("FoodProducePhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 6) {
                  //   enterpriseParam.setDrugsBusinessPhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("DrugsBusinessPhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("DrugsBusinessPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 7) {
                  //   enterpriseParam.setDrugsProducePhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("DrugsProducePhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("DrugsProducePhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 8) {
                   //  enterpriseParam.setCosmeticsUsePhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("CosmeticsUsePhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("CosmeticsUsePhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 9) {
                    // enterpriseParam.setMedicalProducePhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("MedicalProducePhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("MedicalProducePhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 10) {
                    // enterpriseParam.setMedicalBusinessPhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("MedicalBusinessPhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("MedicalBusinessPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 11) {
                   //  enterpriseParam.setIndustrialProductsPhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("IndustrialProductsPhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("IndustrialProductsPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 12) {
                   //  enterpriseParam.setPublicityPhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("PublicityPhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("PublicityPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 13) {
                   //  enterpriseParam.setCertificatePhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("CertificatePhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("CertificatePhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 14) {
                    // enterpriseParam.setOtherPhotos(supervisionEnterpriseDocument.getDocument());
-                    result.put("OtherPhotos",supervisionEnterpriseDocument.getDocument());
+                    result.put("OtherPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
             }
         }
@@ -3645,8 +3649,13 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     }
 
     @Override
-    public void changeLicensePhoto(SysUser sysUser,EnterpriseParam enterpriseParam) {
-
+    public void changeLicensePhoto(SysUser sysUser,String json) {
+        //EnterpriseParam enterpriseParam
+        EnterpriseParam enterpriseParam = JSONObject.parseObject(json,EnterpriseParam.class);
+        ValidationResult result = validator.validate(enterpriseParam);
+        if(result.isHasErrors()){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+        }
         SupervisionEnterprise before = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
         if (before == null) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "待更新企业不存在");
@@ -3656,4 +3665,5 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         insertEnterpriseDocumentList(supervisionEnterprise,enterpriseParam);
         return;
     }
+
 }
