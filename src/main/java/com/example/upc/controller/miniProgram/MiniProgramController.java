@@ -107,7 +107,7 @@ public class MiniProgramController {
      */
     @RequestMapping("/getOpenId")
     public String getOpenId(String jsCode) {
-        String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx05cb49dd1f5eaa41&secret=14fdc1e0271f0e4410307b20b7e48276&js_code="+jsCode+"&grant_type=authorization_code";
+        String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx05cb49dd1f5eaa41&secret=14fdc1e0271f0e4410307b20b7e48276&jscode="+jsCode+"&grant_type=authorization_code";
         return HttpClient.getClient(url);
     }
 

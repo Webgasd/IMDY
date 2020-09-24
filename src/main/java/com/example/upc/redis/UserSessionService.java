@@ -201,7 +201,7 @@ public class UserSessionService {
 
         if(supervisionCa.getWeChatId()==null||"".equals(supervisionCa.getWeChatId().trim()))
         {
-            if(userParam.getWeChatId()!=null&&!"".equals(userParam.getWeChatId()))
+            if(userParam.getWeChatId()==null||"".equals(userParam.getWeChatId()))
             {
                 throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"未发送wechatId");
             }
