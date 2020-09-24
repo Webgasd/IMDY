@@ -203,7 +203,7 @@ public class UserSessionService {
         {
             if(userParam.getWeChatId()!=null&&!"".equals(userParam.getWeChatId()))
             {
-                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"微信id不存在");
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"未发送wechatId");
             }
             supervisionCa.setWeChatId(userParam.getWeChatId());
             supervisionCaMapper.updateByPrimaryKey(supervisionCa);

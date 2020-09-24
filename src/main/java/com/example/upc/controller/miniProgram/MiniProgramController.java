@@ -16,6 +16,7 @@ import com.example.upc.dao.UserEnterpriseVoteMapper;
 import com.example.upc.dataobject.*;
 import com.example.upc.redis.UserSessionService;
 import com.example.upc.service.*;
+import com.example.upc.util.HttpClient;
 import com.example.upc.util.miniProgram.ResultVo;
 import com.google.common.collect.Lists;
 import lombok.experimental.var;
@@ -78,7 +79,7 @@ public class MiniProgramController {
     @Autowired
     private AiTokenService aiTokenService;
 
-    // 用户登录（成功之后传cookie，里面存的有用户信息，可以用SysUser接收）
+    //人脸识别登录的账密判断
     @RequestMapping("/userLogin")
     @ResponseBody
     public ResultVo userLogin(HttpServletResponse response, UserParam userParam) {
@@ -97,6 +98,17 @@ public class MiniProgramController {
             throw new BusinessException(EmBusinessError.FACE_ERROR,"人脸识别失败");
         }
         return CommonReturnType.create(userSessionService.checkWeChatId(response,userParam));
+    }
+
+    /**
+     * 获取openId
+     * @param jsCode
+     * @return
+     */
+    @RequestMapping("/geOpenId")
+    public String getOpenId(String jsCode) {
+        String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx05cb49dd1f5eaa41&secret=14fdc1e0271f0e4410307b20b7e48276&js_code="+jsCode+"&grant_type=authorization_code";
+        return HttpClient.getClient(url);
     }
 
     @RequestMapping("/touristLogin")

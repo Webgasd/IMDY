@@ -27,9 +27,16 @@ public class JsonToImageUrl {
         JSONObject jsonObject1 = JSONObject.fromObject(jsonArray.get(0));
         JSONObject jsonObject2 = JSONObject.fromObject(jsonObject1.get("response"));
         // 图片存储地址记得上传的时候更改IP
+<<<<<<< HEAD
 //        String host = "/Users/weixj/Desktop/wph/IMDY/upload/";
 //        String host = "http://127.0.0.1:8080/upload/picture/";
         String host = "upload/";
+=======
+        String host = "C:/Users/75186/Desktop/upload/";
+//        String host = "/Users/weixj/Desktop/wph/IMDY/upload/";
+//        String host = "http://127.0.0.1:8080/upload/";
+//        String host = "http://123.234.130.3:8080/upload/";
+>>>>>>> LN
         String imgUrl = host+ jsonObject2.get("data");
         return imgUrl;
     }
