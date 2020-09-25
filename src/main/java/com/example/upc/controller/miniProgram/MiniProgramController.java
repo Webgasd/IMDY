@@ -106,9 +106,11 @@ public class MiniProgramController {
      * @return
      */
     @RequestMapping("/getOpenId")
-    public String getOpenId(String jsCode) {
-        String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx05cb49dd1f5eaa41&secret=14fdc1e0271f0e4410307b20b7e48276&jscode="+jsCode+"&grant_type=authorization_code";
-        return HttpClient.getClient(url);
+    public CommonReturnType getOpenId(String jsCode) {
+        String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx9347d04595241011&secret=1831c67a3d2f9051f92a18d3a0ec27f1&js_code="+jsCode+"&grant_type=authorization_code";
+        String result =  HttpClient.getClient(url);
+        JSONObject json = JSONObject.fromObject(result);
+        return CommonReturnType.create(json.get("openid"));
     }
 
     @RequestMapping("/touristLogin")
