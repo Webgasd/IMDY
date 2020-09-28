@@ -2343,6 +2343,8 @@ listId=1 //配货单id
 
 `索证索票模板：https://www.yiwifi1.com:8088/upload/template/【导出】原料索证模版.xlsx`
 
+`台账打印教程：https://www.yiwifi1.com:8088/upload/template/数据台账打印教程.pdf.`
+
 方法：POST
 
 - 参数：
