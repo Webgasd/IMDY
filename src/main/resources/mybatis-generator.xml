@@ -332,6 +332,9 @@
 <!--        <table schema="pingyi" tableName="supervision_ca" domainObjectName="SupervisionCa" enableCountByExample="false"-->
 <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--        selectByExampleQueryId="false"></table>-->
+        <!--   <table schema="pingyi" tableName="accompany_record" domainObjectName="AccompanyRecord" enableCountByExample="false"
+           enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+           selectByExampleQueryId="false"></table>-->
 
-    </context>
-</generatorConfiguration>
+       </context>
+   </generatorConfiguration>
