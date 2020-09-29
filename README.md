@@ -1157,7 +1157,171 @@ postman访问地址：
     ]
 }
 ```
+## 食品添加剂（刘宁）
+
+### 新增食品添加剂
+
+`远程：https://www.yiwifi1.com:8088/foodAdditive/insert`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+{
+"useDate":"2020-9-28 11:25:22",
+"safeManager":"啦啦",
+"additiveName":"食盐",
+"useAmount":"100",
+"useRange":"使用",
+"additiveRatio":"1/500",
+"gotPerson":"李磊",
+"produceCompany":"海尔",
+"produceDate":"2020-8-16",
+"remark":"wdnmdddddddd"}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": null
+}
+```
+
+### 更新食品添加剂
+
+`远程：https://www.yiwifi1.com:8088/foodAdditive/update`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+{
+"id":1,
+"useDate":"2020-9-28 11:25:22",
+"safeManager":"啦啦",
+"additiveName":"食盐",
+"useAmount":"100",
+"useRange":"使用",
+"additiveRatio":"1/500",
+"gotPerson":"李磊",
+"produceCompany":"海尔",
+"produceDate":"2020-8-16",
+"remark":"wdnmdddddddd"}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": null
+}
+```
+
+### 删除食品添加剂
+
+`远程：https://www.yiwifi1.com:8088/foodAdditive/delete`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+{
+"id":1
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": null
+}
+```
+
+### 按照日期查询食品添加剂
+
+`远程：https://www.yiwifi1.com:8088/foodAdditive/selectByDate`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+{
+    "startDate":"2020-09-28",
+    "endDate":"2020-09-30"
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": [
+        {
+            "id": 1,
+            "enterpriseId": 296661,
+            "useDate": "2020-09-28 00:00:00",
+            "safeManager": "啦啦",
+            "additiveName": "食盐",
+            "useAmount": 100,
+            "useRange": "使用",
+            "additiveRatio": "1/500",
+            "gotPerson": "李磊",
+            "produceCompany": "海尔",
+            "produceDate": "2020-08-16",
+            "remark": "wdnmdddddddd",
+            "operator": "mini",
+            "operatorIp": "127.0.0.1",
+            "operatorTime": "2020-09-29"
+        },
+        {
+            "id": 2,
+            "enterpriseId": 296661,
+            "useDate": "2020-09-29 00:00:00",
+            "safeManager": "啦啦",
+            "additiveName": "十三香",
+            "useAmount": 100,
+            "useRange": "使用",
+            "additiveRatio": "1/500",
+            "gotPerson": "小明",
+            "produceCompany": "海尔",
+            "produceDate": "2020-08-16",
+            "remark": "wdnmdddddddd",
+            "operator": "mini",
+            "operatorIp": "127.0.0.1",
+            "operatorTime": "2020-09-28"
+        }]
+}
+```
+
+
+
+### 按照日期导出食品添加剂
+
+`远程：https://www.yiwifi1.com:8088/foodAdditive/standingFoodAdditive`
+
+方法：POST  'content-type': 'application/json'
+
+```json
+{
+    "startDate":"2020-09-28",
+    "endDate":"2020-09-30"
+}
+```
+
+
+
 ## 新增废弃物（董志涵）
+
 `远程：https://www.yiwifi1.com:8088/formatwaste/insert`
 
 方法：GET
