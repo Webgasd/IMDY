@@ -7,35 +7,6 @@ import java.util.Date;
  * @date 2019/7/17 15:29
  */
 public class EnterpriseListResult {
-    @Override
-    public String toString() {
-        return "EnterpriseListResult{" +
-                "id=" + id +
-                ", enterpriseName='" + enterpriseName + '\'' +
-                ", operationMode='" + operationMode + '\'' +
-                ", legalPerson='" + legalPerson + '\'' +
-                ", cantactWay='" + cantactWay + '\'' +
-                ", businessState=" + businessState +
-                ", abnormalId=" + abnormalId +
-                ", enterpriseScale='" + enterpriseScale + '\'' +
-                ", abnormalContent='" + abnormalContent + '\'' +
-                ", idNumber='" + idNumber + '\'' +
-                ", area=" + area +
-                ", grid='" + grid + '\'' +
-                ", supervisor='" + supervisor + '\'' +
-                ", regulators='" + regulators + '\'' +
-                ", isStop=" + isStop +
-                ", foodBusiness=" + foodBusiness +
-                ", foodCommon=" + foodCommon +
-                ", foodCirculate=" + foodCirculate +
-                ", foodProduce=" + foodProduce +
-                ", drugsBusiness=" + drugsBusiness +
-                ", medicalUse=" + medicalUse +
-                ", cosmeticsUse=" + cosmeticsUse +
-                ", endTime=" + endTime +
-                '}';
-    }
-
     private Integer id;
     private String enterpriseName;
     private String operationMode;

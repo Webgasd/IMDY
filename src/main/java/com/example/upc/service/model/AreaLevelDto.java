@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class AreaLevelDto extends SysArea {
     private List<AreaLevelDto> childrenList = new ArrayList<>();
-
     public static AreaLevelDto adapt(SysArea area) {
         AreaLevelDto dto = new AreaLevelDto();
         BeanUtils.copyProperties(area, dto);

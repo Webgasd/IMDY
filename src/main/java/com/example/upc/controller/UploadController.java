@@ -53,7 +53,7 @@ public class UploadController {
 
     public String uploadFile(MultipartFile file,String type) throws IOException{
         Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM");
         String currentTime = dateFormat.format( now );
 
         String fileName=file.getOriginalFilename();

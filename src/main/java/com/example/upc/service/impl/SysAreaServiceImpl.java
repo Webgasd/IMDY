@@ -112,28 +112,31 @@ public class SysAreaServiceImpl implements SysAreaService {
     }
     @Override
     public List<AreaLevelDto> areaTree() {
-        /*
-         * 获取所有地区列表
-         */
         List<SysArea> areaList = sysAreaMapper.getAllArea();
-        /*
-        新建一个含有自己的对象的list，相当于嵌套list对象
-         */
+
         List<AreaLevelDto> dtoList = new ArrayList<>();
         for (SysArea area : areaList) {
-            /*
-            adapt就是个copy方法
-             */
             AreaLevelDto dto = AreaLevelDto.adapt(area);
-            /*
-            压入list
-             */
             dtoList.add(dto);
         }
-        /*
-        转树结构方法，156行方法
-         */
         return areaListToTree(dtoList);
+    }
+
+    @Override
+    public List<SysArea> getGridByArea(int id) {
+        SysArea sysArea = sysAreaMapper.selectByPrimaryKey(id);
+        return sysAreaMapper.getChildAreaListByLevel(LevelUtil.calculateLevel(sysArea.getLevel(),id));
+    }
+
+    @Override
+    public List<SysArea> getAllEx() {
+        List<SysArea> list = sysAreaMapper.getAllAreaEx();
+        return list;
+    }
+
+    @Override
+    public List<SysArea> getAll() {
+        return sysAreaMapper.getAllArea();
     }
 
     public List<AreaLevelDto> areaListToTree(List<AreaLevelDto> areaLevelList) {
@@ -183,23 +186,6 @@ public class SysAreaServiceImpl implements SysAreaService {
             return o1.getSeq() - o2.getSeq();
         }
     };
-
-    @Override
-    public List<SysArea> getGridByArea(int id) {
-        SysArea sysArea = sysAreaMapper.selectByPrimaryKey(id);
-        return sysAreaMapper.getChildAreaListByLevel(LevelUtil.calculateLevel(sysArea.getLevel(),id));
-    }
-
-    @Override
-    public List<SysArea> getAllEx() {
-        List<SysArea> list = sysAreaMapper.getAllAreaEx();
-        return list;
-    }
-
-    @Override
-    public List<SysArea> getAll() {
-        return sysAreaMapper.getAllArea();
-    }
 
     /**
      * 小程序专用serviceImpl
