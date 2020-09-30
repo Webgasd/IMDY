@@ -77,7 +77,8 @@ public class SysUserController {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
         System.out.println("今天的日期为:" + formatter.format(date));
-        Calendar calendar = Calendar.getInstance();//new一个Calendar类,把Date放进去
+        //new一个Calendar类,把Date放进去
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, 1);
         System.out.println("明天的日期为:" + formatter.format(calendar.getTime()));

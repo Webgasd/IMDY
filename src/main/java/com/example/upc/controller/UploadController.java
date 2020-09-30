@@ -34,6 +34,7 @@ public class UploadController {
         String name = uploadFile(file,"picture");
         return CommonReturnType.create(name);
     }
+
     //实现视频上传
     @RequestMapping(value = "/uploadVideo",method = {RequestMethod.POST})
     @ResponseBody
@@ -61,6 +62,7 @@ public class UploadController {
         if(!filed.exists()){
             filed.mkdirs();
         }
+
         String filename = System.currentTimeMillis()+(int)(1+Math.random()*1000)+fileName.substring(fileName.lastIndexOf("."));
         file.transferTo(new File(filed.getAbsolutePath(),filename));
         System.out.println(currentTime+"/"+filename);

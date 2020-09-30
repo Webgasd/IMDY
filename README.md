@@ -14,7 +14,7 @@
 
 postman访问地址：
 
-https://www.yiwifi1.com:8088/sys/user/loginTest?loginName=mini&password=123456%2B
+`https://www.yiwifi1.com:8088/sys/user/loginTest?loginName=mini&password=123456%2B`
 
 方法：GET/POST
 
@@ -32,6 +32,156 @@ https://www.yiwifi1.com:8088/sys/user/loginTest?loginName=mini&password=123456%2
     "data": true
 }
 ```
+
+### 人脸识别时输入企业账号密码
+
+`/mini/userLogin`
+
+postman访问地址：
+
+`http://www.yiwifi1.com:8088/mini/userLogin?loginName=mini&password=123456%2B&weChatId=1235a`
+
+方法：get
+
+- 参数：
+
+  ```javascript
+  {
+  "loginName":mini,
+  
+  "password":123456%2B,
+  
+  "weChatId":1235a
+  }
+  ```
+
+- 返回值
+
+  ```json
+  {
+    "code": 200,
+    "msg": "请求成功",
+    "data": {
+     "flag": true,//首次登录为false 非首次登录为true
+     "enterpriseId": 296661,//首次登录时用该企业id作为参数从企业人员中 选出 自己的userId
+     "userId": 1507 //如果首次登录该参数为空
+    }
+  }
+  ```
+
+### 首次登录时选择userId
+
+`/supervision/ca/firstLoginByEnterpriseId`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/supervision/ca/firstLoginByEnterpriseId`
+
+方法：GET
+
+> 首次登录调用此接口选择自己 并将id作为下一个接口的userId的参数
+
+- 参数
+
+```javascript
+{
+
+"enterprId":296661
+
+}
+```
+
+- 返回值
+
+  ```json
+  {
+  
+    "status": "success",
+  
+    "data": [
+  
+      {
+  
+        "id": 1497,//作为下面接口的userId参数
+  
+        "companyId": 296661,
+  
+        "companyName": "市场主体名称/石油大学",
+  
+  	 "name": "人脸比对",//姓名
+  
+       ......
+  
+        "operateTime": "2020-09-07T04:13:08.000+0000",
+  
+        "operator": "zcc",
+  
+        "operateIp": "124.214.124"
+  
+      },
+  
+      {
+  
+        "id": 1499,
+  
+        "companyId": 296661,
+  
+        "companyName": "市场主体名称*",
+  
+       "name": "人脸",
+  
+        ........
+  
+        "operateTime": "2020-09-21T11:07:35.000+0000",
+  
+       "operator": "zcc",
+  
+       "operateIp": "124.214.124"
+  
+     }]
+  
+  }
+  ```
+
+### 人脸识别登录接口
+
+`/mini/faceLogin`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/mini/faceLogin`
+
+方法：GET
+
+- 参数
+
+```javascript
+{
+
+     userId:1499,
+	 loginName:"mini",
+     wechatId:"",
+
+}
+```
+
+- 返回值
+
+```json
+{
+
+	status: "success", 
+
+	data: {
+
+	name:"人脸比对"//用户名
+
+	}
+
+}
+```
+
+
 
 ### 登出
 
@@ -648,7 +798,7 @@ postman访问地址：
 方法：POST 'content-type': 'application/json'
 
 - 参数：
-```
+```javascript
     [{
         "originType":"散装产品",//食品类型
         "recordTime":"2020-08-15",//采购日期
@@ -661,7 +811,8 @@ postman访问地址：
         "keepTimeType":"天",//保质期单位
         "goodsIn":"7",//采购数量
         "goodsType":"吨",//采购数量单位
-        "supplier":"供应商名称*"//供应商
+        "supplier":"供应商名称*",//供应商
+        "money":11.5//金额(float类型)
         },{
         "originType":"散装产品",
         "recordTime":"2020-08-15",
@@ -674,7 +825,8 @@ postman访问地址：
         "keepTimeType":"天",
         "goodsIn":"7",
         "goodsType":"吨",
-        "supplier":"供应商名称*"
+        "supplier":"供应商名称*",
+        "money":12
     }]
 ```
 
@@ -696,7 +848,7 @@ postman访问地址：
 方法：POST  'content-type': 'application/json'
 
 - 参数：
-```
+```javascript
     {
         "id":
         "originType":"散装产品",//食品类型
@@ -709,7 +861,8 @@ postman访问地址：
         "keepTimeType":"天",//保质期单位
         "goodsIn":"7",//采购数量
         "goodsType":"吨",//采购数量单位
-        "supplier":"供应商名称*"//供应商
+        "supplier":"供应商名称*",//供应商
+        "money":11.5//金额(float类型)
     }
 ```
 
@@ -781,6 +934,7 @@ postman访问地址：
             "supplierType": null,
             "goodsOut": null,
             "goods": null,
+            "money": 12.0,
             "state": null,
             "person": null,
             "document": null,
@@ -1277,7 +1431,12 @@ name=回收 //回收单位名称
         "name": "asdhb",//外卖店铺名称
         "id": 2,  
         "enterpriseId": 22, //企业Id
-        "splat": null,//外卖平台
+        "splat": [
+            1,//美团
+            2,//饿了么
+            3,//百度外卖
+            4//其他
+        ]，//外卖平台
         "address": "sadad",//商铺地址
         "answer": null,    //审核答复
         "elm": {//饿了么外卖公示
@@ -1313,6 +1472,8 @@ name=回收 //回收单位名称
 
 接口名称：/mini/insertOnlineBusiness
 
+注解：关于上传文件前端传入upLoad/picture返回地址
+
 前端：
 
 ```
@@ -1326,7 +1487,7 @@ name=回收 //回收单位名称
 
   "phone":"adaas",   //订餐电话,不可为空
 
-  "splat":"",   //企业平台
+  "splatList":[1,2,3],   //企业平台1代表美团，2代表饿了么，3代表百度外卖，4代表其他
 
   "examFlag":"",  //审核，0未审核/1通过/2不通过
 
@@ -1387,10 +1548,12 @@ name=回收 //回收单位名称
 }
 ```
 
-## 获取证照公示（晁展）
+## 证照公示
+
+### 获取证照公示（晁展）
 
 ```
-远程：https://www.yiwifi1.com:8088/supervision/enterprise/getLicensePhoto
+接口：/supervision/enterprise/getLicensePhotos
 ```
 
 方法：post
@@ -1401,23 +1564,74 @@ name=回收 //回收单位名称
 
 ```
 {
+    "status": "success",
+    "data": {
+        "FoodBusinessPhotos":  "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",  //食品经营许可证
+        "FoodProducePhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "SmallWorkshopPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "MedicalProducePhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "SmallCaterPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "IndustrialProductsPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "OtherPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "BusinessLicensePhoto": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",  ////营业执照
+        "DrugsBusinessPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "DrugsProducePhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "CertificatePhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "MedicalBusinessPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "CosmeticsUsePhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png",
+        "PublicityPhotos": "http://127.0.0.1:8080/upload/picture/202005/1590720552005.png"
+    }
+}
+```
+
+### 新增或修改证照公示（晁展）
+
+```
+接口：/supervision/enterprise/changeLicensePhoto
+```
+
+方法：post
+
+前端传入upLoad/picture返回地址
+
+参数：
+
+```
+{
+    "businessLicensePhoto":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],     //营业执照
+    "foodBusinessPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],    //食品经营许可证
+    "smallCaterPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "smallWorkshopPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "foodProducePhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "drugsBusinessPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "drugsProducePhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "cosmeticsUsePhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "medicalProducePhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "medicalBusinessPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "industrialProductsPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "publicityPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "certificatePhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}],
+    "otherPhotos":[{"uid":"rc-upload-1590720301161-6","size":22849,"lastModifiedDate":"2020-05-29T02:48:56.134Z","response":{"data":"202005/1590720552005.png"},"name":"12(_{~EMWN]~QTF[~9WCKKP.png","lastModified":1590720536134,"type":"image/png","percent":100,"originFileObj":{"uid":"rc-upload-1590720301161-6"},"status":"done"}]
+}
+```
+
+返回值：
+
+```
+{
 
   "code": 200,
 
   "msg": "请求成功",
 
-  "data": {
-
-​    "businessLicensePhoto": "http://127.0.0.1:8080/upload/picture/202008/1597073014062.JPG",
-
-​    "foodBusinessPhoto": "http://127.0.0.1:8080/upload/picture/202008/1597075448907.JPG"
-
-  }
+  "data": "新增或修改成功"
 
 }
 ```
 
-## 获取企业VR（晁展）
+
+
+### 获取企业VR（晁展）
 
 ```
 远程：https://www.yiwifi1.com:8088/supervision/enterprise/getVrUrl

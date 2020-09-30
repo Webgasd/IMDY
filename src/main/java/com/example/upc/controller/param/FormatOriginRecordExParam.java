@@ -39,6 +39,7 @@ public class FormatOriginRecordExParam {
     private String supplierType;
     private Float goodsOut;
     private Float goods;
+    private Float money;
     private String state;
     private String person;
     private String document;
@@ -213,5 +214,13 @@ public class FormatOriginRecordExParam {
 
     public void setKeepTimeType(String keepTimeType) {
         this.keepTimeType = keepTimeType;
+    }
+
+    public Float getMoney() {
+        return money;
+    }
+
+    public void setMoney(Float money) {
+        this.money = money;
     }
 }

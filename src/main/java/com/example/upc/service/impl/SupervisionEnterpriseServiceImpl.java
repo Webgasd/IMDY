@@ -12,6 +12,7 @@ import com.example.upc.dao.*;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.*;
 import com.example.upc.util.*;
+import net.sf.json.JSONArray;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -30,6 +31,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.example.upc.util.JsonToImageUrl.JSON2ImageUrl;
+
 
 /**
  * @author zcc
@@ -3532,13 +3536,82 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         }
         return result;
     }
+    @Override
+    public Map<String, Object> getLicensePhotos(int id) {
+        SupervisionEnterprise supervisionEnterprise= supervisionEnterpriseMapper.selectByPrimaryKey(id);
+        if (supervisionEnterprise==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
+        }
+        Map<String, Object> result= new HashMap<>();
+      //  EnterpriseParam enterpriseParam = new EnterpriseParam();
+        List<SupervisionEnterpriseDocument> list = supervisionEnterpriseDocumentMapper.selectByEnterpriseId(id);
+        if (list.size()>0) {
+            for (SupervisionEnterpriseDocument supervisionEnterpriseDocument : list) {
+                if (supervisionEnterpriseDocument.getFlag() == 1) {
+                 //   enterpriseParam.setBusinessLicensePhoto(supervisionEnterpriseDocument.getDocument());
+                    result.put("BusinessLicensePhoto",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 2) {
+                //    enterpriseParam.setFoodBusinessPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("FoodBusinessPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 3) {
+                //    enterpriseParam.setSmallCaterPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("SmallCaterPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 4) {
+                 //   enterpriseParam.setSmallWorkshopPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("SmallWorkshopPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 5) {
+                 //   enterpriseParam.setFoodProducePhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("FoodProducePhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 6) {
+                 //   enterpriseParam.setDrugsBusinessPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("DrugsBusinessPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 7) {
+                 //   enterpriseParam.setDrugsProducePhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("DrugsProducePhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 8) {
+                  //  enterpriseParam.setCosmeticsUsePhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("CosmeticsUsePhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 9) {
+                   // enterpriseParam.setMedicalProducePhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("MedicalProducePhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 10) {
+                   // enterpriseParam.setMedicalBusinessPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("MedicalBusinessPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 11) {
+                  //  enterpriseParam.setIndustrialProductsPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("IndustrialProductsPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 12) {
+                  //  enterpriseParam.setPublicityPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("PublicityPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 13) {
+                  //  enterpriseParam.setCertificatePhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("CertificatePhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+                if (supervisionEnterpriseDocument.getFlag() == 14) {
+                   // enterpriseParam.setOtherPhotos(supervisionEnterpriseDocument.getDocument());
+                    result.put("OtherPhotos",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
+                }
+            }
+        }
+        return result;
+    }
 
     @Override
     public Map<String, Object> updateLicensePhotosById(int enterpriseId,String businessLicensePhoto,String foodBusinessPhoto){
         List<SupervisionEnterpriseDocument> list = supervisionEnterpriseDocumentMapper.selectByEnterpriseId(enterpriseId);
         Map<String, Object> result= new HashMap<>();
-        result.put("businessLicensePhoto","");
-        result.put("foodBusinessPhoto","");
         if (list.size()>0) {
             for (SupervisionEnterpriseDocument supervisionEnterpriseDocument : list) {
 
@@ -3573,6 +3646,24 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         Map<String, Object> result= new HashMap<>();
         result.put("vrUrl",supervisionEnterprise.getVrUrl());
         return result;
+    }
+
+    @Override
+    public void changeLicensePhoto(SysUser sysUser,String json) {
+        //EnterpriseParam enterpriseParam
+        EnterpriseParam enterpriseParam = JSONObject.parseObject(json,EnterpriseParam.class);
+        ValidationResult result = validator.validate(enterpriseParam);
+        if(result.isHasErrors()){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+        }
+        SupervisionEnterprise before = supervisionEnterpriseMapper.selectByPrimaryKey(sysUser.getInfoId());
+        if (before == null) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "待更新企业不存在");
+        }
+        SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
+        supervisionEnterprise.setId(sysUser.getInfoId());
+        insertEnterpriseDocumentList(supervisionEnterprise,enterpriseParam);
+        return;
     }
 
 }

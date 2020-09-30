@@ -1,7 +1,9 @@
 package com.example.upc.controller.miniProgram;
 
 import com.alibaba.fastjson.JSON;
+import com.example.upc.common.BusinessException;
 import com.example.upc.common.CommonReturnType;
+import com.example.upc.common.EmBusinessError;
 import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.MeasurementSearchParam;
 import com.example.upc.controller.searchParam.OnlineBusinessSearchParam;
@@ -14,9 +16,13 @@ import com.example.upc.dao.UserEnterpriseVoteMapper;
 import com.example.upc.dataobject.*;
 import com.example.upc.redis.UserSessionService;
 import com.example.upc.service.*;
+import com.example.upc.util.HttpClient;
 import com.example.upc.util.miniProgram.ResultVo;
+import com.google.common.collect.Lists;
+import lombok.experimental.var;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -73,13 +76,41 @@ public class MiniProgramController {
     private FormatSupplierService formatSupplierService;
     @Autowired
     private OnlineBusinessService onlineBusinessService;
+    @Autowired
+    private AiTokenService aiTokenService;
 
-
-    // 用户登录（成功之后传cookie，里面存的有用户信息，可以用SysUser接收）
+    //人脸识别登录的账密判断
     @RequestMapping("/userLogin")
     @ResponseBody
     public ResultVo userLogin(HttpServletResponse response, UserParam userParam) {
         return new ResultVo(userSessionService.miniUserLogin(response,userParam));
+    }
+
+    @RequestMapping("/faceLogin")
+    @ResponseBody
+    public CommonReturnType faceLogin(@RequestParam("file") MultipartFile file,HttpServletResponse response,UserParam userParam) {
+        if(userParam.getUserId()==null)
+        {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"userId为空");
+        }
+        Integer score = aiTokenService.faceContrastByCaId(file,userParam.getUserId());
+        if(score < 80){
+            throw new BusinessException(EmBusinessError.FACE_ERROR,"人脸识别失败");
+        }
+        return CommonReturnType.create(userSessionService.checkWeChatId(response,userParam));
+    }
+
+    /**
+     * 获取openId
+     * @param jsCode
+     * @return
+     */
+    @RequestMapping("/getOpenId")
+    public CommonReturnType getOpenId(String jsCode) {
+        String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx9347d04595241011&secret=1831c67a3d2f9051f92a18d3a0ec27f1&js_code="+jsCode+"&grant_type=authorization_code";
+        String result =  HttpClient.getClient(url);
+        JSONObject json = JSONObject.fromObject(result);
+        return CommonReturnType.create(json.get("openid"));
     }
 
     @RequestMapping("/touristLogin")
@@ -105,7 +136,9 @@ public class MiniProgramController {
         // 统一信用代码
         result.put("idNumber", enterpriseParam.getIdNumber());
         // 联系电话
-        result.put("cantactWay", enterpriseParam.getCantactWay());
+        result.put("cantactWay", enterpriseParam.getCantactWay(
+
+        ));
         // 星评分
         result.put("enterpriseRating",userEnterpriseVoteMapper.selectVotesByEPId(enterpriseId));
         Map<String,Object> foodBusinessLicense = supervisionEnterpriseService.getFoodBusinessLicenseById(enterpriseId);
@@ -456,29 +489,48 @@ public class MiniProgramController {
         Map<String,Object> csMessage = new HashMap<>();
         Map<String,Object> otherMessage = new HashMap<>();
         //美团
-        mtMessage.put("mtHomePage",data.getMtHomePage());
-        mtMessage.put("mtFoodSafe",data.getMtFoodSafe());
-        mtMessage.put("mtFoodLicense",data.getMtFoodLicense());
-        mtMessage.put("mtBusinessLicense",data.getMtBusinessLicense());
+        if(data.getMtHomePage()!=null)
+        mtMessage.put("mtHomePage",JSON2ImageUrl(data.getMtHomePage()));
+        if(data.getMtFoodSafe()!=null)
+        mtMessage.put("mtFoodSafe",JSON2ImageUrl(data.getMtFoodSafe()));
+        if(data.getMtFoodLicense()!=null)
+        mtMessage.put("mtFoodLicense",JSON2ImageUrl(data.getMtFoodLicense()));
+        if(data.getMtBusinessLicense()!=null)
+        mtMessage.put("mtBusinessLicense",JSON2ImageUrl(data.getMtBusinessLicense()));
         //饿了么
-        elmMessage.put("elmHomePage",data.getElmHomePage());
-        elmMessage.put("elmFoodSafe",data.getElmFoodSafe());
-        elmMessage.put("elmFoodLicence",data.getElmFoodLicence());
-        elmMessage.put("elmBusinessLicence",data.getElmBusinessLicence());
+        if(data.getElmHomePage()!=null)
+        elmMessage.put("elmHomePage",JSON2ImageUrl(data.getElmHomePage()));
+        if(data.getElmFoodSafe()!=null)
+        elmMessage.put("elmFoodSafe",JSON2ImageUrl(data.getElmFoodSafe()));
+        if(data.getElmFoodLicence()!=null)
+        elmMessage.put("elmFoodLicence",JSON2ImageUrl(data.getElmFoodLicence()));
+        if(data.getElmBusinessLicence()!=null)
+        elmMessage.put("elmBusinessLicence",JSON2ImageUrl(data.getElmBusinessLicence()));
         //百度
-        bdMessage.put("bdHomePage",data.getBdHomePage());
-        bdMessage.put("bdFoodSafe",data.getBdFoodSafe());
-        bdMessage.put("bdFoodLicence",data.getBdFoodSafe());
-        bdMessage.put("bdBusinessLicence",data.getBdBusinessLicence());
+        if(data.getBdHomePage()!=null)
+        bdMessage.put("bdHomePage",JSON2ImageUrl(data.getBdHomePage()));
+        if(data.getBdFoodSafe()!=null)
+        bdMessage.put("bdFoodSafe",JSON2ImageUrl(data.getBdFoodSafe()));
+        if(data.getBdFoodSafe()!=null)
+        bdMessage.put("bdFoodLicence",JSON2ImageUrl(data.getBdFoodSafe()));
+        if(data.getBdBusinessLicence()!=null)
+        bdMessage.put("bdBusinessLicence",JSON2ImageUrl(data.getBdBusinessLicence()));
         //其他
-        otherMessage.put("otherHomePage",data.getOtherHomePage());
-        otherMessage.put("otherFoodSafe",data.getOtherFoodSafe());
-        otherMessage.put("otherFoodLicence",data.getOtherFoodLicence());
-        otherMessage.put("otherBusinessLicence",data.getOtherBusinessLicence());
+        if(data.getOtherHomePage()!=null)
+        otherMessage.put("otherHomePage",JSON2ImageUrl(data.getOtherHomePage()));
+        if(data.getOtherFoodSafe()!=null)
+        otherMessage.put("otherFoodSafe",JSON2ImageUrl(data.getOtherFoodSafe()));
+        if(data.getOtherFoodLicence()!=null)
+        otherMessage.put("otherFoodLicence",JSON2ImageUrl(data.getOtherFoodLicence()));
+        if(data.getOtherBusinessLicence()!=null)
+        otherMessage.put("otherBusinessLicence",JSON2ImageUrl(data.getOtherBusinessLicence()));
         //场所校验图
-        csMessage.put("enterpriseIcon",data.getEnterpriseIcon());
-        csMessage.put("operationArea",data.getOperationArea());
-        csMessage.put("license",data.getLicense());
+        if(data.getEnterpriseIcon()!=null)
+        csMessage.put("enterpriseIcon",JSON2ImageUrl(data.getEnterpriseIcon()));
+        if(data.getOperationArea()!=null)
+        csMessage.put("operationArea",JSON2ImageUrl(data.getOperationArea()));
+        if(data.getLicense()!=null)
+        csMessage.put("license",JSON2ImageUrl(data.getLicense()));
 
         Map<String,Object> resultVo = new HashMap<>();
         resultVo.put("id",data.getId());
@@ -486,7 +538,16 @@ public class MiniProgramController {
         resultVo.put("name",data.getName());
         resultVo.put("address",data.getAddress());
         resultVo.put("phone",data.getPhone());
-        resultVo.put("splat",data.getSplat());
+        List<Integer> arr= Lists.newArrayList();
+        char ch;
+        for(int i=0;i<data.getSplat().length();++i){
+            if (Character.isDigit(data.getSplat().charAt(i))){  // 判断是否是数字
+                ch=data.getSplat().charAt(i);
+                int num = Integer.parseInt(String.valueOf(ch));
+                arr.add(num);
+            }
+        }
+        resultVo.put("splat",arr);
         resultVo.put("examFlag",data.getExamFlag());
         resultVo.put("answer",data.getAnswer());
         resultVo.put("cs",csMessage);
@@ -502,16 +563,11 @@ public class MiniProgramController {
      * @return
      */
     @RequestMapping("/insertOnlineBusiness")
-    public ResultVo insertOnlineBusiness(@RequestBody OnlineBusiness onlineBusiness, SysUser sysUser){
-
-        onlineBusinessService.insertMessageByEnterpriseId(onlineBusiness);
+    public ResultVo insertOnlineBusiness(@RequestBody String json,SysUser sysUser){
+      //OnlineBusinessParm onlineBusinessParm
+        onlineBusinessService.insertMessageByEnterpriseId(json);
         return new ResultVo("成功！");
     }
-
-
-
-
-
 
     /**
      * 功能描述:通过request来获取到json数据<br/>
@@ -572,8 +628,9 @@ public class MiniProgramController {
         JSONObject jsonObject1 = JSONObject.fromObject(jsonArray.get(0));
         JSONObject jsonObject2 = JSONObject.fromObject(jsonObject1.get("response"));
         // 图片存储地址记得上传的时候更改IP
-        String host = "http://127.0.0.1:8080/upload/picture/";
-  //      String host = "http://123.234.130.3:8080/upload/picture/";
+        // String host = "http://127.0.0.1:8080/upload/picture/";
+        //  String host = "http://123.234.130.3:8080/upload/picture/";
+        String host = "https://www.yiwifi1.com:8088/upload/picture/";
         String imgUrl = host+ jsonObject2.get("data");
         return imgUrl;
     }
