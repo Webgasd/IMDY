@@ -10,10 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class AccompanyMeal {
-        public static String path = "/Users/weixj/Desktop/wph/IMDY/upload/";
+       // public static String path = "C:\\Users\\my\\Desktop\\weixin2\\IMDY\\upload\\";
 
 //    上传到服务器用以下路径
-//    public static String path = "upload/";
+    public static String path = "upload/";
 
     public static void main(String[] args) throws Exception {
 

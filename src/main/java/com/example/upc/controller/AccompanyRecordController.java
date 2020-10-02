@@ -3,6 +3,7 @@ package com.example.upc.controller;
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.searchParam.AccompanySearchParam;
 import com.example.upc.controller.searchParam.BillReportSearchParam;
+import com.example.upc.controller.searchParam.OriginRecordExSearchParam;
 import com.example.upc.dataobject.AccompanyRecord;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.AccompanyRecordService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,5 +61,10 @@ public class AccompanyRecordController {
             e.printStackTrace();
         }
         return CommonReturnType.create(accompanyRecordService.getAccompanyRecordByDate(startDate,sysUser));
+    }
+    @RequestMapping("/standingAccompanyRecord")
+    @ResponseBody
+    public CommonReturnType standingAccompanyRecord(Integer id, SysUser sysUser) throws Exception {
+        return CommonReturnType.create(accompanyRecordService.standingAccompanyRecord(id,sysUser));
     }
 }
