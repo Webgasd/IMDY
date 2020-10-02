@@ -2057,6 +2057,114 @@ name=回收 //回收单位名称
 }
 ```
 
+### 按日期查找校园陪餐记录
+
+```
+远程：https://www.yiwifi1.com:8088/Accompany/getAccompanyRecordByDate
+```
+
+方法：POST
+
+参数：
+
+```
+{
+
+​     "date":"2020-9-10"
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": [
+
+​    {
+
+​      "id": 1,
+
+​      "enterpriseId": 296661,
+
+​      "mealDate": "2020-09-10",
+
+​      "mealTime": "餐次",
+
+​      "mealAccompanys": "bbbbbbbbbb",
+
+​      "canteenHealth": "1",
+
+​      "foodQuality": "1",
+
+​      "mealNumber": "1",
+
+​      "staffAttitude": "1",
+
+​      "staffSpecifications": "1",
+
+​      "totalSatisfaction": "1",
+
+​      "diningWindow": "aaa",
+
+​      "mealRecord": "aaa",
+
+​      "diningEnvironment": "aaa",
+
+​      "operator": "mini",
+
+​      "operatorIp": "127.0.0.1",
+
+​      "operatorTime": "2020-10-02T13:43:07.000+0000"
+
+​    },
+
+​    {
+
+​      "id": 12,
+
+​      "enterpriseId": 296661,
+
+​      "mealDate": "2020-09-10",
+
+​      "mealTime": "午餐",
+
+​      "mealAccompanys": "chao",
+
+​      "canteenHealth": "满意",
+
+​      "foodQuality": "满意",
+
+​      "mealNumber": "满意",
+
+​      "staffAttitude": "满意",
+
+​      "staffSpecifications": "满意",
+
+​      "totalSatisfaction": "满意",
+
+​      "diningWindow": "aaa",
+
+​      "mealRecord": "aaa",
+
+​      "diningEnvironment": "aaa",
+
+​      "operator": "mini",
+
+​      "operatorIp": "127.0.0.1",
+
+​      "operatorTime": "2020-10-02T13:40:25.000+0000"
+
+​    }
+
+  ]
+
+}
+```
+
 
 
 ## 新增自查（董志涵）
