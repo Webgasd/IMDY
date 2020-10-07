@@ -2053,7 +2053,7 @@ name=回收 //回收单位名称
 
   "status": "success",
 
-  "data": **null**
+  "data": ”null“
 
 }
 
@@ -2193,6 +2193,355 @@ name=回收 //回收单位名称
 ​    }
 
   ]
+
+}
+```
+
+## 晨检出勤(晁展)
+
+### 新增晨检出勤记录
+
+`远程：https://www.yiwifi1.com:8088/morningAttendance/insert`
+
+方法：POST
+
+参数：
+
+```
+{
+
+  "checkTime":"2020-07-10", //晨检考勤时间
+
+  "recorderName":"chao",    //记录人
+
+  "morningAttendanceInfosList":[
+  {"employeeName":"chao",             //从业人员姓名
+   "bodyHealth":"健康",               //身体症状
+   "attendanceSituation":"迟到"},     //出勤状况
+  {"employeeName":"chao1",
+   "bodyHealth":"健康",
+   "attendanceSituation":"迟到"}
+   ]
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": **null**
+
+}
+
+
+```
+
+### 修改晨检出勤记录
+
+`远程：https://www.yiwifi1.com:8088/morningAttendance/update`
+
+方法：POST
+
+参数：
+
+```
+{
+
+  "attendanceId":13,       //记录id
+
+  "checkTime":"2020-07-10",  //晨检考勤时间记录名称
+
+  "recorderName":"chao",     //记录者
+
+  "morningAttendanceInfosList":[
+
+​    {"employeeName":"chao",  //从业人员姓名
+
+​     "bodyHealth":"健康1",    //健康状况
+
+​     "attendanceSituation":"迟到1"},  //出勤状况
+
+​    {"employeeName":"chao11",
+
+​     "bodyHealth":"健康1",
+
+​     "attendanceSituation":"迟到1"}
+
+​     ]
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": **null**
+
+}
+```
+
+### 删除晨检考勤
+
+`远程：https://www.yiwifi1.com:8088/morningAttendance/delete`
+
+方法：POST
+
+参数：
+
+```
+{
+
+   "id":14   //晨检考勤记录id
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": **null**
+
+}
+```
+
+### 获取所有考勤记录
+
+`远程：https://www.yiwifi1.com:8088/startSelfInspection/getAllMorningAttendance`
+
+方法：POST
+
+无参数
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": {
+
+​    "status": "success",
+
+​    "data": [
+
+​      {
+
+​        "enterpriseId": 296661,   //企业Id
+
+​        "checkTime": "2020-07-10",//出勤记录日期
+
+​        "recorderName": "chao",//记录人员
+
+​        "attendanceId": 13,//记录id
+
+​        "morningAttendanceInfosList": [   //记录名单
+
+​          {
+
+​            "id": 11,
+
+​            "attendanceId": 13,   //记录Id
+
+​            "employeeName": "chao",//从业人员名字
+
+​            "bodyHealth": "健康1",//健康状况
+
+​            "attendanceSituation": "迟到1",//出勤状况
+
+​            "operator": "Zcc",
+
+​            "operatorIp": "127.0.0.1",
+
+​            "operatorTime": "2020-10-07T04:26:41.000+0000"
+
+​          },
+
+​          {
+
+​            "id": 12,
+
+​            "attendanceId": 13,
+
+​            "employeeName": "chao11",
+
+​            "bodyHealth": "健康1",
+
+​            "attendanceSituation": "迟到1",
+
+​            "operator": "Zcc",
+
+​            "operatorIp": "127.0.0.1",
+
+​            "operatorTime": "2020-10-07T04:26:41.000+0000"
+
+​          }
+
+​        ]
+
+​      },
+
+​      {
+
+​        "enterpriseId": 296661,
+
+​        "checkTime": "2020-07-10",
+
+​        "recorderName": "chao",
+
+​        "attendanceId": 15,
+
+​        "morningAttendanceInfosList": [
+
+​          {
+
+​            "id": 7,
+
+​            "attendanceId": 15,
+
+​            "employeeName": "chao",
+
+​            "bodyHealth": "健康",
+
+​            "attendanceSituation": "迟到",
+
+​            "operator": "zcc",
+
+​            "operatorIp": **null**,
+
+​            "operatorTime": "2020-10-07T04:17:46.000+0000"
+
+​          },
+
+​          {
+
+​            "id": 8,
+
+​            "attendanceId": 15,
+
+​            "employeeName": "chao1",
+
+​            "bodyHealth": "健康",
+
+​            "attendanceSituation": "迟到",
+
+​            "operator": "zcc",
+
+​            "operatorIp": **null**,
+
+​            "operatorTime": "2020-10-07T04:17:46.000+0000"
+
+​          }
+
+​        ]
+
+​      }
+
+​    ]
+
+  }
+
+}
+```
+
+### 按日期获取晨检出勤记录
+
+```
+远程：https://www.yiwifi1.com:8088/startSelfInspection/getMorningAttendanceByDate
+```
+
+方法：POST
+
+参数：
+
+     {
+     "date":"2020-9-10"
+     }
+
+返回值:
+
+```
+{
+
+  "status": "success",
+
+  "data": {
+
+​    "status": "success",
+
+​    "data": [
+
+​      {
+
+​        "enterpriseId": 296661,
+
+​        "checkTime": "2020-07-10",
+
+​        "recorderName": "chao",
+
+​        "attendanceId": 15,
+
+​        "morningAttendanceInfosList": [
+
+​          {
+
+​            "id": 7,
+
+​            "attendanceId": 15,
+
+​            "employeeName": "chao",
+
+​            "bodyHealth": "健康",
+
+​            "attendanceSituation": "迟到",
+
+​            "operator": "zcc",
+
+​            "operatorIp": **null**,
+
+​            "operatorTime": "2020-10-07T04:17:46.000+0000"
+
+​          },
+
+​          {
+
+​            "id": 8,
+
+​            "attendanceId": 15,
+
+​            "employeeName": "chao1",
+
+​            "bodyHealth": "健康",
+
+​            "attendanceSituation": "迟到",
+
+​            "operator": "zcc",
+
+​            "operatorIp": **null**,
+
+​            "operatorTime": "2020-10-07T04:17:46.000+0000"
+
+​          }
+
+​        ]
+
+​      }
+
+​    ]
+
+  }
 
 }
 ```
