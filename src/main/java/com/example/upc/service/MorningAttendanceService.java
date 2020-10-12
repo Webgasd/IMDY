@@ -17,4 +17,6 @@ public interface MorningAttendanceService {
     CommonReturnType getMorningAttendance(SysUser sysUser);
 
     CommonReturnType getMorningAttendanceByDate(Date startDate, SysUser sysUser);
+
+    Object getMorningAttendanceExcelById(int id, SysUser sysUser);
 }

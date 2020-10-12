@@ -59,4 +59,10 @@ public class MorningAttendanceController {
         }
         return CommonReturnType.create(morningAttendanceService.getMorningAttendanceByDate(startDate,sysUser));
     }
+
+    @RequestMapping("/getMorningAttendanceExcel")
+    @ResponseBody
+    public  CommonReturnType getMorningAttendanceExcel(int id,SysUser sysUser) {
+        return CommonReturnType.create(morningAttendanceService.getMorningAttendanceExcelById(id,sysUser));
+    }
 }

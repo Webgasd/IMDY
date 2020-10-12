@@ -171,4 +171,9 @@ public class MorningAttendanceServiceImpl implements MorningAttendanceService {
         }
         return null;
     }
+
+    @Override
+    public Object getMorningAttendanceExcelById(int id, SysUser sysUser) {
+        return null;
+    }
 }
