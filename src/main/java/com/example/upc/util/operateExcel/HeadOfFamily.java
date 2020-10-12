@@ -64,6 +64,10 @@ public class HeadOfFamily {
 //        signList.add("/Users/weixj/Desktop/wph/IMDY/upload/picture/sign.png");
 //        signList.add("/Users/weixj/Desktop/wph/IMDY/upload/picture/sign.png");
 
+        signList.add("");
+        signList.add("");
+        signList.add("");
+
         getWord(data1,data,picmap, signList,1000);
 
     }
@@ -73,7 +77,7 @@ public class HeadOfFamily {
      * @param data1 表格外的数据，比如日期
      * @param data2 表格内的数据
      * @param picmap 图片，若没有图片，则放空字符串""
-     * @param signList 签名图片，若没有图片，则List里什么也不放
+     * @param signList 签名图片，若没有图片，则放空字符串""
      * @param businessId 企业id
      * @throws Exception
      */
@@ -275,15 +279,20 @@ public class HeadOfFamily {
                 List<XWPFRun> runs = pp2.getRuns();
                 System.out.println(runs.size());
                 for (XWPFRun run : runs) {
-                    try (FileInputStream imgis = new FileInputStream(pictures01.get(i))) {//***
-                        System.out.println("此段代码执行了！"+pictures01.get(i));
-                        run.addPicture(imgis, XWPFDocument.PICTURE_TYPE_PNG, i + ".png", Units.toEMU(120),
-                                Units.toEMU(75));// 最后两个参数设置图片的长度和宽度
-                        pp2.addRun(run);
-                        run.setText("  ");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if(!pictures01.get(i).equals("")){
+                        try (FileInputStream imgis = new FileInputStream(pictures01.get(i))) {//***
+                            System.out.println("此段代码执行了！"+pictures01.get(i));
+                            run.addPicture(imgis, XWPFDocument.PICTURE_TYPE_PNG, i + ".png", Units.toEMU(120),
+                                    Units.toEMU(75));// 最后两个参数设置图片的长度和宽度
+                            pp2.addRun(run);
+                            run.setText("  ");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        run.setText("");
                     }
+
                 }
 
 //            }

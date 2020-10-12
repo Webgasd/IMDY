@@ -179,8 +179,6 @@ public class FormatOriginRecordExServiceImpl implements FormatOriginRecordExServ
         }
         String fileName = "原料索证";
         String path = WasteExcel.getXLsx(data,"/template/【导出】原料索证模版.xlsx",fileName,sysUser.getInfoId());
-
-
         return path;
     }
 
