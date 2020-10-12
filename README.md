@@ -686,7 +686,8 @@ postman访问地址：
             "operator": "zcc",
             "operatorIp": "124.124.124",
             "operatorTime": "2020-09-10T09:36:13.000+0000"
-        }]
+        }
+ ]
 ```
 
 ### 根据留样Id查看菜品（刘宁）
@@ -1547,7 +1548,7 @@ postman访问地址：
 
 ### 删除月度自查记录
 
-`https://www.yiwifi1.com:8088/monthlySelfcheckOptCategory/selectAllOpt`
+`https://www.yiwifi1.com:8088/monthlySelfcheckOptCategory/deleteById`
 
 方法：POST  'content-type': 'application/json'
 
