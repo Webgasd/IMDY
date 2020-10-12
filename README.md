@@ -1318,6 +1318,256 @@ postman访问地址：
 }
 ```
 
+## 月度自查
+
+### 新增月度自查
+
+`https://www.yiwifi1.com:8088/monthlySelfCheck/insertMonSelfcheck`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+{
+    "checkTime": "2020-10-12",
+    "checkStaff": "马建",
+    "accompanyStaff": "yydds",
+ 
+    "monthlySelfCheckOptCategoryParamList": [
+        {
+            "categoryId": 1,
+            "categoryName": "食品安全管理情况",
+            "pageNumber": 1,
+            "optList": [
+                {
+                    "optId": 1,
+                    "optTopic": "建立了以校长为第一责任人的食品安全责任制，明确各环节、各岗位从业人员的责任",
+                    "optIndex": 1,
+                    "optAnswer": "是"
+                },
+                {
+                    "optId": 2,
+                    "optTopic": "有健全的食品安全管理组织机构并运行良好",
+                    "optIndex": 2,
+                    "optAnswer": "是"
+                },
+                {
+                    "optId": 3,
+                    "optTopic": "\r\n有专职食品安全管理人员并落实食品安全责任",
+                    "optIndex": 3,
+                    "optAnswer": "是"
+                }
+            ]
+        },
+        {
+            "categoryId": 2,
+            "categoryName": "健康管理情况",
+            "pageNumber": 2,
+            "optList": [
+                {
+                    "optId": 4,
+                    "optTopic": "建立了从业人员健康管理档案",
+                    "optIndex": 1,
+                    "optAnswer": "是"
+                },
+                {
+                    "optId": 5,
+                    "optTopic": "从业人员具有有效的健康证明",
+                    "optIndex": 2,
+                    "optAnswer": "否"
+                },
+                {
+                    "optId": 6,
+                    "optTopic": "\r\n未发现患有国务院卫生行政部门规定的有碍食品卫生疾病的从业人员上岗",
+                    "optIndex": 3,
+                    "optAnswer": "是"
+                },
+                {
+                    "optId": 7,
+                    "optTopic": "有开展食品安全知识和技能培训的相关材料，从业人员能够基本掌握相关知识",
+                    "optIndex": 4,
+                    "optAnswer": "是"
+                }
+            ]
+        }
+    ],
+    
+    "checkContent": "123",
+    "existedProblem": "555",
+    "rectifySituation": "123",
+    "lastRecifySituation": "123"
+}
+
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": null
+}
+```
+
+
+
+### 查询月度自查
+
+`https://www.yiwifi1.com:8088/monthlySelfcheckOptCategory/selectAllOpt`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+{
+    "id":11
+}
+```
+
+- 返回值
+
+```json
+{
+    "id": ,
+    "enterpriseId": null,
+    "searchTime": null,
+    "checkTime": null,
+    "checkStaff": null,
+    "accompanyStaff": null,
+    "monthlySelfCheckOptCategoryParamList": [
+        {
+            "categoryId": 1,
+            "categoryName": "食品安全管理情况",
+            "pageNumber": 1,
+            "optList": [
+                {
+                    "optId": 1,
+                    "optTopic": "建立了以校长为第一责任人的食品安全责任制，明确各环节、各岗位从业人员的责任",
+                    "optIndex": 1,
+                    "optAnswer": "是"
+                },
+                {
+                    "optId": 2,
+                    "optTopic": "有健全的食品安全管理组织机构并运行良好",
+                    "optIndex": 2,
+                    "optAnswer": "是"
+                },
+                {
+                    "optId": 3,
+                    "optTopic": "\r\n有专职食品安全管理人员并落实食品安全责任",
+                    "optIndex": 3,
+                    "optAnswer": "是"
+                }
+            ]
+        },
+        {
+            "categoryId": 2,
+            "categoryName": "健康管理情况",
+            "pageNumber": 2,
+            "optList": [
+                {
+                    "optId": 4,
+                    "optTopic": "建立了从业人员健康管理档案",
+                    "optIndex": 1,
+                    "optAnswer": "是"
+                },
+                {
+                    "optId": 5,
+                    "optTopic": "从业人员具有有效的健康证明",
+                    "optIndex": 2,
+                    "optAnswer": "否"
+                },
+                {
+                    "optId": 6,
+                    "optTopic": "\r\n未发现患有国务院卫生行政部门规定的有碍食品卫生疾病的从业人员上岗",
+                    "optIndex": 3,
+                    "optAnswer": "是"
+                },
+                {
+                    "optId": 7,
+                    "optTopic": "有开展食品安全知识和技能培训的相关材料，从业人员能够基本掌握相关知识",
+                    "optIndex": 4,
+                    "optAnswer": "是"
+                }
+            ]
+        }
+    ],
+    "checkContent": "123",
+    "existedProblem": "555",
+    "rectifySituation": "123",
+    "lastRecifySituation": "123"
+}
+```
+
+### 按照日期查询月度自查
+
+`https://www.yiwifi1.com:8088/monthlySelfCheck/selectByDate`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+{
+    "searchTime":"2020"
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": [
+        {
+            "id": 1,
+            "enterpriseId": 296661,
+            "checkTime": "2020-10-11T06:41:32.000+0000",
+            "checkStaff": "宋西阳",
+            "accompanyStaff": "马建、张三",
+            "operator": null,
+            "operatorIp": null,
+            "operatorTime": "2020-10-11T06:42:31.000+0000"
+        },
+        {
+            "id": 2,
+            "enterpriseId": 296661,
+            "checkTime": "2020-09-11T11:29:50.000+0000",
+            "checkStaff": "宋西阳",
+            "accompanyStaff": "马建",
+            "operator": null,
+            "operatorIp": null,
+            "operatorTime": "2020-09-01T11:30:05.000+0000"
+        }
+    ]
+}
+```
+
+### 删除月度自查记录
+
+`https://www.yiwifi1.com:8088/monthlySelfcheckOptCategory/selectAllOpt`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+{
+    "id":1
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": null
+}
+```
+
 
 
 ## 新增废弃物（董志涵）
