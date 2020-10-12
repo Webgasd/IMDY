@@ -335,6 +335,7 @@
 <!--        <table schema="pingyi" tableName="food_additive" domainObjectName="FoodAdditive" enableCountByExample="false"-->
 <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--        selectByExampleQueryId="false"></table>-->
+<<<<<<< HEAD
 <!--        <table schema="pingyi" tableName="monthly_self_check" domainObjectName="MonthlySelfCheck"-->
 <!--               enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
@@ -355,5 +356,15 @@
 <!--               enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-       </context>
-   </generatorConfiguration>
+        <!--  <table schema="pingyi" tableName="accompany_record" domainObjectName="AccompanyRecord" enableCountByExample="false"
+          enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+          selectByExampleQueryId="false"></table>-->
+        <!-- <table schema="pingyi" tableName="morning_attendance" domainObjectName="MorningAttendance" enableCountByExample="false"
+          enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+          selectByExampleQueryId="false"></table>
+        <table schema="pingyi" tableName="morning_attendance_info" domainObjectName="MorningAttendanceInfo" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table> -->
+      </context>
+  </generatorConfiguration>
+
