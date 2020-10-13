@@ -23,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -108,13 +109,13 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
     }
 
     @Override
-    public CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser,LeaveSearchParam leaveSearchParam)
+    public CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser,LeaveSearchParam leaveSearchParam,PageQuery pageQuery)
     {
         if(leaveSearchParam.getStart()!=null) {
             leaveSearchParam.setEnd(new Date(leaveSearchParam.getStart().getTime() + (long) 24 * 60 * 60 * 1000));
-            return CommonReturnType.create(formatLeaveSampleMapper.getFoodSamplesRecord(sysUser.getInfoId(),leaveSearchParam.getStart(),leaveSearchParam.getEnd()));
+            return CommonReturnType.create(formatLeaveSampleMapper.getFoodSamplesRecord(sysUser.getInfoId(),leaveSearchParam.getStart(),leaveSearchParam.getEnd(),pageQuery));
         }
-        return CommonReturnType.create(formatLeaveSampleMapper.getFoodSamplesRecord(sysUser.getInfoId(),null,null));
+        return CommonReturnType.create(formatLeaveSampleMapper.getFoodSamplesRecord(sysUser.getInfoId(),null,null,pageQuery));
     }
 
     @Override
@@ -1780,7 +1781,8 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
     public List<Object> getFoodSamplesRecord(int enterpriseId,Date startDate) {
         Date endDate = new Date();
         endDate.setTime(startDate.getTime()+86399999);
-        List<FormatLeaveSample> searchList = formatLeaveSampleMapper.getFoodSamplesRecord(enterpriseId, startDate, endDate);
+        PageQuery pageQuery = new PageQuery();
+        List<FormatLeaveSample> searchList = formatLeaveSampleMapper.getFoodSamplesRecord(enterpriseId, startDate, endDate,pageQuery);
         List<Object> resultList = new LinkedList<>();
         for (int i=0;i<searchList.size();i++){
             Map<String,Object> tempItem = new LinkedHashMap<>();

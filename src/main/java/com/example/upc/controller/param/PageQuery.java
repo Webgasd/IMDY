@@ -5,6 +5,7 @@ package com.example.upc.controller.param;
  * @date 2019/4/12 11:00
  */
 public class PageQuery {
+    private int isPage = 0;
     private int pageNo = 1;
     private int pageSize = 10;
     private int offset;
@@ -31,5 +32,13 @@ public class PageQuery {
 
     public int getOffset() {
         return (pageNo - 1) * pageSize;
+    }
+
+    public int getIsPage() {
+        return isPage;
+    }
+
+    public void setIsPage(int isPage) {
+        this.isPage = isPage;
     }
 }

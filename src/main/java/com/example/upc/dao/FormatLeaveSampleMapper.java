@@ -66,7 +66,7 @@ public interface FormatLeaveSampleMapper {
     List<FormatLeaveSample> getPageEnterprise(@Param("page") PageQuery page, @Param("unit") Integer unit, @Param("search") LeaveSearchParam leaveSearchParam);
     int countListAdmin(@Param("search") LeaveSearchParam leaveSearchParam);
     List<FormatLeaveSupParam> getPageAdmin(@Param("page") PageQuery page, @Param("search") LeaveSearchParam leaveSearchParam);
-    List<FormatLeaveSample> getFoodSamplesRecord(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
-    List<FormatLeaveExportParam> getFoodSamplesForExport(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
+    List<FormatLeaveSample> getFoodSamplesRecord(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate") Date endDate,@Param("page") PageQuery pageQuery);
+    List<FormatLeaveExportParam> getFoodSamplesForExport(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 }

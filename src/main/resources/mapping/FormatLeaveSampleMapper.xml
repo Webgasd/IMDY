@@ -363,6 +363,9 @@
     <if test="startDate != null">  AND date &gt;= #{startDate}</if>
     <if test="startDate != null"> AND date &lt; #{endDate} </if>
     order by date desc
+    <if test="page.isPage == 1">
+    limit #{page.offset}, #{page.pageSize}
+    </if>
   </select>
 
   <select id="getFoodSamplesForExport" resultMap="BaseExportParam">

@@ -1,5 +1,6 @@
 package com.example.upc.controller.searchParam;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -9,8 +10,10 @@ public class LeaveSearchParam {
     private String enterprise;
     private String meal;
     @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date start;
     @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date end;
     private List<Integer> areaList;
 
