@@ -340,22 +340,16 @@
         <!--<table schema="pingyi" tableName="supervision_ca" domainObjectName="SupervisionCa" enableCountByExample="false"-->
         <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!-- selectByExampleQueryId="false"></table>-->
-<<<<<<< HEAD
         <!--        <table schema="pingyi" tableName="food_additive" domainObjectName="FoodAdditive" enableCountByExample="false"-->
         <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--        selectByExampleQueryId="false"></table>-->
-
         <!--   <table schema="pingyi" tableName="accompany_record" domainObjectName="AccompanyRecord" enableCountByExample="false"
            enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
            selectByExampleQueryId="false"></table>-->
-
-    </context>
-</generatorConfiguration>
-=======
 <!--        <table schema="pingyi" tableName="food_additive" domainObjectName="FoodAdditive" enableCountByExample="false"-->
 <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--        selectByExampleQueryId="false"></table>-->
-<<<<<<< HEAD
+
 <!--        <table schema="pingyi" tableName="monthly_self_check" domainObjectName="MonthlySelfCheck"-->
 <!--               enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
@@ -388,4 +382,4 @@
       </context>
   </generatorConfiguration>
 
->>>>>>> 37136aef79997b8284efa837bba4872d61853fbf
+

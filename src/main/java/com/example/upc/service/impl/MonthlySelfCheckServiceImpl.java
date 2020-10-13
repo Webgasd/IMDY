@@ -5,10 +5,8 @@ import com.example.upc.common.EmBusinessError;
 import com.example.upc.common.ValidationResult;
 import com.example.upc.common.ValidatorImpl;
 import com.example.upc.controller.param.MonthlySelfCheckParam;
-import com.example.upc.dao.MonthlyAdditionalAnswerMapper;
 import com.example.upc.dao.MonthlySelfCheckMapper;
 import com.example.upc.dao.MonthlySelfcheckOptAnswerMapper;
-import com.example.upc.dataobject.MonthlyAdditionalAnswer;
 import com.example.upc.dataobject.MonthlySelfCheck;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.MonthlySelfCheckService;
@@ -27,31 +25,27 @@ public class MonthlySelfCheckServiceImpl implements MonthlySelfCheckService {
     @Autowired
     MonthlySelfcheckOptAnswerMapper monthlySelfcheckOptAnswerMapper;
     @Autowired
-    MonthlyAdditionalAnswerMapper monthlyAdditionalAnswerMapper;
-    @Autowired
     private ValidatorImpl validator;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void insertMonSelfcheck(MonthlySelfCheckParam monthlySelfCheckParam, SysUser sysUser) throws InvocationTargetException, IllegalAccessException {
-        MonthlySelfCheck monthlySelfCheck = new MonthlySelfCheck();
+        //参数校验
         ValidationResult result = validator.validate(monthlySelfCheckParam);
         if (result.isHasErrors()) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, result.getErrMsg());
         }
+
+        //插入月度自查记录
+        MonthlySelfCheck monthlySelfCheck = new MonthlySelfCheck();
         BeanUtils.copyProperties(monthlySelfCheckParam, monthlySelfCheck);
         monthlySelfCheck.setEnterpriseId(sysUser.getInfoId());
-        //插入月度自查记录
         monthlySelfCheckMapper.insert(monthlySelfCheck);
         int selfCheckId = monthlySelfCheck.getId();
+
         //插入选择题答案
         monthlySelfCheckParam.getMonthlySelfCheckOptCategoryParamList().forEach(item ->
                 monthlySelfcheckOptAnswerMapper.batchInsert(item.getOptList(), selfCheckId));
-         // 插入附加题答案
-        MonthlyAdditionalAnswer monthlyAdditionalAnswer = new MonthlyAdditionalAnswer();
-        BeanUtils.copyProperties(monthlySelfCheckParam,monthlyAdditionalAnswer);
-        monthlyAdditionalAnswer.setSelfCheckId(selfCheckId);
-        monthlyAdditionalAnswerMapper.insert(monthlyAdditionalAnswer);
     }
 
     @Override
@@ -68,6 +62,10 @@ public class MonthlySelfCheckServiceImpl implements MonthlySelfCheckService {
         }
         monthlySelfCheckMapper.deleteByPrimaryKey(monthlySelfCheckParam.getId());
         monthlySelfcheckOptAnswerMapper.deleteBySelfCheckId(monthlySelfCheckParam);
-        monthlyAdditionalAnswerMapper.deleteBySelfCheckId(monthlySelfCheckParam);
+    }
+
+    @Override
+    public Object standingBook(MonthlySelfCheckParam monthlySelfCheckParam){
+        return null;
     }
 }
