@@ -2797,6 +2797,38 @@ name=回收 //回收单位名称
 }
 ```
 
+### 获取晨检出勤excel
+
+```
+远程：https://localhost:8088/morningAttendance/getMorningAttendanceExcel
+```
+
+方法：POST
+
+参数：
+
+```
+{
+
+  "startDate":"2020-07-08",
+
+  "endDate":"2020-09-12"
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": "C:\\Users\\my\\Desktop\\weixin2\\IMDY\\upload\/standingBook/202010/人员晨检及出勤296661.xlsx"
+
+}
+```
+
 
 
 ## 新增自查（董志涵）
