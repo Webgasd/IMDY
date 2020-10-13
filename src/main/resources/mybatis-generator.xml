@@ -313,6 +313,57 @@
 <!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--                       selectByExampleQueryId="false"></table>-->
 <!--        <table schema="pingyi" tableName="committee_additional_answer" domainObjectName="CommitteeAdditionalAnswer" enableCountByExample="false"-->
+        <!--                <table schema="pingyi" tableName="supervision_enterprise" domainObjectName="SupervisionEnterprise" enableCountByExample="false"-->
+        <!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                       selectByExampleQueryId="false"></table>-->
+        <!--                        <table schema="pingyi" tableName="bill_report" domainObjectName="BillReport" enableCountByExample="false"-->
+        <!--                               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                               selectByExampleQueryId="false"></table>-->
+
+        <!--                <table schema="pingyi" tableName="supervision_enterprise" domainObjectName="SupervisionEnterprise" enableCountByExample="false"-->
+        <!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                       selectByExampleQueryId="false"></table>-->
+
+        <!--<table tableName="inspect_sign_conf_ca" domainObjectName="InspectSignConfCa" enableCountByExample="false"-->
+        <!-- enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!-- selectByExampleQueryId="false"></table>-->
+        <!-- <table schema="pingyi" tableName="start_self_inspection" domainObjectName="StartSelfInspection" enableCountByExample="false"-->
+        <!-- enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!-- selectByExampleQueryId="false"></table>-->
+        <!--<table schema="pingyi" tableName="supervision_enterprise" domainObjectName="SupervisionEnterprise" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
+        <!-- <table schema="pingyi" tableName="origin_record_bill" domainObjectName="OriginRecordBill" enableCountByExample="false"-->
+        <!-- enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!-- selectByExampleQueryId="false"></table>-->
+        <!-- <table schema="pingyi" tableName="bill_report" domainObjectName="BillReport" enableCountByExample="false"-->
+        <!-- enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
+        <!--<table schema="pingyi" tableName="ai_token" domainObjectName="AiToken" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
+        <!--<table schema="pingyi" tableName="ai_token" domainObjectName="AiToken" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
+        <!--<table schema="pingyi" tableName="supervision_ca" domainObjectName="SupervisionCa" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!-- selectByExampleQueryId="false"></table>-->
+        <!--        <table schema="pingyi" tableName="food_additive" domainObjectName="FoodAdditive" enableCountByExample="false"-->
+        <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--        selectByExampleQueryId="false"></table>-->
+        <!--   <table schema="pingyi" tableName="accompany_record" domainObjectName="AccompanyRecord" enableCountByExample="false"
+           enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+           selectByExampleQueryId="false"></table>-->
+<!--        <table schema="pingyi" tableName="food_additive" domainObjectName="FoodAdditive" enableCountByExample="false"-->
+<!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--        selectByExampleQueryId="false"></table>-->
+
+<!--        <table schema="pingyi" tableName="monthly_self_check" domainObjectName="MonthlySelfCheck"-->
+<!--               enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table schema="pingyi" tableName="monthly_selfcheck_opt" domainObjectName="MonthlySelfcheckOpt"-->
+<!--               enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
 <!--        <table schema="pingyi" tableName="committee_check" domainObjectName="CommitteeCheck" enableCountByExample="false"-->
@@ -324,5 +375,17 @@
 <!--        <table schema="pingyi" tableName="committee_check_opt_answer" domainObjectName="CommitteeCheckOptAnswer" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-    </context>
-</generatorConfiguration>
+
+        <!--  <table schema="pingyi" tableName="accompany_record" domainObjectName="AccompanyRecord" enableCountByExample="false"
+          enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+          selectByExampleQueryId="false"></table>-->
+        <!-- <table schema="pingyi" tableName="morning_attendance" domainObjectName="MorningAttendance" enableCountByExample="false"
+          enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+          selectByExampleQueryId="false"></table>
+        <table schema="pingyi" tableName="morning_attendance_info" domainObjectName="MorningAttendanceInfo" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table> -->
+      </context>
+  </generatorConfiguration>
+
+

@@ -29,7 +29,7 @@ public interface FormatLeaveService {
     List<Object> getFoodSamplesRecord(int enterpriseId, Date startDate);
     void miniInsert(String json, SysUser sysUser);
     void miniUpdate(String json,SysUser sysUser);
-    CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser, LeaveSearchParam leaveSearchParam);
+    CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser, LeaveSearchParam leaveSearchParam,PageQuery pageQuery);
 
 
     String standingBook (LeaveSearchParam leaveSearchParam, SysUser sysUser) throws IOException;

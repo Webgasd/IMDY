@@ -62,8 +62,8 @@ public class FormatLeaveController {
 
     @RequestMapping("/getFormatLeaveSampleByDate")
     @ResponseBody
-    public CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser, LeaveSearchParam leaveSearchParam){
-       return formatLeaveService.getFormatLeaveSampleByDate(sysUser,leaveSearchParam);
+    public CommonReturnType getFormatLeaveSampleByDate(SysUser sysUser,@RequestBody LeaveSearchParam leaveSearchParam,PageQuery pageQuery){
+       return formatLeaveService.getFormatLeaveSampleByDate(sysUser,leaveSearchParam,pageQuery);
     }
 
     @RequestMapping("/getById")

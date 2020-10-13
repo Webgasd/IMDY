@@ -40,4 +40,9 @@ public class MonthlySelfCheckController {
         return CommonReturnType.create(null);
     }
 
+    @RequestMapping("/standingBook")
+    @ResponseBody
+    CommonReturnType standingBook(@RequestBody MonthlySelfCheckParam monthlySelfCheckParam,SysUser sysUser){
+        return CommonReturnType.create(monthlySelfCheckService.standingBook(monthlySelfCheckParam));
+    }
 }
