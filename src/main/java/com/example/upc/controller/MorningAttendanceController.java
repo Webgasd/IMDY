@@ -2,6 +2,8 @@ package com.example.upc.controller;
 
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.param.MorningAttendenceParam;
+import com.example.upc.controller.searchParam.MorningAttendanceSearchParam;
+import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dataobject.AccompanyRecord;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.FormatEqupService;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,10 +62,10 @@ public class MorningAttendanceController {
         }
         return CommonReturnType.create(morningAttendanceService.getMorningAttendanceByDate(startDate,sysUser));
     }
-
     @RequestMapping("/getMorningAttendanceExcel")
     @ResponseBody
-    public  CommonReturnType getMorningAttendanceExcel(int id,SysUser sysUser) {
-        return CommonReturnType.create(morningAttendanceService.getMorningAttendanceExcelById(id,sysUser));
+    public CommonReturnType getMorningAttendanceExcel(@RequestBody MorningAttendanceSearchParam morningAttendanceSearchParam, SysUser sysUser) throws IOException {
+        morningAttendanceSearchParam.setEndDate(new Date(morningAttendanceSearchParam.getEndDate().getTime()+(long) 24 * 60 * 60 * 1000-1));
+        return CommonReturnType.create(morningAttendanceService.getMorningAttendanceExcelByDate(morningAttendanceSearchParam,sysUser));
     }
 }

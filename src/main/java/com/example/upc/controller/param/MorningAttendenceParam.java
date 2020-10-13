@@ -13,6 +13,12 @@ public class MorningAttendenceParam {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date checkTime;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date startDate;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date endDate;
     private String recorderName;
     private Integer attendanceId;
     List<MorningAttendanceInfo> morningAttendanceInfosList = Lists.newArrayList();;
@@ -48,5 +54,16 @@ public class MorningAttendenceParam {
     public void setRecorderName(String recorderName) {
         this.recorderName = recorderName == null ? null : recorderName.trim();
     }
-
+    public Date getStartDate() {
+        return startDate;
+    }
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+    public Date getEndDate() {
+        return endDate;
+    }
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 }

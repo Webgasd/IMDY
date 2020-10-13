@@ -2,9 +2,11 @@ package com.example.upc.service;
 
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.param.MorningAttendenceParam;
+import com.example.upc.controller.searchParam.MorningAttendanceSearchParam;
 import com.example.upc.dataobject.AccompanyRecord;
 import com.example.upc.dataobject.SysUser;
 
+import java.io.IOException;
 import java.util.Date;
 
 public interface MorningAttendanceService {
@@ -18,5 +20,5 @@ public interface MorningAttendanceService {
 
     CommonReturnType getMorningAttendanceByDate(Date startDate, SysUser sysUser);
 
-    Object getMorningAttendanceExcelById(int id, SysUser sysUser);
+    Object getMorningAttendanceExcelByDate(MorningAttendanceSearchParam morningAttendanceSearchParam, SysUser sysUser) throws IOException;
 }

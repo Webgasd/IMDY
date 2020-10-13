@@ -170,4 +170,13 @@
     <if test="endDate != null"> AND check_time &lt; #{endDate} </if>
     order by check_time desc
   </select>
+
+  <select id="getMorningAttendanceSearchByDate" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM morning_attendance
+    where enterprise_id=#{enterpriseId}
+    <if test="startDate != null">  AND check_time &gt;= #{startDate}</if>
+    <if test="endDate != null"> AND check_time &lt; #{endDate} </if>
+    order by check_time desc
+  </select>
 </mapper>
