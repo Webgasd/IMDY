@@ -1823,6 +1823,729 @@ name=回收 //回收单位名称
 }
 ```
 
+## 校园陪餐（晁展）
+
+### 新增陪餐
+
+```
+远程：https://www.yiwifi1.com:8088/Accompany/insert
+```
+
+方法：POST
+
+参数：
+
+```
+{
+
+  "mealDate":"2020-9-10",   //陪餐日期
+
+  "mealTime":"午餐",        //餐次类别（早中晚）
+
+  "mealAccompanys":"chao", //陪餐人员
+
+  "canteenHealth":"满意",   //餐厅卫生
+
+  "foodQuality":"满意",     //饭菜质量
+
+  "mealNumber":"满意",      //饭菜数量
+
+  "staffAttitude":"满意",   //员工态度
+
+  "staffSpecifications":"满意",//工作人员规范
+
+  "totalSatisfaction":"满意",  //总体满意度
+
+  "diningWindow":"aaa",       //分餐窗口，url
+
+  "mealRecord":"aaa",         //菜品记录，url
+
+  "diningEnvironment":"aaa"   //就餐环境url
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": **null**
+
+}
+```
+
+### 修改陪餐
+
+```
+远程：https://www.yiwifi1.com:8088/Accompany/update
+```
+
+方法：POST
+
+参数：
+
+```
+{
+
+  "id":"1",       //校园陪餐对应记录id
+
+  "mealDate":"2020-9-10",
+
+  "mealTime":"餐次",
+
+  "mealAccompanys":"bbbbbbbbbb",
+
+  "canteenHealth":"1",
+
+  "foodQuality":"1",
+
+  "mealNumber":"1",
+
+  "staffAttitude":"1",
+
+  "staffSpecifications":"1",
+
+  "totalSatisfaction":"1",
+
+  "diningWindow":"aaa",   //url
+
+  "mealRecord":"aaa",     //url
+
+  "diningEnvironment":"aaa"  //url
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": **null**
+
+}
+```
+
+### 获取所有校园陪餐
+
+```
+远程：https://www.yiwifi1.com:8088/startSelfInspection/update
+```
+
+方法：POST
+
+参数：不传参
+
+```
+{
+
+  "status": "success",
+
+  "data": [
+
+​    {
+
+​      "id": 1,
+
+​      "enterpriseId": 296661,
+
+​      "mealDate": "2020-09-10",
+
+​      "mealTime": "餐次",
+
+​      "mealAccompanys": "bbbbbbbbbb",
+
+​      "canteenHealth": "1",
+
+​      "foodQuality": "1",
+
+​      "mealNumber": "1",
+
+​      "staffAttitude": "1",
+
+​      "staffSpecifications": "1",
+
+​      "totalSatisfaction": "1",
+
+​      "diningWindow": "aaa",
+
+​      "mealRecord": "aaa",
+
+​      "diningEnvironment": "aaa",
+
+​      "operator": "mini",
+
+​      "operatorIp": "127.0.0.1",
+
+​      "operatorTime": "2020-10-02T13:43:07.000+0000"
+
+​    },
+
+​    {
+
+​      "id": 11,
+
+​      "enterpriseId": 296661,
+
+​      "mealDate": "2020-09-03",
+
+​      "mealTime": "午餐",
+
+​      "mealAccompanys": "chao",
+
+​      "canteenHealth": "满意",
+
+​      "foodQuality": "满意",
+
+​      "mealNumber": "满意",
+
+​      "staffAttitude": "满意",
+
+​      "staffSpecifications": "满意",
+
+​      "totalSatisfaction": "满意",
+
+​      "diningWindow": "C:\\Users\\my\\Desktop\\weixin2\\IMDY\\upload\\picture\\202009\\1600786481356.png",
+
+​      "mealRecord": "C:\\Users\\my\\Desktop\\weixin2\\IMDY\\upload\\picture\\202009\\1600786481356.png",
+
+​      "diningEnvironment": "C:\\Users\\my\\Desktop\\weixin2\\IMDY\\upload\\picture\\202009\\1600786481356.png",
+
+​      "operator": "mini",
+
+​      "operatorIp": "127.0.0.1",
+
+​      "operatorTime": "2020-09-30T14:14:04.000+0000"
+
+​    }
+
+  ]
+```
+
+### 删除校园陪餐
+
+```
+远程：https://www.yiwifi1.com:8088:8088/Accompany/delete
+```
+
+方法：POST
+
+参数:
+
+```
+{
+
+  "id":2
+
+}
+
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": ”null“
+
+}
+
+```
+
+### 导出校园陪餐word
+
+```
+远程：https://www.yiwifi1.com:8088/startSelfInspection/standingAccompanyRecord
+```
+
+方法：POST
+
+参数：
+
+```
+{
+
+​    "id":11  //校园陪餐记录Id
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": **null**
+
+}
+```
+
+### 按日期查找校园陪餐记录
+
+```
+远程：https://www.yiwifi1.com:8088/Accompany/getAccompanyRecordByDate
+```
+
+方法：POST
+
+参数：
+
+```
+{
+
+​     "date":"2020-9-10"
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": [
+
+​    {
+
+​      "id": 1,
+
+​      "enterpriseId": 296661,
+
+​      "mealDate": "2020-09-10",
+
+​      "mealTime": "餐次",
+
+​      "mealAccompanys": "bbbbbbbbbb",
+
+​      "canteenHealth": "1",
+
+​      "foodQuality": "1",
+
+​      "mealNumber": "1",
+
+​      "staffAttitude": "1",
+
+​      "staffSpecifications": "1",
+
+​      "totalSatisfaction": "1",
+
+​      "diningWindow": "aaa",
+
+​      "mealRecord": "aaa",
+
+​      "diningEnvironment": "aaa",
+
+​      "operator": "mini",
+
+​      "operatorIp": "127.0.0.1",
+
+​      "operatorTime": "2020-10-02T13:43:07.000+0000"
+
+​    },
+
+​    {
+
+​      "id": 12,
+
+​      "enterpriseId": 296661,
+
+​      "mealDate": "2020-09-10",
+
+​      "mealTime": "午餐",
+
+​      "mealAccompanys": "chao",
+
+​      "canteenHealth": "满意",
+
+​      "foodQuality": "满意",
+
+​      "mealNumber": "满意",
+
+​      "staffAttitude": "满意",
+
+​      "staffSpecifications": "满意",
+
+​      "totalSatisfaction": "满意",
+
+​      "diningWindow": "aaa",
+
+​      "mealRecord": "aaa",
+
+​      "diningEnvironment": "aaa",
+
+​      "operator": "mini",
+
+​      "operatorIp": "127.0.0.1",
+
+​      "operatorTime": "2020-10-02T13:40:25.000+0000"
+
+​    }
+
+  ]
+
+}
+```
+
+## 晨检出勤(晁展)
+
+### 新增晨检出勤记录
+
+`远程：https://www.yiwifi1.com:8088/morningAttendance/insert`
+
+方法：POST
+
+参数：
+
+```
+{
+
+  "checkTime":"2020-07-10", //晨检考勤时间
+
+  "recorderName":"chao",    //记录人
+
+  "morningAttendanceInfosList":[
+  {"employeeName":"chao",             //从业人员姓名
+   "bodyHealth":"健康",               //身体症状
+   "attendanceSituation":"迟到"},     //出勤状况
+  {"employeeName":"chao1",
+   "bodyHealth":"健康",
+   "attendanceSituation":"迟到"}
+   ]
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": **null**
+
+}
+
+
+```
+
+### 修改晨检出勤记录
+
+`远程：https://www.yiwifi1.com:8088/morningAttendance/update`
+
+方法：POST
+
+参数：
+
+```
+{
+
+  "attendanceId":13,       //记录id
+
+  "checkTime":"2020-07-10",  //晨检考勤时间记录名称
+
+  "recorderName":"chao",     //记录者
+
+  "morningAttendanceInfosList":[
+
+​    {"employeeName":"chao",  //从业人员姓名
+
+​     "bodyHealth":"健康1",    //健康状况
+
+​     "attendanceSituation":"迟到1"},  //出勤状况
+
+​    {"employeeName":"chao11",
+
+​     "bodyHealth":"健康1",
+
+​     "attendanceSituation":"迟到1"}
+
+​     ]
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": **null**
+
+}
+```
+
+### 删除晨检考勤
+
+`远程：https://www.yiwifi1.com:8088/morningAttendance/delete`
+
+方法：POST
+
+参数：
+
+```
+{
+
+   "id":14   //晨检考勤记录id
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": **null**
+
+}
+```
+
+### 获取所有考勤记录
+
+`远程：https://www.yiwifi1.com:8088/startSelfInspection/getAllMorningAttendance`
+
+方法：POST
+
+无参数
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": {
+
+​    "status": "success",
+
+​    "data": [
+
+​      {
+
+​        "enterpriseId": 296661,   //企业Id
+
+​        "checkTime": "2020-07-10",//出勤记录日期
+
+​        "recorderName": "chao",//记录人员
+
+​        "attendanceId": 13,//记录id
+
+​        "morningAttendanceInfosList": [   //记录名单
+
+​          {
+
+​            "id": 11,
+
+​            "attendanceId": 13,   //记录Id
+
+​            "employeeName": "chao",//从业人员名字
+
+​            "bodyHealth": "健康1",//健康状况
+
+​            "attendanceSituation": "迟到1",//出勤状况
+
+​            "operator": "Zcc",
+
+​            "operatorIp": "127.0.0.1",
+
+​            "operatorTime": "2020-10-07T04:26:41.000+0000"
+
+​          },
+
+​          {
+
+​            "id": 12,
+
+​            "attendanceId": 13,
+
+​            "employeeName": "chao11",
+
+​            "bodyHealth": "健康1",
+
+​            "attendanceSituation": "迟到1",
+
+​            "operator": "Zcc",
+
+​            "operatorIp": "127.0.0.1",
+
+​            "operatorTime": "2020-10-07T04:26:41.000+0000"
+
+​          }
+
+​        ]
+
+​      },
+
+​      {
+
+​        "enterpriseId": 296661,
+
+​        "checkTime": "2020-07-10",
+
+​        "recorderName": "chao",
+
+​        "attendanceId": 15,
+
+​        "morningAttendanceInfosList": [
+
+​          {
+
+​            "id": 7,
+
+​            "attendanceId": 15,
+
+​            "employeeName": "chao",
+
+​            "bodyHealth": "健康",
+
+​            "attendanceSituation": "迟到",
+
+​            "operator": "zcc",
+
+​            "operatorIp": **null**,
+
+​            "operatorTime": "2020-10-07T04:17:46.000+0000"
+
+​          },
+
+​          {
+
+​            "id": 8,
+
+​            "attendanceId": 15,
+
+​            "employeeName": "chao1",
+
+​            "bodyHealth": "健康",
+
+​            "attendanceSituation": "迟到",
+
+​            "operator": "zcc",
+
+​            "operatorIp": **null**,
+
+​            "operatorTime": "2020-10-07T04:17:46.000+0000"
+
+​          }
+
+​        ]
+
+​      }
+
+​    ]
+
+  }
+
+}
+```
+
+### 按日期获取晨检出勤记录
+
+```
+远程：https://www.yiwifi1.com:8088/startSelfInspection/getMorningAttendanceByDate
+```
+
+方法：POST
+
+参数：
+
+     {
+     "date":"2020-9-10"
+     }
+
+返回值:
+
+```
+{
+
+  "status": "success",
+
+  "data": {
+
+​    "status": "success",
+
+​    "data": [
+
+​      {
+
+​        "enterpriseId": 296661,
+
+​        "checkTime": "2020-07-10",
+
+​        "recorderName": "chao",
+
+​        "attendanceId": 15,
+
+​        "morningAttendanceInfosList": [
+
+​          {
+
+​            "id": 7,
+
+​            "attendanceId": 15,
+
+​            "employeeName": "chao",
+
+​            "bodyHealth": "健康",
+
+​            "attendanceSituation": "迟到",
+
+​            "operator": "zcc",
+
+​            "operatorIp": **null**,
+
+​            "operatorTime": "2020-10-07T04:17:46.000+0000"
+
+​          },
+
+​          {
+
+​            "id": 8,
+
+​            "attendanceId": 15,
+
+​            "employeeName": "chao1",
+
+​            "bodyHealth": "健康",
+
+​            "attendanceSituation": "迟到",
+
+​            "operator": "zcc",
+
+​            "operatorIp": **null**,
+
+​            "operatorTime": "2020-10-07T04:17:46.000+0000"
+
+​          }
+
+​        ]
+
+​      }
+
+​    ]
+
+  }
+
+}
+```
+
 
 
 ## 新增自查（董志涵）

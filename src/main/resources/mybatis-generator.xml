@@ -209,9 +209,9 @@
         <!--        <table tableName="format_leave_fruit" schema="pingyi" domainObjectName="FormatLeaveFruit" enableCountByExample="false"-->
         <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--        selectByExampleQueryId="false"></table>-->
-<!--                <table tableName="format_origin_record_ex" schema="pingyi" domainObjectName="FormatOriginRecordEx" enableCountByExample="false"-->
-<!--                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                selectByExampleQueryId="false"></table>-->
+        <!--                <table tableName="format_origin_record_ex" schema="pingyi" domainObjectName="FormatOriginRecordEx" enableCountByExample="false"-->
+        <!--                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                selectByExampleQueryId="false"></table>-->
         <!--<table tableName="format_origin_record_config" domainObjectName="FormatOriginRecordConfig" enableCountByExample="false"-->
         <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--selectByExampleQueryId="false"></table>-->
@@ -308,13 +308,13 @@
         <!--                <table schema="pingyi" tableName="supervision_enterprise" domainObjectName="SupervisionEnterprise" enableCountByExample="false"-->
         <!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--                       selectByExampleQueryId="false"></table>-->
-<!--                        <table schema="pingyi" tableName="bill_report" domainObjectName="BillReport" enableCountByExample="false"-->
-<!--                               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                               selectByExampleQueryId="false"></table>-->
+        <!--                        <table schema="pingyi" tableName="bill_report" domainObjectName="BillReport" enableCountByExample="false"-->
+        <!--                               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                               selectByExampleQueryId="false"></table>-->
 
-<!--                <table schema="pingyi" tableName="supervision_enterprise" domainObjectName="SupervisionEnterprise" enableCountByExample="false"-->
-<!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                       selectByExampleQueryId="false"></table>-->
+        <!--                <table schema="pingyi" tableName="supervision_enterprise" domainObjectName="SupervisionEnterprise" enableCountByExample="false"-->
+        <!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                       selectByExampleQueryId="false"></table>-->
 
         <!--<table tableName="inspect_sign_conf_ca" domainObjectName="InspectSignConfCa" enableCountByExample="false"-->
         <!-- enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
@@ -340,13 +340,13 @@
         <!--<table schema="pingyi" tableName="supervision_ca" domainObjectName="SupervisionCa" enableCountByExample="false"-->
         <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!-- selectByExampleQueryId="false"></table>-->
-<!--        <table schema="pingyi" tableName="food_additive" domainObjectName="FoodAdditive" enableCountByExample="false"-->
-<!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--        selectByExampleQueryId="false"></table>-->
+        <!--        <table schema="pingyi" tableName="food_additive" domainObjectName="FoodAdditive" enableCountByExample="false"-->
+        <!--        enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--        selectByExampleQueryId="false"></table>-->
 
         <!--   <table schema="pingyi" tableName="accompany_record" domainObjectName="AccompanyRecord" enableCountByExample="false"
            enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
            selectByExampleQueryId="false"></table>-->
 
-       </context>
-   </generatorConfiguration>
+    </context>
+</generatorConfiguration>
