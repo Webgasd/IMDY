@@ -14,5 +14,5 @@ public interface MonthlySelfCheckService {
     void insertMonSelfcheck(MonthlySelfCheckParam monthlySelfCheckParam,SysUser sysUser) throws InvocationTargetException, IllegalAccessException;
     List<MonthlySelfCheck> selectByDate(MonthlySelfCheckParam monthlySelfCheckParam,SysUser sysUser);
     void deleteById(MonthlySelfCheckParam monthlySelfCheckParam);
-    Object standingBook(MonthlySelfCheckParam monthlySelfCheckParam);
+    void standingBook(MonthlySelfCheckParam monthlySelfCheckParam) throws Exception;
 }

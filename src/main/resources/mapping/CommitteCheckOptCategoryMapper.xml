@@ -14,6 +14,19 @@
     <result column="operator_ip" jdbcType="VARCHAR" property="operatorIp" />
     <result column="operator_time" jdbcType="TIMESTAMP" property="operatorTime" />
   </resultMap>
+
+  <resultMap id="ResultMapParam" type="com.example.upc.controller.param.CommitteCheckOptParam">
+    <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+    <result column="page_number" jdbcType="INTEGER" property="pageNumber"/>
+    <collection property="optList" ofType="com.example.upc.controller.param.CommitteCheckOptTopicParam">
+      <result column="id" jdbcType="VARCHAR" property="optId"/>
+      <result column="opt_topic" jdbcType="VARCHAR" property="optTopic"/>
+      <result column="opt_index" jdbcType="VARCHAR" property="optIndex"/>
+      <result column="opt_answer" jdbcType="TIMESTAMP" property="optAnswer"/>
+    </collection>
+  </resultMap>
+
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
@@ -146,5 +159,18 @@
 
   <select id="getAll" resultMap="BaseResultMap">
     select * from committe_check_opt_category
+  </select>
+
+  <select id="selectAllOpt" parameterType="java.lang.Integer" resultMap="ResultMapParam">
+    <if test="committeeCheck.id != null and committeeCheck.id != 0">
+      SELECT a.*,b.answer opt_answer FROM(
+    </if>
+    SELECT a.id,a.category_id,a.opt_topic,a.opt_index,b.category category_name,b.page_number FROM
+    committee_check_opt as a
+    LEFT JOIN committe_check_opt_category as b on a.category_id = b.id
+    <if test="committeeCheck.id != null and committeeCheck.id != 0">
+      ) as a
+      LEFT JOIN committee_check_opt_answer as b on a.id=b.committee_check_opt_id and b.committee_check_id = #{committeeCheck.id}
+    </if>
   </select>
 </mapper>

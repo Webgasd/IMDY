@@ -1,5 +1,8 @@
 package com.example.upc.dataobject;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class MonthlySelfCheck {
@@ -28,6 +31,8 @@ public class MonthlySelfCheck {
      *
      * @mbg.generated Tue Oct 13 17:05:32 CST 2020
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date checkTime;
 
     /**
