@@ -2797,6 +2797,38 @@ name=回收 //回收单位名称
 }
 ```
 
+### 获取晨检出勤excel
+
+```
+远程：https://localhost:8088/morningAttendance/getMorningAttendanceExcel
+```
+
+方法：POST
+
+参数：
+
+```
+{
+
+  "startDate":"2020-07-08",
+
+  "endDate":"2020-09-12"
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": "C:\\Users\\my\\Desktop\\weixin2\\IMDY\\upload\/standingBook/202010/人员晨检及出勤296661.xlsx"
+
+}
+```
+
 
 
 ## 新增自查（董志涵）
@@ -3694,6 +3726,8 @@ listId=1 //配货单id
 `食品留样模板：https://www.yiwifi1.com:8088/upload/template/【导出】食品留样模板.xlsx`
 
 `索证索票模板：https://www.yiwifi1.com:8088/upload/template/【导出】原料索证模版.xlsx`
+
+`台账打印教程：https://www.yiwifi1.com:8088/upload/template/数据台账打印教程.pdf.`
 
 方法：POST
 
