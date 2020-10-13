@@ -1,5 +1,6 @@
 package com.example.upc.dao;
 
+import com.example.upc.controller.searchParam.MorningAttendanceSearchParam;
 import com.example.upc.dataobject.MorningAttendance;
 import org.apache.ibatis.annotations.Param;
 
@@ -58,4 +59,6 @@ public interface MorningAttendanceMapper {
     List<MorningAttendance> getByEnterpriseMapper(@Param("infoId")Integer infoId);
 
     List<MorningAttendance> getMorningAttendanceByDate(@Param("enterpriseId")Integer enterpriseId, @Param("startDate")Date startDate, @Param("endDate")Date endDate);
+
+    List<MorningAttendanceSearchParam> getMorningAttendanceSearchByDate(@Param("enterpriseId")Integer infoId,@Param("startDate") Date startDate, @Param("endDate")Date endDate);
 }
