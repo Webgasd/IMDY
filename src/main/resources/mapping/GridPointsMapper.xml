@@ -1168,6 +1168,7 @@
             </if>
         </trim><!--trim的用法，设置通用格式并删除前/后缀，在判断生效后添加格式，若前无删前缀，后无删后缀 -->
         union
+
         SELECT
         id,enterprise_name,shop_name,propaganda_enclosure,cantact_way,area,grid,registered_address,dynamic_grade,id_number,operation_mode,business_state,
         <if test="search.industryList.contains('foodBusiness')">a1_id,</if>
