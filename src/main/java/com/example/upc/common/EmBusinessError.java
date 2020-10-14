@@ -34,10 +34,7 @@ public enum EmBusinessError implements CommonError{
     MEASUREMENT_NAME(40012,"当前单位名称已被占用，请检查后重试"),
     CHECK_USERNO(40013,"暂无所属机构信息，请添加"),
     CHECK_USERERROR(40014,"暂无所属部门信息，请添加"),
-    UPDATE(41111,"待更新条目不存在，无法更新"),
-    //50000 为人脸识别相关信息
-    FACE_ERROR(50001,"人脸识别出错");
-
+    UPDATE(41111,"待更新条目不存在，无法更新");
     private EmBusinessError(int errCode,String errMsg){
         this.errCode = errCode;
         this.errMsg = errMsg;

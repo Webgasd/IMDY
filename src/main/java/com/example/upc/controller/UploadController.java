@@ -34,7 +34,6 @@ public class UploadController {
         String name = uploadFile(file,"picture");
         return CommonReturnType.create(name);
     }
-
     //实现视频上传
     @RequestMapping(value = "/uploadVideo",method = {RequestMethod.POST})
     @ResponseBody
@@ -53,7 +52,7 @@ public class UploadController {
 
     public String uploadFile(MultipartFile file,String type) throws IOException{
         Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String currentTime = dateFormat.format( now );
 
         String fileName=file.getOriginalFilename();
@@ -62,7 +61,6 @@ public class UploadController {
         if(!filed.exists()){
             filed.mkdirs();
         }
-
         String filename = System.currentTimeMillis()+(int)(1+Math.random()*1000)+fileName.substring(fileName.lastIndexOf("."));
         file.transferTo(new File(filed.getAbsolutePath(),filename));
         System.out.println(currentTime+"/"+filename);
@@ -107,53 +105,6 @@ public class UploadController {
     public static void downloadExcelModle(HttpServletResponse response,@RequestParam(name = "name") String fileName) {
         //下载
         File file = new File("upload/report/"+fileName);//   1.获取要下载的文件的绝对路径
-//        File file = new File("upload/report/"+fileName);//   1.获取要下载的文件的绝对路径
-//        File file = new File(fileName);//   1.获取要下载的文件的绝对路径
-        String newDname = fileName;     //2.获取要下载的文件名
-        System.out.println(fileName);
-        if (file.exists()) {  //判断文件是否存在
-            response.setHeader("content-type", "application/octet-stream");
-            response.setContentType("application/xlsx");
-            try {
-                response.setHeader("Content-Disposition", "attachment;filename=" + new String(newDname
-                        .getBytes("UTF-8"), "ISO8859-1"));  //3.设置content-disposition响应头控制浏览器以下载的形式打开文件.特别注意，在swagger中会练吗，
-                // 但是其实不会乱码。
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            byte[] buff = new byte[1024];    //5.创建数据缓冲区
-            BufferedInputStream bis = null;
-            OutputStream os = null;
-            OutputStream outputStream = null;
-            try {
-                FileInputStream inputStream = new FileInputStream(file);
-                outputStream = response.getOutputStream();
-                IOUtils.copy(inputStream, outputStream);
-                response.flushBuffer();
-                inputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (outputStream != null) {
-                    try {
-                        outputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-        else
-        {
-            System.out.println("1");
-        }
-    }
-
-
-//    @RequestMapping(value = "/downloadStandingBook")
-    public static void downloadStandingBook(HttpServletResponse response, String fileName, String path) {
-        //下载
-        File file = new File(path);//   1.获取要下载的文件的绝对路径
 //        File file = new File("upload/report/"+fileName);//   1.获取要下载的文件的绝对路径
 //        File file = new File(fileName);//   1.获取要下载的文件的绝对路径
         String newDname = fileName;     //2.获取要下载的文件名
