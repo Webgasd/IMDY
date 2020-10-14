@@ -183,4 +183,9 @@
   <select id="getByCheckId" resultMap="BaseResultMap">
     select * from committee_additional_answer where committee_check_id = #{checkId}
   </select>
+
+  <delete id="deleteByCheckId">
+    delete from committee_additional_answer
+    where committee_check_id = #{id}
+  </delete>
 </mapper>

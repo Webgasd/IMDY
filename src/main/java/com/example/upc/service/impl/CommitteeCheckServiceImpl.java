@@ -5,6 +5,7 @@ import com.example.upc.common.EmBusinessError;
 import com.example.upc.common.ValidationResult;
 import com.example.upc.common.ValidatorImpl;
 import com.example.upc.controller.param.CommitteCheckOptCategoryParam;
+import com.example.upc.controller.param.CommitteeCheckOptAnswerWithTopic;
 import com.example.upc.controller.param.CommitteeCheckParam;
 import com.example.upc.dao.CommitteCheckOptCategoryMapper;
 import com.example.upc.dao.CommitteeAdditionalAnswerMapper;
@@ -12,6 +13,7 @@ import com.example.upc.dao.CommitteeCheckMapper;
 import com.example.upc.dao.CommitteeCheckOptAnswerMapper;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.CommitteeCheckService;
+import com.example.upc.util.JsonToImageUrl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,13 +96,18 @@ public class CommitteeCheckServiceImpl implements CommitteeCheckService {
 
         Integer checkId = committeeCheckParam.getCheckId();
         CommitteeCheck committeeCheck = committeeCheckMapper.selectByPrimaryKey(checkId);
+        committeeCheck.setRepresentSign1(JsonToImageUrl.JSON2ImageUrl(committeeCheck.getRepresentSign1()));
+        committeeCheck.setRepresentSign2(JsonToImageUrl.JSON2ImageUrl(committeeCheck.getRepresentSign2()));
+        committeeCheck.setRepresentSign3(JsonToImageUrl.JSON2ImageUrl(committeeCheck.getRepresentSign3()));
         CommitteeAdditionalAnswer committeeAdditionalAnswer = committeeAdditionalAnswerMapper.getByCheckId(checkId);
+        committeeAdditionalAnswer.setAccompanyPic1(JsonToImageUrl.JSON2ImageUrl(committeeAdditionalAnswer.getAccompanyPic1()));
+        committeeAdditionalAnswer.setAccompanyPic2(JsonToImageUrl.JSON2ImageUrl(committeeAdditionalAnswer.getAccompanyPic2()));
         List<CommitteCheckOptCategory> committeCheckOptCategoryList = committeCheckOptCategoryMapper.getAll();
         for (CommitteCheckOptCategory item:committeCheckOptCategoryList
              ) {
             CommitteCheckOptCategoryParam committeCheckOptCategoryParam = new CommitteCheckOptCategoryParam();
             BeanUtils.copyProperties(item,committeCheckOptCategoryParam);
-            List<CommitteeCheckOptAnswer> committeeCheckOptAnswer = committeeCheckOptAnswerMapper.getByCheckId(checkId,item.getId());
+            List<CommitteeCheckOptAnswerWithTopic> committeeCheckOptAnswer = committeeCheckOptAnswerMapper.getByCheckId(checkId,item.getId());
             committeCheckOptCategoryParam.setCommitteeCheckOptAnswerList(committeeCheckOptAnswer);
             committeCheckOptCategoryParamList.add(committeCheckOptCategoryParam);
         }
@@ -109,5 +116,14 @@ public class CommitteeCheckServiceImpl implements CommitteeCheckService {
         BeanUtils.copyProperties(committeeAdditionalAnswer,committeeCheckParam1);
         committeeCheckParam1.setCommitteCheckOptCategoryParamList(committeCheckOptCategoryParamList);
         return committeeCheckParam1;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteByCheckId(CommitteeCheckParam committeeCheckParam, SysUser sysUser){
+        Integer checkId = committeeCheckParam.getCheckId();
+        committeeCheckMapper.deleteByPrimaryKey(checkId);
+        committeeCheckOptAnswerMapper.deleteByCheckId(checkId);
+        committeeAdditionalAnswerMapper.deleteByCheckId(checkId);
     }
 }

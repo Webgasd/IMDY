@@ -17,13 +17,13 @@ import java.util.List;
 @Getter
 @Setter
 public class CommitteCheckOptCategoryParam extends CommitteCheckOptCategory {
-    private List<CommitteeCheckOptAnswer> committeeCheckOptAnswerList;
+    private List<CommitteeCheckOptAnswerWithTopic> committeeCheckOptAnswerList;
 
-    public List<CommitteeCheckOptAnswer> getCommitteeCheckOptAnswerList(){
+    public List<CommitteeCheckOptAnswerWithTopic> getCommitteeCheckOptAnswerList(){
         return committeeCheckOptAnswerList;
     }
 
-    public void setCommitteeCheckOptAnswerList(List<CommitteeCheckOptAnswer> committeeCheckOptAnswerList){
+    public void setCommitteeCheckOptAnswerList(List<CommitteeCheckOptAnswerWithTopic> committeeCheckOptAnswerList){
         this.committeeCheckOptAnswerList = committeeCheckOptAnswerList;
     }
 }

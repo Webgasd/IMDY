@@ -12,4 +12,5 @@ public interface CommitteeCheckService {
     public void insert( CommitteeCheckParam committeeCheckParam, SysUser sysUser);
     public List<CommitteeCheck> getByDate( CommitteeCheckParam committeeCheckParam, SysUser sysUser);
     public CommitteeCheckParam getByCheckId( CommitteeCheckParam committeeCheckParam, SysUser sysUser);
+    public void deleteByCheckId( CommitteeCheckParam committeeCheckParam, SysUser sysUser);
 }
