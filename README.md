@@ -4114,7 +4114,7 @@ listId=1 //配货单id
 
 ## 游客登录（董志涵）
 
-`远程：https://www.yiwifi1.com:8088/formatoriginextra/insert`
+`远程：https://www.yiwifi1.com:8088/mini/touristLogin`
 
 方法：GET
 
