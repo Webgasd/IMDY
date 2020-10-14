@@ -130,7 +130,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public Map<String, Object> govGet(List<SysIndustry> sysIndustryList, List<Integer> sysAreaList, String supervisor) {
-        Map<Integer,Integer> map = new HashMap<>();
+        Map<String,String> map = new HashMap<>();
         for (SysIndustry sysIndustry:sysIndustryList){
             EnterpriseSearchParam enterpriseSearchParam = new EnterpriseSearchParam();
             List<String> industryList = new ArrayList<>();
@@ -138,7 +138,7 @@ public class SysUserServiceImpl implements SysUserService {
             enterpriseSearchParam.setAreaList(sysAreaList);
             enterpriseSearchParam.setIndustryList(industryList);
             enterpriseSearchParam.setSupervisor(supervisor);
-            map.put(sysIndustry.getId(),supervisionEnterpriseMapper.countList(enterpriseSearchParam));
+            map.put(sysIndustry.getId()+ "" ,supervisionEnterpriseMapper.countList(enterpriseSearchParam)+"");
         }
         Map<String, Object> resultMap = new HashMap<>();
         EnterpriseSearchParam enterpriseSearchParam = new EnterpriseSearchParam();

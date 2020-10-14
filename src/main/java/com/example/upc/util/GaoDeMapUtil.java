@@ -54,7 +54,7 @@ public class GaoDeMapUtil {
             try {
                 location = new GaodeLocation();
                 String url = map_codeurl.replace("parameters", "");
-                String params = "key=" + gaodeAppID + "&address=" + address+"&city=东营市";
+                String params = "key=" + gaodeAppID + "&address=" + address+"&city=东营";
                 logger.info("高德地图params:" + params);
                 String result = sendPost(url, params);
 
