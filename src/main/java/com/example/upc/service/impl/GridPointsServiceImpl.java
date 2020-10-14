@@ -71,19 +71,24 @@ public class GridPointsServiceImpl implements GridPointsService {
 
     @Override
     public List<SmilePoints> getSmileMapPointsPhone(EnterpriseSearchParam enterpriseSearchParam){
+        //设置距离多少以内
         if (enterpriseSearchParam.getDis() == null||enterpriseSearchParam.getDis().equals("")) {
             enterpriseSearchParam.setDis(1000);
         }
+        //默认中心位置
         if (enterpriseSearchParam.getLocation() == null||enterpriseSearchParam.getLocation().equals("")){
             enterpriseSearchParam.setLocation("118.5821878900,37.4489563700");
         }
+        //获取gps经纬度
         String[] gps = enterpriseSearchParam.getLocation().split(",");
         Double gpsA =Double.parseDouble(gps[0]);
         Double gpsB =Double.parseDouble(gps[1]);
+        //将距离转化为经纬度
         Float gps1 = (float) (gpsA - enterpriseSearchParam.getDis() * 0.00001141);
         Float gps2 = (float) (gpsA + enterpriseSearchParam.getDis() * 0.00001141);
         Float gps3 = (float) (gpsB - enterpriseSearchParam.getDis() * 0.00000899);
         Float gps4 = (float) (gpsB + enterpriseSearchParam.getDis() * 0.00000899);
+        //根据中心点上下左右距离内取点
         List<SmilePoints> smilePointsList = gridPointsMapper.getSmileAllPhone(enterpriseSearchParam,gps1,gps2,gps3,gps4);
         return smilePointsList;
     }
