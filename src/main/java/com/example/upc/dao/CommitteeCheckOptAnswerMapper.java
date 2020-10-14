@@ -1,5 +1,6 @@
 package com.example.upc.dao;
 
+import com.example.upc.controller.param.CommitteeCheckOptAnswerWithTopic;
 import com.example.upc.dataobject.CommitteeCheckOptAnswer;
 import org.apache.ibatis.annotations.Param;
 
@@ -54,5 +55,9 @@ public interface CommitteeCheckOptAnswerMapper {
      */
     int updateByPrimaryKey(CommitteeCheckOptAnswer record);
 
-    List<CommitteeCheckOptAnswer> getByCheckId(@Param("checkId") Integer checkId, @Param("id") Integer id);
+    List<CommitteeCheckOptAnswerWithTopic> getByCheckId(@Param("checkId") Integer checkId, @Param("id") Integer id);
+
+    void deleteByCheckId(Integer id);
+
+
 }

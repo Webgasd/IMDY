@@ -1711,7 +1711,9 @@ postman访问地址：
 }
 ```
 
-## 新增废弃物（董志涵）
+## 废弃物
+
+### 新增废弃物（董志涵）
 
 `远程：https://www.yiwifi1.com:8088/formatwaste/insert`
 
@@ -1736,7 +1738,7 @@ extra=备注 //备注
 }
 ```
 
-## 按时间获取废弃物记录（董志涵）
+### 按时间获取废弃物记录（董志涵）
 `远程：https://www.yiwifi1.com:8088/mini/getWasteByDate`
 
 方法：GET
@@ -1773,7 +1775,7 @@ extra=备注 //备注
 }
 ```
 
-## 修改废弃物（董志涵）
+### 修改废弃物（董志涵）
 `远程：https://www.yiwifi1.com:8088/formatwaste/update`
 
 方法：GET
@@ -1797,7 +1799,7 @@ extra=备注 //备注
 }
 ```
 
-## 删除废弃物（董志涵）
+### 删除废弃物（董志涵）
 `远程：https://www.yiwifi1.com:8088/formatwaste/delete`
 
 方法：GET
@@ -1815,7 +1817,7 @@ id=46 //废弃物id
 }
 ```
 
-## 生成废弃物Excel（董志涵）
+### 生成废弃物Excel（董志涵）
 `远程：https://www.yiwifi1.com:8088/formatwaste/standingBook`
 
 方法：POST
@@ -1836,7 +1838,10 @@ id=46 //废弃物id
 }
 ```
 
-## 新增回收单位（董志涵）
+## 回收单位
+
+### 新增回收单位（董志涵）
+
 `远程：https://www.yiwifi1.com:8088/formatrecovery/insert`
 
 方法：GET
@@ -1857,7 +1862,7 @@ address=地址 //地址
 }
 ```
 
-## 获取回收单位（董志涵）
+### 获取回收单位（董志涵）
 `远程：https://www.yiwifi1.com:8088/mini/getRecoveryUnit`
 
 方法：GET
@@ -1884,7 +1889,7 @@ address=地址 //地址
 }
 ```
 
-## 修改回收单位（董志涵）
+### 修改回收单位（董志涵）
 `远程：https://www.yiwifi1.com:8088/formatrecovery/update`
 
 方法：GET
@@ -1906,7 +1911,7 @@ address=地址 //地址
 }
 ```
 
-## 删除回收单位（董志涵）
+### 删除回收单位（董志涵）
 `远程：https://www.yiwifi1.com:8088/formatrecovery/delete`
 
 方法：GET
@@ -1924,7 +1929,7 @@ id=24 //回收单位id
 }
 ```
 
-## 根据回收单位名称查询回收单位（董志涵）
+### 根据回收单位名称查询回收单位（董志涵）
 `远程：https://www.yiwifi1.com:8088/mini/getRecoveryUnit?`
 
 方法：GET
@@ -2937,9 +2942,9 @@ name=回收 //回收单位名称
 }
 ```
 
+## 开工自查
 
-
-## 新增自查（董志涵）
+### 新增自查（董志涵）
 
 `远程：https://www.yiwifi1.com:8088/startSelfInspection/insert`
 
@@ -2976,7 +2981,7 @@ name=回收 //回收单位名称
 }
 ```
 
-## 按照时间获取自查位置（董志涵）
+### 按照时间获取自查位置（董志涵）
 `远程：http://www.yiwifi1.com:8088/startSelfInspection/getInspectionPositionByDate`
 
 方法：GET
@@ -3015,7 +3020,7 @@ name=回收 //回收单位名称
 }
 ```
 
-## 按照自查位置id获取详细内容（董志涵）
+### 按照自查位置id获取详细内容（董志涵）
 `远程：http://www.yiwifi1.com:8088/startSelfInspection/getInspectionByPosition`
 
 方法：GET
@@ -3060,7 +3065,7 @@ name=回收 //回收单位名称
 }
 ```
 
-## 修改自查（董志涵）
+### 修改自查（董志涵）
 `远程：https://www.yiwifi1.com:8088/startSelfInspection/update`
 
 方法：GET
@@ -3099,7 +3104,7 @@ name=回收 //回收单位名称
 }
 ```
 
-## 删除自查（董志涵）
+### 删除自查（董志涵）
 `远程：https://www.yiwifi1.com:8088/startSelfInspection/delete`
 
 方法：GET
@@ -3780,7 +3785,259 @@ listId=1 //配货单id
 }
 ```
 
+## 家委会巡检
 
+### 新增家委会巡检（董志涵）
+
+`远程：https://www.yiwifi1.com:8088/committeeCheck/insert`
+
+方法：GET/POST
+
+- 参数：
+
+```json
+{
+    "checkTime":"2020-10-13", //巡检时间
+    "recorder":"测试", //记录人
+    "existedProblem":"问题", //发现问题
+    "rectifyPerson":"整改人", //整改落实人
+    "accompanyPic1":"图片1", //配餐记录照片
+    "accompanyPic2":"图片2", //配餐记录照片
+    "committeCheckOptCategoryParamList":[{ //巡检的内容List
+        "committeeCheckOptAnswerList":[{ //第一大类
+            "committeeCheckOptId":"1", //第一小问的id
+            "answer":"是" //回答
+        },
+        {
+            "committeeCheckOptId":"2", //第二小问id
+            "answer":"是" //回答
+        }]
+    },
+    {
+        "committeeCheckOptAnswerList":[{ //第二大类
+            "committeeCheckOptId":"3", //第一小问id
+            "answer":"是" //回答
+        },
+        {
+            "committeeCheckOptId":"4", //第二小问id
+            "answer":"是" //回答
+        }]
+    }]
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": null
+}
+```
+
+### 按照年度获取家委会巡检（董志涵）
+
+`远程：https://www.yiwifi1.com:8088/committeeCheck/getByDate`
+
+方法：GET/POST
+
+- 参数：
+
+```json
+{
+    "searchTime":"2020" //查询年度
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": [
+        {
+            "id": 6, //巡检的id
+            "enterpriseId": 296661,
+            "checkTime": "2020-10-13", //巡检日期
+            "recorder": "测试", //记录人
+            "representSign1":  "https://www.yiwifi1.com:8088/upload/picture/202009/1600832025202.png", //此为三个签名
+            "representSign2": "https://www.yiwifi1.com:8088/upload/picture/202009/1600832025202.png",
+            "representSign3": "https://www.yiwifi1.com:8088/upload/picture/202009/1600832025202.png",
+            "operator": null,
+            "operatorIp": null,
+            "operatorTime": null
+        },
+        {
+            "id": 7,
+            "enterpriseId": 296661,
+            "checkTime": "2020-10-13",
+            "recorder": "测试",
+            "representSign1": "https://www.yiwifi1.com:8088/upload/picture/202009/1600832025202.png",
+            "representSign2": "https://www.yiwifi1.com:8088/upload/picture/202009/1600832025202.png",
+            "representSign3": "https://www.yiwifi1.com:8088/upload/picture/202009/1600832025202.png",
+            "operator": null,
+            "operatorIp": null,
+            "operatorTime": null
+        }
+    ]
+}
+```
+
+### 家委会巡检签名确认（董志涵）
+
+`远程：https://www.yiwifi1.com:8088/committeeCheck/updateSign`
+
+方法：GET/POST
+
+- 参数：
+
+```json
+{
+    "id":6, //要签名的巡检的id
+    "representSign1":"xx", //签名1路径
+    "representSign2":"xx", //签名2路径
+    "representSign3":"xx" //签名3路径
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": null
+}
+```
+
+### 
+
+### 查看某次具体的家委会巡检（董志涵）
+
+`远程：https://www.yiwifi1.com:8088/committeeCheck/getByCheckId`
+
+方法：GET/POST
+
+- 参数：
+
+```json
+{
+    "checkId":6 //要查看的巡检记录的id
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": {
+        "id": 5,
+        "committeeCheckId": 6,
+        "existedProblem": "问题", //存在的问题
+        "rectifyPerson": "整改人", //整改人
+        "accompanyPic1":  "https://www.yiwifi1.com:8088/upload/picture/202009/1600832025202.png", //此处为两张陪餐照片
+        "accompanyPic2": "https://www.yiwifi1.com:8088/upload/picture/202009/1600832025202.png",
+        "operator": "",
+        "operatorIp": "",
+        "operatorTime": "2020-10-14T00:55:45.000+0000",
+        "checkId": null,
+        "enterpriseId": 296661,
+        "searchTime": null,
+        "checkTime": "2020-10-13", //巡检时间
+        "recorder": "测试", //记录人
+        "representSign1": "https://www.yiwifi1.com:8088/upload/picture/202009/1600832025202.png", //此处为三张签名照片
+        "representSign2": "https://www.yiwifi1.com:8088/upload/picture/202009/1600832025202.png",
+        "representSign3": "https://www.yiwifi1.com:8088/upload/picture/202009/1600832025202.png",
+        "committeCheckOptCategoryParamList": [//具体的巡检情况
+            {
+                "id": 1, 
+                "category": "类别1", //第一个大类的名称
+                "pageNumber": 1, 
+                "operator": "",
+                "operatorIp": "",
+                "operatorTime": "2020-10-13T12:15:36.000+0000",
+                "committeeCheckOptAnswerList": [ //第一大类下的各个小问题
+                    {
+                        "id": 7,
+                        "committeeCheckId": 6,
+                        "committeeCheckOptId": 1,
+                        "answer": "是", //回答
+                        "operator": null,
+                        "operatorIp": null,
+                        "operatorTime": null,
+                        "optTopic": "题目1" //题目
+                    },
+                    {
+                        "id": 8,
+                        "committeeCheckId": 6,
+                        "committeeCheckOptId": 2,
+                        "answer": "是", 
+                        "operator": null,
+                        "operatorIp": null,
+                        "operatorTime": null,
+                        "optTopic": "题目2"
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "category": "类别2", //第二个大类的名称
+                "pageNumber": 2,
+                "operator": "",
+                "operatorIp": "",
+                "operatorTime": "2020-10-13T12:15:38.000+0000",
+                "committeeCheckOptAnswerList": [ //第二个大类下的各个小问题
+                    {
+                        "id": 9,
+                        "committeeCheckId": 6,
+                        "committeeCheckOptId": 3,
+                        "answer": "是",
+                        "operator": null,
+                        "operatorIp": null,
+                        "operatorTime": null,
+                        "optTopic": "题目3"
+                    },
+                    {
+                        "id": 10,
+                        "committeeCheckId": 6,
+                        "committeeCheckOptId": 4,
+                        "answer": "是",
+                        "operator": null,
+                        "operatorIp": null,
+                        "operatorTime": null,
+                        "optTopic": "题目4"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+
+### 删除家委会巡检（董志涵）
+
+`远程：https://www.yiwifi1.com:8088/committeeCheck/deleteByCheckId`
+
+方法：GET/POST
+
+- 参数：
+
+```json
+{
+    "checkId":5 //要删除的巡检记录id
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": null
+}
+```
+
+### 
 
 ## 模板下载和数据导出
 
