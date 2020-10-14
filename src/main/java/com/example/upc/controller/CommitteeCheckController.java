@@ -54,4 +54,11 @@ public class CommitteeCheckController {
         committeeCheckService.deleteByCheckId(committeeCheckParam,sysUser);
         return CommonReturnType.create(null);
     }
+
+    @RequestMapping("/updateSign")
+    @ResponseBody
+    public CommonReturnType updateSign(@RequestBody CommitteeCheck committeeCheck)  {
+        committeeCheckService.updateSign(committeeCheck);
+        return CommonReturnType.create(null);
+    }
 }

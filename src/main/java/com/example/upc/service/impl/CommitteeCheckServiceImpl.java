@@ -80,12 +80,11 @@ public class CommitteeCheckServiceImpl implements CommitteeCheckService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         committeeCheckParam.setEnterpriseId(sysUser.getInfoId());
         List<CommitteeCheck> committeeCheckList = committeeCheckMapper.getByDate(committeeCheckParam);
-//        ParsePosition pos = new ParsePosition(0);
-//        committeeCheckList.forEach(item-> {
-//            System.out.println(dateFormat.format(item.getCheckTime()));
-//            System.out.println(dateFormat.parse(dateFormat.format(item.getCheckTime()),pos));
-//            item.setCheckTime(dateFormat.parse(dateFormat.format(item.getCheckTime()),pos));
-//        });
+        committeeCheckList.forEach(item-> {
+            item.setRepresentSign1(JsonToImageUrl.JSON2ImageUrl(item.getRepresentSign1()));
+            item.setRepresentSign2(JsonToImageUrl.JSON2ImageUrl(item.getRepresentSign2()));
+            item.setRepresentSign3(JsonToImageUrl.JSON2ImageUrl(item.getRepresentSign3()));
+        });
         return committeeCheckList;
     }
 
@@ -126,4 +125,11 @@ public class CommitteeCheckServiceImpl implements CommitteeCheckService {
         committeeCheckOptAnswerMapper.deleteByCheckId(checkId);
         committeeAdditionalAnswerMapper.deleteByCheckId(checkId);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateSign(@RequestBody CommitteeCheck committeeCheck){
+        committeeCheckMapper.updateSign(committeeCheck);
+    }
+
 }

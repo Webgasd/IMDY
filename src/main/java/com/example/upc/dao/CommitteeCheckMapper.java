@@ -58,4 +58,6 @@ public interface CommitteeCheckMapper {
     int updateByPrimaryKey(CommitteeCheck record);
 
     List<CommitteeCheck> getByDate(@Param("committeeCheckParam") CommitteeCheckParam committeeCheckParam);
+
+    void updateSign(@Param("committeeCheck") CommitteeCheck committeeCheck);
 }
