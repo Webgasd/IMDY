@@ -35,6 +35,7 @@ public class CommonReturnType {
         String response = JSONUtil.stringify(obj, false);
         type.setData(JSONObject.parseObject(String.valueOf(response)).get("data"));
         return type;
+
     }
 
     public String getStatus() {
