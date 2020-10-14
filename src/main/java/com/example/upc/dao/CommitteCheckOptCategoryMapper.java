@@ -1,6 +1,9 @@
 package com.example.upc.dao;
 
+import com.example.upc.controller.param.CommitteCheckOptParam;
 import com.example.upc.dataobject.CommitteCheckOptCategory;
+import com.example.upc.dataobject.CommitteeCheck;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -54,4 +57,6 @@ public interface CommitteCheckOptCategoryMapper {
     int updateByPrimaryKey(CommitteCheckOptCategory record);
 
     List<CommitteCheckOptCategory> getAll();
+
+    List<CommitteCheckOptParam> selectAllOpt(@Param("committeeCheck") CommitteeCheck committeeCheck);
 }

@@ -42,7 +42,8 @@ public class MonthlySelfCheckController {
 
     @RequestMapping("/standingBook")
     @ResponseBody
-    CommonReturnType standingBook(@RequestBody MonthlySelfCheckParam monthlySelfCheckParam,SysUser sysUser){
-        return CommonReturnType.create(monthlySelfCheckService.standingBook(monthlySelfCheckParam));
+    CommonReturnType standingBook(@RequestBody MonthlySelfCheckParam monthlySelfCheckParam,SysUser sysUser) throws Exception {
+        monthlySelfCheckService.standingBook(monthlySelfCheckParam);
+        return CommonReturnType.create(null);
     }
 }

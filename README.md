@@ -1600,7 +1600,116 @@ postman访问地址：
 }
 ```
 
+### 导出word文档
 
+`https://www.yiwifi1.com:8088/monthlySelfcheckOptCategory/deleteById`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数(直接将查询月度自查的返回值作为参数)
+
+```json
+{
+    "id": 11,
+    "enterpriseId": 296661,
+    "searchTime": null,
+    "checkTime": "2020-10-12",
+    "checkStaff": "马建",
+    "accompanyStaff": "yydds",
+    "checkContent": "食品安全第一条",
+    "existedProblem": "去医院",
+    "rectifySituation": "去医院",
+    "lastExistedProblem": "去医院",
+    "monthlySelfCheckOptCategoryParamList": [
+        {
+            "categoryId": 1,
+            "categoryName": "食品安全管理情况",
+            "pageNumber": 1,
+            "optList": [
+                {
+                    "optId": 1,
+                    "optTopic": "建立了以校长为第一责任人的食品安全责任制，明确各环节、各岗位从业人员的责任",
+                    "optIndex": 1,
+                    "optAnswer": "是",
+                    "operator": null,
+                    "operatorIp": null,
+                    "operatorTime": null
+                },
+                {
+                    "optId": 2,
+                    "optTopic": "有健全的食品安全管理组织机构并运行良好",
+                    "optIndex": 2,
+                    "optAnswer": "是",
+                    "operator": null,
+                    "operatorIp": null,
+                    "operatorTime": null
+                },
+                {
+                    "optId": 3,
+                    "optTopic": "\r\n有专职食品安全管理人员并落实食品安全责任",
+                    "optIndex": 3,
+                    "optAnswer": "是",
+                    "operator": null,
+                    "operatorIp": null,
+                    "operatorTime": null
+                }
+            ]
+        },
+        {
+            "categoryId": 2,
+            "categoryName": "健康管理情况",
+            "pageNumber": 2,
+            "optList": [
+                {
+                    "optId": 4,
+                    "optTopic": "建立了从业人员健康管理档案",
+                    "optIndex": 1,
+                    "optAnswer": "是",
+                    "operator": null,
+                    "operatorIp": null,
+                    "operatorTime": null
+                },
+                {
+                    "optId": 5,
+                    "optTopic": "从业人员具有有效的健康证明",
+                    "optIndex": 2,
+                    "optAnswer": "否",
+                    "operator": null,
+                    "operatorIp": null,
+                    "operatorTime": null
+                },
+                {
+                    "optId": 6,
+                    "optTopic": "\r\n未发现患有国务院卫生行政部门规定的有碍食品卫生疾病的从业人员上岗",
+                    "optIndex": 3,
+                    "optAnswer": "是",
+                    "operator": null,
+                    "operatorIp": null,
+                    "operatorTime": null
+                },
+                {
+                    "optId": 7,
+                    "optTopic": "有开展食品安全知识和技能培训的相关材料，从业人员能够基本掌握相关知识",
+                    "optIndex": 4,
+                    "optAnswer": "是",
+                    "operator": null,
+                    "operatorIp": null,
+                    "operatorTime": null
+                }
+            ]
+        }
+    ]
+}
+```
+
+- 返回值(生成的文档位于工程upload文件夹 standBook目录下)
+
+```json
+{
+    "status": "success",
+    "data": null
+}
+```
 
 ## 新增废弃物（董志涵）
 
