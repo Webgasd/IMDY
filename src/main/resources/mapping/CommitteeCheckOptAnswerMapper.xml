@@ -15,6 +15,11 @@
     <result column="operator_ip" jdbcType="VARCHAR" property="operatorIp" />
     <result column="operator_time" jdbcType="TIMESTAMP" property="operatorTime" />
   </resultMap>
+
+  <resultMap id="CommitteeCheckOptAnswerWithTopic" type="com.example.upc.controller.param.CommitteeCheckOptAnswerWithTopic" extends="BaseResultMap">
+    <result column="opt_topic" jdbcType="VARCHAR" property="optTopic" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
@@ -155,9 +160,19 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getByCheckId" resultMap="BaseResultMap">
-    select * from committee_check_opt_answer where committee_check_id = #{checkId} and committee_check_opt_id in(
+  <select id="getByCheckId" resultMap="CommitteeCheckOptAnswerWithTopic">
+
+select a.*,committee_check_opt.opt_topic from
+    (select * from committee_check_opt_answer where committee_check_id = #{checkId} and committee_check_opt_id in(
 select id from committee_check_opt where category_id = #{id}
-)
+)) as a
+LEFT JOIN committee_check_opt on committee_check_opt.id = a.committee_check_opt_id
+
+
   </select>
+
+  <delete id="deleteByCheckId">
+        delete from committee_check_opt_answer
+    where committee_check_id = #{id,jdbcType=INTEGER}
+  </delete>
 </mapper>

@@ -17,6 +17,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 
+/**
+ * @author 董志涵
+ */
 @Controller
 @RequestMapping("/committeeCheck")
 @CrossOrigin(allowCredentials = "true",allowedHeaders = "*")
@@ -43,5 +46,19 @@ public class CommitteeCheckController {
     public CommonReturnType getByCheckId(@RequestBody CommitteeCheckParam committeeCheckParam, SysUser sysUser)  {
         CommitteeCheckParam committeeCheckList = committeeCheckService.getByCheckId(committeeCheckParam,sysUser);
         return CommonReturnType.create(committeeCheckList);
+    }
+
+    @RequestMapping("/deleteByCheckId")
+    @ResponseBody
+    public CommonReturnType deleteByCheckId(@RequestBody CommitteeCheckParam committeeCheckParam, SysUser sysUser)  {
+        committeeCheckService.deleteByCheckId(committeeCheckParam,sysUser);
+        return CommonReturnType.create(null);
+    }
+
+    @RequestMapping("/updateSign")
+    @ResponseBody
+    public CommonReturnType updateSign(@RequestBody CommitteeCheck committeeCheck)  {
+        committeeCheckService.updateSign(committeeCheck);
+        return CommonReturnType.create(null);
     }
 }

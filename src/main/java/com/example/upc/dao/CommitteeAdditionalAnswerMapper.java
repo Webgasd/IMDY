@@ -52,4 +52,6 @@ public interface CommitteeAdditionalAnswerMapper {
     int updateByPrimaryKey(CommitteeAdditionalAnswer record);
 
     CommitteeAdditionalAnswer getByCheckId(int checkId);
+
+    void deleteByCheckId(Integer id);
 }

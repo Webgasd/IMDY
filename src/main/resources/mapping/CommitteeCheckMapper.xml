@@ -195,4 +195,19 @@
     select * from committee_check where enterprise_id = #{committeeCheckParam.enterpriseId}
     and DATE_FORMAT(check_time,"%Y") = DATE_FORMAT(#{committeeCheckParam.searchTime},"%Y")
   </select>
+
+  <update id="updateSign" parameterType="com.example.upc.dataobject.CommitteeCheck">
+        update committee_check
+    set
+    <if test="committeeCheck.representSign1 != null">
+      represent_sign1 = #{committeeCheck.representSign1,jdbcType=VARCHAR}
+    </if>
+    <if test="committeeCheck.representSign2 != null">
+      ,represent_sign2 = #{committeeCheck.representSign2,jdbcType=VARCHAR}
+    </if>
+    <if test="committeeCheck.representSign3 != null">
+      ,represent_sign3 = #{committeeCheck.representSign3,jdbcType=VARCHAR}
+    </if>
+    where id = #{committeeCheck.id,jdbcType=INTEGER}
+  </update>
 </mapper>
