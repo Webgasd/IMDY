@@ -354,9 +354,8 @@ public class GridPointsServiceImpl implements GridPointsService {
                 int diff2 = o1.getDistance() - o2.getDistance();
                 if(diff1 <= 0){
                     return 1;
-                }else if(diff2 >= 0) {
-                    return 1;
-                }else{
+                }
+                else{
                     return -1;
                 }
 

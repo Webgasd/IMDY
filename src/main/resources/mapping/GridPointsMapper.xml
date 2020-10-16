@@ -596,7 +596,6 @@
     )
   </select>
 
-
     <select id="getSmileAll" resultMap="SmileMap">
         select a.point,a.enterprise_id,b.area,b.grid,b.dynamic_grade,b.operation_mode,b.business_state,
         <if test="search.industryList.contains('foodBusiness')">a1_id,</if>
@@ -685,7 +684,6 @@
         FROM supervision_enterprise WHERE gps_flag =0
         AND area IN
         <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
-
         <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE
             CONCAT('%',#{search.enterpriseName},'%')
         </if>
@@ -880,7 +878,6 @@
         FROM supervision_enterprise WHERE gps_flag =0 and permission_type = ''
         AND area IN
         <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
-
         <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE
             CONCAT('%',#{search.enterpriseName},'%')
         </if>
