@@ -2108,7 +2108,7 @@ name=回收 //回收单位名称
 }
 ```
 
-## 证照公示
+## 证照公示（晁展）
 
 ### 获取证照公示（晁展）
 
@@ -2491,7 +2491,7 @@ name=回收 //回收单位名称
 远程：https://www.yiwifi1.com:8088/Accompany/getAccompanyRecordByDate
 ```
 
-方法：POST
+方法：GET
 
 参数：
 
@@ -2855,7 +2855,7 @@ name=回收 //回收单位名称
 ### 按日期获取晨检出勤记录
 
 ```
-远程：https://www.yiwifi1.com:8088/startSelfInspection/getMorningAttendanceByDate
+远程：https://www.yiwifi1.com:8088/morningAttendance/getMorningAttendanceByDate
 ```
 
 方法：POST
