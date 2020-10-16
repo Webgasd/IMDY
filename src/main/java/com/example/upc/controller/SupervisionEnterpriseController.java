@@ -6,7 +6,9 @@ import com.example.upc.common.BusinessException;
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.controller.param.EnterpriseParam;
+import com.example.upc.controller.param.NearEnterprise;
 import com.example.upc.controller.param.PageQuery;
+import com.example.upc.controller.param.SmilePoints;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.*;
@@ -338,5 +340,19 @@ public class SupervisionEnterpriseController {
         Map<String,Object> result = new HashMap<>();
         result = supervisionEnterpriseService.getVrUrl(enterpriseId);
         return new ResultVo(result);
+    }
+
+    @RequestMapping("/getNearEnterprise")
+    @ResponseBody
+    public CommonReturnType getNearEnterprise(@RequestBody EnterpriseSearchParam enterpriseSearchParam){
+        List<NearEnterprise> nearEnterpriseList = gridPointsService.getNearEnterprise(enterpriseSearchParam);
+        return CommonReturnType.create(nearEnterpriseList);
+    }
+
+    @RequestMapping("/getNearEnterpriseScore")
+    @ResponseBody
+    public CommonReturnType getNearEnterpriseScore(@RequestBody EnterpriseSearchParam enterpriseSearchParam){
+        List<NearEnterprise> nearEnterpriseList = gridPointsService.getNearEnterpriseScore(enterpriseSearchParam);
+        return CommonReturnType.create(nearEnterpriseList);
     }
 }

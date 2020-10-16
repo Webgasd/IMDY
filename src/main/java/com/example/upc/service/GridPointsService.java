@@ -1,6 +1,7 @@
 package com.example.upc.service;
 
 import com.example.upc.controller.param.GridPoints1;
+import com.example.upc.controller.param.NearEnterprise;
 import com.example.upc.controller.param.SmilePoints;
 import com.example.upc.controller.param.enterpriseId;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
@@ -30,4 +31,6 @@ public interface GridPointsService {
     GridPoints getPointByEnterpriseId(Integer id);
     int getVideoIdByEnterprise(int id);
     void updateEnterprisePoint(int id , String code, String points, SysUser sysUser);
+    List<NearEnterprise> getNearEnterprise(EnterpriseSearchParam enterpriseSearchParam);
+    List<NearEnterprise> getNearEnterpriseScore(EnterpriseSearchParam enterpriseSearchParam);
 }

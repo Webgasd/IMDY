@@ -4037,7 +4037,76 @@ listId=1 //配货单id
 }
 ```
 
-### 
+### 获取题目
+
+`远程：https://www.yiwifi1.com:8088/committeeCheck/selectAllOpt`
+
+方法：GET/POST
+
+- 参数
+
+```json
+{}
+```
+
+- 返回值
+
+```json
+[
+    {
+        "categoryId": 1,
+        "categoryName": "类别1",
+        "pageNumber": 1,
+        "optList": [
+            {
+                "optId": 1,
+                "optTopic": "题目1",
+                "optIndex": 1,
+                "optAnswer": null,
+                "operator": null,
+                "operatorIp": null,
+                "operatorTime": null
+            },
+            {
+                "optId": 2,
+                "optTopic": "题目2",
+                "optIndex": 2,
+                "optAnswer": null,
+                "operator": null,
+                "operatorIp": null,
+                "operatorTime": null
+            }
+        ]
+    },
+    {
+        "categoryId": 2,
+        "categoryName": "类别2",
+        "pageNumber": 2,
+        "optList": [
+            {
+                "optId": 3,
+                "optTopic": "题目3",
+                "optIndex": 1,
+                "optAnswer": null,
+                "operator": null,
+                "operatorIp": null,
+                "operatorTime": null
+            },
+            {
+                "optId": 4,
+                "optTopic": "题目4",
+                "optIndex": 2,
+                "optAnswer": null,
+                "operator": null,
+                "operatorIp": null,
+                "operatorTime": null
+            }
+        ]
+    }
+]
+```
+
+
 
 ## 模板下载和数据导出
 
