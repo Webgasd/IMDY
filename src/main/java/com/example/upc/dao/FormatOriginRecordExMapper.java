@@ -1,9 +1,6 @@
 package com.example.upc.dao;
 
-import com.example.upc.controller.param.BillReportParam;
-import com.example.upc.controller.param.FormatOriginRecordExEnParam;
-import com.example.upc.controller.param.FormatOriginRecordExParam;
-import com.example.upc.controller.param.PageQuery;
+import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.OriginRecordExSearchParam;
 import com.example.upc.controller.searchParam.WasteSearchParam;
 import com.example.upc.dataobject.BillReport;
@@ -71,6 +68,8 @@ public interface FormatOriginRecordExMapper {
     List<FormatOriginRecordExEnParam> getPageEnterprise(@Param("page") PageQuery page, @Param("enterprise") Integer enterprise, @Param("search") OriginRecordExSearchParam search);
     void batchInsertEx(@Param("formatOriginRecordExList") List<FormatOriginRecordEx> formatOriginRecordExList);
     List<FormatOriginRecordExEnParam> getRecordExByDate(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
+
+    List<FormatOriginRecordExListParam> getRecordExPublicByDate(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
 
     List<FormatOriginRecordEx> getPageEnterprise2(@Param("enterprise")Integer infoId,@Param("search") OriginRecordExSearchParam originRecordExSearchParam);
 }

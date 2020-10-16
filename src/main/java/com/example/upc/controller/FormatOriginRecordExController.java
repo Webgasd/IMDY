@@ -73,6 +73,12 @@ public class FormatOriginRecordExController {
         return CommonReturnType.create(formatOriginRecordExService.getPageEnterprise(pageQuery,originRecordExSearchParam.getId(), originRecordExSearchParam));
     }
 
+    @RequestMapping("/getRecordExPublicByDate")
+    @ResponseBody
+    public CommonReturnType getRecordExPublicByDate(FormatOriginRecordEx formatOriginRecordEx, SysUser sysUser){
+        return CommonReturnType.create(formatOriginRecordExService.getRecordExPublicByDate(formatOriginRecordEx,sysUser));
+    }
+
     @RequestMapping("/getRecordExByDate")
     @ResponseBody
     public CommonReturnType getRecordExByDate(FormatOriginRecordEx formatOriginRecordEx, SysUser sysUser){

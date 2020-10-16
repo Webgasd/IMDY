@@ -1593,15 +1593,20 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                 List<SupervisionEnFoodBu> supervisionEnFoodBuList = supervisionEnFoodBuMapper.getAll();
                 SupervisionEnterprise supervisionEnterprise = new SupervisionEnterprise();
                 DateComparedUtil dateComparedUtil = new DateComparedUtil();
+
+                //存储许可证号和许可证表id
                 Map <String,Integer> numberMap =new HashMap<>();
                 for (SupervisionEnFoodBu supervisionEnFoodBu:supervisionEnFoodBuList){
                     numberMap.put(supervisionEnFoodBu.getNumber(),supervisionEnFoodBu.getId());
                 }
+
+                //存储企业id和id
                 List<SupervisionEnFoodBuIndex> supervisionEnFoodBuIndexList = supervisionEnFoodBuIndexMapper.getAll();
                 Map <Integer,Integer> numberFoodBuIndexMap =new HashMap<>();
                 for (SupervisionEnFoodBuIndex supervisionEnFoodBuIndex:supervisionEnFoodBuIndexList){
                     numberFoodBuIndexMap.put(supervisionEnFoodBuIndex.getEnterpriseId(),supervisionEnFoodBuIndex.getId());
                 }
+
                 XSSFSheet sheet1 = workbook.getSheetAt(1);
                 for (int j = 0; j <sheet1.getPhysicalNumberOfRows(); j++) {
                     if (j == 0) {
@@ -1744,7 +1749,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     if(!supervisionEnFoodBu.getNumber().equals("")) {
                         if(numberMap.get(supervisionEnFoodBu.getNumber())!=null)
                         {
-                            //只进行许可证表的更新
+                            //索引表里已有该许可证，则只进行许可证表的更新
                             int id = numberMap.get(supervisionEnFoodBu.getNumber());
                             supervisionEnFoodBu.setId(id);
                             id = numberFoodBuIndexMap.get(supervisionEnFoodBuIndex.getEnterpriseId());
@@ -1752,14 +1757,18 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             supervisionEnFoodBuMapper.updateByPrimaryKey(supervisionEnFoodBu);
                         }
                         else{
+                            //索引表里没有该许可证
                             Date dateNew = new Date();
+                            //分成该企业有该类型的许可证和没有两种情况
                             if(supervisionEnFoodBuIndexMapper.selectByEnterpriseId(supervisionEnFoodBuIndex.getEnterpriseId())!=null) {
                                 dateNew=supervisionEnFoodBu.getEndTime();
                                 supervisionEnFoodBuIndex=supervisionEnFoodBuIndexMapper.selectByEnterpriseId(supervisionEnFoodBuIndex.getEnterpriseId());
+                                //求该企业的多张食品经营许可证里最早到期的时间
                                 if(dateComparedUtil.DateCompared(supervisionEnFoodBuIndex.getEndTime(),dateNew)==1)
                                 {
                                     supervisionEnFoodBuIndex.setEndTime(dateNew);
                                 }
+                                //多张许可证时 许可证号存成“A,B”
                                 supervisionEnFoodBuIndex.setNumber(supervisionEnFoodBuIndex.getNumber()+","+supervisionEnFoodBu.getNumber());
                                 supervisionEnFoodBuIndexMapper.updateByPrimaryKeySelective(supervisionEnFoodBuIndex);
                                 supervisionEnFoodBu.setIndexId(supervisionEnFoodBuIndex.getId());

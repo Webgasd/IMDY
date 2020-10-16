@@ -30,6 +30,7 @@ public class SmilePoints {
     private Integer cosmeticsUse;
     private Date endTime;
     private Integer distance;
+    private Float averageScore;
 
     public String getPropagandaEnclosure() {
         return propagandaEnclosure;
@@ -237,5 +238,13 @@ public class SmilePoints {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Float getAverageScore() {
+        return averageScore;
+    }
+
+    public void setAverageScore(Float averageScore) {
+        this.averageScore = averageScore;
     }
 }

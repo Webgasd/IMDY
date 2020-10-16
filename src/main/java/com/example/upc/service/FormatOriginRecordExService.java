@@ -22,6 +22,9 @@ public interface FormatOriginRecordExService {
     void importExcel(MultipartFile file, Integer type,SysUser sysUser);
 
     void miniInsert(List<FormatOriginRecordEx> formatOriginExtraList, SysUser sysUser);
+
+    List<FormatOriginRecordExListParam> getRecordExPublicByDate(FormatOriginRecordEx formatOriginRecordEx, SysUser sysUser);
+
     List<FormatOriginRecordExEnParam> getRecordExByDate(FormatOriginRecordEx formatOriginRecordEx, SysUser sysUser);
 
     Object standingOriginRecord(OriginRecordExSearchParam originRecordExSearchParam, SysUser sysUser) throws IOException;

@@ -164,6 +164,17 @@ public class FormatOriginRecordExServiceImpl implements FormatOriginRecordExServ
     }
 
     @Override
+    @Transactional
+    public List<FormatOriginRecordExListParam> getRecordExPublicByDate(FormatOriginRecordEx formatOriginRecordEx, SysUser sysUser){
+        if (formatOriginRecordEx.getRecordTime()!=null)
+        {
+            Date endDate = new Date(formatOriginRecordEx.getRecordTime().getTime()+(long) 24 * 60 * 60 * 1000);
+            return formatOriginRecordExMapper.getRecordExPublicByDate(sysUser.getInfoId(),formatOriginRecordEx.getRecordTime(),endDate);
+        }
+        return formatOriginRecordExMapper.getRecordExPublicByDate(sysUser.getInfoId(),null,null);
+    }
+
+    @Override
     public Object standingOriginRecord(OriginRecordExSearchParam originRecordExSearchParam, SysUser sysUser) throws IOException {
         List<FormatOriginRecordEx> formatOriginRecordExList = formatOriginRecordExMapper.getPageEnterprise2(sysUser.getInfoId(),originRecordExSearchParam);
         List<String[]> data = new ArrayList<>();
