@@ -36,6 +36,7 @@ public enum EmBusinessError implements CommonError{
     CHECK_USERERROR(40014,"暂无所属部门信息，请添加"),
     UPDATE(41111,"待更新条目不存在，无法更新"),
     FACE_ERROR(40015,"人脸识别失败");
+
     private EmBusinessError(int errCode,String errMsg){
         this.errCode = errCode;
         this.errMsg = errMsg;

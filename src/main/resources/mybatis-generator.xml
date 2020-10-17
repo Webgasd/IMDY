@@ -384,8 +384,26 @@
           selectByExampleQueryId="false"></table>
         <table schema="pingyi" tableName="morning_attendance_info" domainObjectName="MorningAttendanceInfo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table> -->
-      </context>
+               selectByExampleQueryId="false"></table>
+        <table schema="pingyi" tableName="user_enterprise_vote" domainObjectName="UserEnterpriseVote" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table schema="pingyi" tableName="user_enterprise_problem" domainObjectName="UserEnterpriseProblem" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table schema="pingyi" tableName="user_enterprise_problem_record" domainObjectName="UserEnterpriseProblemRecord" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table schema="pingyi" tableName="user_enterprise_vote" domainObjectName="UserEnterpriseVote" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table schema="pingyi" tableName="user_enterprise_problem_record" domainObjectName="UserEnterpriseProblemRecord" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table schema="pingyi" tableName="user_enterprise_problem_record" domainObjectName="UserEnterpriseProblemRecord" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+    </context>
   </generatorConfiguration>
 
 
