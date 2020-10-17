@@ -1,6 +1,7 @@
 package com.example.upc.service;
 
 import com.example.upc.controller.searchParam.InspectionSearchParam;
+import com.example.upc.controller.searchParam.StartSelfInspectionPublicSearchParam;
 import com.example.upc.dataobject.InspectionList;
 import com.example.upc.dataobject.InspectionPosition;
 import com.example.upc.dataobject.StartSelfInspection;
@@ -16,4 +17,6 @@ public interface StartSelfInspectionService {
     List<StartSelfInspection> getByEnterpriseId (InspectionSearchParam inspectionSearchParam, int id);
     List<InspectionPosition> getInspectionPositionByDate (InspectionSearchParam inspectionSearchParam, int id);
     List<StartSelfInspection> getInspectionByPosition(int positionId) throws ParseException;
+
+    List<StartSelfInspectionPublicSearchParam> getInspectionByPositionPublic(InspectionSearchParam inspectionSearchParam, Integer infoId) throws ParseException;
 }

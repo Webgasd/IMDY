@@ -5,12 +5,15 @@ import com.example.upc.common.EmBusinessError;
 import com.example.upc.common.ValidationResult;
 import com.example.upc.common.ValidatorImpl;
 import com.example.upc.controller.searchParam.InspectionSearchParam;
+import com.example.upc.controller.searchParam.StartSelfInspectionPublicSearchParam;
 import com.example.upc.dao.InspectionPositionMapper;
 import com.example.upc.dao.StartSelfInspectionMapper;
 import com.example.upc.dao.SupervisionEnterpriseMapper;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.StartSelfInspectionService;
 import com.example.upc.util.JsonToImageUrl;
+import org.apache.commons.compress.utils.Lists;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author 董志涵
@@ -138,5 +139,30 @@ public class StartSelfInspectionServiceImpl implements StartSelfInspectionServic
         }
         System.out.println(startSelfInspectionList.size());
         return startSelfInspectionList;
+    }
+
+    @Override
+    public List<StartSelfInspectionPublicSearchParam> getInspectionByPositionPublic(InspectionSearchParam inspectionSearchParam, Integer id) throws ParseException {
+        List<InspectionPosition> inspectionPositionList=inspectionPositionMapper.getInspectionPositionByDate(inspectionSearchParam,id);
+        List<StartSelfInspectionPublicSearchParam> publicList = new ArrayList<>();
+
+        for(InspectionPosition inspectionPosition:inspectionPositionList){
+            StartSelfInspectionPublicSearchParam itemPublic =new StartSelfInspectionPublicSearchParam();
+            BeanUtils.copyProperties(inspectionPosition,itemPublic);
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            List<StartSelfInspection> startSelfInspectionList = new ArrayList<>();
+            startSelfInspectionList = startSelfInspectionMapper.getInspectionByPosition(inspectionPosition.getId());
+            List<StartSelfInspection> stringList = Lists.newArrayList();
+            for (StartSelfInspection item:startSelfInspectionList
+            ) {
+                item.setPicture(item.getPicture().equals("")?"": JsonToImageUrl.JSON2ImageUrl(item.getPicture()));
+                item.setInspectTime(dateFormat.parse(dateFormat.format(item.getInspectTime())));
+                stringList.add(item);
+            }
+            itemPublic.setPicList(stringList);
+            publicList.add(itemPublic);
+        }
+        return publicList;
     }
 }

@@ -2987,6 +2987,14 @@ name=回收 //回收单位名称
         "errMsg": "当天已经评价完，请勿重复评价"
     }
 }
+当用户Id和企业id为空时：
+{
+    "status": "fail",
+    "data": {
+        "errCode": 40006,
+        "errMsg": "用户Id和企业id不可为空"
+    }
+}
 
 ```
 
@@ -3223,6 +3231,74 @@ name=回收 //回收单位名称
     "data": null
 }
 ```
+
+### 根据日期获取自查信息（公众端）（晁展）
+
+```
+远程：https://www.yiwifi1.com:8088/startSelfInspection/getInspectionByPositionPublic
+```
+
+方法：POST
+
+参数：
+
+```
+{
+
+start1=2020-9-15
+
+}
+```
+
+返回值：
+
+```
+{
+    "status": "success",
+    "data": [
+        {
+            "operatorTime": "2020-09-15 16:17:58",
+            "enterprise": 296661,                  //企业ID
+            "inspectionPositionName": "3号厨房",   //检查地点
+            "inspectionTime": "2020-09-15 08:00:00",//检查时间
+            "operatorIp": "",                     
+            "id": 6,
+            "inspector": "董志涵测试",              //检查人员
+            "operator": "",
+            "picList": [                           //图片
+                {
+                    "inspectionPosition": 6,
+                    "operatorTime": "2020-09-15 16:17:58",
+                    "enterprise": 296661,
+                    "operatorIp": "124.124.124",
+                    "positionArea": "加工区",
+                    "id": 16,
+                    "inspector": "董志涵测试",
+                    "positionCatch": "位置抓取",
+                    "inspectTime": "2020-09-15 08:00:00",
+                    "operator": "用户名称",
+                    "picture": ""
+                },
+                {
+                    "inspectionPosition": 6,
+                    "operatorTime": "2020-09-15 16:17:58",
+                    "enterprise": 296661,
+                    "operatorIp": "124.124.124",
+                    "positionArea": "操作间",
+                    "id": 17,
+                    "inspector": "董志涵测试",
+                    "positionCatch": "位置抓取",
+                    "inspectTime": "2020-09-15 08:00:00",
+                    "operator": "用户名称",
+                    "picture": ""
+                }
+            ],
+        }
+    ]
+}
+```
+
+
 
 ## 健康证 
 

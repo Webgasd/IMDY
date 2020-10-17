@@ -32,7 +32,7 @@ public class UserEnterpriseVoteServiceImpl implements UserEnterpriseVoteService 
     public Object insert(EnterpriseVoteSearchParam enterpriseVoteSearchParam) throws Exception{
 
         if(enterpriseVoteSearchParam.getEnterpriseId()==null || enterpriseVoteSearchParam.getUserId()==null){
-            throw new BusinessException(EmBusinessError.UPDATE_ERROR,"用户Id和企业id不可为空");
+            throw new BusinessException(EmBusinessError.UPDATE_ERROR2,"用户Id和企业id不可为空");
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = null;
