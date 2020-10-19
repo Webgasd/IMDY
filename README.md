@@ -2147,7 +2147,7 @@ name=回收 //回收单位名称
 }
 ```
 
-## 证照公示
+## 证照公示（晁展）
 
 ### 获取证照公示（晁展）
 
@@ -2530,7 +2530,7 @@ name=回收 //回收单位名称
 远程：https://www.yiwifi1.com:8088/Accompany/getAccompanyRecordByDate
 ```
 
-方法：POST
+方法：GET
 
 参数：
 
@@ -2894,7 +2894,7 @@ name=回收 //回收单位名称
 ### 按日期获取晨检出勤记录
 
 ```
-远程：https://www.yiwifi1.com:8088/startSelfInspection/getMorningAttendanceByDate
+远程：https://www.yiwifi1.com:8088/morningAttendance/getMorningAttendanceByDate
 ```
 
 方法：POST
@@ -2980,6 +2980,116 @@ name=回收 //回收单位名称
 
 }
 ```
+
+## 食安星（晁展）
+
+### 插入食安星评分
+
+```
+远程：https://www.yiwifi1.com:8088/UserEnterpriseVote/insert
+```
+
+方法：POST
+
+参数：
+
+```
+{
+	"enterpriseId":"111",    //企业ID
+	"userId":"sahvdbj",      //用户微信id
+	"vote1":2.2,             //评分1---5
+	"vote2":2.2,
+	"vote3":2.2,
+	"vote4":2.2,
+	"vote5":2.4,
+	"startTime":"2020-10-17",  //传入当日日期判断用户是否多次评价
+	"problemIdList":[1,2,3,4]         //提交问题列表
+}
+```
+
+返回值：
+
+```
+当成功插入时：
+{
+
+  "status": "success",
+
+  "data": **null**
+
+}
+当多次评价，插入失败时：
+{
+    "status": "fail",
+    "data": {
+        "errCode": 40004,
+        "errMsg": "当天已经评价完，请勿重复评价"
+    }
+}
+当用户Id和企业id为空时：
+{
+    "status": "fail",
+    "data": {
+        "errCode": 40006,
+        "errMsg": "用户Id和企业id不可为空"
+    }
+}
+
+```
+
+### 获取食安星问题收纳列表
+
+```
+远程：https://www.yiwifi1.com:8088/UserEnterpriseVote/getProblem
+```
+
+方法：POST
+
+无参数
+
+返回值：
+
+```
+{
+    "status": "success",
+    "data": [
+        {
+            "id": 1,
+            "problemName": "价格过高"
+        },
+        {
+            "id": 2,
+            "problemName": "餐具不干净"
+        },
+        {
+            "id": 3,
+            "problemName": "无消毒台账"
+        },
+        {
+            "id": 4,
+            "problemName": "原料不新鲜"
+        },
+        {
+            "id": 5,
+            "problemName": "无开工自检"
+        },
+        {
+            "id": 6,
+            "problemName": "无明厨亮灶"
+        },
+        {
+            "id": 7,
+            "problemName": "服务态度不好"
+        },
+        {
+            "id": 8,
+            "problemName": "后台不干净"
+        }
+    ]
+}
+```
+
+
 
 ## 开工自查
 
@@ -3160,6 +3270,74 @@ name=回收 //回收单位名称
     "data": null
 }
 ```
+
+### 根据日期获取自查信息（公众端）（晁展）
+
+```
+远程：https://www.yiwifi1.com:8088/startSelfInspection/getInspectionByPositionPublic
+```
+
+方法：POST
+
+参数：
+
+```
+{
+
+start1=2020-9-15
+
+}
+```
+
+返回值：
+
+```
+{
+    "status": "success",
+    "data": [
+        {
+            "operatorTime": "2020-09-15 16:17:58",
+            "enterprise": 296661,                  //企业ID
+            "inspectionPositionName": "3号厨房",   //检查地点
+            "inspectionTime": "2020-09-15 08:00:00",//检查时间
+            "operatorIp": "",                     
+            "id": 6,
+            "inspector": "董志涵测试",              //检查人员
+            "operator": "",
+            "picList": [                           //图片
+                {
+                    "inspectionPosition": 6,
+                    "operatorTime": "2020-09-15 16:17:58",
+                    "enterprise": 296661,
+                    "operatorIp": "124.124.124",
+                    "positionArea": "加工区",
+                    "id": 16,
+                    "inspector": "董志涵测试",
+                    "positionCatch": "位置抓取",
+                    "inspectTime": "2020-09-15 08:00:00",
+                    "operator": "用户名称",
+                    "picture": ""
+                },
+                {
+                    "inspectionPosition": 6,
+                    "operatorTime": "2020-09-15 16:17:58",
+                    "enterprise": 296661,
+                    "operatorIp": "124.124.124",
+                    "positionArea": "操作间",
+                    "id": 17,
+                    "inspector": "董志涵测试",
+                    "positionCatch": "位置抓取",
+                    "inspectTime": "2020-09-15 08:00:00",
+                    "operator": "用户名称",
+                    "picture": ""
+                }
+            ],
+        }
+    ]
+}
+```
+
+
 
 ## 健康证 
 

@@ -24,7 +24,7 @@ public class AccompanySearchParam {
         return startTime;
     }
 
-    public void setStartTime(String billList) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 }

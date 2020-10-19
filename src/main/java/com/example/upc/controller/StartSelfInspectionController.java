@@ -2,6 +2,7 @@ package com.example.upc.controller;
 
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.controller.searchParam.InspectionSearchParam;
+import com.example.upc.controller.searchParam.StartSelfInspectionPublicSearchParam;
 import com.example.upc.dataobject.InspectionList;
 import com.example.upc.dataobject.InspectionPosition;
 import com.example.upc.dataobject.StartSelfInspection;
@@ -73,5 +74,14 @@ public class StartSelfInspectionController {
         List<StartSelfInspection> startSelfInspectionList = new ArrayList<>();
         startSelfInspectionList = startSelfInspectionService.getInspectionByPosition(positionId);
         return CommonReturnType.create(startSelfInspectionList);
+    }
+    //公众端获取开工自查
+    @RequestMapping("/getInspectionByPositionPublic")
+    @ResponseBody
+    public CommonReturnType getInspectionByPositionPublic( InspectionSearchParam inspectionSearchParam, SysUser sysUser) throws ParseException {
+        inspectionSearchParam.setEnd1(new Date(inspectionSearchParam.getStart1().getTime() + (long) 24 * 60 * 60 * 1000-1));
+        List<StartSelfInspectionPublicSearchParam> inspectionPositionList = new ArrayList<>();
+        inspectionPositionList = startSelfInspectionService.getInspectionByPositionPublic(inspectionSearchParam,sysUser.getInfoId());
+        return CommonReturnType.create(inspectionPositionList);
     }
 }
