@@ -1,8 +1,6 @@
 package com.example.upc.dao;
 
-import com.example.upc.controller.param.GridPoints1;
-import com.example.upc.controller.param.SmilePoints;
-import com.example.upc.controller.param.enterpriseId;
+import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dataobject.GridPoints;
 import org.apache.ibatis.annotations.Param;
@@ -33,4 +31,12 @@ public interface GridPointsMapper {
     int deleteByEnterpriseId(@Param("id") int id);
     GridPoints getPointByEnterpriseId(@Param("id") Integer id);
     int getVideoIdByEnterprise(@Param("id")int id);
+
+    List<NearEnterprise> getNearEnterprise(@Param("search") EnterpriseSearchParam search,
+                                           @Param("gps1") Float gps1,
+                                           @Param("gps2") Float gps2,
+                                           @Param("gps3") Float gps3,
+                                           @Param("gps4") Float gps4,
+                                           @Param("a") Integer a,
+                                           @Param("page") PageQuery page);
 }

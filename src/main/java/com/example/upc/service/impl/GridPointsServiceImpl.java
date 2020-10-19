@@ -2,9 +2,7 @@ package com.example.upc.service.impl;
 
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
-import com.example.upc.controller.param.GridPoints1;
-import com.example.upc.controller.param.SmilePoints;
-import com.example.upc.controller.param.enterpriseId;
+import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dao.GridPointsGpsMapper;
 import com.example.upc.dao.GridPointsMapper;
@@ -14,6 +12,8 @@ import com.example.upc.dataobject.*;
 import com.example.upc.service.GridPointsService;
 import com.example.upc.service.SysAreaService;
 import com.example.upc.service.model.MapIndustryNumber;
+import com.example.upc.util.CaculateDisUtil;
+import com.example.upc.util.JsonToImageUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -260,5 +260,105 @@ public class GridPointsServiceImpl implements GridPointsService {
         else{
             throw new BusinessException(EmBusinessError.UPDATE_ERROR);
         }
+    }
+
+    @Override
+    public List<NearEnterprise> getNearEnterprise(EnterpriseSearchParam enterpriseSearchParam, PageQuery pageQuery){
+        CaculateDisUtil caculateDisUtil = new CaculateDisUtil();
+        //设置距离多少以内
+        if (enterpriseSearchParam.getDis() == null||enterpriseSearchParam.getDis().equals("")) {
+            enterpriseSearchParam.setDis(1000);
+        }
+        //默认中心位置
+        if (enterpriseSearchParam.getLocation() == null||enterpriseSearchParam.getLocation().equals("")){
+            enterpriseSearchParam.setLocation("118.5821878900,37.4489563700");
+        }
+        //获取gps经纬度
+        String[] gps = enterpriseSearchParam.getLocation().split(",");
+        Double gpsA =Double.parseDouble(gps[0]);
+        Double gpsB =Double.parseDouble(gps[1]);
+        //将距离转化为经纬度
+        Float gps1 = (float) (gpsA - enterpriseSearchParam.getDis() * 0.00001141);
+        Float gps2 = (float) (gpsA + enterpriseSearchParam.getDis() * 0.00001141);
+        Float gps3 = (float) (gpsB - enterpriseSearchParam.getDis() * 0.00000899);
+        Float gps4 = (float) (gpsB + enterpriseSearchParam.getDis() * 0.00000899);
+        List<NearEnterprise> nearEnterpriseList = gridPointsMapper.getNearEnterprise(enterpriseSearchParam, gps1, gps2, gps3, gps4, 0, pageQuery);
+        //根据中心点上下左右距离内取点
+        if(enterpriseSearchParam.getSortList().contains("distance")) {
+            nearEnterpriseList.forEach(item -> {
+//                if (item.getPropagandaEnclosure().equals("")) {
+//                    item.setPropagandaEnclosure("");
+//                } else {
+//                    item.setPropagandaEnclosure(JsonToImageUrl.JSON2ImageUrl(item.getPropagandaEnclosure()));
+//                }
+                String[] gpsTarget = item.getPoint().split(",");
+                Double gpsC = Double.parseDouble(gpsTarget[0]);
+                Double gpsD = Double.parseDouble(gpsTarget[1]);
+                item.setDistance((int) caculateDisUtil.Distance(gpsA, gpsB, gpsC, gpsD));
+            });
+            Collections.sort(nearEnterpriseList, new Comparator<NearEnterprise>() {
+                @Override
+                public int compare(NearEnterprise o1, NearEnterprise o2) {
+                    int diff = o1.getDistance() - o2.getDistance();
+                    return diff;
+                }
+            });
+        }
+        return nearEnterpriseList;
+    }
+
+    @Override
+    public List<NearEnterprise> getNearEnterpriseScore(EnterpriseSearchParam enterpriseSearchParam){
+//        CaculateDisUtil caculateDisUtil = new CaculateDisUtil();
+//        //设置距离多少以内
+//        if (enterpriseSearchParam.getDis() == null||enterpriseSearchParam.getDis().equals("")) {
+//            enterpriseSearchParam.setDis(1000);
+//        }
+//        //默认中心位置
+//        if (enterpriseSearchParam.getLocation() == null||enterpriseSearchParam.getLocation().equals("")){
+//            enterpriseSearchParam.setLocation("118.5821878900,37.4489563700");
+//        }
+//        //获取gps经纬度
+//        String[] gps = enterpriseSearchParam.getLocation().split(",");
+//        Double gpsA =Double.parseDouble(gps[0]);
+//        Double gpsB =Double.parseDouble(gps[1]);
+//        //将距离转化为经纬度
+//        Float gps1 = (float) (gpsA - enterpriseSearchParam.getDis() * 0.00001141);
+//        Float gps2 = (float) (gpsA + enterpriseSearchParam.getDis() * 0.00001141);
+//        Float gps3 = (float) (gpsB - enterpriseSearchParam.getDis() * 0.00000899);
+//        Float gps4 = (float) (gpsB + enterpriseSearchParam.getDis() * 0.00000899);
+//        //根据中心点上下左右距离内取点
+//        List<NearEnterprise> nearEnterpriseList = gridPointsMapper.getNearEnterprise(enterpriseSearchParam,gps1,gps2,gps3,gps4,1);
+//        nearEnterpriseList.forEach(item->{
+////            if (item.getPropagandaEnclosure().equals("")) {
+////                item.setPropagandaEnclosure("");
+////            } else {
+////                item.setPropagandaEnclosure(JsonToImageUrl.JSON2ImageUrl(item.getPropagandaEnclosure()));
+////            }
+//            String[] gpsTarget = item.getPoint().split(",");
+//            Double gpsC =Double.parseDouble(gpsTarget[0]);
+//            Double gpsD =Double.parseDouble(gpsTarget[1]);
+//            item.setDistance((int) caculateDisUtil.Distance(gpsA, gpsB, gpsC, gpsD));
+//        });
+//        Collections.sort(nearEnterpriseList, new Comparator<NearEnterprise>() {
+//            @Override
+//            public int compare(NearEnterprise o1, NearEnterprise o2) {
+//                float diff1 = o1.getAverageScore() - o2.getAverageScore();
+//                int diff2 = o1.getDistance() - o2.getDistance();
+//                if(diff1 <= 0){
+//                    return 1;
+//                }
+//                else{
+//                    return -1;
+//                }
+//            }
+//        });
+//        for (NearEnterprise item:nearEnterpriseList
+//        ) {
+//            System.out.println(item.getAverageScore());
+//        }
+//        return nearEnterpriseList;
+        List<NearEnterprise> nearEnterpriseList = new ArrayList<>();
+        return nearEnterpriseList;
     }
 }

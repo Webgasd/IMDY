@@ -567,10 +567,10 @@
     c.picture picture,
     c.date date FROM
     format_origin_record_ex a LEFT JOIN origin_record_bill b on a.id = b.record_id
-    <if test="startDate != null">  AND a.record_time &gt;= #{startDate}</if>
-    <if test="endDate != null"> AND a.record_time &lt; #{endDate} </if>
-    LEFT JOIN	bill_report c
+    LEFT JOIN bill_report c
     on c.id = b.bill_id
+    <if test="startDate != null"> Where record_time &gt;= #{startDate}</if>
+    <if test="endDate != null"> AND record_time &lt; #{endDate} </if>
   </select>
 
   <select id="getPageEnterprise2" resultMap="BaseResultMap">

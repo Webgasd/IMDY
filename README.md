@@ -901,14 +901,7 @@ postman访问地址：
 `https://www.yiwifi1.com:8088/formatOriginRecordEx/getRecordExByDate`
 
 方法：GET
->注意 该接口返回的billList需要在下面查看票据照片的时候用
-- 参数：
-```
- {
-        "recordTime":"2020-8-15"
- }
-```
-
+>注意 该接口返回的billList需要在下面查看票据照片
 - 返回值
 ```json
 {
@@ -1319,7 +1312,7 @@ postman访问地址：
 }
 ```
 
-## 月度自查
+## 月度自查(刘宁)
 
 ### 新增月度自查
 
@@ -1710,6 +1703,52 @@ postman访问地址：
     "data": null
 }
 ```
+
+## 公众端地图
+
+### 地图点位
+
+`https://www.yiwifi1.com:8088/supervision/enterprise/getNearEnterprise`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+param
+	pageSize:20//一次返回记录条数
+```
+
+```json
+json
+{
+    "dis":20000,//距离中心点位距离
+    "location":"117.5721878900,37.4689563700",//中心点经纬度
+    "isList":1,//如果是食安中心列表置为1
+    "enterpriseName":"",//企业名称模糊查询
+    "checkType":""//选择某一类企业 学校食堂，餐饮服务
+    "sortList":["dynamicGrade","averageScore","distance"],//三种排序方式 
+}
+```
+
+- 返回值
+
+```json
+ {
+            "checkType": "餐饮服务,学校食堂,食品流通",
+            "distance": 0,
+            "propagandaEnclosure": "",
+            "cantactWay": "92370502MA3R3MA82L",
+            "shopName": "东营区胜百灯具店",
+            "enterpriseId": 296445,
+            "dynamicGrade": "A",
+            "enterpriseName": "东营区胜百灯具店",
+            "point": "118.569772,37.485316",
+            "averageScore": 4.6
+ }
+```
+
+
 
 ## 废弃物
 
@@ -4183,7 +4222,7 @@ listId=1 //配货单id
 
 ## 游客登录（董志涵）
 
-`远程：https://www.yiwifi1.com:8088/formatoriginextra/insert`
+`远程：https://www.yiwifi1.com:8088/mini/touristLogin`
 
 方法：GET
 
@@ -4302,3 +4341,72 @@ id= 296661 //点击的企业的id
     ]
 }
 ```
+
+## 根据日期查询索证索票
+
+`/formatOriginRecordEx/getRecordExPublicByDate`
+
+postman访问地址：
+
+`https://www.yiwifi1.com:8088/formatOriginRecordEx/getRecordExPublicByDate?recordTime=2020-8-16`
+
+方法：GET
+
+- 参数：
+
+```
+ {
+        "recordTime":"2020-8-15"
+ }
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": [
+         {"area": 1,
+            "keepTimeType": "天",
+            "enterprise": 296661,
+            "billList": [
+                {
+                    "date": "2020-08-16 00:00:00",
+                    "billId": 4,
+                    "name": "动物检疫",
+                    "picture": "pic"
+                },
+                {
+                    "date": "2020-08-16 00:00:00",
+                    "billId": 5,
+                    "name": "食品安全",
+                    "picture": "pic"
+                },
+                {
+                    "date": "2020-09-22 00:00:00",
+                    "billId": 10,
+                    "name": "555",
+                    "picture": "http://tmp/wx9347d04595241011.o6zAJs2Vf_cAROR0uMDVpXOGhgaA.4HuQ5XY223WEc44fd634776de561ab2b2712185b83f4.bmp"
+                }
+            ],
+            "operatorIp": "124.124.124",
+            "produceTime": "2020-08-15 00:00:00",
+            "goodsIn": 7.0,
+            "keepTime": "7",
+            "operator": "操作人",
+            "goodsType": "吨",
+            "originTypeEx": "肉类",
+            "originType": "散装产品",
+            "recordTime": "2020-08-16 00:00:00",
+            "operatorTime": "2020-09-16 10:00:06",
+            "supplier": "供应商名称*",
+            "netContent": "净含量/规格",
+            "id": 3664,
+            "brand": "品牌",
+            "originName": "原料名称"
+         }
+    ]
+}
+```
+
+### 

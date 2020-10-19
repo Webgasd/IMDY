@@ -11,7 +11,6 @@ import java.util.List;
  * @date 2019/7/12 10:40
  */
 public class EnterpriseSearchParam {
-    private String enterpriseName;
     private String storeName;
     private String creditCode;
     private String registeredAddress;
@@ -30,10 +29,16 @@ public class EnterpriseSearchParam {
     private String supervisor;
     private String userType;
     private String location;
-    private Integer dis;
     private String operationMode;
     private Integer businessState;
     private Integer indexNum;
+
+    private String checkType;
+    private Integer dis;
+    private String enterpriseName;
+    private Integer isList=0;
+    private List<String> sortList;
+
 
     public String getLegalPerson() {
         return legalPerson;
@@ -211,12 +216,35 @@ public class EnterpriseSearchParam {
         this.permissionStatus = permissionStatus;
     }
 
-
     public String getSupervisor() {
         return supervisor;
     }
 
     public void setSupervisor(String supervisor) {
         this.supervisor = supervisor;
+    }
+
+    public Integer getIsList() {
+        return isList;
+    }
+
+    public void setIsList(Integer isList) {
+        this.isList = isList;
+    }
+
+    public List<String> getSortList() {
+        return sortList;
+    }
+
+    public void setSortList(List<String> sortList) {
+        this.sortList = sortList;
+    }
+
+    public String getCheckType() {
+        return checkType;
+    }
+
+    public void setCheckType(String checkType) {
+        this.checkType = checkType;
     }
 }
