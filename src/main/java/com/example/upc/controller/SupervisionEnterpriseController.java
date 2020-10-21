@@ -349,6 +349,12 @@ public class SupervisionEnterpriseController {
         return CommonReturnType.create(nearEnterpriseList);
     }
 
+    @RequestMapping("/getByEnterpriseId")
+    @ResponseBody
+    public CommonReturnType getByEnterpriseId(@RequestBody EnterpriseSearchParam enterpriseSearchParam){
+        return CommonReturnType.create(gridPointsService.getEnterpriseByParam(enterpriseSearchParam));
+    }
+
     @RequestMapping("/getNearEnterpriseScore")
     @ResponseBody
     public CommonReturnType getNearEnterpriseScore(@RequestBody EnterpriseSearchParam enterpriseSearchParam){

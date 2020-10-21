@@ -35,8 +35,8 @@ public class FoodAdditive {
      * @mbg.generated Mon Sep 28 20:24:28 CST 2020
      */
     @NotNull(groups={InsertGroup.class},message = "插入日期不能为空")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date useDate;
 
     /**

@@ -55,4 +55,5 @@ public interface GridPointsGpsMapper {
     int updateByPrimaryKey(GridPointsGps record);
     GridPointsGps getPointByCodeId(@Param("cid") String cid);
     List<String> getIdNumber();
+
 }

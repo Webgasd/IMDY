@@ -58,6 +58,7 @@ public class FormatOriginExtraServiceImpl implements FormatOriginExtraService {
         return pageResult;
     }
 
+
     @Override
     @Transactional
     public void insert(FormatOriginExtra formatOriginExtra, SysUser sysUser) {

@@ -7,11 +7,11 @@ public class NearEnterprise implements Comparable<NearEnterprise> {
     private String shopName; //招牌名称
     private String cantactWay; //联系方式
     private String propagandaEnclosure; //门头照片
-    private Float averageScore=0.0f; //量化情况
+    private Float averageScore=0.0f; //平均分
     private String checkType; //类型
     private int distance; //企业与目前的距离
     private String point; //企业的坐标
-    private String dynamicGrade; //等级
+    private String dynamicGrade; //量化等级
 
     @Override
     public int compareTo(NearEnterprise nearEnterprise){

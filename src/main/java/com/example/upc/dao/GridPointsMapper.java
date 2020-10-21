@@ -39,4 +39,6 @@ public interface GridPointsMapper {
                                            @Param("gps4") Float gps4,
                                            @Param("a") Integer a,
                                            @Param("page") PageQuery page);
+
+    List<NearEnterprise> getEnterpriseByParam(@Param("search") EnterpriseSearchParam search);
 }

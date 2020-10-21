@@ -1,5 +1,6 @@
 package com.example.upc.controller.searchParam;
 
+import com.example.upc.controller.param.coordinateParam;
 import com.example.upc.dataobject.SysArea;
 import com.example.upc.dataobject.SysIndustry;
 
@@ -33,12 +34,15 @@ public class EnterpriseSearchParam {
     private Integer businessState;
     private Integer indexNum;
 
+    private Integer id;
     private String checkType;
     private Integer dis;
     private String enterpriseName;
     private Integer isList=0;
     private List<String> sortList;
-
+    private coordinateParam southwestPoint;
+    private coordinateParam northeastPoint;
+    private coordinateParam currentPoint;
 
     public String getLegalPerson() {
         return legalPerson;
@@ -246,5 +250,37 @@ public class EnterpriseSearchParam {
 
     public void setCheckType(String checkType) {
         this.checkType = checkType;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public coordinateParam getSouthwestPoint() {
+        return southwestPoint;
+    }
+
+    public void setSouthwestPoint(coordinateParam southwestPoint) {
+        this.southwestPoint = southwestPoint;
+    }
+
+    public coordinateParam getNortheastPoint() {
+        return northeastPoint;
+    }
+
+    public void setNortheastPoint(coordinateParam northeastPoint) {
+        this.northeastPoint = northeastPoint;
+    }
+
+    public coordinateParam getCurrentPoint() {
+        return currentPoint;
+    }
+
+    public void setCurrentPoint(coordinateParam currentPoint) {
+        this.currentPoint = currentPoint;
     }
 }

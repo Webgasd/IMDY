@@ -1814,7 +1814,7 @@ public class FormatLeaveServiceImpl implements FormatLeaveService {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         for (FormatLeaveExportParam item:formatLeaveExportParamList) {
             data.add(new String[]{
-                    dateFormat.format(item.getDate()),item.getMeal(),item.getMealType(),item.getNumber(),item.getPerson(),item.getSampleType(),item.getName(),item.getMaterial1(),item.getState(),item.getNum()
+                    dateFormat.format(item.getDate()),item.getMeal(),item.getMealType(),item.getNumber(),item.getPerson(),item.getSampleType(),item.getName(),item.getMaterial1(),item.getState(),item.getNum(),""
             });
         }
         String fileName = "食品留样";

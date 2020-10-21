@@ -347,24 +347,24 @@ postman访问地址：
 {
   	"status": "success",
     "data": [{
-        "id": 29434,
-        "unit": 296661,
-        "area": 1,
-        "name": "碗、筷、碟",
-        "amount": 500,
-        "date": "2020-09-09T16:00:00.000+0000",
-        "caId": 1497,
-        "person": "王鹏皓",
-        "start1": 19,
-        "start2": 20,
-        "end1": 49,
-        "end2": 19,
-        "way": "热力消毒",
-        "remark": "",
-        "operator": "操作人",
-        "operatorIp": "124.124.124",
-        "operatorTime": "2020-09-10T11:49:25.000+0000"
-    }]
+            "area": 1,
+            "date": "2020-09-11 00:00:00",
+            "amount": 200,
+            "start1": 20,
+            "operatorIp": "124.124.124",
+            "remark": "",
+            "operator": "操作人",
+            "way": "热力消毒",
+            "unit": 296661,
+            "operatorTime": "2020-09-11 20:29:09",
+            "person": "csn",
+            "caId": 1499,
+            "end2": 58,
+            "name": "测试消毒物品",
+            "end1": 28,
+            "id": 29437,
+            "start2": 20
+        }]
 }
 
 ```
@@ -1722,12 +1722,13 @@ param
 ```json
 json
 {
-    "dis":20000,//距离中心点位距离
-    "location":"117.5721878900,37.4689563700",//中心点经纬度
-    "isList":1,//如果是食安中心列表置为1
-    "enterpriseName":"",//企业名称模糊查询
-    "checkType":""//选择某一类企业 学校食堂，餐饮服务
-    "sortList":["dynamicGrade","averageScore","distance"],//三种排序方式 
+    "isList":1,//展示地图时不传该字段，展示食安中心列表置为1
+    "sortList":["distance","averageScore","distance"],//三种排序方式，即使没有用到排序sortList依然要有，传空数组
+    "checkType":"",//企业类别 学校 or 餐饮
+    //以下三个经纬度在为空时也要传，传空对象 例如“northeastPoint”:{}...
+    "northeastPoint":{"longtitude":118.81039,"latitude":37.628757},//东北角经纬度
+    "southwestPoint":{"longtitude":118.35399,"latitude":37.269157},//西南角经纬度
+    "currentPoint":{"longtitude":118.58218789,"latitude":37.44895637}//中心点经纬度	
 }
 ```
 
@@ -1746,6 +1747,40 @@ json
             "point": "118.569772,37.485316",
             "averageScore": 4.6
  }
+```
+
+### 地图获取企业信息
+
+`https://www.yiwifi1.com:8088/supervision/enterprise/getByEnterpriseId`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+{
+    "id":296445
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": [
+        {
+            "checkType": "餐饮服务,学校食堂,食品流通",
+            "distance": 0,
+            "propagandaEnclosure": "",
+            "cantactWay": "92370502MA3R3MA82L",
+            "shopName": "东营区胜百灯具店",
+            "dynamicGrade": "A",
+            "enterpriseName": "东营区胜百灯具店",
+            "averageScore": 4.6
+        }
+    ]
+}
 ```
 
 

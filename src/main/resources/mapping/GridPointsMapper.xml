@@ -1100,7 +1100,7 @@
     <select id="getNearEnterprise" resultMap="NearEnterprise">
         SELECT
         <if test="(search.enterpriseName != null and search.enterpriseName != '') or (search.isList == 1)">
-        b.*,d.dynamic_grade,
+        b.*,d.dynamic_grade,d.dynamic_grade_number,
         CASE WHEN
             c.average_score IS NULL THEN 0
             ELSE c.average_score
@@ -1111,13 +1111,15 @@
         FROM
         <!-- gps点位表-->
             (select enterprise_id,point from grid_points
+            <if test="search.isList == 0">
             WHERE
-            CONVERT ( substring_index(point, ',', 1 ), DECIMAL ( 9, 6 ) ) &gt;= #{gps1}
-            AND CONVERT ( substring_index(point, ',', 1 ), DECIMAL ( 9, 6 ) ) &lt;= #{gps2}
-            AND CONVERT ( substring_index(point, ',',- 1 ), DECIMAL ( 9, 6 ) ) &gt;= #{gps3}
-            AND CONVERT ( substring_index(point, ',',- 1 ), DECIMAL ( 9, 6 ) ) &lt;= #{gps4}) as a
+                CONVERT ( substring_index(point, ',', 1 ), DECIMAL ( 9, 6 ) ) &gt;= #{gps1}
+                AND CONVERT ( substring_index(point, ',', 1 ), DECIMAL ( 9, 6 ) ) &lt;= #{gps2}
+                AND CONVERT ( substring_index(point, ',',- 1 ), DECIMAL ( 9, 6 ) ) &gt;= #{gps3}
+                AND CONVERT ( substring_index(point, ',',- 1 ), DECIMAL ( 9, 6 ) ) &lt;= #{gps4}
+            </if>) as a
+        INNER JOIN
         <!-- 企业表-->
-            INNER JOIN
             (SELECT id,enterprise_name,shop_name,propaganda_enclosure,cantact_way,area,grid from
             supervision_enterprise
             <if test="search.enterpriseName != null and search.enterpriseName != ''">
@@ -1125,28 +1127,39 @@
             </if>
             )as b on a.enterprise_id = b.id
         <!-- 食品经营许可证表 -->
-            LEFT JOIN
+        LEFT JOIN
             (select b.check_type,b.dynamic_grade,case b.dynamic_grade WHEN "A" THEN 3 WHEN "B" THEN 2 WHEN "C" THEN 1 ELSE 0 END as dynamic_grade_number,a.enterprise_id
-            from supervision_en_food_bu_index as a INNER JOIN supervision_en_food_bu as b on a.id=b.index_id
-            <if test="search.sortList.contains('dynamicGrade')">
-                ORDER BY dynamic_grade_number DESC
-            </if>
-            )
+            from supervision_en_food_bu_index as a INNER JOIN supervision_en_food_bu as b on a.id=b.index_id)
             as d on d.enterprise_id = b.id
         <!-- 食安星投票表 -->
         <if test="(search.enterpriseName != null and search.enterpriseName != '') or (search.isList == 1)">
-            LEFT JOIN
-            (SELECT enterprise_id, AVG( average ) AS average_score FROM user_enterprise_vote GROUP BY enterprise_id
-            <if test="search.sortList.contains('averageScore')">
-            ORDER BY average_score DESC
-            </if>)
+        LEFT JOIN
+            (SELECT enterprise_id, AVG( average ) AS average_score FROM user_enterprise_vote GROUP BY enterprise_id)
             AS c ON c.enterprise_id = b.id
         </if>
         <if test="search.checkType != null and search.checkType != ''">
             where check_type like CONCAT('%',#{search.checkType},'%')
         </if>
+        <if test="search.sortList.contains('dynamicGrade')">
+            ORDER BY dynamic_grade_number DESC
+        </if>
+        <if test="search.sortList.contains('averageScore')">
+            ORDER BY average_score DESC
+        </if>
         <if test="search.isList == 1">
             limit #{page.offset}, #{page.pageSize}
         </if>
+    </select>
+
+    <select id="getEnterpriseByParam" resultMap="NearEnterprise">
+        SELECT b.id,b.enterprise_name,b.shop_name,b.propaganda_enclosure,b.cantact_way,b.area,b.grid,c.average_score,d.check_type,d.dynamic_grade
+        from
+        (SELECT id,enterprise_name,shop_name,propaganda_enclosure,cantact_way,area,grid FROM supervision_enterprise where id = #{search.id}) as b
+        LEFT JOIN
+        (SELECT b.check_type,b.dynamic_grade,a.enterprise_id
+        from supervision_en_food_bu_index as a INNER JOIN supervision_en_food_bu as b on a.id=b.index_id and a.enterprise_id = #{search.id}) as d on d.enterprise_id = b.id
+        LEFT JOIN
+        (SELECT enterprise_id, AVG( average ) AS average_score FROM user_enterprise_vote where enterprise_id = #{search.id} GROUP BY enterprise_id)
+        AS c ON c.enterprise_id = b.id
     </select>
 </mapper>

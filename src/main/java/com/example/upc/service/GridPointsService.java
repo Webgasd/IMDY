@@ -29,5 +29,12 @@ public interface GridPointsService {
     int getVideoIdByEnterprise(int id);
     void updateEnterprisePoint(int id , String code, String points, SysUser sysUser);
     List<NearEnterprise> getNearEnterprise(EnterpriseSearchParam enterpriseSearchParam, PageQuery pageQuery);
+
+    /**
+     * 地图点位获取企业信息
+     * @param id
+     * @return
+     */
+    List<NearEnterprise> getEnterpriseByParam(EnterpriseSearchParam enterpriseSearchParam);
     List<NearEnterprise> getNearEnterpriseScore(EnterpriseSearchParam enterpriseSearchParam);
 }

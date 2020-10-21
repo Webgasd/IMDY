@@ -309,7 +309,6 @@
     SELECT <include refid="Base_Column_List" />
     FROM format_origin_extra
     where enterprise_id = #{id}
-
     <if test="search.materialname != null and search.materialname != ''">AND materialname LIKE CONCAT('%',#{search.materialname},'%')</if>
     <if test="search.materialcategory != null and search.materialcategory != ''">AND materialcategory LIKE CONCAT('%',#{search.materialcategory},'%')</if>
     <if test="search.brand != null and search.brand != ''">AND brand = #{search.brand}</if>

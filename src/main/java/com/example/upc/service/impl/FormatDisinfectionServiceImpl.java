@@ -523,8 +523,8 @@ public class FormatDisinfectionServiceImpl implements FormatDisinfectionService 
             data.add(new String[]{
                     dateFormat.format(item.getDate()),item.getName(),item.getAmount().toString(),item.getWay(),
                     item.getStart1()<10?("0"+item.getStart1()+" : "+(item.getStart2()<10?"0"+item.getStart2():item.getStart2())):(item.getStart1()+" : "+(item.getStart2()<10?"0"+item.getStart2():item.getStart2())),
-//                    item.getEnd1()+" : "+item.getEnd2(),item.getPerson(),item.getRemark()
-                    item.getEnd1()<10?("0"+item.getEnd1()+" : "+(item.getEnd2()<10?"0"+item.getEnd2():item.getEnd2())):(item.getEnd1()+" : "+(item.getEnd2()<10?"0"+item.getEnd2():item.getEnd2()))
+                    item.getEnd1()<10?("0"+item.getEnd1()+" : "+(item.getEnd2()<10?"0"+item.getEnd2():item.getEnd2())):(item.getEnd1()+" : "+(item.getEnd2()<10?"0"+item.getEnd2():item.getEnd2())),
+                    item.getPerson(),item.getRemark(),""
             });
         }
         String fileName = "清洗消毒";
