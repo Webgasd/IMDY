@@ -1716,6 +1716,7 @@ postman访问地址：
 
 ```json
 param
+	pagaNo:1 //页码
 	pageSize:20//一次返回记录条数
 ```
 
@@ -1723,6 +1724,7 @@ param
 json
 {
     "isList":1,//展示地图时不传该字段，展示食安中心列表置为1
+    "enterpriseName":"胜百灯",//企业名称
     "sortList":["distance","averageScore","distance"],//三种排序方式，即使没有用到排序sortList依然要有，传空数组
     "checkType":"",//企业类别 学校 or 餐饮
     //以下三个经纬度在为空时也要传，传空对象 例如“northeastPoint”:{}...
