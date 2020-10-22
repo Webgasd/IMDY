@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -371,11 +372,20 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
     }
 
     @Override
-    public SupervisionCa getCaInfoByIdNumber(String idNumber){
+    public SupervisionCaParam getCaInfoByIdNumber(String idNumber){
         if(supervisionCaMapper.countByIdNumber(idNumber,null)==0){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"该人员未注册");
         }
-        return supervisionCaMapper.getCaInfoByIdNumber(idNumber);
+        SupervisionCa supervisionCa = supervisionCaMapper.getCaInfoByIdNumber(idNumber);
+
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");//转换日期格式
+        SupervisionCaParam supervisionCaParam =new SupervisionCaParam();
+        BeanUtils.copyProperties(supervisionCa,supervisionCaParam);
+        String startString =formatDate.format(supervisionCaParam.getStartTime());
+        String endString =formatDate.format(supervisionCaParam.getEndTime());
+        supervisionCaParam.setStartDate(startString);
+        supervisionCaParam.setEndDate(endString);
+        return supervisionCaParam;
     }
 
     @Override
