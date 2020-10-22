@@ -1,17 +1,9 @@
 package com.example.upc.controller.param;
 
 public class coordinateParam {
-    private float longtitude=0.0f;
+    private float longitude=0.0f;
     private float latitude=0.0f;
 
-
-    public float getLongtitude() {
-        return longtitude;
-    }
-
-    public void setLongtitude(float longtitude) {
-        this.longtitude = longtitude;
-    }
 
     public float getLatitude() {
         return latitude;
@@ -19,5 +11,13 @@ public class coordinateParam {
 
     public void setLatitude(float latitude) {
         this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 }

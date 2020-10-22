@@ -663,7 +663,7 @@
     FROM supervision_ca
     where company_id = #{id}
     <if test="search.name != null and search.name != ''">AND name LIKE CONCAT('%',#{search.name},'%')</if>
-    ORDER BY id DESC
+    ORDER BY end_time DESC
     limit #{page.offset}, #{page.pageSize}
   </select>
 
@@ -671,6 +671,7 @@
     SELECT *
     FROM view_supervision_ca
     where company_id = #{enterpriseId}
+    ORDER BY id DESC
   </select>
 
   <select id="getCaInfoByUserId" resultMap="BaseResultMap">

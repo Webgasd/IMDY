@@ -263,22 +263,25 @@ public class GridPointsServiceImpl implements GridPointsService {
     }
 
     @Override
+    @DoPage
     public List<NearEnterprise> getNearEnterprise(EnterpriseSearchParam enterpriseSearchParam, PageQuery pageQuery){
 
         if (enterpriseSearchParam.getSouthwestPoint() == null || enterpriseSearchParam.getNortheastPoint() == null) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "无边界点经纬度");
         }
-        if (enterpriseSearchParam.getSouthwestPoint().getLongtitude() == 0.0f && enterpriseSearchParam.getSouthwestPoint().getLatitude() == 0.0f) {
-            enterpriseSearchParam.getSouthwestPoint().setLongtitude((float) (118.35399));
+        //无边界点经纬度时使用默认经纬度
+        if (enterpriseSearchParam.getSouthwestPoint().getLongitude() == 0.0f && enterpriseSearchParam.getSouthwestPoint().getLatitude() == 0.0f) {
+            enterpriseSearchParam.getSouthwestPoint().setLongitude((float) (118.35399));
             enterpriseSearchParam.getSouthwestPoint().setLatitude((float) (37.269157));
         }
-        if (enterpriseSearchParam.getSouthwestPoint().getLongtitude() == 0.0f && enterpriseSearchParam.getNortheastPoint().getLatitude() == 0.0f) {
-            enterpriseSearchParam.getSouthwestPoint().setLongtitude((float) (118.81039));
-            enterpriseSearchParam.getSouthwestPoint().setLatitude((float) (37.628757));
+        if (enterpriseSearchParam.getNortheastPoint().getLongitude() == 0.0f && enterpriseSearchParam.getNortheastPoint().getLatitude() == 0.0f) {
+            enterpriseSearchParam.getNortheastPoint().setLongitude((float) (118.81039));
+            enterpriseSearchParam.getNortheastPoint().setLatitude((float) (37.628757));
         }
+
         List<NearEnterprise> nearEnterpriseList = gridPointsMapper.getNearEnterprise(enterpriseSearchParam,
-                enterpriseSearchParam.getSouthwestPoint().getLongtitude(),
-                enterpriseSearchParam.getNortheastPoint().getLongtitude(),
+                enterpriseSearchParam.getSouthwestPoint().getLongitude(),
+                enterpriseSearchParam.getNortheastPoint().getLongitude(),
                 enterpriseSearchParam.getSouthwestPoint().getLatitude(),
                 enterpriseSearchParam.getNortheastPoint().getLatitude(), 0, pageQuery);
         //企业列表显示时计算距离
@@ -287,8 +290,8 @@ public class GridPointsServiceImpl implements GridPointsService {
                 throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "无中心点经纬度");
             }
             //默认中心点位置
-            if ((enterpriseSearchParam.getCurrentPoint().getLongtitude() == 0.0f && enterpriseSearchParam.getCurrentPoint().getLatitude() == 0.0f)) {
-                enterpriseSearchParam.getCurrentPoint().setLongtitude((float) (118.58218789));
+            if ((enterpriseSearchParam.getCurrentPoint().getLongitude() == 0.0f && enterpriseSearchParam.getCurrentPoint().getLatitude() == 0.0f)) {
+                enterpriseSearchParam.getCurrentPoint().setLongitude((float) (118.58218789));
                 enterpriseSearchParam.getCurrentPoint().setLatitude((float) (37.44895637));
             }
             nearEnterpriseList.forEach(item -> {
@@ -301,7 +304,7 @@ public class GridPointsServiceImpl implements GridPointsService {
                 Double gpsC = Double.parseDouble(gpsTarget[0]);
                 Double gpsD = Double.parseDouble(gpsTarget[1]);
                 CaculateDisUtil caculateDisUtil = new CaculateDisUtil();
-                item.setDistance((int) caculateDisUtil.Distance((double) enterpriseSearchParam.getCurrentPoint().getLongtitude(), (double) enterpriseSearchParam.getCurrentPoint().getLatitude(), gpsC, gpsD));
+                item.setDistance((int) caculateDisUtil.Distance((double) enterpriseSearchParam.getCurrentPoint().getLongitude(), (double) enterpriseSearchParam.getCurrentPoint().getLatitude(), gpsC, gpsD));
             });
             //计算出距离后进行排序
             if(enterpriseSearchParam.getSortList().contains("distance")) {
