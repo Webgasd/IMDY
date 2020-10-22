@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -314,6 +315,13 @@ public class MiniProgramController {
 //             ) {
 //            s.setPhoto(JSON2ImageUrl(s.getPhoto()));
 //        }
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        for(SupervisionCaParam supervisionCaParam:supervisionCaParamList){
+            String startString =formatDate.format(supervisionCaParam.getStartTime());
+            String endString =formatDate.format(supervisionCaParam.getEndTime());
+            supervisionCaParam.setStartDate(startString);
+            supervisionCaParam.setEndDate(endString);
+        }
         result.put("personList",supervisionCaParamList);
         return new ResultVo(result);
     }
