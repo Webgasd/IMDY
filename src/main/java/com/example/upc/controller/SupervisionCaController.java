@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -177,7 +178,7 @@ public class SupervisionCaController {
 
     @RequestMapping("/getByIdNumber")
     @ResponseBody
-    public CommonReturnType getByIdNumber(String idNumber){
+    public CommonReturnType getByIdNumber(String idNumber) throws ParseException {
         return CommonReturnType.create(supervisionCaService.getCaInfoByIdNumber(idNumber));
     }
 

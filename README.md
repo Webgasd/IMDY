@@ -1716,7 +1716,6 @@ postman访问地址：
 
 ```json
 param
-	pagaNo:1 //页码
 	pageSize:20//一次返回记录条数
 ```
 
@@ -1724,7 +1723,6 @@ param
 json
 {
     "isList":1,//展示地图时不传该字段，展示食安中心列表置为1
-    "enterpriseName":"胜百灯",//企业名称
     "sortList":["distance","averageScore","distance"],//三种排序方式，即使没有用到排序sortList依然要有，传空数组
     "checkType":"",//企业类别 学校 or 餐饮
     //以下三个经纬度在为空时也要传，传空对象 例如“northeastPoint”:{}...
@@ -3386,7 +3384,7 @@ postman访问地址：
 
 方法：GET
 
-- 参数：
+- 参数：    
 ```
 {idNumber:12} //身份证号
 ```
@@ -3405,8 +3403,7 @@ postman访问地址：
 }
 
 ```
-如果有该人员 返回  
-
+-如果有该人员 返回  
 ```json
     {
     "status": "success",
@@ -3425,10 +3422,13 @@ postman访问地址：
         "train": "已培训",
         "education": "研究生",
         "healthNumber": "1",
-        "startTime": "2020-07-13T21:18:40.000+0000",
-        "endTime": "2020-07-17T21:18:42.000+0000",
+        "startTime": "2020-07-13T21:18:40.000+0000",  //未使用，使用字段startDate
+        "endTime": "2020-07-17T21:18:42.000+0000",    //未使用，使用字段
         "issuingAuthority": "1",
         "photo": "",
+        "startDate": "2020-07-13",  
+        "endDate": "2020-07-17",
+        "dateFlag": true,           //判断健康证是否过期，过期则为false
         "operateTime": "2020-09-06T23:10:34.000+0000",
         "operator": "",
         "operateIp": ""
@@ -3457,7 +3457,7 @@ postman访问地址：
 "companyId": 296661,//公司id 从之前获取主页的接口处得到
 "companyName": "市场主体名称*",//公司名称 从之前获取主页的接口得到
 "startTime": "2020-09-07T01:01:02.000Z",//有效期限起
-"endTime": "2020-09-08T01:07:12.046Z",//有效期限至
+"endTime": "2020-09-08T01:07:12.046Z",//有效期限至   //字段未使用，由startTime自动生成一年减一天
 "health": "合格",//体检情况
 "healthNumber": "123456",//健康证号
 "idNumber": "160703020",//身份证号
@@ -3489,7 +3489,7 @@ postman访问地址：
 "companyId": 296661,//公司id 从之前获取主页的接口处得到
 "companyName": "市场主体名称*",//公司名称 从之前获取主页的接口得到
 "startTime": "2020-09-07T01:01:02.000Z",//有效期限起
-"endTime": "2020-09-08T01:07:12.046Z",//有效期限至
+"endTime": "2020-09-08T01:07:12.046Z",//有效期限至   //字段未使用自动生成
 "health": "合格",//体检情况
 "healthNumber": "123456",//健康证号
 "idNumber": "160703020",//身份证号

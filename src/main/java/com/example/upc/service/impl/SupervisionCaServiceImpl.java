@@ -13,6 +13,9 @@ import com.example.upc.dataobject.*;
 import com.example.upc.service.SupervisionCaService;
 import com.example.upc.util.ExcalUtils;
 import com.example.upc.util.MD5Util;
+import com.example.upc.util.miniProgram.ResultVo;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -26,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -75,6 +79,12 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
         }
 
         SupervisionCa supervisionCa = new SupervisionCa();
+        //自动生成endTime
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(caParam.getStartTime());
+        calendar.add(Calendar.YEAR,1);
+        calendar.add(calendar.DATE,-1);
+        caParam.setEndTime(calendar.getTime());
         BeanUtils.copyProperties(caParam,supervisionCa);
 
         supervisionCa.setOperateTime(new Date());
@@ -129,7 +139,13 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"待更新人员不存在");
         }
         SupervisionCa supervisionCa = new SupervisionCa();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(caParam.getStartTime());
+        calendar.add(Calendar.YEAR,1);
+        calendar.add(calendar.DATE,-1);
+        caParam.setEndTime(calendar.getTime());
         BeanUtils.copyProperties(caParam,supervisionCa);
+
         supervisionCa.setOperateTime(new Date());
         supervisionCa.setOperateIp("124.214.124");
         supervisionCa.setOperator("zcc");
@@ -361,8 +377,34 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
     }
 
     @Override
-    public List<SupervisionCaParam> getAllByEnterpriseId2(Integer id) {
-        return supervisionCaMapper.getAllByEnterpriseId2(id);
+    public ResultVo getAllByEnterpriseId2(Integer id) {
+        Map<String,Object> result = new HashMap<>();
+        List<SupervisionCaParam> supervisionCaParamList = supervisionCaMapper.getAllByEnterpriseId2(id);
+//        for (SupervisionCaParam s:supervisionCaParamList
+//             ) {
+//            s.setPhoto(JSON2ImageUrl(s.getPhoto()));
+//        }
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        Date nowDate=new Date();
+        try {
+            nowDate = formatDate.parse(formatDate.format(new Date()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for(SupervisionCaParam supervisionCaParam:supervisionCaParamList){
+            //转换时间格式
+            String startString =formatDate.format(supervisionCaParam.getStartTime());
+            String endString =formatDate.format(supervisionCaParam.getEndTime());
+            supervisionCaParam.setStartDate(startString);
+            supervisionCaParam.setEndDate(endString);
+            //判断健康证是否超期
+            Boolean dateFlag =belongCalendar(nowDate,supervisionCaParam.getStartTime(),supervisionCaParam.getEndTime());
+            supervisionCaParam.setDateFlag(dateFlag);
+
+            supervisionCaParam.setPhoto(supervisionCaParam.getPhoto().equals("[]")||supervisionCaParam.getPhoto().equals("")?"":JSON2ImageUrl(supervisionCaParam.getPhoto()));
+        }
+        result.put("personList",supervisionCaParamList);
+        return new ResultVo(result);
     }
 
     @Override
@@ -372,19 +414,26 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
     }
 
     @Override
-    public SupervisionCaParam getCaInfoByIdNumber(String idNumber){
+    public SupervisionCaParam getCaInfoByIdNumber(String idNumber) throws ParseException {
         if(supervisionCaMapper.countByIdNumber(idNumber,null)==0){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"该人员未注册");
         }
         SupervisionCa supervisionCa = supervisionCaMapper.getCaInfoByIdNumber(idNumber);
-
-        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");//转换日期格式
+        //转换日期格式
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
         SupervisionCaParam supervisionCaParam =new SupervisionCaParam();
         BeanUtils.copyProperties(supervisionCa,supervisionCaParam);
         String startString =formatDate.format(supervisionCaParam.getStartTime());
         String endString =formatDate.format(supervisionCaParam.getEndTime());
         supervisionCaParam.setStartDate(startString);
         supervisionCaParam.setEndDate(endString);
+        //判断健康证是否过期
+        Date nowDate=null;
+        nowDate =formatDate.parse(formatDate.format(new Date()));
+        Boolean dateFlag =belongCalendar(nowDate,supervisionCaParam.getStartTime(),supervisionCaParam.getEndTime());
+        supervisionCaParam.setDateFlag(dateFlag);
+
+        supervisionCaParam.setPhoto(supervisionCaParam.getPhoto().equals("[]")||supervisionCaParam.getPhoto().equals("")?"":JSON2ImageUrl(supervisionCaParam.getPhoto()));
         return supervisionCaParam;
     }
 
@@ -392,4 +441,35 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
     public SupervisionCa selectByPrimaryKey(Integer id){
         return supervisionCaMapper.selectByPrimaryKey(id);
     }
-}
+
+
+    //判断某个时间是否在时间段内
+    public static boolean belongCalendar(Date nowTime, Date beginTime, Date endTime) {
+        Calendar date = Calendar.getInstance();
+        date.setTime(nowTime);
+
+        Calendar begin = Calendar.getInstance();
+        begin.setTime(beginTime);
+
+        Calendar end = Calendar.getInstance();
+        end.setTime(endTime);
+
+        if (date.after(begin) && date.before(end)) {
+            return true;
+        } else {
+            return false;
+        }
+     }
+
+    public  String JSON2ImageUrl(Object jsonObj) {
+        JSONArray jsonArray = JSONArray.fromObject(jsonObj);
+        JSONObject jsonObject1 = JSONObject.fromObject(jsonArray.get(0));
+        JSONObject jsonObject2 = JSONObject.fromObject(jsonObject1.get("response"));
+        // 图片存储地址记得上传的时候更改IP
+        // String host = "http://127.0.0.1:8080/upload/picture/";
+        //  String host = "http://123.234.130.3:8080/upload/picture/";
+        String host = "https://www.yiwifi1.com:8088/upload/picture/";
+        String imgUrl = host+ jsonObject2.get("data");
+        return imgUrl;
+    }
+    }
