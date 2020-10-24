@@ -1,4 +1,4 @@
-package com.example.upc.controller.param;
+package com.example.upc.config.pageConfig;
 
 import java.lang.annotation.*;
 

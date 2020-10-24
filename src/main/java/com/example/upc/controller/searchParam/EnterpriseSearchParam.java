@@ -35,6 +35,7 @@ public class EnterpriseSearchParam {
     private Integer indexNum;
 
     private Integer id;
+    private List<Integer> ids;
     private String checkType;
     private Integer dis;
     private String enterpriseName;
@@ -252,13 +253,6 @@ public class EnterpriseSearchParam {
         this.checkType = checkType;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public coordinateParam getSouthwestPoint() {
         return southwestPoint;
@@ -282,5 +276,21 @@ public class EnterpriseSearchParam {
 
     public void setCurrentPoint(coordinateParam currentPoint) {
         this.currentPoint = currentPoint;
+    }
+
+    public List<Integer> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Integer> ids) {
+        this.ids = ids;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
