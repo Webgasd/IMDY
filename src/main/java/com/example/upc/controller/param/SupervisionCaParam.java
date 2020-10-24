@@ -7,6 +7,15 @@ public class SupervisionCaParam extends SupervisionCa {
     private float caScore;
     private String startDate;//获取健康证日期不包括时分秒
     private String endDate;//获取健康证日期不包括时分秒
+
+    private Boolean dateFlag;  //判断是否在健康证日期内
+    public void setDateFlag(Boolean dateFlag){
+        this.dateFlag=dateFlag;
+    }
+    public Boolean getDateFlag(){
+        return dateFlag;
+    }
+
     public void setStartDate(String startDate){
         this.startDate=startDate;
     }

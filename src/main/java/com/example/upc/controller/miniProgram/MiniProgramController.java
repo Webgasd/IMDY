@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
+
 /**
  * 小程序专用controller
  */
@@ -79,7 +80,8 @@ public class MiniProgramController {
     private OnlineBusinessService onlineBusinessService;
     @Autowired
     private AiTokenService aiTokenService;
-
+    @Autowired
+    private  SupervisionCaService supervisionCaService;
     //人脸识别登录的账密判断
     @RequestMapping("/userLogin")
     @ResponseBody
@@ -308,22 +310,9 @@ public class MiniProgramController {
     // 获取人员健康证信息
     @RequestMapping("/getHealthInfo")
     public ResultVo getHealthInfo(SysUser sysUser){
-        int enterpriseId=sysUser.getInfoId();
-        Map<String,Object> result = new HashMap<>();
-        List<SupervisionCaParam> supervisionCaParamList = supervisionCaMapper.getAllByEnterpriseId2(enterpriseId);
-//        for (SupervisionCaParam s:supervisionCaParamList
-//             ) {
-//            s.setPhoto(JSON2ImageUrl(s.getPhoto()));
-//        }
-        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-        for(SupervisionCaParam supervisionCaParam:supervisionCaParamList){
-            String startString =formatDate.format(supervisionCaParam.getStartTime());
-            String endString =formatDate.format(supervisionCaParam.getEndTime());
-            supervisionCaParam.setStartDate(startString);
-            supervisionCaParam.setEndDate(endString);
-        }
-        result.put("personList",supervisionCaParamList);
-        return new ResultVo(result);
+
+        ResultVo result =supervisionCaService.getAllByEnterpriseId2(sysUser.getInfoId());
+        return result;
     }
 
     // 获取明厨亮灶页面内容
