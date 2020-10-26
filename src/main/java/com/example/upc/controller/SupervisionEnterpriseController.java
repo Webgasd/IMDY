@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.common.EmBusinessError;
+import com.example.upc.config.picConfig.PicMini;
 import com.example.upc.controller.param.EnterpriseParam;
 import com.example.upc.controller.param.NearEnterprise;
 import com.example.upc.controller.param.PageQuery;

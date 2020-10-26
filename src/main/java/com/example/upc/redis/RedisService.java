@@ -1,7 +1,6 @@
 package com.example.upc.redis;
 
 import com.alibaba.fastjson.JSON;
-import com.example.upc.controller.param.SysUserParam;
 import com.example.upc.dataobject.SysUser;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;

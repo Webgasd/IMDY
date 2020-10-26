@@ -117,8 +117,8 @@ public class MiniProgramController {
     }
 
     @RequestMapping("/touristLogin")
-    public CommonReturnType touristLogin(HttpServletResponse response,@RequestParam("enterpriseId")int enterpriseId) {
-        return CommonReturnType.create(userSessionService.touristLogin(response, enterpriseId));
+    public CommonReturnType touristLogin(HttpServletResponse response,@RequestParam("id") int enterpriseId,@RequestParam("weChatId") String weChatId) {
+        return CommonReturnType.create(userSessionService.touristLogin(response, enterpriseId,weChatId));
     }
 
     // 登录之后获取企业部分信息

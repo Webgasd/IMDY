@@ -3,7 +3,6 @@ package com.example.upc.redis;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.controller.param.FaceParam;
-import com.example.upc.controller.param.SysUserParam;
 import com.example.upc.controller.param.UserParam;
 import com.example.upc.dao.SupervisionCaMapper;
 import com.example.upc.dao.SysUserErrorMapper;
@@ -121,8 +120,9 @@ public class UserSessionService {
         if (sysUserError!=null&&sysUserError.getError()==5){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"您今日已经尝试登录5次，请明日再试！");
         }
+        sysUser.setPlatType(0);
         //生成cookie
-        String token	 = sysUser.getId().toString()+'_'+UUIDUtil.uuid();
+        String token = sysUser.getId().toString()+'_'+UUIDUtil.uuid();
 
         addCookie(response, token, sysUser);
         return true;
@@ -210,8 +210,8 @@ public class UserSessionService {
         }
 
         SysUser sysUser = sysUserMapper.selectByLoginName(userParam.getLoginName());
-        sysUser.setRemark(supervisionCa.getWeChatId());
-
+        sysUser.setWeChatId(supervisionCa.getWeChatId());
+        sysUser.setPlatType(1);
         String token = sysUser.getId().toString()+'_'+UUIDUtil.uuid();
 
         addCookie(response, token, sysUser);
@@ -221,14 +221,14 @@ public class UserSessionService {
         return faceParam;
     }
 
-    public boolean touristLogin(HttpServletResponse response, int id) throws BusinessException {
+    public boolean touristLogin(HttpServletResponse response, int id,String weChatId) throws BusinessException {
 
         String loginName = "tourist";
         SysUser sysUser = new SysUser();
         sysUser.setUsername("游客");
         sysUser.setLoginName(loginName);
         sysUser.setInfoId(id);
-
+        sysUser.setWeChatId(weChatId);
         //生成cookie
         String token = "12345"+'_'+UUIDUtil.uuid();
         addCookie(response, token, sysUser);

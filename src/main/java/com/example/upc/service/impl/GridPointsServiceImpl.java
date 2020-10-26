@@ -3,6 +3,7 @@ package com.example.upc.service.impl;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.config.pageConfig.DoPage;
+import com.example.upc.config.picConfig.PicMini;
 import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dao.GridPointsGpsMapper;

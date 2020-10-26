@@ -1,6 +1,7 @@
 package com.example.upc.config.pageConfig;
 
 import com.example.upc.common.ApplicationContextUtil;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -62,7 +63,7 @@ public class DoPageAspect {
             }
         }
         servletRequestAttributes.getResponse().setHeader("Content-Range", pageInfo.toString());
-        return result;
+        return result.subList(0,2);
     }
 
 
