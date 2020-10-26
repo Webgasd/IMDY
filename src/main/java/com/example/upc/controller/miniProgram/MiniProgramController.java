@@ -613,7 +613,7 @@ public class MiniProgramController {
         String resFileName = System.currentTimeMillis()+(int)(1+Math.random()*1000)+fileName.substring(fileName.lastIndexOf("."));
         file.transferTo(new File(filed.getAbsolutePath(),resFileName));
         System.out.println(currentTime+"/"+resFileName);
-        return currentTime+"/"+resFileName;
+            return currentTime+"/"+resFileName;
     }
     /**
      * 将上传的照片JSON格式转换为String图片地址

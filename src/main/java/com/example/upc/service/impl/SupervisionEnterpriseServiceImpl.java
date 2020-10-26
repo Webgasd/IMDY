@@ -3557,7 +3557,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         if (list.size()>0) {
             for (SupervisionEnterpriseDocument supervisionEnterpriseDocument : list) {
                 if (supervisionEnterpriseDocument.getFlag() == 1) {
-                 //   enterpriseParam.setBusinessLicensePhoto(supervisionEnterpriseDocument.getDocument());
+                   //enterpriseParam.setBusinessLicensePhoto(supervisionEnterpriseDocument.getDocument());
                     result.put("BusinessLicensePhoto",JSON2ImageUrl(supervisionEnterpriseDocument.getDocument()));
                 }
                 if (supervisionEnterpriseDocument.getFlag() == 2) {

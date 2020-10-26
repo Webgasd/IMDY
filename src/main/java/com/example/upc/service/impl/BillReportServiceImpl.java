@@ -9,6 +9,8 @@ import com.example.upc.dataobject.Billdao;
 import com.example.upc.dataobject.OriginRecordBill;
 import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.BillReportService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import static com.example.upc.util.JsonToImageUrl.JSON2ImageUrl;
 
 @Service
 public class BillReportServiceImpl implements BillReportService {
@@ -34,7 +38,12 @@ public class BillReportServiceImpl implements BillReportService {
         billReportSearchParam.setEndTime(new Date(billReportSearchParam.getDate().getTime()+(long) 24 * 60 * 60 * 1000));
         }
         billReportSearchParam.setEnterpriseId(sysUser.getInfoId());
-        return billreportMapper.selectBillReport(billReportSearchParam);
+        List<BillReportParam> billReportParamList=billreportMapper.selectBillReport(billReportSearchParam);
+        for(BillReportParam billReportParam:billReportParamList){
+           // billReportParam.setPicture(JSON2ImageUrl(billReportParam.getPicture()));
+            billReportParam.setPicture(billReportParam.getPicture().equals("[]")||billReportParam.getPicture().equals("")?"":JSON2ImageUrl(billReportParam.getPicture()));
+        }
+        return billReportParamList;
     }
 
     @Override
