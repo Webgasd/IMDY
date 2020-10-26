@@ -4626,4 +4626,30 @@ postman访问地址：
 }
 ```
 
-### 
+# 数据库修改记录
+
+format_disinfection增加了caId
+
+format_origin_extra增加了listId,quality_guarantee_period //对应的配货单id和保质期
+
+新增distribution_list //配货单
+
+新增start_self_inspection //开工自查详细信息
+
+新增inspection_position //开工自查位置表
+
+supervision_enterprise新增了manage_start_time，manage_end_time，destination，operation_time，bus //营业开始时间，营业结束时间，公交车到达站，公交车运营时间，公交车路线
+
+新增 bill_report//索证索票存放票据照片
+
+新增 committee_check//月度自查记录
+
+新增 committe_check_opt_category//月度自查分类 
+
+新增 committee_check_opt//月度自查选择题库
+
+新增 committee_additional_answer//月度自查简答题答案
+
+新增 committee_check_opt_answer//月度自查选择题答案
+
+新增 food_additive //食品添加剂的表
