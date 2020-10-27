@@ -4767,3 +4767,16 @@ supervision_enterprise新增了manage_start_time，manage_end_time，destination
 新增 committee_check_opt_answer//月度自查选择题答案
 
 新增 food_additive //食品添加剂的表
+
+新增online_business //线上备案的表
+
+新增supervision_enterprise了vr_url字段
+
+新增accompany_record  //校园陪餐表
+
+新增morning_attendance  //校园考勤表
+
+新增morning_attendance_info   //校园考勤信息表
+
+新增user_enterprise_vote  //校园考勤表
+
