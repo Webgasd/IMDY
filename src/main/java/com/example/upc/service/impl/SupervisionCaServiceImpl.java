@@ -402,8 +402,8 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
             //判断健康证是否超期
             Boolean dateFlag =belongCalendar(nowDate,supervisionCaParam.getStartTime(),supervisionCaParam.getEndTime());
             supervisionCaParam.setDateFlag(dateFlag);
-
-            supervisionCaParam.setPhoto(supervisionCaParam.getPhoto().equals("[]")||supervisionCaParam.getPhoto().equals("")?"":JSON2ImageUrl(supervisionCaParam.getPhoto()));
+            //获取健康证照片
+           supervisionCaParam.setPhoto(supervisionCaParam.getPhoto().equals("[]")||supervisionCaParam.getPhoto().equals("")?"":JSON2ImageUrl(supervisionCaParam.getPhoto()));
         }
         result.put("personList",supervisionCaParamList);
         return new ResultVo(result);

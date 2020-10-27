@@ -3649,11 +3649,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     public Map<String, Object> getVrUrl(int enterpriseId) {
 
         SupervisionEnterprise supervisionEnterprise= supervisionEnterpriseMapper.selectByPrimaryKey(enterpriseId);
+        Map<String, Object> result= new HashMap<>();
+        result.put("vrUrl",supervisionEnterprise.getVrUrl());
+        result.put("point","");
         if (supervisionEnterprise==null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"无此企业信息");
         }
-        Map<String, Object> result= new HashMap<>();
-        result.put("vrUrl",supervisionEnterprise.getVrUrl());
+        if(supervisionEnterprise.getGpsFlag()==0){
+            GridPoints gridPoints =gridPointsMapper.getPointByEnterpriseId(supervisionEnterprise.getId());
+            result.put("point",gridPoints.getPoint());
+        }else if(supervisionEnterprise.getGpsFlag()==1){
+            GridPointsGps gridPointsGps = gridPointsGpsMapper.getPointByCodeId(supervisionEnterprise.getIdNumber());
+            result.put("point",gridPointsGps.getPoint());
+        }
         return result;
     }
 
