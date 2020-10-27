@@ -1704,62 +1704,20 @@ postman访问地址：
 }
 ```
 
-## 公众端地图
+## 收藏企业
 
-### 地图点位
+### 新增收藏企业
 
-`https://www.yiwifi1.com:8088/supervision/enterprise/getNearEnterprise`
+`远程：https://www.yiwifi1.com:8088/collectionEnterprise/insert`
 
-方法：POST  'content-type': 'application/json'
-
-- 参数
-
-```json
-param
-	pageSize:20//一次返回记录条数
-```
-
-```json
-json
-{
-    "isList":1,//展示地图时不传该字段，展示食安中心列表置为1
-    "sortList":["distance","averageScore","distance"],//三种排序方式，即使没有用到排序sortList依然要有，传空数组
-    "checkType":"",//企业类别 学校 or 餐饮
-    //以下三个经纬度在为空时也要传，传空对象 例如“northeastPoint”:{}...
-    "northeastPoint":{"longtitude":118.81039,"latitude":37.628757},//东北角经纬度
-    "southwestPoint":{"longtitude":118.35399,"latitude":37.269157},//西南角经纬度
-    "currentPoint":{"longtitude":118.58218789,"latitude":37.44895637}//中心点经纬度	
-}
-```
-
-- 返回值
-
-```json
- {
-            "checkType": "餐饮服务,学校食堂,食品流通",
-            "distance": 0,
-            "propagandaEnclosure": "",
-            "cantactWay": "92370502MA3R3MA82L",
-            "shopName": "东营区胜百灯具店",
-            "enterpriseId": 296445,
-            "dynamicGrade": "A",
-            "enterpriseName": "东营区胜百灯具店",
-            "point": "118.569772,37.485316",
-            "averageScore": 4.6
- }
-```
-
-### 地图获取企业信息
-
-`https://www.yiwifi1.com:8088/supervision/enterprise/getByEnterpriseId`
-
-方法：POST  'content-type': 'application/json'
+方法：GET
 
 - 参数
 
 ```json
 {
-    "ids":[296445]
+    "enterpriseId":296448,
+    "weChatId":"555a"
 }
 ```
 
@@ -1768,18 +1726,76 @@ json
 ```json
 {
     "status": "success",
+    "data": null
+}
+```
+
+### 查询公众收藏的企业
+
+`远程：https://www.yiwifi1.com:8088/collectionEnterprise/selectByWeChatId`
+
+方法：GET
+
+- 参数
+
+```json
+{
+ 	"weChatId":"555a"
+}
+```
+
+- 返回值
+
+```json
+{
+	 "status": "success",
     "data": [
+        {
+            "checkType": "学校食堂,食品流通",
+            "distance": 0,
+            "propagandaEnclosure": "",
+            "cantactWay": "92370502MA3R3MPN0N",
+            "shopName": "东营区鼎合粥铺",
+            "enterpriseId": 296448,
+            "dynamicGrade": "A",
+            "enterpriseName": "东营区鼎合粥铺",
+            "averageScore": 0.0
+        },
         {
             "checkType": "餐饮服务,学校食堂,食品流通",
             "distance": 0,
             "propagandaEnclosure": "",
-            "cantactWay": "92370502MA3R3MA82L",
-            "shopName": "东营区胜百灯具店",
+            "cantactWay": "8595884",
+            "shopName": "东营机厂粮店电厂分店",
+            "enterpriseId": 311301,
             "dynamicGrade": "A",
-            "enterpriseName": "东营区胜百灯具店",
-            "averageScore": 4.6
+            "enterpriseName": "东营机厂粮店电厂分店",
+            "averageScore": 0.0
         }
     ]
+}
+```
+
+### 删除收藏企业
+
+`远程：https://www.yiwifi1.com:8088/formatwaste/delete`
+
+方法：GET
+
+- 参数
+
+```json
+{
+    "id":1
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": null
 }
 ```
 
@@ -4625,6 +4641,87 @@ postman访问地址：
     ]
 }
 ```
+
+## 地图
+
+### 地图点位
+
+`https://www.yiwifi1.com:8088/supervision/enterprise/getNearEnterprise`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+param
+	pageSize:20//一次返回记录条数
+```
+
+```json
+json
+{
+    "isList":1,//展示地图时不传该字段，展示食安中心列表置为1
+    "sortList":["distance","averageScore","distance"],//三种排序方式，即使没有用到排序sortList依然要有，传空数组
+    "checkType":"",//企业类别 学校 or 餐饮
+    //以下三个经纬度在为空时也要传，传空对象 例如“northeastPoint”:{}...
+    "northeastPoint":{"longtitude":118.81039,"latitude":37.628757},//东北角经纬度
+    "southwestPoint":{"longtitude":118.35399,"latitude":37.269157},//西南角经纬度
+    "currentPoint":{"longtitude":118.58218789,"latitude":37.44895637}//中心点经纬度	
+}
+```
+
+- 返回值
+
+```json
+ {
+            "checkType": "餐饮服务,学校食堂,食品流通",
+            "distance": 0,
+            "propagandaEnclosure": "",
+            "cantactWay": "92370502MA3R3MA82L",
+            "shopName": "东营区胜百灯具店",
+            "enterpriseId": 296445,
+            "dynamicGrade": "A",
+            "enterpriseName": "东营区胜百灯具店",
+            "point": "118.569772,37.485316",
+            "averageScore": 4.6
+ }
+```
+
+### 地图获取企业信息
+
+`https://www.yiwifi1.com:8088/supervision/enterprise/getByEnterpriseId`
+
+方法：POST  'content-type': 'application/json'
+
+- 参数
+
+```json
+{
+    "ids":[296445]
+}
+```
+
+- 返回值
+
+```json
+{
+    "status": "success",
+    "data": [
+        {
+            "checkType": "餐饮服务,学校食堂,食品流通",
+            "distance": 0,
+            "propagandaEnclosure": "",
+            "cantactWay": "92370502MA3R3MA82L",
+            "shopName": "东营区胜百灯具店",
+            "dynamicGrade": "A",
+            "enterpriseName": "东营区胜百灯具店",
+            "averageScore": 4.6
+        }
+    ]
+}
+```
+
+
 
 # 数据库修改记录
 

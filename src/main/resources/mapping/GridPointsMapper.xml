@@ -1161,7 +1161,7 @@
 
     <select id="getEnterpriseByParam" resultMap="NearEnterprise">
         SELECT
-        b.id,b.enterprise_name,b.shop_name,b.propaganda_enclosure,b.cantact_way,b.area,b.grid,c.average_score,d.check_type,d.dynamic_grade
+        b.id enterprise_id,b.enterprise_name,b.shop_name,b.propaganda_enclosure,b.cantact_way,b.area,b.grid,c.average_score,d.check_type,d.dynamic_grade
         from
         (SELECT id,enterprise_name,shop_name,propaganda_enclosure,cantact_way,area,grid FROM supervision_enterprise
         <where>

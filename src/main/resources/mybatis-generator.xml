@@ -399,10 +399,10 @@
                selectByExampleQueryId="false"></table>
         <table schema="pingyi" tableName="user_enterprise_problem_record" domainObjectName="UserEnterpriseProblemRecord" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table schema="pingyi" tableName="user_enterprise_problem_record" domainObjectName="UserEnterpriseProblemRecord" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
+<!--        <table schema="pingyi" tableName="collection_enterprise" domainObjectName="CollectionEnterprise" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
     </context>
   </generatorConfiguration>
 
