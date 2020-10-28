@@ -31,12 +31,12 @@ public class FormatSupplierParam {
     private String supplierSize;
     @NotBlank(message = "联系人不能为空")
     private String person;
-//    @DateTimeFormat(pattern="yyyy-MM-dd")
-//    @NotNull(message = "有效期限起始不能为空")
-//    private Date start;
-//    @DateTimeFormat(pattern="yyyy-MM-dd")
-//    @NotNull(message = "有效期限终止不能为空")
-//    private Date end;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @NotNull(message = "有效期限起始不能为空")
+    private Date start;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @NotNull(message = "有效期限终止不能为空")
+    private Date end;
     private String document;
 
     public Integer getEnterpriseId() {
@@ -135,18 +135,18 @@ public class FormatSupplierParam {
     public void setPerson(String person) {
         this.person = person == null ? null : person.trim();
     }
-//    public Date getStart() {
-//        return start;
-//    }
-//    public void setStart(Date start) {
-//        this.start = start;
-//    }
-//    public Date getEnd() {
-//        return end;
-//    }
-//    public void setEnd(Date end) {
-//        this.end = end;
-//    }
+    public Date getStart() {
+        return start;
+    }
+    public void setStart(Date start) {
+        this.start = start;
+    }
+    public Date getEnd() {
+        return end;
+    }
+    public void setEnd(Date end) {
+        this.end = end;
+    }
     public String getDocument() {
         return document;
     }

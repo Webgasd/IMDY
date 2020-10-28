@@ -350,10 +350,12 @@ public class MiniProgramController {
 
     // 上传照片
     @RequestMapping("/upload/picture")
-    public ResultVo uploadPicture(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResultVo uploadPicture(@RequestParam("file") MultipartFile file,SysUser sysUser) throws IOException {
         Map<String,Object> result = new HashMap<>();
         Map<String,Object> tempMap = new HashMap<>();
         tempMap.put("data",uploadFile(file,"picture"));
+        result.put("lastModifiedDate",new Date());
+        result.put("name",file.getName());
         result.put("response",tempMap);
         List<Object> resultList = new ArrayList<>();
         resultList.add(result);
@@ -613,7 +615,7 @@ public class MiniProgramController {
         String resFileName = System.currentTimeMillis()+(int)(1+Math.random()*1000)+fileName.substring(fileName.lastIndexOf("."));
         file.transferTo(new File(filed.getAbsolutePath(),resFileName));
         System.out.println(currentTime+"/"+resFileName);
-        return currentTime+"/"+resFileName;
+            return currentTime+"/"+resFileName;
     }
     /**
      * 将上传的照片JSON格式转换为String图片地址

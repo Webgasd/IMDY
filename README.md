@@ -918,9 +918,9 @@ postman访问地址：
             "producer": null,
             "brand": "品牌",
             "netContent": "净含量/规格",
-            "produceTime": "2020-08-15",
+            "produceTime": "2020-08-15",   //JDBCTYPE
             "keepTime": "7",
-            "keepTimeType": "天",
+            "keepTimeType": "天",   
             "deadTime": null,
             "goodsIn": 7.0,
             "goodsType": "吨",
@@ -1035,7 +1035,7 @@ postman访问地址：
 方法：POST  'content-type': 'application/json'
 
 - 参数：
-```
+```json
     {
     "name":"食品安全",// 票据名称           
     "picture":"pic", //票据图片的地址
@@ -1130,7 +1130,7 @@ postman访问地址：
             "id": 4,
             "enterpriseId": 296661,
             "name": "动物检疫",
-            "picture": "pic",
+                "picture": "pic",
             "date": "2020-08-16",
             "operator": "mini",
             "operatorIp": "127.0.0.1",
@@ -3814,7 +3814,121 @@ name=回收 //供应商名称
 }
 ```
 
+### 修改供应商
+
+```
+远程：https://www.yiwifi1.com:8088/formatsupplier/update
+```
+
+方法：POST
+
+参数：
+
+```json
+{
+
+  "id":22,//不能为空
+
+  "address":"地址",//不能为空         
+
+  "supplierSize":"许可范围",//不能为空
+
+  "person":"联系人不能为空",//不能为空
+
+  "type":"类型不能为空",//不能为空
+
+  "principal":"负责人",//不能为空
+
+  "name":"供应商名称不能为空",      //不能为空
+
+  "phone":"联系电话不能为空",//不能为空
+
+  "number":"社会信用代码证号不能为空",//不能为空
+
+  "license":"营业执照号不能为空",//不能为空
+    
+  "organ":"发证机关",       //目前未使用
+    
+   "stype":"供应商类型",     //目前未使用
+
+  "start":"2020-08-14",  //不能为空
+
+  "end":"2020-08-14" ,   //不能为空
+    
+  "document":"[wenjian]"  //文件，暂时没确定图片如何上传
+
+}
+```
+
+返回值：
+
+```
+{
+
+  "status": "success",
+
+  "data": **null**
+
+}
+```
+
+### 新增供应商
+
+远程：
+
+```
+https://localhost:8088/formatsupplier/insert
+```
+
+方法:POST
+
+参数：
+
+```
+{
+
+  "address":"地址",//不能为空         
+
+  "supplierSize":"许可范围",//不能为空
+
+  "person":"联系人不能为空",//不能为空
+  
+  "organ":"发证机关",       //目前未使用
+  
+   "stype":"供应商类型",     //目前未使用
+
+  "type":"类型不能为空",//不能为空
+
+  "principal":"负责人",//不能为空
+
+  "name":"供应商名称不能为空",      //不能为空
+
+  "phone":"联系电话不能为空",//不能为空
+
+  "number":"社会信用代码证号不能为空",//不能为空
+
+  "license":"营业执照号不能为空",//不能为空
+
+  "start":"2020-08-14",  //不能为空
+
+  "end":"2020-08-14" ,   //不能为空
+  
+  "document":"[wenjian]"  //文件，暂时没确定图片如何上传
+
+}
+```
+
+返回值：
+
+```
+{
+    "status": "success",
+    "data": null
+}
+```
+
 ## 通知公告
+
 ### 获取全部通知（董志涵）
 `远程：https://www.yiwifi1.com:8088/sys/notice/getPage2`
 
@@ -4750,3 +4864,16 @@ supervision_enterprise新增了manage_start_time，manage_end_time，destination
 新增 committee_check_opt_answer//月度自查选择题答案
 
 新增 food_additive //食品添加剂的表
+
+新增online_business //线上备案的表
+
+新增supervision_enterprise了vr_url字段
+
+新增accompany_record  //校园陪餐表
+
+新增morning_attendance  //校园考勤表
+
+新增morning_attendance_info   //校园考勤信息表
+
+新增user_enterprise_vote  //校园考勤表
+
