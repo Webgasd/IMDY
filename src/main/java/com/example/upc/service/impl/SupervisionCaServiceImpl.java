@@ -433,7 +433,6 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
         Boolean dateFlag =belongCalendar(nowDate,supervisionCaParam.getStartTime(),supervisionCaParam.getEndTime());
         supervisionCaParam.setDateFlag(dateFlag);
 
-        supervisionCaParam.setPhoto(supervisionCaParam.getPhoto().equals("[]")||supervisionCaParam.getPhoto().equals("")?"":JSON2ImageUrl(supervisionCaParam.getPhoto()));
         return supervisionCaParam;
     }
 

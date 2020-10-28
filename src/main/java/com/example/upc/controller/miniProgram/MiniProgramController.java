@@ -91,15 +91,15 @@ public class MiniProgramController {
 
     @RequestMapping("/faceLogin")
     @ResponseBody
-    public CommonReturnType faceLogin(@RequestParam("file") MultipartFile file,HttpServletResponse response,UserParam userParam) {
-        if(userParam.getUserId()==null)
-        {
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"userId为空");
-        }
-        Integer score = aiTokenService.faceContrastByCaId(file,userParam.getUserId());
-        if(score < 80){
-            throw new BusinessException(EmBusinessError.FACE_ERROR,"人脸识别失败");
-        }
+    public CommonReturnType faceLogin(HttpServletResponse response,UserParam userParam) {
+//        if(userParam.getUserId()==null)
+//        {
+//            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"userId为空");
+//        }
+//        Integer score = aiTokenService.faceContrastByCaId(file,userParam.getUserId());
+//        if(score < 80){
+//            throw new BusinessException(EmBusinessError.FACE_ERROR,"人脸识别失败");
+//        }
         return CommonReturnType.create(userSessionService.checkWeChatId(response,userParam));
     }
 
@@ -448,8 +448,7 @@ public class MiniProgramController {
         wasteSearchParam.setStart1(new Date(wasteSearchParam.getStart1().getTime()-(long)8*60*60*1000));
         wasteSearchParam.setEnd1(new Date(wasteSearchParam.getStart1().getTime()+(long)24*60*60*1000));
         List<FormatPictureSupParam> formatPictureSupParamList = formatPictureService.getPageByEnterpriseId2(wasteSearchParam, sysUser.getInfoId());
-        for (FormatPictureSupParam f:formatPictureSupParamList
-             ) {
+        for (FormatPictureSupParam f:formatPictureSupParamList) {
             f.setDocument(JSON2ImageUrl(f.getDocument()).equals("")?"":JSON2ImageUrl(f.getDocument()));
         }
         return CommonReturnType.create(formatPictureSupParamList);

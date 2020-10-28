@@ -1,5 +1,6 @@
 package com.example.upc.dataobject;
 
+import com.example.upc.config.picConfig.PicMini;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -40,6 +41,7 @@ public class BillReport {
      *
      * @mbg.generated Wed Sep 16 10:42:05 CST 2020
      */
+    @PicMini(value="picture")
     private String picture;
 
     /**

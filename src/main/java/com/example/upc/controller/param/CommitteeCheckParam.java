@@ -29,7 +29,6 @@ public class CommitteeCheckParam extends CommitteeAdditionalAnswer {
     @JsonFormat(pattern="yyyy",timezone = "GMT+8")
     private Date searchTime;
 
-//    @NotNull(groups={InsertGroup.class},message = "检查日期不能为空")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date checkTime;
