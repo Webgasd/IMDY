@@ -91,15 +91,15 @@ public class MiniProgramController {
 
     @RequestMapping("/faceLogin")
     @ResponseBody
-    public CommonReturnType faceLogin(HttpServletResponse response,UserParam userParam) {
-//        if(userParam.getUserId()==null)
-//        {
-//            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"userId为空");
-//        }
-//        Integer score = aiTokenService.faceContrastByCaId(file,userParam.getUserId());
-//        if(score < 80){
-//            throw new BusinessException(EmBusinessError.FACE_ERROR,"人脸识别失败");
-//        }
+    public CommonReturnType faceLogin(@RequestParam("file") MultipartFile file,HttpServletResponse response,UserParam userParam) {
+        if(userParam.getUserId()==null)
+        {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"userId为空");
+        }
+        Integer score = aiTokenService.faceContrastByCaId(file,userParam.getUserId());
+        if(score < 80){
+            throw new BusinessException(EmBusinessError.FACE_ERROR,"人脸识别失败");
+        }
         return CommonReturnType.create(userSessionService.checkWeChatId(response,userParam));
     }
 
@@ -310,7 +310,6 @@ public class MiniProgramController {
     // 获取人员健康证信息
     @RequestMapping("/getHealthInfo")
     public ResultVo getHealthInfo(SysUser sysUser){
-
         ResultVo result =supervisionCaService.getAllByEnterpriseId2(sysUser.getInfoId());
         return result;
     }

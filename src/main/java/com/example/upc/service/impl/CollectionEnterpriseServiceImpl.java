@@ -36,9 +36,12 @@ public class CollectionEnterpriseServiceImpl implements CollectionEnterpriseServ
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, result.getErrMsg());
         }
         List<Integer> idList = collectionEnterpriseMapper.selectEnterpriseId(collectionEnterpriseParam);
-        EnterpriseSearchParam enterpriseSearchParam = new EnterpriseSearchParam();
-        enterpriseSearchParam.setIds(idList);
-        return gridPointsMapper.getEnterpriseByParam(enterpriseSearchParam);
+        if(idList.size()!=0){
+            EnterpriseSearchParam enterpriseSearchParam = new EnterpriseSearchParam();
+            enterpriseSearchParam.setIds(idList);
+            return gridPointsMapper.getEnterpriseByParam(enterpriseSearchParam);
+        }
+        return null;
     }
 
     @Transactional(rollbackFor = Exception.class)
