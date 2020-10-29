@@ -353,8 +353,9 @@ public class MiniProgramController {
         Map<String,Object> result = new HashMap<>();
         Map<String,Object> tempMap = new HashMap<>();
         tempMap.put("data",uploadFile(file,"picture"));
-        result.put("lastModifiedDate",new Date());
-        result.put("name",file.getName());
+        Date date=new Date();
+        result.put("lastModifiedDate",date.toString());
+        result.put("name",file.getOriginalFilename());
         result.put("response",tempMap);
         List<Object> resultList = new ArrayList<>();
         resultList.add(result);

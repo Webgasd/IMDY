@@ -2303,7 +2303,7 @@ name=回收 //回收单位名称
   "data": {
 
 ​    "vrUrl":      "https://720yun.com/t/8fvknbrmdq9#scene_id=32741409\r\nhttps://720yun.com/t/8fvknbrmdq9#scene_id=32741409\r\nhttps://720yun.com/t/8fvknbrmdq9#scene_id=32741409\r\nhttps://720yun.com/t/8fvknbrmdq9#scene_id=32741409\r\nhttps://720yun.com/t/8fvknbrmdq9#scene_id=32741409\r\nhttps://720yun.com/t/8fvknbrmdq9#scene_id=32741409"    //企业VR的URL
-
+  "point": "120.172573,35.942477"  //企业经纬度
   }
 
 }
@@ -3481,6 +3481,7 @@ postman访问地址：
 "name": "Liuning",//姓名
 "industry":1,//所属行业
 "workType": 1,//工作种类
+"photo":"",   //健康证信息
 "sexy": 0
 }
 ```
@@ -3513,6 +3514,7 @@ postman访问地址：
 "name": "Liuning",//姓名
 "industry":1,//所属行业
 "workType": 1,//工作种类
+"photo":"",   //健康证信息
 "sexy": 0
 }
 ```
