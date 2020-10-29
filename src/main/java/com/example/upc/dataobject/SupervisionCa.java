@@ -1,6 +1,6 @@
 package com.example.upc.dataobject;
 
-import com.example.upc.config.picConfig.PicMini;
+import com.example.upc.config.picConfig.PicUrl;
 
 import java.util.Date;
 
@@ -165,7 +165,7 @@ public class SupervisionCa {
      *
      * @mbg.generated Mon Sep 21 17:39:21 CST 2020
      */
-    @PicMini(value="photo")
+    @PicUrl
     private String photo;
 
     /**

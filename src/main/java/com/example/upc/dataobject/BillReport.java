@@ -41,7 +41,6 @@ public class BillReport {
      *
      * @mbg.generated Wed Sep 16 10:42:05 CST 2020
      */
-    @PicMini(value="picture")
     private String picture;
 
     /**

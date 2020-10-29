@@ -4,6 +4,7 @@ import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.common.ValidationResult;
 import com.example.upc.common.ValidatorImpl;
+import com.example.upc.config.picConfig.PicMini;
 import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.CaSearchParam;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
@@ -414,6 +415,7 @@ public class SupervisionCaServiceImpl implements SupervisionCaService {
     }
 
     @Override
+    @PicMini
     public SupervisionCaParam getCaInfoByIdNumber(String idNumber) throws ParseException {
         if(supervisionCaMapper.countByIdNumber(idNumber,null)==0){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"该人员未注册");
