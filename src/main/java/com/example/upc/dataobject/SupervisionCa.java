@@ -1,5 +1,7 @@
 package com.example.upc.dataobject;
 
+import com.example.upc.config.picConfig.PicUrl;
+
 import java.util.Date;
 
 public class SupervisionCa {
@@ -163,6 +165,7 @@ public class SupervisionCa {
      *
      * @mbg.generated Mon Sep 21 17:39:21 CST 2020
      */
+    @PicUrl
     private String photo;
 
     /**

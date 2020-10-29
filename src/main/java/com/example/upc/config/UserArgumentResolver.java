@@ -68,6 +68,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
                 return cookie.getValue();
             }
         }
+
         return null;
     }
 }

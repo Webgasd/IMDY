@@ -1,5 +1,6 @@
 package com.example.upc.dataobject;
 
+import com.example.upc.config.picConfig.PicMini;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
