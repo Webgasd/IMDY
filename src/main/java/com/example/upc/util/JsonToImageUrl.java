@@ -16,7 +16,8 @@ public class JsonToImageUrl {
         // 图片存储地址记得上传的时候更改
 //        String host = "/Users/weixj/Desktop/wph/IMDY/upload/";
 //        String host = "http://127.0.0.1:8080/upload/picture/"
-        String host = "https://www.yiwifi1.com:8088/upload/picture/";
+        String host = "http://172.26.79.229:8088/upload/picture/";
+        //String host = "https://www.yiwifi1.com:8088/upload/picture/";
         String imgUrl = host+ jsonObject2.get("data");
         return imgUrl;
     }
