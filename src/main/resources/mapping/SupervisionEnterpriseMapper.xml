@@ -162,6 +162,7 @@
     <result column="point" jdbcType="VARCHAR" property="point"/>
     <result column="area" jdbcType="INTEGER" property="area"/>
     <result column="grid" jdbcType="INTEGER" property="grid"/>
+    <result column="legal_person" jdbcType="VARCHAR" property="legalPerson" />
     <result column="registered_address" jdbcType="VARCHAR" property="registered_address"/>
     <result column="dynamic_grade" jdbcType="VARCHAR" property="dynamic_grade"/>
     <result column="propaganda_enclosure" jdbcType="VARCHAR" property="propagandaEnclosure"/>
@@ -2446,7 +2447,7 @@
     <if test="search.businessState != null">AND a.business_state = #{search.businessState}</if>
     <if test="search.cantactWay != null">AND a.cantact_way = #{search.cantactWay}</if>
     <if test="search.legalPerson != null">AND a.legal_person = #{search.legalPerson}</if>
-    <if test="search.registeredAddress != null">AND a.registered_address = #{search.registeredAddress}</if>
+    <if test="search.registeredAddress != null">AND a.registered_address LIKE CONCAT('%',#{search.registeredAddress},'%')</if>
 
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
 

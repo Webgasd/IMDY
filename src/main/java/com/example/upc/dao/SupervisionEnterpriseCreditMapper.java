@@ -60,4 +60,6 @@ public interface SupervisionEnterpriseCreditMapper {
     List<SupervisionEnterpriseCredit> selectByEnterpriseId(@Param("searchParam") SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, @Param("page")PageQuery pageQuery);
 
     List<SupervisionEnterpriseCreditParam> getPage(@Param("searchParam")  SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam,@Param("page")PageQuery pageQuery);
+
+    int counListCredit();
 }

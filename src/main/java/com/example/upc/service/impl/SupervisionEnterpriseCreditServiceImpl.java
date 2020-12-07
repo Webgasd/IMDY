@@ -5,7 +5,9 @@ import com.example.upc.common.EmBusinessError;
 import com.example.upc.common.ValidationResult;
 import com.example.upc.common.ValidatorImpl;
 import com.example.upc.common.pageConfig.DoPage;
+import com.example.upc.controller.param.EnterpriseListResult;
 import com.example.upc.controller.param.PageQuery;
+import com.example.upc.controller.param.PageResult;
 import com.example.upc.controller.param.SupervisionEnterpriseCreditParam;
 import com.example.upc.controller.searchParam.SupervisionEnterpriseCreditSearchParam;
 import com.example.upc.dao.SupervisionEnterpriseCreditMapper;
@@ -32,9 +34,20 @@ public class SupervisionEnterpriseCreditServiceImpl implements SupervisionEnterp
     private ValidatorImpl validator;
 
     @Override
-    public List<SupervisionEnterpriseCreditParam> getPage(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, SysUser sysUser, PageQuery pageQuery){
+    public PageResult<SupervisionEnterpriseCreditParam> getPage(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, SysUser sysUser, PageQuery pageQuery){
         if(sysUser.getUserType()==0) {
-            return supervisionEnterpriseCreditMapper.getPage(supervisionEnterpriseCreditSearchParam,pageQuery);
+            int count = supervisionEnterpriseCreditMapper.counListCredit();
+            if(count>0) {
+                PageResult<SupervisionEnterpriseCreditParam> pageResult = new PageResult<>();
+                List<SupervisionEnterpriseCreditParam> supervisionEnterpriseCreditParamList=supervisionEnterpriseCreditMapper.getPage(supervisionEnterpriseCreditSearchParam, pageQuery);
+                pageResult.setData(supervisionEnterpriseCreditParamList);
+                pageResult.setTotal(count);
+                pageResult.setPageNo(pageQuery.getPageNo());
+                pageResult.setPageSize(pageQuery.getPageSize());
+                return pageResult;
+            }
+            PageResult<SupervisionEnterpriseCreditParam> pageResult = new PageResult<>();
+            return pageResult;
         }
         else{
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"没有权限");
@@ -42,16 +55,28 @@ public class SupervisionEnterpriseCreditServiceImpl implements SupervisionEnterp
     }
 
     @Override
-    public List<SupervisionEnterpriseCredit> getById(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, SysUser sysUser, PageQuery pageQuery){
+    public PageResult<SupervisionEnterpriseCredit> getById(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, SysUser sysUser, PageQuery pageQuery){
         if(sysUser.getUserType()==0) {
-            return supervisionEnterpriseCreditMapper.selectByEnterpriseId(supervisionEnterpriseCreditSearchParam,pageQuery);
+            List<SupervisionEnterpriseCredit> supervisionEnterpriseCreditList = supervisionEnterpriseCreditMapper.selectByEnterpriseId(supervisionEnterpriseCreditSearchParam,pageQuery);
+            PageResult<SupervisionEnterpriseCredit> pageResult = new PageResult<>();
+            pageResult.setData(supervisionEnterpriseCreditList);
+            pageResult.setTotal(supervisionEnterpriseCreditList.size());
+            pageResult.setPageNo(pageQuery.getPageNo());
+            pageResult.setPageSize(pageQuery.getPageSize());
+            return pageResult;
         }
         if(sysUser.getUserType()==2){
             supervisionEnterpriseCreditSearchParam.setEnterpriseId(sysUser.getInfoId());
-            return supervisionEnterpriseCreditMapper.selectByEnterpriseId(supervisionEnterpriseCreditSearchParam,pageQuery);
+            List<SupervisionEnterpriseCredit> supervisionEnterpriseCreditList = supervisionEnterpriseCreditMapper.selectByEnterpriseId(supervisionEnterpriseCreditSearchParam,pageQuery);
+            PageResult<SupervisionEnterpriseCredit> pageResult = new PageResult<>();
+            pageResult.setData(supervisionEnterpriseCreditList);
+            pageResult.setTotal(supervisionEnterpriseCreditList.size());
+            pageResult.setPageNo(pageQuery.getPageNo());
+            pageResult.setPageSize(pageQuery.getPageSize());
+            return pageResult;
         }
-        List<SupervisionEnterpriseCredit> list =new ArrayList<>();
-        return list;
+        PageResult<SupervisionEnterpriseCredit> pageResult = new PageResult<>();
+        return pageResult;
     }
 
     @Override

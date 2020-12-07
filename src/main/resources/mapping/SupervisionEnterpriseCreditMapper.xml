@@ -206,18 +206,36 @@
   </update>
 
   <select id="getPage" resultMap="BaseResultMap1">
-    SELECT a.*,b.violation_date,b.violation_title,b.agent_person FROM
-    (select b.id,b.enterprise_name,b.legal_person,b.cantact_way,COUNT(b.id) violation_number
-    FROM supervision_enterprise as b INNER join supervision_enterprise_credit as a on a.enterprise_id = b.id
-    GROUP BY b.id) a INNER JOIN
-    (SELECT a.enterprise_id,a.violation_date,a.violation_title,a.agent_person
+    SELECT a.*,b.violation_date,b.violation_title,b.agent_person,b.violation_type FROM
+    (select b.id ,b.enterprise_name,b.legal_person,b.cantact_way,COUNT(a.id) violation_number
+    FROM supervision_enterprise as b LEFT JOIN supervision_enterprise_credit as a on a.enterprise_id = b.id
+    GROUP BY b.id) a LEFT JOIN
+    (SELECT a.enterprise_id,a.violation_date,a.violation_title,a.agent_person,a.violation_type
     FROM supervision_enterprise_credit a
     LEFT OUTER JOIN supervision_enterprise_credit b ON
     (a.enterprise_id = b.enterprise_id AND a.violation_date &lt; b.violation_date)
-    WHERE b.enterprise_id IS NULL) b on a.id = b.enterprise_id
+    WHERE b.enterprise_id IS NULL) b
+    on a.id = b.enterprise_id
     <if test="page.pageFlag==1">
         limit #{page.offset}, #{page.pageSize}
     </if>
+    ORDER BY violation_date DESC
+  </select>
+
+  <select id="counListCredit" resultType="int">
+    select count(1)
+    from
+    (SELECT a.*,b.violation_date,b.violation_title,b.agent_person,b.violation_type FROM
+    (select b.id ,b.enterprise_name,b.legal_person,b.cantact_way,COUNT(a.id) violation_number
+    FROM supervision_enterprise as b LEFT JOIN supervision_enterprise_credit as a on a.enterprise_id = b.id
+    GROUP BY b.id) a LEFT JOIN
+    (SELECT a.enterprise_id,a.violation_date,a.violation_title,a.agent_person,a.violation_type
+    FROM supervision_enterprise_credit a
+    LEFT OUTER JOIN supervision_enterprise_credit b ON
+    (a.enterprise_id = b.enterprise_id AND a.violation_date &lt; b.violation_date)
+    WHERE b.enterprise_id IS NULL) b
+    on a.id = b.enterprise_id
+    ORDER BY violation_date DESC)as a
   </select>
 
   <select id="selectByEnterpriseId" resultMap="BaseResultMap">
