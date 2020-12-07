@@ -24,6 +24,7 @@ public class EnterpriseSearchParam {
     private String enterpriseScale;
     private Integer isStop;
     private String legalPerson;
+    private String cantactWay;
     private Integer abnormalId;
     private String permissionStatus;
     private Integer dept;
@@ -229,5 +230,13 @@ public class EnterpriseSearchParam {
 
     public void setJudgeType(Integer judgeType) {
         this.judgeType = judgeType;
+    }
+
+    public String getCantactWay() {
+        return cantactWay;
+    }
+
+    public void setCantactWay(String cantactWay) {
+        this.cantactWay = cantactWay;
     }
 }
