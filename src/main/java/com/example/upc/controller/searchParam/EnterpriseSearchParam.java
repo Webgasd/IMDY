@@ -35,6 +35,9 @@ public class EnterpriseSearchParam {
     private Integer businessState;
     private Integer indexNum;
 
+    //判断异常企业库或僵尸企业库
+    private Integer judgeType = 0;
+
     public String getLegalPerson() {
         return legalPerson;
     }
@@ -218,5 +221,13 @@ public class EnterpriseSearchParam {
 
     public void setSupervisor(String supervisor) {
         this.supervisor = supervisor;
+    }
+
+    public Integer getJudgeType() {
+        return judgeType;
+    }
+
+    public void setJudgeType(Integer judgeType) {
+        this.judgeType = judgeType;
     }
 }

@@ -12,12 +12,10 @@ import com.example.upc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-        import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -298,5 +296,18 @@ public class SupervisionEnterpriseController {
     public CommonReturnType changeGpsFlag(){
         supervisionEnterpriseService.changeGpsFlag();
         return CommonReturnType.create(null);
+    }
+
+    @RequestMapping("/importInspectExcel")
+    @ResponseBody
+    public CommonReturnType importInspectExcel(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        if(fileName.matches("^.+\\.(?i)(xls)$")){//03版本excel,xls
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"该文件类型已不支持，请使用07版本后缀为.xlsx版本导入");
+        }else if (fileName.matches("^.+\\.(?i)(xlsx)$")){//07版本,xlsx
+            supervisionEnterpriseService.importInspectExcel(file);
+            return CommonReturnType.create(null);
+        }
+        throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"上传文件出错");
     }
 }

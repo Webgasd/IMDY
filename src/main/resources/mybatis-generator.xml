@@ -27,9 +27,9 @@
         </javaClientGenerator>
 
         <!-- 生成对应表明及类名-->
-
-<!--        <table tableName="distribution_list" domainObjectName="DistributionList" enableCountByExample="false"-->
+<!--        <table tableName="import_enterprise_points" domainObjectName="ImportEnterprisePoints" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
+
     </context>
 </generatorConfiguration>

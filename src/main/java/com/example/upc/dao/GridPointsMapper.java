@@ -1,6 +1,7 @@
 package com.example.upc.dao;
 
 import com.example.upc.controller.param.GridPoints1;
+import com.example.upc.controller.param.ImportPoints;
 import com.example.upc.controller.param.SmilePoints;
 import com.example.upc.controller.param.enterpriseId;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
@@ -28,9 +29,10 @@ public interface GridPointsMapper {
                                        @Param("gps2") Float gps2,
                                        @Param("gps3") Float gps3,
                                        @Param("gps4") Float gps4);
-
     List<enterpriseId> getEnterpriseByName(@Param("name") String name);
     int deleteByEnterpriseId(@Param("id") int id);
     GridPoints getPointByEnterpriseId(@Param("id") Integer id);
     int getVideoIdByEnterprise(@Param("id")int id);
+    //双随机部署控制台
+    List<ImportPoints> getImportPoints(@Param("idNumList") List<String> idNumbers);
 }

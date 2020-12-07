@@ -57,7 +57,6 @@ public class InspectLllegalityController {
             }else if (fileName.matches("^.+\\.(?i)(xlsx)$")){//07版本,xlsx
                 inspectLllegalityService.importExcel(file,7);
             }
-
         return CommonReturnType.create(null);
     }
 }

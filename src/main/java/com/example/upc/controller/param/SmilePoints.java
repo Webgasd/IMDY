@@ -238,4 +238,5 @@ public class SmilePoints {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
+
 }

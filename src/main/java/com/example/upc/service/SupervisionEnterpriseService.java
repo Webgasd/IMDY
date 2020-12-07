@@ -8,6 +8,7 @@ import com.example.upc.dataobject.SysIndustry;
 import com.example.upc.dataobject.SysUser;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public interface SupervisionEnterpriseService {
     * 小程序专用service
     */
    Map<String,Object> getFoodBusinessLicenseById(int id);   //小程序获取企业许可信息
-   Map<String, Object> getLicensePhotosById(int id);  // 小程序获取证照图片
-   Map<String, Object> updateLicensePhotosById(int enterpriseId,String businessLicensePhoto,String foodBusinessPhoto);   // 小程序更新证照图片
+   Map<String, Object> getLicensePhotosById(int id);  //小程序获取证照图片
+   Map<String, Object> updateLicensePhotosById(int enterpriseId,String businessLicensePhoto,String foodBusinessPhoto);   //小程序更新证照图片
+   void importInspectExcel(MultipartFile file) throws IOException; //导入100家企业点位
 }
