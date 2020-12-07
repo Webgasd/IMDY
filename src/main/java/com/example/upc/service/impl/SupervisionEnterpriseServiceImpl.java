@@ -111,6 +111,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     private GridPointsMapper gridPointsMapper;
     @Autowired
     private SupervisionEnterpriseDocumentMapper supervisionEnterpriseDocumentMapper;
+    @Autowired
+    private ImportEnterprisePointsMapper importEnterprisePointsMapper;
 
     @Override
     public SmilePointsParam getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam){
@@ -266,8 +268,6 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         }
         return enterpriseCountParam;
     }
-
-
 
     @Override
     public PageResult<EnterpriseListResult> getPage(PageQuery pageQuery, EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry) {
@@ -1290,8 +1290,6 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         supervisionEnIndustrialProductsIndexMapper.deleteByEnterpriseId(id);
     }
 
-
-
     //改变企业状态
     @Override
     public void changeStop(int id) {
@@ -1340,7 +1338,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         }
         return map;
     }
-//文件导入
+
+    //文件导入
     @Override
     @Transactional
     public JSONObject importExcel(MultipartFile file, Integer type) {
@@ -3466,7 +3465,31 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         }
     }
 
-
+    @Override
+    @Transactional
+    public void importInspectExcel(MultipartFile file) throws IOException {
+        XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+        XSSFSheet sheet0 = workbook.getSheetAt(0);
+        int rowNumber=sheet0.getPhysicalNumberOfRows();
+        List<String> smilePointsList = new ArrayList<>();
+        for (int j=1;j<rowNumber;j++){
+            XSSFRow row = sheet0.getRow(j);
+            if(row.getCell(1).getCellType() != CellType.BLANK && row.getCell(1) != null){
+                smilePointsList.add(ExcalUtils.handleStringXSSF(row.getCell(1)));
+            }
+            if(row.getCell(1).getCellType() == CellType.BLANK && row.getCell(1) == null){
+                break;
+            }
+        }
+        if(smilePointsList.isEmpty()){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "Excel表为空");
+        }
+        List<ImportPoints> list = gridPointsMapper.getImportPoints(smilePointsList);
+        if(list.isEmpty()){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "未查询到excel表中的企业");
+        }
+        importEnterprisePointsMapper.batchInsert(list);
+    }
 
     //这两个方法是在map中查找是否有这个文件中的地区和部门，有才转化，没有即抛错，这一步如果放在导入赋值之前做判错，后边就无需判断了。
     Integer importCheckArea(String areaName,Map<String,Integer> areaMap,String idNumber){
@@ -3484,7 +3507,6 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,deptName+"部门不存在");
         }
     }
-
 
     /**
      * 小程序专用serviceImpl
@@ -3510,6 +3532,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         result.put("enterpriseScale",foodBusinessLicenseList.get(0).getEnterpriseScale());
         return result;
     }
+
     @Override
     public Map<String, Object> getLicensePhotosById(int id) {
         SupervisionEnterprise supervisionEnterprise= supervisionEnterpriseMapper.selectByPrimaryKey(id);
@@ -3541,7 +3564,6 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         result.put("foodBusinessPhoto","");
         if (list.size()>0) {
             for (SupervisionEnterpriseDocument supervisionEnterpriseDocument : list) {
-
                 if (supervisionEnterpriseDocument.getFlag() == 1) {
                     supervisionEnterpriseDocument.setDocument(businessLicensePhoto);
                     supervisionEnterpriseDocumentMapper.updateByPrimaryKey(supervisionEnterpriseDocument);
@@ -3557,5 +3579,4 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 
         return result;
     }
-
 }

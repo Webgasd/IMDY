@@ -8,6 +8,7 @@ public class PageQuery {
     private int pageNo = 1;
     private int pageSize = 10;
     private int offset;
+    private int pageFlag = 0;
 
     public int getPageNo() {
         return pageNo;
@@ -31,5 +32,13 @@ public class PageQuery {
 
     public int getOffset() {
         return (pageNo - 1) * pageSize;
+    }
+
+    public int getPageFlag() {
+        return pageFlag;
+    }
+
+    public void setPageFlag(int pageFlag) {
+        this.pageFlag = pageFlag;
     }
 }

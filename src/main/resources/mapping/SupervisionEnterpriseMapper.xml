@@ -190,6 +190,7 @@
     from supervision_enterprise
     where id = #{id,jdbcType=INTEGER}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated
@@ -199,6 +200,7 @@
     delete from supervision_enterprise
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.example.upc.dataobject.SupervisionEnterprise">
     <!--
       WARNING - @mbg.generated
@@ -262,6 +264,7 @@
       #{gpsFlag,jdbcType=INTEGER}, #{operateTime,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR}, 
       #{operator,jdbcType=VARCHAR})
   </insert>
+
   <insert id="insertSelective" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.example.upc.dataobject.SupervisionEnterprise">
     <!--
       WARNING - @mbg.generated
@@ -766,6 +769,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.example.upc.dataobject.SupervisionEnterprise">
     <!--
       WARNING - @mbg.generated
@@ -1862,124 +1866,36 @@ select * from (
 
   <select id="countListState" resultType="int">
     SELECT count(1) FROM(
-    SELECT * FROM (
-    <if test="search.industryList.contains('industrialProducts')">SELECT a.*,b.id as a10_id,b.end_time as a10_time FROM (</if>
-    <if test="search.industryList.contains('medicalBusiness')">SELECT a.*,b.id as a9_id,b.end_time as a9_time FROM (</if>
-    <if test="search.industryList.contains('medicalProduce')">SELECT a.*,b.id as a8_id,b.end_time as a8_time FROM (</if>
-    <if test="search.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,b.end_time as a7_time FROM (</if>
-    <if test="search.industryList.contains('drugsProduce')">SELECT a.*,b.id as a6_id,b.end_time as a6_time FROM (</if>
-    <if test="search.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,b.end_time as a5_time FROM (</if>
-    <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
-    <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
-    <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness')or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state =3  and area IN
+    select * from (
+    SELECT <include refid="List_Column_List" />,
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">a1_id,</if>
+    <if test="search.industryList.contains('smallCater')">a2_id,</if>
+    <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
+    <if test="search.industryList.contains('foodProduce')">a4_id,</if>
+    <if test="search.industryList.contains('drugsBusiness')">a5_id,</if>
+    <if test="search.industryList.contains('drugsProduce')">a6_id,</if>
+    <if test="search.industryList.contains('cosmeticsUse')">a7_id,</if>
+    <if test="search.industryList.contains('medicalProduce')">a8_id,</if>
+    <if test="search.industryList.contains('medicalBusiness')">a9_id,</if>
+    <if test="search.industryList.contains('industrialProducts')">a10_id,</if>
+    max_time FROM (
+    <if test="search.industryList.contains('industrialProducts')"> SELECT a.*,b.id as a10_id,IF(b.end_time>a.max_time2,a.max_time2,b.end_time) as max_time FROM (</if>
+    <if test="search.industryList.contains('medicalBusiness')">SELECT a.*,b.id as a9_id,IF(b.end_time>a.max_time3,a.max_time3,b.end_time) as max_time2 FROM (</if>
+    <if test="search.industryList.contains('medicalProduce')">SELECT a.*,b.id as a8_id,IF(b.end_time>a.max_time4,a.max_time4,b.end_time) as max_time3 FROM (</if>
+    <if test="search.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,IF(b.end_time>a.max_time5,a.max_time5,b.end_time) as max_time4 FROM (</if>
+    <if test="search.industryList.contains('drugsProduce')">SELECT a.*,b.id as a6_id,IF(b.end_time>a.max_time6,a.max_time6,b.end_time) as max_time5 FROM(</if>
+    <if test="search.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,IF(b.end_time>a.max_time7,a.max_time7,b.end_time) as max_time6 FROM(</if>
+    <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,IF(b.end_time>a.max_time8,a.max_time8,b.end_time) as max_time7 FROM (</if>
+    <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,IF(b.end_time>a.max_time9,a.max_time9,b.end_time) as max_time8 FROM(</if>
+    <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,IF(b.end_time>a.a1_time,a.a1_time,b.end_time) as max_time9 FROM(</if>
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
+      SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise
+    WHERE area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
-    <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
-    <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
-    <if test="search.dept != null and search.dept != ''">AND regulators LIKE CONCAT('%',#{search.dept},'%')</if>
-    <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
-    <if test="search.enterpriseScale != null and search.enterpriseScale != ''">AND enterprise_scale =#{search.enterpriseScale}</if>
-    <if test="search.isStop != null">AND is_stop = #{search.isStop} </if>
-    <if test="search.legalPerson != null and search.legalPerson != ''">AND legal_person LIKE CONCAT('%',#{search.legalPerson},'%')</if>
-    <if test="search.abnormalId != null">AND abnormal_id = #{search.abnormalId}</if>
-    <if test="search.permissionStatus != null and search.permissionStatus != ''">AND permission_state =#{search.permissionStatus}</if>
-    <if test="search.industryList.contains('foodBusiness')or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
-      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
-      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-    </if>
-    <if test="search.industryList.contains('smallCater')">)as a LEFT JOIN supervision_en_small_cater_index as b on a.id =b.enterprise_id
-      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
-      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-    </if>
-    <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
-      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
-      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-    </if>
-    <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
-      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
-      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-    </if>
-    <if test="search.industryList.contains('drugsBusiness')">)as a LEFT JOIN supervision_en_drugs_bu_index as b on a.id =b.enterprise_id
-      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
-      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-    </if>
-    <if test="search.industryList.contains('drugsProduce')">)as a LEFT JOIN supervision_en_drugs_pro_index as b on a.id =b.enterprise_id
-      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
-      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-    </if>
-    <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
-      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
-      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-    </if>
-    <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
-      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
-      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-    </if>
-    <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
-      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
-      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-    </if>
-    <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
-      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
-      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
-      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-    </if>
-    ) as a
-    <trim prefix="WHERE" prefixOverrides="OR">
-      <if test="search.industryList.contains('foodBusiness')or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
-        a1_id
-      </if>
-      <if test="search.industryList.contains('smallCater')">
-        OR a2_id
-      </if>
-      <if test="search.industryList.contains('smallWorkshop')">
-        OR a3_id
-      </if>
-      <if test="search.industryList.contains('foodProduce')">
-        OR a4_id
-      </if>
-      <if test="search.industryList.contains('drugsBusiness')">
-        OR a5_id
-      </if>
-      <if test="search.industryList.contains('drugsProduce')">
-        OR a6_id
-      </if>
-      <if test="search.industryList.contains('cosmeticsUse')">
-        OR a7_id
-      </if>
-      <if test="search.industryList.contains('medicalProduce')">
-        OR a8_id
-      </if>
-      <if test="search.industryList.contains('medicalBusiness')">
-        OR a9_id
-      </if>
-      <if test="search.industryList.contains('industrialProducts')">
-        OR a10_id
-      </if>
-    </trim>
-    union
-    <if test="search.industryList.contains('industrialProducts')">SELECT a.*,b.id as a10_id,b.end_time as a10_time FROM (</if>
-    <if test="search.industryList.contains('medicalBusiness')">SELECT a.*,b.id as a9_id,b.end_time as a9_time FROM (</if>
-    <if test="search.industryList.contains('medicalProduce')">SELECT a.*,b.id as a8_id,b.end_time as a8_time FROM (</if>
-    <if test="search.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,b.end_time as a7_time FROM (</if>
-    <if test="search.industryList.contains('drugsProduce')">SELECT a.*,b.id as a6_id,b.end_time as a6_time FROM (</if>
-    <if test="search.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,b.end_time as a5_time FROM (</if>
-    <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
-    <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
-    <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness')or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state =3  and area IN
-    <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+    <if test="search.judgeType==1 and (search.businessState == null or search.businessState==0)"> AND business_state =3 </if>
+    <if test="search.judgeType==2 and (search.businessState == null or search.businessState==0)"> AND (business_state =4 OR business_state=5) </if>
+    <if test="search.businessState != null and search.businessState!=0"> AND business_state = #{search.businessState} </if>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
     <if test="search.dept != null and search.dept != ''">AND regulators LIKE CONCAT('%',#{search.dept},'%')</if>
@@ -2038,7 +1954,130 @@ select * from (
       <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
       <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
       <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
-    </if>) as a
+    </if>
+    ) as a
+    <trim prefix="WHERE" prefixOverrides="OR">
+      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
+        a1_id
+      </if>
+      <if test="search.industryList.contains('smallCater')">
+        OR a2_id
+      </if>
+      <if test="search.industryList.contains('smallWorkshop')">
+        OR a3_id
+      </if>
+      <if test="search.industryList.contains('foodProduce')">
+        OR a4_id
+      </if>
+      <if test="search.industryList.contains('drugsBusiness')">
+        OR a5_id
+      </if>
+      <if test="search.industryList.contains('drugsProduce')">
+        OR a6_id
+      </if>
+      <if test="search.industryList.contains('cosmeticsUse')">
+        OR a7_id
+      </if>
+      <if test="search.industryList.contains('medicalProduce')">
+        OR a8_id
+      </if>
+      <if test="search.industryList.contains('medicalBusiness')">
+        OR a9_id
+      </if>
+      <if test="search.industryList.contains('industrialProducts')">
+        OR a10_id
+      </if>
+    </trim>
+    union
+    SELECT <include refid="List_Column_List" />,
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">a1_id,</if>
+    <if test="search.industryList.contains('smallCater')">a2_id,</if>
+    <if test="search.industryList.contains('smallWorkshop')">a3_id,</if>
+    <if test="search.industryList.contains('foodProduce')">a4_id,</if>
+    <if test="search.industryList.contains('drugsBusiness')">a5_id,</if>
+    <if test="search.industryList.contains('drugsProduce')">a6_id,</if>
+    <if test="search.industryList.contains('cosmeticsUse')">a7_id,</if>
+    <if test="search.industryList.contains('medicalProduce')">a8_id,</if>
+    <if test="search.industryList.contains('medicalBusiness')">a9_id,</if>
+    <if test="search.industryList.contains('industrialProducts')">a10_id,</if>
+    max_time FROM (
+    <if test="search.industryList.contains('industrialProducts')"> SELECT a.*,b.id as a10_id,IF(b.end_time>a.max_time2,a.max_time2,b.end_time) as max_time FROM (</if>
+    <if test="search.industryList.contains('medicalBusiness')">SELECT a.*,b.id as a9_id,IF(b.end_time>a.max_time3,a.max_time3,b.end_time) as max_time2 FROM (</if>
+    <if test="search.industryList.contains('medicalProduce')">SELECT a.*,b.id as a8_id,IF(b.end_time>a.max_time4,a.max_time4,b.end_time) as max_time3 FROM (</if>
+    <if test="search.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,IF(b.end_time>a.max_time5,a.max_time5,b.end_time) as max_time4 FROM (</if>
+    <if test="search.industryList.contains('drugsProduce')">SELECT a.*,b.id as a6_id,IF(b.end_time>a.max_time6,a.max_time6,b.end_time) as max_time5 FROM(</if>
+    <if test="search.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,IF(b.end_time>a.max_time7,a.max_time7,b.end_time) as max_time6 FROM(</if>
+    <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,IF(b.end_time>a.max_time8,a.max_time8,b.end_time) as max_time7 FROM (</if>
+    <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,IF(b.end_time>a.max_time9,a.max_time9,b.end_time) as max_time8 FROM(</if>
+    <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,IF(b.end_time>a.a1_time,a.a1_time,b.end_time) as max_time9 FROM(</if>
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
+      SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' AND area IN
+    <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+    <if test="search.judgeType==1 and (search.businessState == null or search.businessState==0)"> AND business_state =3 </if>
+    <if test="search.judgeType==2 and (search.businessState == null or search.businessState==0)"> AND (business_state =4 OR business_state=5) </if>
+    <if test="search.businessState != null and search.businessState!=0"> AND business_state = #{search.businessState} </if>
+    <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
+    <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
+    <if test="search.dept != null and search.dept != ''">AND regulators LIKE CONCAT('%',#{search.dept},'%')</if>
+    <if test="search.supervisor != null and search.supervisor != ''">AND FIND_IN_SET(#{search.supervisor},supervisor)</if>
+    <if test="search.enterpriseScale != null and search.enterpriseScale != ''">AND enterprise_scale =#{search.enterpriseScale}</if>
+    <if test="search.isStop != null">AND is_stop = #{search.isStop} </if>
+    <if test="search.legalPerson != null and search.legalPerson != ''">AND legal_person LIKE CONCAT('%',#{search.legalPerson},'%')</if>
+    <if test="search.abnormalId != null">AND abnormal_id = #{search.abnormalId}</if>
+    <if test="search.permissionStatus != null and search.permissionStatus != ''">AND permission_state =#{search.permissionStatus}</if>
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">) as a LEFT JOIN supervision_en_food_bu_index as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+    </if>
+    <if test="search.industryList.contains('smallCater')">)as a LEFT JOIN supervision_en_small_cater_index as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+    </if>
+    <if test="search.industryList.contains('smallWorkshop')">)as a LEFT JOIN supervision_en_small_workshop_index as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+    </if>
+    <if test="search.industryList.contains('foodProduce')">)as a LEFT JOIN supervision_en_food_pro_index as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+    </if>
+    <if test="search.industryList.contains('drugsBusiness')">)as a LEFT JOIN supervision_en_drugs_bu_index as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+    </if>
+    <if test="search.industryList.contains('drugsProduce')">)as a LEFT JOIN supervision_en_drugs_pro_index as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+    </if>
+    <if test="search.industryList.contains('cosmeticsUse')">)as a LEFT JOIN supervision_en_cosmetics_index as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+    </if>
+    <if test="search.industryList.contains('medicalProduce')">)as a LEFT JOIN supervision_en_medical_pro_index as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+    </if>
+    <if test="search.industryList.contains('medicalBusiness')">)as a LEFT JOIN supervision_en_medical_bu_index as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+    </if>
+    <if test="search.industryList.contains('industrialProducts')">)as a LEFT JOIN supervision_en_industrial_products_index as b on a.id =b.enterprise_id
+      <if test="search.startTime != null">  AND b.end_time &gt;= #{search.startTime}</if>
+      <if test="search.endTime != null"> AND b.end_time &lt;= #{search.endTime} </if>
+      <if test="search.licenseNumber != null and search.licenseNumber != ''">AND b.number LIKE CONCAT('%',#{search.licenseNumber},'%')</if>
+    </if>
+    ) as a
+    ) as a) as a
   </select>
 
   <select id="getPageState" resultMap="ListResultMap">
@@ -2054,52 +2093,24 @@ select * from (
     <if test="search.industryList.contains('medicalProduce')">a8_id,</if>
     <if test="search.industryList.contains('medicalBusiness')">a9_id,</if>
     <if test="search.industryList.contains('industrialProducts')">a10_id,</if>
-    (select MIN( maxtime ) from(
-    <trim prefixOverrides="union">
-      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
-        select a1_time as maxtime
-      </if>
-      <if test="search.industryList.contains('smallCater')">
-        union select a2_time as maxtime
-      </if>
-      <if test="search.industryList.contains('smallWorkshop')">
-        union select a3_time as maxtime
-      </if>
-      <if test="search.industryList.contains('foodProduce')">
-        union select a4_time as maxtime
-      </if>
-      <if test="search.industryList.contains('drugsBusiness')">
-        union select a5_time as maxtime
-      </if>
-      <if test="search.industryList.contains('drugsProduce')">
-        union select a6_time as maxtime
-      </if>
-      <if test="search.industryList.contains('cosmeticsUse')">
-        union select a7_time as maxtime
-      </if>
-      <if test="search.industryList.contains('medicalProduce')">
-        union select a8_time as maxtime
-      </if>
-      <if test="search.industryList.contains('medicalBusiness')">
-        union select a9_time as maxtime
-      </if>
-      <if test="search.industryList.contains('industrialProducts')">
-        union select a10_time as maxtime
-      </if>
-    </trim>
-    ) A) as max_time FROM (
-    <if test="search.industryList.contains('industrialProducts')">SELECT a.*,b.id as a10_id,b.end_time as a10_time FROM (</if>
-    <if test="search.industryList.contains('medicalBusiness')">SELECT a.*,b.id as a9_id,b.end_time as a9_time FROM (</if>
-    <if test="search.industryList.contains('medicalProduce')">SELECT a.*,b.id as a8_id,b.end_time as a8_time FROM (</if>
-    <if test="search.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,b.end_time as a7_time FROM (</if>
-    <if test="search.industryList.contains('drugsProduce')">SELECT a.*,b.id as a6_id,b.end_time as a6_time FROM (</if>
-    <if test="search.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,b.end_time as a5_time FROM (</if>
-    <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
-    <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
-    <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE business_state =3  and area IN
+    max_time FROM (
+    <if test="search.industryList.contains('industrialProducts')"> SELECT a.*,b.id as a10_id,IF(b.end_time>a.max_time2,a.max_time2,b.end_time) as max_time FROM (</if>
+    <if test="search.industryList.contains('medicalBusiness')">SELECT a.*,b.id as a9_id,IF(b.end_time>a.max_time3,a.max_time3,b.end_time) as max_time2 FROM (</if>
+    <if test="search.industryList.contains('medicalProduce')">SELECT a.*,b.id as a8_id,IF(b.end_time>a.max_time4,a.max_time4,b.end_time) as max_time3 FROM (</if>
+    <if test="search.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,IF(b.end_time>a.max_time5,a.max_time5,b.end_time) as max_time4 FROM (</if>
+    <if test="search.industryList.contains('drugsProduce')">SELECT a.*,b.id as a6_id,IF(b.end_time>a.max_time6,a.max_time6,b.end_time) as max_time5 FROM(</if>
+    <if test="search.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,IF(b.end_time>a.max_time7,a.max_time7,b.end_time) as max_time6 FROM(</if>
+    <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,IF(b.end_time>a.max_time8,a.max_time8,b.end_time) as max_time7 FROM (</if>
+    <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,IF(b.end_time>a.max_time9,a.max_time9,b.end_time) as max_time8 FROM(</if>
+    <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,IF(b.end_time>a.a1_time,a.a1_time,b.end_time) as max_time9 FROM(</if>
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
+    SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+      SELECT <include refid="List_Column_List" />  FROM supervision_enterprise
+      WHERE area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+    <if test="search.judgeType==1 and (search.businessState == null or search.businessState==0)"> AND business_state =3 </if>
+    <if test="search.judgeType==2 and (search.businessState == null or search.businessState==0)"> AND (business_state =4 OR business_state=5) </if>
+    <if test="search.businessState != null and search.businessState!=0"> AND business_state = #{search.businessState} </if>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
     <if test="search.dept != null and search.dept != ''">AND regulators LIKE CONCAT('%',#{search.dept},'%')</if>
@@ -2204,52 +2215,23 @@ select * from (
     <if test="search.industryList.contains('medicalProduce')">a8_id,</if>
     <if test="search.industryList.contains('medicalBusiness')">a9_id,</if>
     <if test="search.industryList.contains('industrialProducts')">a10_id,</if>
-    (select MIN( maxtime ) from(
-    <trim prefixOverrides="union">
-      <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
-        select a1_time as maxtime
-      </if>
-      <if test="search.industryList.contains('smallCater')">
-        union select a2_time as maxtime
-      </if>
-      <if test="search.industryList.contains('smallWorkshop')">
-        union select a3_time as maxtime
-      </if>
-      <if test="search.industryList.contains('foodProduce')">
-        union select a4_time as maxtime
-      </if>
-      <if test="search.industryList.contains('drugsBusiness')">
-        union select a5_time as maxtime
-      </if>
-      <if test="search.industryList.contains('drugsProduce')">
-        union select a6_time as maxtime
-      </if>
-      <if test="search.industryList.contains('cosmeticsUse')">
-        union select a7_time as maxtime
-      </if>
-      <if test="search.industryList.contains('medicalProduce')">
-        union select a8_time as maxtime
-      </if>
-      <if test="search.industryList.contains('medicalBusiness')">
-        union select a9_time as maxtime
-      </if>
-      <if test="search.industryList.contains('industrialProducts')">
-        union select a10_time as maxtime
-      </if>
-    </trim>
-    ) A) as max_time FROM (
-    <if test="search.industryList.contains('industrialProducts')">SELECT a.*,b.id as a10_id,b.end_time as a10_time FROM (</if>
-    <if test="search.industryList.contains('medicalBusiness')">SELECT a.*,b.id as a9_id,b.end_time as a9_time FROM (</if>
-    <if test="search.industryList.contains('medicalProduce')">SELECT a.*,b.id as a8_id,b.end_time as a8_time FROM (</if>
-    <if test="search.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,b.end_time as a7_time FROM (</if>
-    <if test="search.industryList.contains('drugsProduce')">SELECT a.*,b.id as a6_id,b.end_time as a6_time FROM (</if>
-    <if test="search.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,b.end_time as a5_time FROM (</if>
-    <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,b.end_time as a4_time FROM (</if>
-    <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,b.end_time as a3_time FROM (</if>
-    <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
-    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state =3  and area IN
+    max_time FROM (
+    <if test="search.industryList.contains('industrialProducts')"> SELECT a.*,b.id as a10_id,IF(b.end_time>a.max_time2,a.max_time2,b.end_time) as max_time FROM (</if>
+    <if test="search.industryList.contains('medicalBusiness')">SELECT a.*,b.id as a9_id,IF(b.end_time>a.max_time3,a.max_time3,b.end_time) as max_time2 FROM (</if>
+    <if test="search.industryList.contains('medicalProduce')">SELECT a.*,b.id as a8_id,IF(b.end_time>a.max_time4,a.max_time4,b.end_time) as max_time3 FROM (</if>
+    <if test="search.industryList.contains('cosmeticsUse')">SELECT a.*,b.id as a7_id,IF(b.end_time>a.max_time5,a.max_time5,b.end_time) as max_time4 FROM (</if>
+    <if test="search.industryList.contains('drugsProduce')">SELECT a.*,b.id as a6_id,IF(b.end_time>a.max_time6,a.max_time6,b.end_time) as max_time5 FROM(</if>
+    <if test="search.industryList.contains('drugsBusiness')">SELECT a.*,b.id as a5_id,IF(b.end_time>a.max_time7,a.max_time7,b.end_time) as max_time6 FROM(</if>
+    <if test="search.industryList.contains('foodProduce')">SELECT a.*,b.id as a4_id,IF(b.end_time>a.max_time8,a.max_time8,b.end_time) as max_time7 FROM (</if>
+    <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id,IF(b.end_time>a.max_time9,a.max_time9,b.end_time) as max_time8 FROM(</if>
+    <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,IF(b.end_time>a.a1_time,a.a1_time,b.end_time) as max_time9 FROM(</if>
+    <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
+      SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' AND area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+    <if test="search.judgeType==1 and (search.businessState == null or search.businessState==0)"> AND business_state =3 </if>
+    <if test="search.judgeType==2 and (search.businessState == null or search.businessState==0)"> AND (business_state =4 OR business_state=5) </if>
+    <if test="search.businessState != null and search.businessState!=0"> AND business_state = #{search.businessState} </if>
     <if test="search.enterpriseName != null and search.enterpriseName != ''">AND enterprise_name LIKE CONCAT('%',#{search.enterpriseName},'%')</if>
     <if test="search.creditCode != null and search.creditCode != ''">AND id_number LIKE CONCAT('%',#{search.creditCode},'%')</if>
     <if test="search.dept != null and search.dept != ''">AND regulators LIKE CONCAT('%',#{search.dept},'%')</if>
