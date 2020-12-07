@@ -42,4 +42,6 @@ public interface SupervisionEnterpriseService {
    Map<String, Object> getLicensePhotosById(int id);  //小程序获取证照图片
    Map<String, Object> updateLicensePhotosById(int enterpriseId,String businessLicensePhoto,String foodBusinessPhoto);   //小程序更新证照图片
    void importInspectExcel(MultipartFile file) throws IOException; //导入100家企业点位
+  //获取所有gps
+   List<EnterpriseInfoParam> getEnterpriseInfo();
 }

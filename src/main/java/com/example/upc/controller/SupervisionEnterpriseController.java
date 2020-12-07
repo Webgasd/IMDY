@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.common.EmBusinessError;
+import com.example.upc.controller.param.EnterpriseInfoParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
 import com.example.upc.dataobject.*;
@@ -309,5 +310,12 @@ public class SupervisionEnterpriseController {
             return CommonReturnType.create(null);
         }
         throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"上传文件出错");
+    }
+
+    @RequestMapping("/getEnterpriseInfo")
+    @ResponseBody
+    public CommonReturnType getEnterpriseInfo(){
+        List<EnterpriseInfoParam> list= supervisionEnterpriseService.getEnterpriseInfo();
+        return CommonReturnType.create(list);
     }
 }

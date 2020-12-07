@@ -3491,6 +3491,30 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         importEnterprisePointsMapper.batchInsert(list);
     }
 
+    @Override
+    public List<EnterpriseInfoParam> getEnterpriseInfo() {
+        List<SmilePoints> smilePointsList = supervisionEnterpriseMapper.getSimpleEnterpriseInfo();
+        List<EnterpriseInfoParam> enterpriseInfoList = new ArrayList<>();;
+
+        for(SmilePoints smilePoints:smilePointsList){
+            String[] gpsTarget = smilePoints.getPoint().split(",");
+            Double latitude =Double.parseDouble(gpsTarget[0]);
+            Double longitude =Double.parseDouble(gpsTarget[1]);
+
+            EnterpriseInfoParam enterpriseInfoParam = new EnterpriseInfoParam();
+            enterpriseInfoParam.setLatitude(latitude);
+            enterpriseInfoParam.setLongitude(longitude);
+            enterpriseInfoParam.setEnterpriseId(smilePoints.getId());
+            enterpriseInfoParam.setOperationMode(smilePoints.getOperationMode());
+            enterpriseInfoParam.setBusinessState(smilePoints.getBusinessState());
+            enterpriseInfoParam.setContactWay(smilePoints.getCantactWay());
+            enterpriseInfoParam.setEnterpriseName(smilePoints.getEnterpriseName());
+
+            enterpriseInfoList.add(enterpriseInfoParam);
+        }
+        return enterpriseInfoList;
+    }
+
     //这两个方法是在map中查找是否有这个文件中的地区和部门，有才转化，没有即抛错，这一步如果放在导入赋值之前做判错，后边就无需判断了。
     Integer importCheckArea(String areaName,Map<String,Integer> areaMap,String idNumber){
         if(areaMap.get(areaName)!=null||StringUtils.isEmpty(idNumber)){
