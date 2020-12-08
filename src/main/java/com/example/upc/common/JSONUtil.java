@@ -43,7 +43,7 @@ public class JSONUtil {
                     serializer.config(feature, true);
                 }
             }
-            serializer.setDateFormat(JSON.DEFFAULT_DATE_FORMAT);
+            serializer.setDateFormat("yyyy-MM-dd");
             if(useUpperCaseName){
                 serializer.getNameFilters().add(new UpperCaseNameFilter());
             }

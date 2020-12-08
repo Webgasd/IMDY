@@ -2434,7 +2434,7 @@
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">SELECT a.* ,b.id as a1_id FROM (</if>
-    SELECT a.id,a.enterprise_name,a.shop_name,a.registered_address,a.legal_person,a.cantact_way,a.area,a.grid,a.dynamic_grade,a.business_state,a.operation_mode,a.permission_type,a.regulators,a.supervisor,a.propaganda_enclosure,point_id,point FROM
+    SELECT a.id,a.enterprise_name,a.shop_name,a.registered_address,a.legal_person,a.cantact_way,a.area,a.grid,a.dynamic_grade,a.business_state,a.operation_mode,a.permission_type,a.regulators,a.supervisor,a.propaganda_enclosure,a.point_id,a.point FROM
     (select a.id,a.enterprise_name,a.shop_name,a.registered_address,a.legal_person,a.cantact_way,a.area,a.grid,a.dynamic_grade,a.business_state,a.operation_mode,a.permission_type,a.regulators,a.supervisor,a.propaganda_enclosure,b.id point_id,b.point
     from supervision_enterprise a INNER join grid_points b on a.id = b.enterprise_id and a.gps_flag = 0 union
     select a.id,a.enterprise_name,a.shop_name,a.registered_address,a.legal_person,a.cantact_way,a.area,a.grid,a.dynamic_grade,a.business_state,a.operation_mode,a.permission_type,a.regulators,a.supervisor,a.propaganda_enclosure,b.id point_id,b.point
@@ -2546,7 +2546,7 @@
     <if test="search.industryList.contains('smallWorkshop')">SELECT a.*,b.id as a3_id FROM (</if>
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">SELECT a.* ,b.id as a1_id FROM (</if>
-    SELECT a.id,a.enterprise_name,a.shop_name,a.registered_address,a.legal_person,a.cantact_way,a.area,a.grid,a.dynamic_grade,a.business_state,a.operation_mode,a.permission_type,a.regulators,a.supervisor,a.propaganda_enclosure,point_id,point FROM
+    SELECT a.id,a.enterprise_name,a.shop_name,a.registered_address,a.legal_person,a.cantact_way,a.area,a.grid,a.dynamic_grade,a.business_state,a.operation_mode,a.permission_type,a.regulators,a.supervisor,a.propaganda_enclosure,a.point_id,a.point FROM
     (select a.id,a.enterprise_name,a.shop_name,a.registered_address,a.legal_person,a.cantact_way,a.area,a.grid,a.dynamic_grade,a.business_state,a.operation_mode,a.permission_type,a.regulators,a.supervisor,a.propaganda_enclosure,b.id point_id,b.point
     from supervision_enterprise a INNER join grid_points b on a.id = b.enterprise_id and a.gps_flag = 0 union
     select a.id,a.enterprise_name,a.shop_name,a.registered_address,a.legal_person,a.cantact_way,a.area,a.grid,a.dynamic_grade,a.business_state,a.operation_mode,a.permission_type,a.regulators,a.supervisor,a.propaganda_enclosure,b.id point_id,b.point

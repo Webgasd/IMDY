@@ -29,6 +29,12 @@ public class SupervisionEnterpriseCreditController {
         return CommonReturnType.create(supervisionEnterpriseCreditService.getPage(supervisionEnterpriseCreditSearchParam,sysUser,pageQuery));
     }
 
+    @RequestMapping("/getCreditPage")
+    @ResponseBody
+    public CommonReturnType getCreditPage(@RequestBody SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, SysUser sysUser, PageQuery pageQuery){
+        return CommonReturnType.create(supervisionEnterpriseCreditService.getCreditPage(supervisionEnterpriseCreditSearchParam,sysUser,pageQuery));
+    }
+
     @RequestMapping("/getById")
     @ResponseBody
     public CommonReturnType getById(@RequestBody SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, SysUser sysUser, PageQuery pageQuery){
@@ -55,4 +61,6 @@ public class SupervisionEnterpriseCreditController {
         supervisionEnterpriseCreditService.delete(supervisionEnterpriseCreditSearchParam);
         return CommonReturnType.create(null);
     }
+
+
 }

@@ -125,10 +125,15 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         Double gpsB =Double.parseDouble(gps[1]);
         List<SmilePoints> SmilePointsList = supervisionEnterpriseMapper.getListPhone(enterpriseSearchParam);
         for(SmilePoints smilePoints:SmilePointsList){
-            String[] gpsTarget = smilePoints.getPoint().split(",");
-            Double gpsC =Double.parseDouble(gpsTarget[0]);
-            Double gpsD =Double.parseDouble(gpsTarget[1]);
-            smilePoints.setDistance((int) caculateDisUtil.Distance(gpsA, gpsB, gpsC, gpsD));
+            if (smilePoints.getPoint()==null||smilePoints.getPoint().equals("")){
+                smilePoints.setDistance(null);
+            }
+            else {
+                String[] gpsTarget = smilePoints.getPoint().split(",");
+                Double gpsC = Double.parseDouble(gpsTarget[0]);
+                Double gpsD = Double.parseDouble(gpsTarget[1]);
+                smilePoints.setDistance((int) caculateDisUtil.Distance(gpsA, gpsB, gpsC, gpsD));
+            }
         }
         List<SmilePoints> afterSmilePointsPhoneList  = ListSortUtil.sort(SmilePointsList,"distance",null);
         Integer a = afterSmilePointsPhoneList.size();

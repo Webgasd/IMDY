@@ -36,10 +36,31 @@ public class SupervisionEnterpriseCreditServiceImpl implements SupervisionEnterp
     @Override
     public PageResult<SupervisionEnterpriseCreditParam> getPage(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, SysUser sysUser, PageQuery pageQuery){
         if(sysUser.getUserType()==0) {
-            int count = supervisionEnterpriseCreditMapper.counListCredit();
+            int count = supervisionEnterpriseCreditMapper.counListCredit(0);
             if(count>0) {
                 PageResult<SupervisionEnterpriseCreditParam> pageResult = new PageResult<>();
                 List<SupervisionEnterpriseCreditParam> supervisionEnterpriseCreditParamList=supervisionEnterpriseCreditMapper.getPage(supervisionEnterpriseCreditSearchParam, pageQuery);
+                pageResult.setData(supervisionEnterpriseCreditParamList);
+                pageResult.setTotal(count);
+                pageResult.setPageNo(pageQuery.getPageNo());
+                pageResult.setPageSize(pageQuery.getPageSize());
+                return pageResult;
+            }
+            PageResult<SupervisionEnterpriseCreditParam> pageResult = new PageResult<>();
+            return pageResult;
+        }
+        else{
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"没有权限");
+        }
+    }
+
+    @Override
+    public PageResult<SupervisionEnterpriseCreditParam> getCreditPage(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, SysUser sysUser, PageQuery pageQuery){
+        if(sysUser.getUserType()==0) {
+            int count = supervisionEnterpriseCreditMapper.counListCredit(1);
+            if(count>0) {
+                PageResult<SupervisionEnterpriseCreditParam> pageResult = new PageResult<>();
+                List<SupervisionEnterpriseCreditParam> supervisionEnterpriseCreditParamList=supervisionEnterpriseCreditMapper.getCreditPage(supervisionEnterpriseCreditSearchParam, pageQuery);
                 pageResult.setData(supervisionEnterpriseCreditParamList);
                 pageResult.setTotal(count);
                 pageResult.setPageNo(pageQuery.getPageNo());
@@ -92,6 +113,7 @@ public class SupervisionEnterpriseCreditServiceImpl implements SupervisionEnterp
         supervisionEnterpriseCredit.setViolationType(supervisionEnterpriseCreditSearchParam.getViolationType());
         supervisionEnterpriseCredit.setViolationDate(supervisionEnterpriseCreditSearchParam.getViolationDate());
         supervisionEnterpriseCredit.setAgentPerson(supervisionEnterpriseCreditSearchParam.getAgentPerson());
+        supervisionEnterpriseCredit.setEnclosure(supervisionEnterpriseCreditSearchParam.getEnclosure());
         supervisionEnterpriseCredit.setOperator("operator");
         supervisionEnterpriseCredit.setOperatorIp("127.0.0.1");
         supervisionEnterpriseCredit.setOperatorTime(new Date());
@@ -112,6 +134,7 @@ public class SupervisionEnterpriseCreditServiceImpl implements SupervisionEnterp
         supervisionEnterpriseCredit.setViolationType(supervisionEnterpriseCreditSearchParam.getViolationType());
         supervisionEnterpriseCredit.setViolationDate(supervisionEnterpriseCreditSearchParam.getViolationDate());
         supervisionEnterpriseCredit.setAgentPerson(supervisionEnterpriseCreditSearchParam.getAgentPerson());
+        supervisionEnterpriseCredit.setEnclosure(supervisionEnterpriseCreditSearchParam.getEnclosure());
         supervisionEnterpriseCredit.setOperator("operator");
         supervisionEnterpriseCredit.setOperatorIp("127.0.0.1");
         supervisionEnterpriseCredit.setOperatorTime(new Date());
@@ -120,7 +143,7 @@ public class SupervisionEnterpriseCreditServiceImpl implements SupervisionEnterp
 
     @Override
     public void delete(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam){
-        if(supervisionEnterpriseCreditSearchParam.getId()!=null){
+        if(supervisionEnterpriseCreditSearchParam.getId()==null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"没有待删除企业参数");
         }
         supervisionEnterpriseCreditMapper.deleteByPrimaryKey(supervisionEnterpriseCreditSearchParam.getId());

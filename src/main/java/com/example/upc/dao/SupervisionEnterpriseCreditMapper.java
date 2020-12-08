@@ -61,5 +61,7 @@ public interface SupervisionEnterpriseCreditMapper {
 
     List<SupervisionEnterpriseCreditParam> getPage(@Param("searchParam")  SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam,@Param("page")PageQuery pageQuery);
 
-    int counListCredit();
+    List<SupervisionEnterpriseCreditParam> getCreditPage(@Param("searchParam")  SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam,@Param("page")PageQuery pageQuery);
+
+    int counListCredit(@Param("flag") int flag);
 }
