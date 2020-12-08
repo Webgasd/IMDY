@@ -12,6 +12,7 @@ import com.example.upc.dao.*;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.*;
 import com.example.upc.util.*;
+import org.apache.ibatis.annotations.Param;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -3497,8 +3498,10 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     }
 
     @Override
-    public List<EnterpriseInfoParam> getEnterpriseInfo() {
-        List<SmilePoints> smilePointsList = supervisionEnterpriseMapper.getSimpleEnterpriseInfo();
+    public List<EnterpriseInfoParam> getEnterpriseInfo(EnterpriseSearchParam enterpriseSearchParam) {
+
+
+        List<SmilePoints> smilePointsList = supervisionEnterpriseMapper.getSimpleEnterpriseInfo(enterpriseSearchParam);
         List<EnterpriseInfoParam> enterpriseInfoList = new ArrayList<>();;
 
         for(SmilePoints smilePoints:smilePointsList){
