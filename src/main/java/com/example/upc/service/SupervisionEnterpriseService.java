@@ -44,4 +44,6 @@ public interface SupervisionEnterpriseService {
    void importInspectExcel(MultipartFile file) throws IOException; //导入100家企业点位
   //获取所有gps
    List<EnterpriseInfoParam> getEnterpriseInfo(EnterpriseSearchParam enterpriseSearchParam);
+
+   List<EnterpriseInfoParam> getEnterpriseInfoByDate(EnterpriseSearchParam enterpriseSearchParam);
 }

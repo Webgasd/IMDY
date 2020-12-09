@@ -90,4 +90,6 @@ public interface SupervisionEnterpriseMapper {
     int changeFlagByIdNumber(@Param("idNumber") String idNumber);
 
     List<SmilePoints> getSimpleEnterpriseInfo(@Param("search") EnterpriseSearchParam search);
+
+    List<SmilePoints> getSimpleEnterpriseInfoByDate(@Param("search") EnterpriseSearchParam enterpriseSearchParam);
 }

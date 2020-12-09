@@ -3506,8 +3506,32 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 
         for(SmilePoints smilePoints:smilePointsList){
             String[] gpsTarget = smilePoints.getPoint().split(",");
-            Double latitude =Double.parseDouble(gpsTarget[0]);
-            Double longitude =Double.parseDouble(gpsTarget[1]);
+            Double latitude =Double.parseDouble(gpsTarget[1]);
+            Double longitude =Double.parseDouble(gpsTarget[0]);
+
+            EnterpriseInfoParam enterpriseInfoParam = new EnterpriseInfoParam();
+            enterpriseInfoParam.setLatitude(latitude);
+            enterpriseInfoParam.setLongitude(longitude);
+            enterpriseInfoParam.setEnterpriseId(smilePoints.getId());
+            enterpriseInfoParam.setOperationMode(smilePoints.getOperationMode());
+            enterpriseInfoParam.setBusinessState(smilePoints.getBusinessState());
+            enterpriseInfoParam.setContactWay(smilePoints.getCantactWay());
+            enterpriseInfoParam.setEnterpriseName(smilePoints.getEnterpriseName());
+
+            enterpriseInfoList.add(enterpriseInfoParam);
+        }
+        return enterpriseInfoList;
+    }
+
+    @Override
+    public List<EnterpriseInfoParam> getEnterpriseInfoByDate(EnterpriseSearchParam enterpriseSearchParam) {
+        List<SmilePoints> smilePointsList = supervisionEnterpriseMapper.getSimpleEnterpriseInfoByDate(enterpriseSearchParam);
+        List<EnterpriseInfoParam> enterpriseInfoList = new ArrayList<>();;
+
+        for(SmilePoints smilePoints:smilePointsList){
+            String[] gpsTarget = smilePoints.getPoint().split(",");
+            Double latitude =Double.parseDouble(gpsTarget[1]);
+            Double longitude =Double.parseDouble(gpsTarget[0]);
 
             EnterpriseInfoParam enterpriseInfoParam = new EnterpriseInfoParam();
             enterpriseInfoParam.setLatitude(latitude);
