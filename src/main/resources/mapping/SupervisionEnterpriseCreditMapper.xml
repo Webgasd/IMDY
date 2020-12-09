@@ -221,13 +221,13 @@
   </update>
 
   <select id="getPage" resultMap="BaseResultMap1">
-    SELECT a.*,b.violation_date,b.violation_title,b.agent_person,b.violation_type FROM
+    SELECT a.*,b.violation_date,b.violation_title,b.agent_person,b.violation_type,b.enclosure FROM
     (select b.id ,b.enterprise_name,b.legal_person,b.cantact_way,COUNT(a.id) violation_number
     FROM supervision_enterprise as b LEFT JOIN supervision_enterprise_credit as a on a.enterprise_id = b.id
     GROUP BY b.id) a LEFT JOIN
-    (select enterprise_id,violation_date,violation_title,agent_person,violation_type
+    (select enterprise_id,violation_date,violation_title,agent_person,violation_type,enclosure
     from (
-    select enterprise_id,violation_date,violation_title,agent_person,violation_type,ROW_NUMBER()over(partition by enterprise_id order by violation_date desc) as disorder
+    select enterprise_id,violation_date,violation_title,agent_person,violation_type,enclosure,ROW_NUMBER()over(partition by enterprise_id order by violation_date desc) as disorder
     from supervision_enterprise_credit
     )t
     where t.disorder=1) b
@@ -239,13 +239,13 @@
   </select>
 
   <select id="getCreditPage" resultMap="BaseResultMap2">
-    SELECT a.*,b.violation_date,b.violation_title,b.agent_person,b.violation_type FROM
+    SELECT a.*,b.violation_date,b.violation_title,b.agent_person,b.violation_type,b.enclosure FROM
     (select b.id ,b.enterprise_name,b.legal_person,b.cantact_way,b.operation_mode,b.id_number,b.business_address,COUNT(a.id) violation_number
     FROM supervision_enterprise as b LEFT JOIN supervision_enterprise_credit as a on a.enterprise_id = b.id
     GROUP BY b.id) a INNER JOIN
-    (select enterprise_id,violation_date,violation_title,agent_person,violation_type
+    (select enterprise_id,violation_date,violation_title,agent_person,violation_type,enclosure
     from (
-    select enterprise_id,violation_date,violation_title,agent_person,violation_type,ROW_NUMBER()over(partition by enterprise_id order by violation_date desc) as disorder
+    select enterprise_id,violation_date,violation_title,agent_person,violation_type,enclosure,ROW_NUMBER()over(partition by enterprise_id order by violation_date desc) as disorder
     from supervision_enterprise_credit
     )t
     where t.disorder=1) b
