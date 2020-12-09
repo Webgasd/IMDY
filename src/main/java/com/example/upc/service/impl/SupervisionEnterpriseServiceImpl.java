@@ -12,6 +12,7 @@ import com.example.upc.dao.*;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.*;
 import com.example.upc.util.*;
+import org.apache.ibatis.annotations.Param;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -3497,14 +3498,40 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     }
 
     @Override
-    public List<EnterpriseInfoParam> getEnterpriseInfo() {
-        List<SmilePoints> smilePointsList = supervisionEnterpriseMapper.getSimpleEnterpriseInfo();
+    public List<EnterpriseInfoParam> getEnterpriseInfo(EnterpriseSearchParam enterpriseSearchParam) {
+
+
+        List<SmilePoints> smilePointsList = supervisionEnterpriseMapper.getSimpleEnterpriseInfo(enterpriseSearchParam);
         List<EnterpriseInfoParam> enterpriseInfoList = new ArrayList<>();;
 
         for(SmilePoints smilePoints:smilePointsList){
             String[] gpsTarget = smilePoints.getPoint().split(",");
-            Double latitude =Double.parseDouble(gpsTarget[0]);
-            Double longitude =Double.parseDouble(gpsTarget[1]);
+            Double latitude =Double.parseDouble(gpsTarget[1]);
+            Double longitude =Double.parseDouble(gpsTarget[0]);
+
+            EnterpriseInfoParam enterpriseInfoParam = new EnterpriseInfoParam();
+            enterpriseInfoParam.setLatitude(latitude);
+            enterpriseInfoParam.setLongitude(longitude);
+            enterpriseInfoParam.setEnterpriseId(smilePoints.getId());
+            enterpriseInfoParam.setOperationMode(smilePoints.getOperationMode());
+            enterpriseInfoParam.setBusinessState(smilePoints.getBusinessState());
+            enterpriseInfoParam.setContactWay(smilePoints.getCantactWay());
+            enterpriseInfoParam.setEnterpriseName(smilePoints.getEnterpriseName());
+
+            enterpriseInfoList.add(enterpriseInfoParam);
+        }
+        return enterpriseInfoList;
+    }
+
+    @Override
+    public List<EnterpriseInfoParam> getEnterpriseInfoByDate(EnterpriseSearchParam enterpriseSearchParam) {
+        List<SmilePoints> smilePointsList = supervisionEnterpriseMapper.getSimpleEnterpriseInfoByDate(enterpriseSearchParam);
+        List<EnterpriseInfoParam> enterpriseInfoList = new ArrayList<>();;
+
+        for(SmilePoints smilePoints:smilePointsList){
+            String[] gpsTarget = smilePoints.getPoint().split(",");
+            Double latitude =Double.parseDouble(gpsTarget[1]);
+            Double longitude =Double.parseDouble(gpsTarget[0]);
 
             EnterpriseInfoParam enterpriseInfoParam = new EnterpriseInfoParam();
             enterpriseInfoParam.setLatitude(latitude);
