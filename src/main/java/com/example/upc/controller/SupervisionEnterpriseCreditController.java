@@ -62,5 +62,11 @@ public class SupervisionEnterpriseCreditController {
         return CommonReturnType.create(null);
     }
 
-
+    @RequestMapping("/getMyPage")
+    @ResponseBody
+    public CommonReturnType getMyPage(@RequestBody SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam){
+        PageQuery pageQuery = new PageQuery();
+        pageQuery.setPageFlag(0);
+        return CommonReturnType.create(supervisionEnterpriseCreditService.getMyPage(supervisionEnterpriseCreditSearchParam,pageQuery));
+    }
 }

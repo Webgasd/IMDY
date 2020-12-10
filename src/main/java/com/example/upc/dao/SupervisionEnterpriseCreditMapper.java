@@ -2,6 +2,7 @@ package com.example.upc.dao;
 
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.param.SupervisionEnterpriseCreditParam;
+import com.example.upc.controller.param.SupervisionEnterpriseCreditParamDetail;
 import com.example.upc.controller.searchParam.SupervisionEnterpriseCreditSearchParam;
 import com.example.upc.dataobject.SupervisionEnterpriseCredit;
 import org.apache.ibatis.annotations.Param;
@@ -61,7 +62,7 @@ public interface SupervisionEnterpriseCreditMapper {
 
     List<SupervisionEnterpriseCreditParam> getPage(@Param("searchParam")  SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam,@Param("page")PageQuery pageQuery);
 
-    List<SupervisionEnterpriseCreditParam> getCreditPage(@Param("searchParam")  SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam,@Param("page")PageQuery pageQuery);
+    List<SupervisionEnterpriseCreditParamDetail> getCreditPage(@Param("searchParam")  SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, @Param("page")PageQuery pageQuery);
 
     int counListCredit(@Param("flag") int flag);
 }

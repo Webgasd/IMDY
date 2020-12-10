@@ -5,10 +5,7 @@ import com.example.upc.common.EmBusinessError;
 import com.example.upc.common.ValidationResult;
 import com.example.upc.common.ValidatorImpl;
 import com.example.upc.common.pageConfig.DoPage;
-import com.example.upc.controller.param.EnterpriseListResult;
-import com.example.upc.controller.param.PageQuery;
-import com.example.upc.controller.param.PageResult;
-import com.example.upc.controller.param.SupervisionEnterpriseCreditParam;
+import com.example.upc.controller.param.*;
 import com.example.upc.controller.searchParam.SupervisionEnterpriseCreditSearchParam;
 import com.example.upc.dao.SupervisionEnterpriseCreditMapper;
 import com.example.upc.dataobject.SupervisionEnterpriseCredit;
@@ -55,19 +52,19 @@ public class SupervisionEnterpriseCreditServiceImpl implements SupervisionEnterp
     }
 
     @Override
-    public PageResult<SupervisionEnterpriseCreditParam> getCreditPage(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, SysUser sysUser, PageQuery pageQuery){
+    public PageResult<SupervisionEnterpriseCreditParamDetail> getCreditPage(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, SysUser sysUser, PageQuery pageQuery){
         if(sysUser.getUserType()==0) {
             int count = supervisionEnterpriseCreditMapper.counListCredit(1);
             if(count>0) {
-                PageResult<SupervisionEnterpriseCreditParam> pageResult = new PageResult<>();
-                List<SupervisionEnterpriseCreditParam> supervisionEnterpriseCreditParamList=supervisionEnterpriseCreditMapper.getCreditPage(supervisionEnterpriseCreditSearchParam, pageQuery);
+                PageResult<SupervisionEnterpriseCreditParamDetail> pageResult = new PageResult<>();
+                List<SupervisionEnterpriseCreditParamDetail> supervisionEnterpriseCreditParamList=supervisionEnterpriseCreditMapper.getCreditPage(supervisionEnterpriseCreditSearchParam, pageQuery);
                 pageResult.setData(supervisionEnterpriseCreditParamList);
                 pageResult.setTotal(count);
                 pageResult.setPageNo(pageQuery.getPageNo());
                 pageResult.setPageSize(pageQuery.getPageSize());
                 return pageResult;
             }
-            PageResult<SupervisionEnterpriseCreditParam> pageResult = new PageResult<>();
+            PageResult<SupervisionEnterpriseCreditParamDetail> pageResult = new PageResult<>();
             return pageResult;
         }
         else{
@@ -147,5 +144,11 @@ public class SupervisionEnterpriseCreditServiceImpl implements SupervisionEnterp
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"没有待删除企业参数");
         }
         supervisionEnterpriseCreditMapper.deleteByPrimaryKey(supervisionEnterpriseCreditSearchParam.getId());
+    }
+
+    @Override
+    @DoPage
+    public List<SupervisionEnterpriseCreditParam> getMyPage(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, PageQuery pageQuery){
+        return supervisionEnterpriseCreditMapper.getPage(supervisionEnterpriseCreditSearchParam, pageQuery);
     }
 }

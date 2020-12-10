@@ -232,6 +232,9 @@
     )t
     where t.disorder=1) b
     on a.id = b.enterprise_id
+    <if test="searchParam.enterpriseName!=null and searchParam.enterpriseName!=''">
+    where a.enterprise_name LIKE CONCAT('%',#{searchParam.enterpriseName},'%')
+    </if>
     ORDER BY b.violation_date DESC
     <if test="page.pageFlag==1">
         limit #{page.offset}, #{page.pageSize}
@@ -250,6 +253,23 @@
     )t
     where t.disorder=1) b
     on a.id = b.enterprise_id
+    <trim prefix="WHERE" prefixOverrides="AND">
+      <if test="searchParam.enterpriseName!=null and searchParam.enterpriseName!=''">
+         a.enterprise_name LIKE CONCAT('%',#{searchParam.enterpriseName},'%')
+      </if>
+      <if test="searchParam.idNumber!=null and searchParam.idNumber!=''">
+        and a.id_number LIKE CONCAT('%',#{searchParam.idNumber},'%')
+      </if>
+      <if test="searchParam.operationMode!=null and searchParam.operationMode!=''">
+        and a.operation_mode LIKE CONCAT('%',#{searchParam.operationMode},'%')
+      </if>
+      <if test="searchParam.legalPerson!=null and searchParam.legalPerson!=''">
+        and a.legal_person LIKE CONCAT('%',#{searchParam.legalPerson},'%')
+      </if>
+      <if test="searchParam.businessAddress!=null and searchParam.businessAddress!=''">
+        and a.business_address LIKE CONCAT('%',#{searchParam.businessAddress},'%')
+      </if>
+    </trim>
     ORDER BY b.violation_date DESC
     <if test="page.pageFlag==1">
       limit #{page.offset}, #{page.pageSize}
