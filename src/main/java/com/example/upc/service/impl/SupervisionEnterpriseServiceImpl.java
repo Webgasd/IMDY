@@ -3503,16 +3503,25 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 
         List<SmilePoints> smilePointsList = supervisionEnterpriseMapper.getSimpleEnterpriseInfo(enterpriseSearchParam);
         List<EnterpriseInfoParam> enterpriseInfoList = new ArrayList<>();;
-
+        int index=0;
         for(SmilePoints smilePoints:smilePointsList){
+            index++;
             EnterpriseInfoParam enterpriseInfoParam = new EnterpriseInfoParam();
-            if(smilePoints.getPoint()!=null) {
-                String[] gpsTarget = smilePoints.getPoint().split(",");
-                Double latitude = Double.parseDouble(gpsTarget[1]);
-                Double longitude = Double.parseDouble(gpsTarget[0]);
-                enterpriseInfoParam.setLatitude(latitude);
-                enterpriseInfoParam.setLongitude(longitude);
-            }else if(smilePoints.getPoint()==null){
+            if(smilePoints.getPoint()!=null && smilePoints.getPoint()!="") {
+
+                try{
+                    String[] gpsTarget = smilePoints.getPoint().split(",");
+                    Double latitude = Double.parseDouble(gpsTarget[1]);
+                    Double longitude = Double.parseDouble(gpsTarget[0]);
+                    enterpriseInfoParam.setLatitude(latitude);
+                    enterpriseInfoParam.setLongitude(longitude);
+                    System.out.println("/"+smilePoints.getId());
+                }catch (Exception e){
+
+                    e.printStackTrace();
+                }
+
+            }else{
                 enterpriseInfoParam.setLatitude(0);
                 enterpriseInfoParam.setLongitude(0);
             }
@@ -3535,13 +3544,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
 
         for(SmilePoints smilePoints:smilePointsList){
             EnterpriseInfoParam enterpriseInfoParam = new EnterpriseInfoParam();
-            if(smilePoints.getPoint()!=null) {
-                String[] gpsTarget = smilePoints.getPoint().split(",");
-                Double latitude = Double.parseDouble(gpsTarget[1]);
-                Double longitude = Double.parseDouble(gpsTarget[0]);
-                enterpriseInfoParam.setLatitude(latitude);
-                enterpriseInfoParam.setLongitude(longitude);
-            }else if(smilePoints.getPoint()==null){
+            if(smilePoints.getPoint()!=null && smilePoints.getPoint()!="") {
+
+                try{
+                    String[] gpsTarget = smilePoints.getPoint().split(",");
+                    Double latitude = Double.parseDouble(gpsTarget[1]);
+                    Double longitude = Double.parseDouble(gpsTarget[0]);
+                    enterpriseInfoParam.setLatitude(latitude);
+                    enterpriseInfoParam.setLongitude(longitude);
+                    System.out.println("/"+smilePoints.getId());
+                }catch (Exception e){
+
+                    e.printStackTrace();
+                } }else {
                 enterpriseInfoParam.setLatitude(0);
                 enterpriseInfoParam.setLongitude(0);
             }
