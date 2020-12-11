@@ -3147,9 +3147,9 @@
     LEFT JOIN grid_points_gps b ON a.id_number = b.code_id
     where a.gps_flag = 1
 
-    ) AS c
+    ) AS a
     WHERE
-    c.area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
-    <if test="search.startTime != null and search.licenseNumber != ''">  AND  c.operate_time >= #{search.startTime} </if>
+    a.area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+    <if test="search.startTime != null ">  AND  a.operate_time >= #{search.startTime} </if>
   </select>
 </mapper>

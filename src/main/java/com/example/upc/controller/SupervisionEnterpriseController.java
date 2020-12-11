@@ -349,6 +349,8 @@ public class SupervisionEnterpriseController {
 
         JSONObject jsonObject = JSON.parseObject(json);
         EnterpriseSearchParam enterpriseSearchParam= JSON.parseObject(json,EnterpriseSearchParam.class);
+        if(enterpriseSearchParam.getStartTime()==null) {
+            return  CommonReturnType.create(null);}
         if (sysUser.getUserType()==0){//管理员的筛选
             if(StringUtils.isEmpty(jsonObject.getJSONArray("areaList").get(0))){
                 enterpriseSearchParam.setAreaList(sysAreaService.getAll().stream().map((sysArea -> sysArea.getId())).collect(Collectors.toList()));
