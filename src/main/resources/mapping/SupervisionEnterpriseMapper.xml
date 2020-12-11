@@ -3083,12 +3083,13 @@
     a.enterprise_name,
     a.cantact_way,
     a.business_state,
+    a.operate_time,
     a.operation_mode,
     b.point
     FROM
     supervision_enterprise a
-    INNER JOIN grid_points b ON a.id = b.enterprise_id
-    AND a.gps_flag = 0
+    LEFT JOIN grid_points b ON a.id = b.enterprise_id
+    where a.gps_flag = 0
     UNION
     SELECT
     a.id,
@@ -3096,12 +3097,14 @@
     a.enterprise_name,
     a.cantact_way,
     a.business_state,
+    a.operate_time,
     a.operation_mode,
     b.point
     FROM
     supervision_enterprise a
-    INNER JOIN grid_points_gps b ON a.id_number = b.code_id
-    AND a.gps_flag = 1
+    LEFT JOIN grid_points_gps b ON a.id_number = b.code_id
+    where a.gps_flag = 1
+
     ) AS a
     WHERE
     a.area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
@@ -3127,8 +3130,8 @@
     b.point
     FROM
     supervision_enterprise a
-    INNER JOIN grid_points b ON a.id = b.enterprise_id
-    AND a.gps_flag = 0
+    LEFT JOIN grid_points b ON a.id = b.enterprise_id
+    where a.gps_flag = 0
     UNION
     SELECT
     a.id,
@@ -3141,11 +3144,12 @@
     b.point
     FROM
     supervision_enterprise a
-    INNER JOIN grid_points_gps b ON a.id_number = b.code_id
-    AND a.gps_flag = 1
-    ) AS a
+    LEFT JOIN grid_points_gps b ON a.id_number = b.code_id
+    where a.gps_flag = 1
+
+    ) AS c
     WHERE
-    a.area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
-    <if test="search.startTime != null">  AND  a.operate_time >= #{search.startTime} </if>
+    c.area IN <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
+    <if test="search.startTime != null and search.licenseNumber != ''">  AND  c.operate_time >= #{search.startTime} </if>
   </select>
 </mapper>

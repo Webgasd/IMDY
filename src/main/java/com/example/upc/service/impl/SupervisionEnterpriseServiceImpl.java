@@ -3505,13 +3505,18 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         List<EnterpriseInfoParam> enterpriseInfoList = new ArrayList<>();;
 
         for(SmilePoints smilePoints:smilePointsList){
-            String[] gpsTarget = smilePoints.getPoint().split(",");
-            Double latitude =Double.parseDouble(gpsTarget[1]);
-            Double longitude =Double.parseDouble(gpsTarget[0]);
-
             EnterpriseInfoParam enterpriseInfoParam = new EnterpriseInfoParam();
-            enterpriseInfoParam.setLatitude(latitude);
-            enterpriseInfoParam.setLongitude(longitude);
+            if(smilePoints.getPoint()!=null) {
+                String[] gpsTarget = smilePoints.getPoint().split(",");
+                Double latitude = Double.parseDouble(gpsTarget[1]);
+                Double longitude = Double.parseDouble(gpsTarget[0]);
+                enterpriseInfoParam.setLatitude(latitude);
+                enterpriseInfoParam.setLongitude(longitude);
+            }else if(smilePoints.getPoint()==null){
+                enterpriseInfoParam.setLatitude(0);
+                enterpriseInfoParam.setLongitude(0);
+            }
+
             enterpriseInfoParam.setEnterpriseId(smilePoints.getId());
             enterpriseInfoParam.setOperationMode(smilePoints.getOperationMode());
             enterpriseInfoParam.setBusinessState(smilePoints.getBusinessState());
@@ -3529,13 +3534,19 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         List<EnterpriseInfoParam> enterpriseInfoList = new ArrayList<>();;
 
         for(SmilePoints smilePoints:smilePointsList){
-            String[] gpsTarget = smilePoints.getPoint().split(",");
-            Double latitude =Double.parseDouble(gpsTarget[1]);
-            Double longitude =Double.parseDouble(gpsTarget[0]);
-
             EnterpriseInfoParam enterpriseInfoParam = new EnterpriseInfoParam();
-            enterpriseInfoParam.setLatitude(latitude);
-            enterpriseInfoParam.setLongitude(longitude);
+            if(smilePoints.getPoint()!=null) {
+                String[] gpsTarget = smilePoints.getPoint().split(",");
+                Double latitude = Double.parseDouble(gpsTarget[1]);
+                Double longitude = Double.parseDouble(gpsTarget[0]);
+                enterpriseInfoParam.setLatitude(latitude);
+                enterpriseInfoParam.setLongitude(longitude);
+            }else if(smilePoints.getPoint()==null){
+                enterpriseInfoParam.setLatitude(0);
+                enterpriseInfoParam.setLongitude(0);
+            }
+            enterpriseInfoParam.setLatitude(0);
+            enterpriseInfoParam.setLongitude(0);
             enterpriseInfoParam.setEnterpriseId(smilePoints.getId());
             enterpriseInfoParam.setOperationMode(smilePoints.getOperationMode());
             enterpriseInfoParam.setBusinessState(smilePoints.getBusinessState());
@@ -3636,3 +3647,4 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         return result;
     }
 }
+
