@@ -3545,8 +3545,6 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                 enterpriseInfoParam.setLatitude(0);
                 enterpriseInfoParam.setLongitude(0);
             }
-            enterpriseInfoParam.setLatitude(0);
-            enterpriseInfoParam.setLongitude(0);
             enterpriseInfoParam.setEnterpriseId(smilePoints.getId());
             enterpriseInfoParam.setOperationMode(smilePoints.getOperationMode());
             enterpriseInfoParam.setBusinessState(smilePoints.getBusinessState());
