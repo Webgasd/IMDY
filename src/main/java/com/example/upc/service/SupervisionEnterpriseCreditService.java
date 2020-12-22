@@ -17,5 +17,4 @@ public interface SupervisionEnterpriseCreditService {
     void insert(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam) throws InvocationTargetException, IllegalAccessException;
     void update(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam) throws InvocationTargetException, IllegalAccessException;
     void delete(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam);
-    public List<SupervisionEnterpriseCreditParam> getMyPage(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, PageQuery pageQuery);
 }

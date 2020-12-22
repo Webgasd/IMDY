@@ -6,10 +6,7 @@ import com.example.upc.controller.param.GridPoints1;
 import com.example.upc.controller.param.SmilePoints;
 import com.example.upc.controller.param.enterpriseId;
 import com.example.upc.controller.searchParam.EnterpriseSearchParam;
-import com.example.upc.dao.GridPointsGpsMapper;
-import com.example.upc.dao.GridPointsMapper;
-import com.example.upc.dao.SupervisionEnterpriseMapper;
-import com.example.upc.dao.SysAreaMapper;
+import com.example.upc.dao.*;
 import com.example.upc.dataobject.*;
 import com.example.upc.service.GridPointsService;
 import com.example.upc.service.SysAreaService;
@@ -37,6 +34,8 @@ public class GridPointsServiceImpl implements GridPointsService {
     private SysAreaService sysAreaService;
     @Autowired
     private GridPointsGpsMapper gridPointsGpsMapper;
+    @Autowired
+    private ActionJournalMapper actionJournalMapper;
 
     @Override
     public List<GridPoints> getAll() {
@@ -241,6 +240,11 @@ public class GridPointsServiceImpl implements GridPointsService {
                 gridPointsGps.setOperator(sysUser.getUsername());
                 gridPointsGps.setOperatorIp("1.1.1.1");
                 gridPointsGpsMapper.updateByPrimaryKeySelective(gridPointsGps);
+                ActionJournal actionJournal = new ActionJournal();
+                actionJournal.setPerson(sysUser.getInfoName());
+                actionJournal.setTime(new Date());
+                actionJournal.setModule("地图点位");
+                actionJournalMapper.insertSelective(actionJournal);
             }
             else {
                 GridPointsGps gridPointsGps1 = new GridPointsGps();
@@ -250,6 +254,11 @@ public class GridPointsServiceImpl implements GridPointsService {
                 gridPointsGps1.setOperator(sysUser.getUsername());
                 gridPointsGps1.setOperatorIp("1.1.1.1");
                 gridPointsGpsMapper.insertSelective(gridPointsGps1);
+                ActionJournal actionJournal = new ActionJournal();
+                actionJournal.setPerson(sysUser.getInfoName());
+                actionJournal.setTime(new Date());
+                actionJournal.setModule("地图点位");
+                actionJournalMapper.insertSelective(actionJournal);
             }
         }
         else{

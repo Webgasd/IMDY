@@ -19,7 +19,32 @@
         <java.version>1.8</java.version>
         <skipTests>true</skipTests>
     </properties>
-
+    <profiles>
+        <!-- 默认开发环境 -->
+        <profile>
+            <!--id唯一，不能有重复的-->
+            <id>dev</id>
+            <!--配置-->
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <activatedProperties>dev</activatedProperties>
+            </properties>
+            <activation>
+                <!--
+                     默认环境，如果设置了这个，则项目运行默认
+                     使用这个profile的配置
+                -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <!-- 生产环境 -->
+        <profile>
+            <id>product</id>
+            <properties>
+                <activatedProperties>product</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -145,10 +145,4 @@ public class SupervisionEnterpriseCreditServiceImpl implements SupervisionEnterp
         }
         supervisionEnterpriseCreditMapper.deleteByPrimaryKey(supervisionEnterpriseCreditSearchParam.getId());
     }
-
-    @Override
-    @DoPage
-    public List<SupervisionEnterpriseCreditParam> getMyPage(SupervisionEnterpriseCreditSearchParam supervisionEnterpriseCreditSearchParam, PageQuery pageQuery){
-        return supervisionEnterpriseCreditMapper.getPage(supervisionEnterpriseCreditSearchParam, pageQuery);
-    }
 }
