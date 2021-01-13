@@ -1778,8 +1778,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                                 supervisionEnFoodBuIndex.setNumber(supervisionEnFoodBu.getNumber());
                                 supervisionEnFoodBuIndex.setEndTime(supervisionEnFoodBu.getEndTime());
-                                int indexId=supervisionEnFoodBuIndexMapper.insertSelective(supervisionEnFoodBuIndex);
-                                supervisionEnFoodBu.setIndexId(indexId);
+                                supervisionEnFoodBuIndexMapper.insertSelective(supervisionEnFoodBuIndex);
+
+                                supervisionEnFoodBu.setIndexId(supervisionEnFoodBuIndex.getId());
                             }
                             supervisionEnFoodBuMapper.insertSelective(supervisionEnFoodBu);
                         }
@@ -1950,8 +1951,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                                 supervisionEnFoodProIndex.setNumber(supervisionEnFoodPro.getNumber());
                                 supervisionEnFoodProIndex.setEndTime(supervisionEnFoodPro.getEndTime());
-                                int indexId = supervisionEnFoodProIndexMapper.insertSelective(supervisionEnFoodProIndex);
-                                supervisionEnFoodPro.setIndexId(indexId);
+                                supervisionEnFoodProIndexMapper.insertSelective(supervisionEnFoodProIndex);
+                                supervisionEnFoodPro.setIndexId(supervisionEnFoodProIndex.getId());
                             }
                             supervisionEnFoodProMapper.insertSelective(supervisionEnFoodPro);
                         }
@@ -2228,8 +2229,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                                 supervisionEnDrugsBuIndex.setNumber(supervisionEnDrugsBu.getNumber());
                                 supervisionEnDrugsBuIndex.setEndTime(supervisionEnDrugsBu.getEndTime());
-                                int indexId = supervisionEnDrugsBuIndexMapper.insertSelective(supervisionEnDrugsBuIndex);
-                                supervisionEnDrugsBu.setIndexId(indexId);
+                                supervisionEnDrugsBuIndexMapper.insertSelective(supervisionEnDrugsBuIndex);
+                                supervisionEnDrugsBu.setIndexId(supervisionEnDrugsBuIndex.getId());
                             }
                             supervisionEnDrugsBuMapper.insertSelective(supervisionEnDrugsBu);
                         }
@@ -2416,8 +2417,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                                 supervisionEnDrugsProIndex.setNumber(supervisionEnDrugsPro.getNumber());
                                 supervisionEnDrugsProIndex.setEndTime(supervisionEnDrugsPro.getEndTime());
-                                int indexId = supervisionEnDrugsProIndexMapper.insertSelective(supervisionEnDrugsProIndex);
-                                supervisionEnDrugsPro.setIndexId(indexId);
+                                supervisionEnDrugsProIndexMapper.insertSelective(supervisionEnDrugsProIndex);
+                                supervisionEnDrugsPro.setIndexId(supervisionEnDrugsProIndex.getId());
                             }
                             supervisionEnDrugsProMapper.insertSelective(supervisionEnDrugsPro);
                         }
@@ -2592,8 +2593,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                                 supervisionEnCosmeticsIndex.setNumber(supervisionEnCosmetics.getRegisterCode());
                                 supervisionEnCosmeticsIndex.setEndTime(supervisionEnCosmetics.getEndTime());
-                                int indexId = supervisionEnCosmeticsIndexMapper.insertSelective(supervisionEnCosmeticsIndex);
-                                supervisionEnCosmetics.setIndexId(indexId);
+                                supervisionEnCosmeticsIndexMapper.insertSelective(supervisionEnCosmeticsIndex);
+                                supervisionEnCosmetics.setIndexId(supervisionEnCosmeticsIndex.getId());
                             }
                             supervisionEnCosmeticsMapper.insertSelective(supervisionEnCosmetics);
                         }
@@ -2766,8 +2767,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                                 supervisionEnMedicalBuIndex.setNumber(supervisionEnMedicalBu.getRegisterNumber());
                                 supervisionEnMedicalBuIndex.setEndTime(supervisionEnMedicalBu.getEndTime());
-                                int indexId = supervisionEnMedicalBuIndexMapper.insertSelective(supervisionEnMedicalBuIndex);
-                                supervisionEnMedicalBu.setIndexId(indexId);
+                                supervisionEnMedicalBuIndexMapper.insertSelective(supervisionEnMedicalBuIndex);
+                                supervisionEnMedicalBu.setIndexId(supervisionEnMedicalBuIndex.getId());
                             }
                             supervisionEnMedicalBuMapper.insertSelective(supervisionEnMedicalBu);
                         }
@@ -2941,8 +2942,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                                 supervisionEnMedicalProIndex.setNumber(supervisionEnMedicalPro.getRegisterNumber());
                                 supervisionEnMedicalProIndex.setEndTime(supervisionEnMedicalPro.getEndTime());
-                                int indexId=supervisionEnMedicalProIndexMapper.insertSelective(supervisionEnMedicalProIndex);
-                                supervisionEnMedicalPro.setIndexId(indexId);
+                                supervisionEnMedicalProIndexMapper.insertSelective(supervisionEnMedicalProIndex);
+                                supervisionEnMedicalPro.setIndexId(supervisionEnMedicalProIndex.getId());
                             }
                             supervisionEnMedicalProMapper.insertSelective(supervisionEnMedicalPro);
 
@@ -3116,8 +3117,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                                 supervisionEnSmallCaterIndex.setNumber(supervisionEnSmallCater.getRegisterNumber());
                                 supervisionEnSmallCaterIndex.setEndTime(supervisionEnSmallCater.getEndTime());
-                                int indexId = supervisionEnSmallCaterIndexMapper.insertSelective(supervisionEnSmallCaterIndex);
-                                supervisionEnSmallCater.setIndexId(indexId);
+                                supervisionEnSmallCaterIndexMapper.insertSelective(supervisionEnSmallCaterIndex);
+                                supervisionEnSmallCater.setIndexId(supervisionEnSmallCaterIndex.getId());
                             }
                             supervisionEnSmallCaterMapper.insertSelective(supervisionEnSmallCater);
                         }
@@ -3291,8 +3292,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                                 supervisionEnSmallWorkshopIndex.setNumber(supervisionEnSmallWorkshop.getRegisterNumber());
                                 supervisionEnSmallWorkshopIndex.setEndTime(supervisionEnSmallWorkshop.getEndTime());
-                                int indexId = supervisionEnSmallWorkshopIndexMapper.insertSelective(supervisionEnSmallWorkshopIndex);
-                                supervisionEnSmallWorkshop.setIndexId(indexId);
+                                supervisionEnSmallWorkshopIndexMapper.insertSelective(supervisionEnSmallWorkshopIndex);
+                                supervisionEnSmallWorkshop.setIndexId(supervisionEnSmallWorkshopIndex.getId());
                             }
                             supervisionEnSmallWorkshopMapper.insertSelective(supervisionEnSmallWorkshop);
                         }
@@ -3461,8 +3462,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                                 supervisionEnIndustrialProductsIndex.setNumber(supervisionEnIndustrialProducts.getRegisterNumber());
                                 supervisionEnIndustrialProductsIndex.setEndTime(supervisionEnIndustrialProducts.getEndTime());
-                                int indexId = supervisionEnIndustrialProductsIndexMapper.insertSelective(supervisionEnIndustrialProductsIndex);
-                                supervisionEnIndustrialProducts.setIndexId(indexId);
+                                supervisionEnIndustrialProductsIndexMapper.insertSelective(supervisionEnIndustrialProductsIndex);
+                                supervisionEnIndustrialProducts.setIndexId(supervisionEnIndustrialProductsIndex.getId());
                             }
                             supervisionEnIndustrialProductsMapper.insertSelective(supervisionEnIndustrialProducts);
                         }

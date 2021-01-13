@@ -96,7 +96,7 @@ public class GridPointsServiceImpl implements GridPointsService {
         List<SysArea> sysAreaList = sysAreaMapper.getAllAreaPa();//在地区表中查找备注为区域的记录
         List<Integer> areaIntegers=sysAreaService.getAll().stream().map((sysArea -> sysArea.getId())).collect(Collectors.toList());
         //获取所有区域的id列表
-        Map<Integer,Object> areaCount= new HashMap<>();
+        Map<String,Object> areaCount= new HashMap<>();
         for(SysArea sysArea:sysAreaList){//循环备注为区域的list结果
             List<Integer> areaIdList = new ArrayList<>();
             areaIdList.add(sysArea.getId());//循环盛放搜索结果中的id，下面就是建立
@@ -173,7 +173,7 @@ public class GridPointsServiceImpl implements GridPointsService {
             mapIndustryNumber.setMedicalBusiness(supervisionEnterpriseMapper.countList(medicalBusinessEnterpriseSearchParam));
             mapIndustryNumber.setMedicalProduce(supervisionEnterpriseMapper.countList(medicalProduceEnterpriseSearchParam));
             mapIndustryNumber.setIndustrialProducts(supervisionEnterpriseMapper.countList(industrialProductsEnterpriseSearchParam));
-            areaCount.put(sysArea.getId(),mapIndustryNumber);//向map中存放地区id和当前地区的6个产业类型中企业的数量
+            areaCount.put(sysArea.getId()+"",mapIndustryNumber);//向map中存放地区id和当前地区的6个产业类型中企业的数量
         }
         EnterpriseSearchParam enterpriseSearchParam = new EnterpriseSearchParam();
         enterpriseSearchParam.setAreaList(areaIntegers);//放置areaId的list
