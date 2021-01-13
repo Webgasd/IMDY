@@ -114,6 +114,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
     private SupervisionEnterpriseDocumentMapper supervisionEnterpriseDocumentMapper;
     @Autowired
     private ImportEnterprisePointsMapper importEnterprisePointsMapper;
+    @Autowired
+    private ActionJournalMapper actionJournalMapper;
 
     @Override
     public SmilePointsParam getSmileMapPoints(EnterpriseSearchParam enterpriseSearchParam){
@@ -655,6 +657,11 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);
         insertEnterpriseDocumentList(supervisionEnterprise,enterpriseParam);
         supervisionEnterpriseMapper.updateByPrimaryKeySelectiveEx(supervisionEnterprise);
+        ActionJournal actionJournal = new ActionJournal();
+        actionJournal.setPerson(sysUser.getInfoName());
+        actionJournal.setTime(new Date());
+        actionJournal.setModule("企业表");
+        actionJournalMapper.insertSelective(actionJournal);
     }
 
     //插入子表，这里要修改，子表建议子子表

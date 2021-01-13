@@ -41,25 +41,25 @@ public class DoPageAspect {
         Object[] params = joinPoint.getArgs();
         //获取请求/响应
         ServletRequestAttributes servletRequestAttributes = ApplicationContextUtil.getServletActionContext();
-//        int i = 0;
-//        boolean flag = false;
-//        for (i = 0; i < params.length; i++) {
-//            if (params[i].getClass() == PageQuery.class) {
-//                PageQuery pageQuery = (PageQuery) params[i];
-//                if (pageQuery.getPageFlag() == 1) {
-//                    pageInfo = PageInfoUtil.initPageInfo(pageQuery);
-//                    flag = true;
-//                }
-//                break;
-//            }
-//        }
-//        if (!flag)
-            pageInfo = PageInfoUtil.initPageInfo(servletRequestAttributes.getRequest());
+        int i = 0;
+        boolean flag = false;
+        for (i = 0; i < params.length; i++) {
+            if (params[i].getClass() == PageQuery.class) {
+                PageQuery pageQuery = (PageQuery) params[i];
+                if (pageQuery.getPageFlag() == 1) {
+                    pageInfo = PageInfoUtil.initPageInfo(pageQuery);
+                    flag = true;
+                }
+                break;
+            }
+        }
+        if (!flag)
+        pageInfo = PageInfoUtil.initPageInfo(servletRequestAttributes.getRequest());
         setPageInfo(pageInfo);
         //请求中不包含分页信息时不做分页处理
         if (pageInfo != null) {
             // TODO 后期扩展Oracle的分页，此处需要添加一个路由的方法，根据不同的数据库类型使用不同的分页方式
-            PageHelper.startPage(3, 6);
+            PageHelper.startPage(pageInfo.getStart(), pageInfo.getEnd());
         }
 
         Object list = joinPoint.proceed(params);

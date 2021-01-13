@@ -61,6 +61,4 @@ public class SupervisionEnterpriseCreditController {
         supervisionEnterpriseCreditService.delete(supervisionEnterpriseCreditSearchParam);
         return CommonReturnType.create(null);
     }
-
-
 }
