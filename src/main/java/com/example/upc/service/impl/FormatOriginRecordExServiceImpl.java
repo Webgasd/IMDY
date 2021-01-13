@@ -1,5 +1,7 @@
 package com.example.upc.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.EmBusinessError;
 import com.example.upc.common.ValidationResult;
@@ -14,6 +16,8 @@ import com.example.upc.dataobject.SysUser;
 import com.example.upc.service.FormatOriginRecordExService;
 import com.example.upc.util.ExcalUtils;
 import com.example.upc.util.MapToStrUtil;
+import net.sf.json.JSONArray;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -40,51 +44,87 @@ public class FormatOriginRecordExServiceImpl implements FormatOriginRecordExServ
     private ValidatorImpl validator;
 
     @Override
-    public PageResult<FormatOriginRecordExEnParam> getPage(PageQuery pageQuery, OriginRecordExSearchParam originRecordExSearchParam) {
+    public PageResult<FormatOriginRecordExListParam> getPage(PageQuery pageQuery, OriginRecordExSearchParam originRecordExSearchParam) {
         int count=formatOriginRecordExMapper.countListSup(originRecordExSearchParam);
         if (count > 0) {
-            List<FormatOriginRecordExEnParam> forList = formatOriginRecordExMapper.getPage(pageQuery, originRecordExSearchParam);
-            PageResult<FormatOriginRecordExEnParam> pageResult = new PageResult<>();
+            List<FormatOriginRecordExListParam> forList = formatOriginRecordExMapper.getPage(pageQuery, originRecordExSearchParam);
+            forList.forEach(item->{
+                if(item.getBillList().size()!=0)
+                {
+                    List<String> documentPic = new ArrayList<>();
+                    item.getBillList().forEach(item1->{
+                        JSONObject jsonObject = JSON.parseObject(StringUtils.strip(item1.getPicture(),"[]"));
+                        jsonObject.put("name",item1.getName());
+                        documentPic.add(jsonObject.toString());}
+                    );
+                    item.setDocument(documentPic.toString());
+                }
+            });
+            PageResult<FormatOriginRecordExListParam> pageResult = new PageResult<>();
             pageResult.setData(forList);
             pageResult.setTotal(count);
             pageResult.setPageNo(pageQuery.getPageNo());
             pageResult.setPageSize(pageQuery.getPageSize());
             return pageResult;
         }
-        PageResult<FormatOriginRecordExEnParam> pageResult = new PageResult<>();
+        PageResult<FormatOriginRecordExListParam> pageResult = new PageResult<>();
         return pageResult;
     }
 
     @Override
-    public PageResult<FormatOriginRecordExEnParam> getPageAdmin(PageQuery pageQuery, OriginRecordExSearchParam originRecordExSearchParam) {
+    public PageResult<FormatOriginRecordExListParam> getPageAdmin(PageQuery pageQuery, OriginRecordExSearchParam originRecordExSearchParam) {
         int count=formatOriginRecordExMapper.countListAdmin(originRecordExSearchParam);
         if (count > 0) {
-            List<FormatOriginRecordExEnParam> forList = formatOriginRecordExMapper.getPageAdmin(pageQuery, originRecordExSearchParam);
-            PageResult<FormatOriginRecordExEnParam> pageResult = new PageResult<>();
+            List<FormatOriginRecordExListParam> forList = formatOriginRecordExMapper.getPageAdmin(pageQuery, originRecordExSearchParam);
+            forList.forEach(item->{
+                if(item.getBillList().size()!=0)
+                {
+                    List<String> documentPic = new ArrayList<>();
+                    item.getBillList().forEach(item1->{
+                        JSONObject jsonObject = JSON.parseObject(StringUtils.strip(item1.getPicture(),"[]"));
+                        jsonObject.put("name",item1.getName());
+                        documentPic.add(jsonObject.toString());}
+                    );
+                    item.setDocument(documentPic.toString());
+                }
+            });
+            PageResult<FormatOriginRecordExListParam> pageResult = new PageResult<>();
             pageResult.setData(forList);
             pageResult.setTotal(count);
             pageResult.setPageNo(pageQuery.getPageNo());
             pageResult.setPageSize(pageQuery.getPageSize());
             return pageResult;
         }
-        PageResult<FormatOriginRecordExEnParam> pageResult = new PageResult<>();
+        PageResult<FormatOriginRecordExListParam> pageResult = new PageResult<>();
         return pageResult;
     }
 
     @Override
-    public PageResult<FormatOriginRecordExEnParam> getPageEnterprise(PageQuery pageQuery, Integer id, OriginRecordExSearchParam originRecordExSearchParam) {
+    public PageResult<FormatOriginRecordExListParam> getPageEnterprise(PageQuery pageQuery, Integer id, OriginRecordExSearchParam originRecordExSearchParam) {
 
         int count=formatOriginRecordExMapper.countListEnterprise(id, originRecordExSearchParam);
         if (count > 0) {
-            List<FormatOriginRecordExEnParam> fdList = formatOriginRecordExMapper.getPageEnterprise(pageQuery,id,originRecordExSearchParam);
-            PageResult<FormatOriginRecordExEnParam> pageResult = new PageResult<>();
+            List<FormatOriginRecordExListParam> fdList = formatOriginRecordExMapper.getPageEnterprise(pageQuery,id,originRecordExSearchParam);
+            fdList.forEach(item->{
+                if(item.getBillList().size()!=0)
+                {
+                    List<String> documentPic = new ArrayList<>();
+                    item.getBillList().forEach(item1->{
+                        JSONObject jsonObject = JSON.parseObject(StringUtils.strip(item1.getPicture(),"[]"));
+                        jsonObject.put("name",item1.getName());
+                        documentPic.add(jsonObject.toString());}
+                    );
+                    item.setDocument(documentPic.toString());
+                }
+            });
+            PageResult<FormatOriginRecordExListParam> pageResult = new PageResult<>();
             pageResult.setData(fdList);
             pageResult.setTotal(count);
             pageResult.setPageNo(pageQuery.getPageNo());
             pageResult.setPageSize(pageQuery.getPageSize());
             return pageResult;
         }
-        PageResult<FormatOriginRecordExEnParam> pageResult = new PageResult<>();
+        PageResult<FormatOriginRecordExListParam> pageResult = new PageResult<>();
         return pageResult;
     }
 

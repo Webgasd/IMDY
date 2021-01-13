@@ -288,7 +288,7 @@
     <if test="search.end1 != null"> AND a.disposaltime &lt;= #{search.end1} </if>
     <if test="search.start2 != null">  AND a.registrationtime &gt;= #{search.start2}</if>
     <if test="search.end2 != null"> AND a.registrationtime &lt;= #{search.end2} </if>
-    order by id desc
+    order by operator_time desc
     limit #{page.offset}, #{page.pageSize}
   </select>
 
@@ -322,7 +322,7 @@
     <if test="search.end1 != null"> AND a.disposaltime &lt;= #{search.end1} </if>
     <if test="search.start2 != null">  AND a.registrationtime &gt;= #{search.start2}</if>
     <if test="search.end2 != null"> AND a.registrationtime &lt;= #{search.end2} </if>
-    order by id desc
+    order by operator_time desc
     limit #{page.offset}, #{page.pageSize}
   </select>
 
@@ -352,7 +352,7 @@
     <if test="search.end1 != null"> AND disposaltime &lt;= #{search.end1} </if>
     <if test="search.start2 != null">  AND registrationtime &gt;= #{search.start2}</if>
     <if test="search.end2 != null"> AND registrationtime &lt;= #{search.end2} </if>
-    order by id desc
+    order by operator_time desc
     limit #{page.offset}, #{page.pageSize}
   </select>
 
@@ -368,7 +368,7 @@
     <if test="search.end1 != null"> AND disposaltime &lt;= #{search.end1} </if>
     <if test="search.start2 != null">  AND registrationtime &gt;= #{search.start2}</if>
     <if test="search.end2 != null"> AND registrationtime &lt;= #{search.end2} </if>
-    order by id desc
+    order by operator_time desc
   </select>
 
 </mapper>

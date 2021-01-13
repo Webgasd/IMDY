@@ -42,6 +42,14 @@ public class UploadController {
         return CommonReturnType.create(name);
     }
 
+    //微信小程序图片上传
+    @RequestMapping(value = "/miniUploadPicture",method = {RequestMethod.POST})
+    @ResponseBody
+    public CommonReturnType miniPicUpload(@RequestParam("file") MultipartFile file) throws IOException{
+        String realPath="face/"+uploadFile(file,"face");
+        return CommonReturnType.create(realPath);
+    }
+
     //实现报告上传
     @RequestMapping(value = "/uploadReport",method = {RequestMethod.POST} )
     @ResponseBody
