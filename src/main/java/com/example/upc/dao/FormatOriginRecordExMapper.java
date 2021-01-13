@@ -1,11 +1,13 @@
 package com.example.upc.dao;
 
 import com.example.upc.controller.param.FormatOriginRecordExEnParam;
+import com.example.upc.controller.param.FormatOriginRecordExListParam;
 import com.example.upc.controller.param.PageQuery;
 import com.example.upc.controller.searchParam.OriginRecordExSearchParam;
 import com.example.upc.dataobject.FormatOriginRecordEx;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface FormatOriginRecordExMapper {
@@ -58,10 +60,15 @@ public interface FormatOriginRecordExMapper {
     int updateByPrimaryKey(FormatOriginRecordEx record);
 
     int countListSup(@Param("search") OriginRecordExSearchParam search);
-    List<FormatOriginRecordExEnParam> getPage(@Param("page") PageQuery page, @Param("search") OriginRecordExSearchParam search);
+    List<FormatOriginRecordExListParam> getPage(@Param("page") PageQuery page, @Param("search") OriginRecordExSearchParam search);
     int countListAdmin(@Param("search") OriginRecordExSearchParam search);
-    List<FormatOriginRecordExEnParam> getPageAdmin(@Param("page") PageQuery page, @Param("search") OriginRecordExSearchParam search);
+    List<FormatOriginRecordExListParam> getPageAdmin(@Param("page") PageQuery page, @Param("search") OriginRecordExSearchParam search);
     int countListEnterprise(@Param("enterprise") Integer enterprise, @Param("search") OriginRecordExSearchParam search);
-    List<FormatOriginRecordExEnParam> getPageEnterprise(@Param("page") PageQuery page, @Param("enterprise") Integer enterprise, @Param("search") OriginRecordExSearchParam search);
+    List<FormatOriginRecordExListParam> getPageEnterprise(@Param("page") PageQuery page, @Param("enterprise") Integer enterprise, @Param("search") OriginRecordExSearchParam search);
     void batchInsertEx(@Param("formatOriginRecordExList") List<FormatOriginRecordEx> formatOriginRecordExList);
+    List<FormatOriginRecordExEnParam> getRecordExByDate(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
+
+    List<FormatOriginRecordExListParam> getRecordExPublicByDate(@Param("enterpriseId") Integer enterpriseId, @Param("startDate") Date startDate, @Param("endDate")Date endDate);
+
+    List<FormatOriginRecordEx> getPageEnterprise2(@Param("enterprise")Integer infoId,@Param("search") OriginRecordExSearchParam originRecordExSearchParam);
 }
