@@ -1779,6 +1779,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnFoodBuIndex.setNumber(supervisionEnFoodBu.getNumber());
                                 supervisionEnFoodBuIndex.setEndTime(supervisionEnFoodBu.getEndTime());
                                 supervisionEnFoodBuIndexMapper.insertSelective(supervisionEnFoodBuIndex);
+
                                 supervisionEnFoodBu.setIndexId(supervisionEnFoodBuIndex.getId());
                             }
                             supervisionEnFoodBuMapper.insertSelective(supervisionEnFoodBu);
