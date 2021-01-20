@@ -36,4 +36,8 @@ public interface SysUserMapper {
     int changePsd(@Param("id") int id,@Param("password") String password);
 
     int getEnterpriseIdByInfoId(@Param("infoId") int infoId);
+
+    int countByInfoId(@Param("infoId") int infoId);
+
+    int deleteByInfoId(@Param("infoId") int infoId);
 }

@@ -327,4 +327,15 @@
     from view_supervision_ca
     where id= #{infoId}
   </select>
+
+  <select id="countByInfoId" parameterType="java.lang.Integer" resultType="int">
+    select count(*)
+    from sys_user
+    where info_id= #{infoId}
+  </select>
+
+  <delete id="deleteByInfoId" parameterType="java.lang.Integer">
+    delete from sys_user
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </delete>
 </mapper>

@@ -20,6 +20,7 @@ import com.example.upc.util.MD5Util;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -55,9 +56,9 @@ public class SupervisionGaServiceImpl implements SupervisionGaService {
 
     @Override
     public PageResult getPage(PageQuery pageQuery, GaSearchParam gaSearchParam) {
-        int count= supervisionGaMapper.countList(gaSearchParam);
+        int count = supervisionGaMapper.countList(gaSearchParam);
         if (count > 0) {
-            List<SupervisionGa> gaList = supervisionGaMapper.getPage(pageQuery,gaSearchParam);
+            List<SupervisionGa> gaList = supervisionGaMapper.getPage(pageQuery, gaSearchParam);
             PageResult<SupervisionGa> pageResult = new PageResult<>();
             pageResult.setData(gaList);
             pageResult.setTotal(count);
@@ -71,7 +72,7 @@ public class SupervisionGaServiceImpl implements SupervisionGaService {
 
     @Override
     public PageResult getPageAllList(PageQuery pageQuery, ComplaintLeaderSearchParam complaintLeaderSearchParam) {
-        int count= supervisionGaMapper.countListAllList(complaintLeaderSearchParam);
+        int count = supervisionGaMapper.countListAllList(complaintLeaderSearchParam);
         if (count > 0) {
             List<SupervisionGa> gaList = supervisionGaMapper.getPageAllList(pageQuery, complaintLeaderSearchParam);
             PageResult<SupervisionGa> pageResult = new PageResult<>();
@@ -88,11 +89,11 @@ public class SupervisionGaServiceImpl implements SupervisionGaService {
     @Override
     public void insert(GaParam gaParam) {
         ValidationResult result = validator.validate(gaParam);
-        if(result.isHasErrors()){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+        if (result.isHasErrors()) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, result.getErrMsg());
         }
-        if(supervisionGaMapper.countByTelephone(gaParam.getIdNumber(),gaParam.getId())>0){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"已有该人员");
+        if (supervisionGaMapper.countByTelephone(gaParam.getIdNumber(), gaParam.getId()) > 0) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "已有该人员");
         }
         SupervisionGa ga = new SupervisionGa();
         ga.setUnitName(gaParam.getUnitName());
@@ -130,33 +131,39 @@ public class SupervisionGaServiceImpl implements SupervisionGaService {
         sysUserMapper.insertSelective(sysUser);
         List<SysDept> allDeptList = sysDeptMapper.getAllDept();
         List<Integer> roleUserIdList = new ArrayList<>();
-        for(SysDept sysDept : allDeptList){
-            if(sysDept.getId()==ga.getDepartment()){
+        for (SysDept sysDept : allDeptList) {
+            if (sysDept.getId() == ga.getDepartment()) {
                 roleUserIdList.add(sysDept.getDefaultRole());
             }
         }
-        sysRoleUserService.changeRoleUsers(roleUserIdList,sysUser.getId());
+        sysRoleUserService.changeRoleUsers(roleUserIdList, sysUser.getId());
     }
+
     @Override
     public void delete(int gaId) {
         SupervisionGa ga = supervisionGaMapper.selectByPrimaryKey(gaId);
-        if(ga==null){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"待更新人员不存在，无法删除");
+        if (ga == null) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "待更新人员不存在，无法删除");
         }
+        if (sysUserMapper.countByInfoId(gaId) > 1) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "删除人员数据有错，请联系管理员");
+        }
+        sysUserMapper.deleteByInfoId(gaId);
         supervisionGaMapper.deleteByPrimaryKey(gaId);
     }
+
     @Override
     public void update(GaParam gaParam) {
         ValidationResult result = validator.validate(gaParam);
-        if(result.isHasErrors()){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+        if (result.isHasErrors()) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, result.getErrMsg());
         }
-        if(supervisionGaMapper.countByTelephone(gaParam.getIdNumber(),gaParam.getId())>0){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"已有该人员");
+        if (supervisionGaMapper.countByTelephone(gaParam.getIdNumber(), gaParam.getId()) > 0) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "已有该人员");
         }
         SupervisionGa before = supervisionGaMapper.selectByPrimaryKey(gaParam.getId());
-        if(before==null){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"待更新人员不存在");
+        if (before == null) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "待更新人员不存在");
         }
         SupervisionGa ga = new SupervisionGa();
         ga.setId(gaParam.getId());
@@ -189,100 +196,87 @@ public class SupervisionGaServiceImpl implements SupervisionGaService {
     @Override
     public void changeDept(int id, String checkDept) {
         SupervisionGa ga = supervisionGaMapper.selectByPrimaryKey(id);
-        if(ga==null){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"待更新人员不存在");
+        if (ga == null) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "待更新人员不存在");
         }
-        List<EnterpriseListResult> enterpriseListResultList=supervisionEnterpriseMapper.selectBySupervisor(ga.getName());
-        for(int i=0;i<enterpriseListResultList.size();i++){
+        List<EnterpriseListResult> enterpriseListResultList = supervisionEnterpriseMapper.selectBySupervisor(ga.getName());
+        for (int i = 0; i < enterpriseListResultList.size(); i++) {
             List<String> supervisorList = new ArrayList<>(Arrays.asList(enterpriseListResultList.get(i).getSupervisor().split(",")));
             Iterator<String> it = supervisorList.iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 String x = it.next();
-                if(x.indexOf(ga.getName()) != -1) {
+                if (x.indexOf(ga.getName()) != -1) {
                     it.remove();
                 }
             }
-            enterpriseListResultList.get(i).setSupervisor(String.join(",",supervisorList));
+            enterpriseListResultList.get(i).setSupervisor(String.join(",", supervisorList));
         }
         supervisionEnterpriseMapper.batchUpdateSupervisor(enterpriseListResultList);
-        supervisionGaMapper.changeDept(id,checkDept);
+        supervisionGaMapper.changeDept(id, checkDept);
     }
 
     @Override
     public void changeStop(int id) {
         SupervisionGa ga = supervisionGaMapper.selectByPrimaryKey(id);
-        if(ga==null){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"待更新人员不存在");
+        if (ga == null) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "待更新人员不存在");
         }
         int isStop;
-        if(ga.getIsStop()==0){
-            isStop=1;
-        }else{
-            isStop=0;
+        if (ga.getIsStop() == 0) {
+            isStop = 1;
+        } else {
+            isStop = 0;
         }
-       supervisionGaMapper.changeStop(id,isStop);
+        supervisionGaMapper.changeStop(id, isStop);
     }
 
 
     @Override
     @Transactional
     public void importExcel(MultipartFile file, Integer type) {
-
+        /**
+         * 部门名称
+         */
         List<SysDept> sysDeptList = sysDeptMapper.getAllDept();
-        Map<String,Integer> deptMap = new HashMap<>();
-        for (SysDept sysDept : sysDeptList){deptMap.put(sysDept.getName(),sysDept.getId());}
+        Map<String, Integer> deptMap = new HashMap<>();
+        for (SysDept sysDept : sysDeptList) {
+            deptMap.put(sysDept.getName(), sysDept.getId());
+        }
+
+        /**
+         * 职务
+         */
         List<SysDutiesInfo> sysDutiesInfoList = sysDutiesInfoMapper.getList();
-        Map<String,Integer> dutiesMap = new HashMap<>();
-        Map<String,Integer> typeMap = new HashMap<>();
-        typeMap.put("部门",1);
-        typeMap.put("负责人",2);
-        typeMap.put("执法人员",3);
-        typeMap.put("日常责任监管人",4);
-        typeMap.put("协管员",5);
-        for (SysDutiesInfo sysDutiesInfo: sysDutiesInfoList){dutiesMap.put(sysDutiesInfo.getName(),sysDutiesInfo.getId());}
-        List<SupervisionGa> allGaList = supervisionGaMapper.getAll();
-        Map<String,Integer> allGaMap = new HashMap<>();
-        for (SupervisionGa supervisionGa : allGaList){allGaMap.put(supervisionGa.getMobilePhone(),supervisionGa.getId());}
+        Map<String, Integer> dutiesMap = new HashMap<>();
+        for (SysDutiesInfo sysDutiesInfo : sysDutiesInfoList) {
+            dutiesMap.put(sysDutiesInfo.getName(), sysDutiesInfo.getId());
+        }
+
+        /**
+         * 类型
+         */
+        Map<String, Integer> typeMap = new HashMap<>();
+        typeMap.put("部门", 1);
+        typeMap.put("负责人", 2);
+        typeMap.put("执法人员", 3);
+        typeMap.put("日常责任监管人", 4);
+        typeMap.put("协管员", 5);
+
+        /**
+         * 数据库中现有的政府人员 手机号—id对应Map
+         */
+        List<SupervisionGa> allGaList = new ArrayList<>();
+        allGaList = supervisionGaMapper.getAll();
+        Map<String, Integer> allGaMap = new HashMap<>();
+        for (SupervisionGa supervisionGa : allGaList) {
+            allGaMap.put(supervisionGa.getMobilePhone(), supervisionGa.getId());
+        }
+
+        Map<String, String> mobliePhoneMap = new HashMap<>();
         List<SupervisionGa> supervisionGaList = new ArrayList<>();
-        if(type == 3){
-            try {
-                HSSFWorkbook workbook = new HSSFWorkbook(file.getInputStream());
-                int numberOfSheets = workbook.getNumberOfSheets();
-                for (int i = 0; i < numberOfSheets; i++) {
-                    HSSFSheet sheet = workbook.getSheetAt(i);
-                    int physicalNumberOfRows = sheet.getPhysicalNumberOfRows();
-                    for (int j = 0; j < physicalNumberOfRows; j++) {
-                        if (j == 0) {
-                            continue;//标题行
-                        }
-                        SupervisionGa supervisionGa = new SupervisionGa();
-                        HSSFRow row = sheet.getRow(j);
-                        supervisionGa.setNumber(ExcalUtils.handleIntegerHSSF(row.getCell(0)));
-                        supervisionGa.setUnitName(ExcalUtils.handleStringHSSF(row.getCell(1)));
-                        supervisionGa.setDepartment(deptMap.get(ExcalUtils.handleStringHSSF(row.getCell(2))));
-                        supervisionGa.setName(ExcalUtils.handleStringHSSF(row.getCell(3)));
-                        supervisionGa.setSexy(ExcalUtils.handleStringHSSF(row.getCell(4))=="女"?1:0);
-                        supervisionGa.setJob(dutiesMap.get(ExcalUtils.handleStringHSSF(row.getCell(5))));
-                        supervisionGa.setType(typeMap.get(ExcalUtils.handleStringHSSF(row.getCell(6))));
-                        supervisionGa.setIdNumber(ExcalUtils.handleStringHSSF(row.getCell(7)));
-                        supervisionGa.setEnforce(ExcalUtils.handleStringHSSF(row.getCell(8)));
-                        supervisionGa.setMobilePhone(ExcalUtils.handleStringHSSF(row.getCell(9)));
-                        supervisionGa.setOfficePhone(ExcalUtils.handleStringHSSF(row.getCell(10)));
-                        supervisionGa.setWorkPhone(ExcalUtils.handleStringHSSF(row.getCell(11)));
-                        supervisionGa.setIsStop(ExcalUtils.handleIntegerHSSF(row.getCell(12)));
-                        supervisionGa.setOperator("操作人");
-                        supervisionGa.setOperatorIp("123.123.123");
-                        supervisionGa.setOperatorTime(new Date());
-                        if(!supervisionGa.getMobilePhone().equals("")) {
-                            supervisionGaList.add(supervisionGa);
-                        }
-                    }
-                }
-                workbook.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(type == 7){
+        if (type == 3) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "不支持.xls文件，请更换xlsx后缀的Excel");
+        } else if (type == 7) {
             try {
                 XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
                 int numberOfSheets = workbook.getNumberOfSheets();
@@ -299,45 +293,53 @@ public class SupervisionGaServiceImpl implements SupervisionGaService {
                         supervisionGa.setUnitName(ExcalUtils.handleStringXSSF(row.getCell(1)));
                         supervisionGa.setDepartment(deptMap.get(ExcalUtils.handleStringXSSF(row.getCell(2))));
                         supervisionGa.setName(ExcalUtils.handleStringXSSF(row.getCell(3)));
-                        supervisionGa.setSexy(ExcalUtils.handleStringXSSF(row.getCell(4))=="女"?1:0);
+                        supervisionGa.setSexy(ExcalUtils.handleStringXSSF(row.getCell(4)) == "女" ? 1 : 0);
                         supervisionGa.setJob(dutiesMap.get(ExcalUtils.handleStringXSSF(row.getCell(5))));
                         supervisionGa.setType(typeMap.get(ExcalUtils.handleStringXSSF(row.getCell(6))));
-                        supervisionGa.setIdNumber(ExcalUtils.handleStringXSSF(row.getCell(7)));
+                        supervisionGa.setIdNumber(row.getCell(7).getCellType() == CellType.NUMERIC ? String.valueOf(ExcalUtils.handleLongXSSF(row.getCell(7))) : ExcalUtils.handleStringXSSF(row.getCell(7)));
                         supervisionGa.setEnforce(ExcalUtils.handleStringXSSF(row.getCell(8)));
-                        supervisionGa.setMobilePhone(ExcalUtils.handleStringXSSF(row.getCell(9)));
-                        supervisionGa.setOfficePhone(ExcalUtils.handleStringXSSF(row.getCell(10)));
-                        supervisionGa.setWorkPhone(ExcalUtils.handleStringXSSF(row.getCell(11)));
+                        supervisionGa.setMobilePhone(row.getCell(9).getCellType() == CellType.NUMERIC ? String.valueOf(ExcalUtils.handleLongXSSF(row.getCell(9))) : ExcalUtils.handleStringXSSF(row.getCell(9)));
+                        supervisionGa.setOfficePhone(row.getCell(10).getCellType() == CellType.NUMERIC ? String.valueOf(ExcalUtils.handleLongXSSF(row.getCell(10))) : ExcalUtils.handleStringXSSF(row.getCell(10)));
+                        supervisionGa.setWorkPhone(row.getCell(11).getCellType() == CellType.NUMERIC ? String.valueOf(ExcalUtils.handleLongXSSF(row.getCell(11))) : ExcalUtils.handleStringXSSF(row.getCell(11)));
                         supervisionGa.setIsStop(ExcalUtils.handleIntegerXSSF(row.getCell(12)));
                         supervisionGa.setOperator("操作人");
                         supervisionGa.setOperatorIp("123.123.123");
                         supervisionGa.setOperatorTime(new Date());
-                        if(!supervisionGa.getMobilePhone().equals("")) {
-                            supervisionGaList.add(supervisionGa);
+                        if (!supervisionGa.getMobilePhone().equals("")) {
+                            if (mobliePhoneMap.get(supervisionGa.getMobilePhone()) != null) {
+                                if (!mobliePhoneMap.get(supervisionGa.getMobilePhone()).equals(supervisionGa.getName())) {
+                                    throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "表中存在重复数据");
+                                }
+                            } else {
+                                mobliePhoneMap.put(supervisionGa.getMobilePhone(), supervisionGa.getName());
+                                supervisionGaList.add(supervisionGa);
+                            }
                         }
-//                        int physicalNumberOfCells = row.getPhysicalNumberOfCells();
-//                        for (int k = 0; k < physicalNumberOfCells; k++) {
-//                            XSSFCell cell = row.getCell(k);
-//                        }
                     }
                 }
                 workbook.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else {
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"文件错误");
+        } else {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "文件错误");
         }
+
         List<Integer> updateIds = new ArrayList<>();
         List<SysUser> sysUserList = new ArrayList<>();
         List<SysRoleUser> sysRoleUserList = new ArrayList<>();
-        Map<Integer,Integer> deptIdsMap = new HashMap<>();
-        for(SysDept sysDept : sysDeptList){deptIdsMap.put(sysDept.getId(),sysDept.getDefaultRole());}
-        for (SupervisionGa supervisionGa : supervisionGaList){
-            if(allGaMap.get(supervisionGa.getMobilePhone())!=null){
+        //存储deptId和role的对应关系
+        Map<Integer, Integer> deptIdsMap = new HashMap<>();
+        for (SysDept sysDept : sysDeptList) {
+            deptIdsMap.put(sysDept.getId(), sysDept.getDefaultRole());
+        }
+
+        for (SupervisionGa supervisionGa : supervisionGaList) {
+            if (allGaMap.get(supervisionGa.getMobilePhone()) != null) {
                 int id = allGaMap.get(supervisionGa.getMobilePhone());
                 updateIds.add(allGaMap.get(supervisionGa.getMobilePhone()));
                 supervisionGa.setId(id);
-            }else {
+            } else {
                 SysUser sysUser = new SysUser();
                 String encryptedPassword = MD5Util.md5("123456+");
                 sysUser.setUsername(supervisionGa.getName());
@@ -354,20 +356,25 @@ public class SupervisionGaServiceImpl implements SupervisionGaService {
                 sysUserList.add(sysUser);
             }
         }
-        if(updateIds.size()>0){
+        if (updateIds.size() > 0) {
             supervisionGaMapper.batchDelete(updateIds);
         }
-        if(supervisionGaList.size()>0){
+        if (supervisionGaList.size() > 0) {
             supervisionGaMapper.batchInsert(supervisionGaList);
         }
-        Map<String,Integer> gaMap = new HashMap<>();
-        for(SupervisionGa supervisionGa : supervisionGaList){gaMap.put(supervisionGa.getMobilePhone(),supervisionGa.getId());}
-        if(sysUserList.size()>0){
-            sysUserMapper.batchInsert(sysUserList.stream().map(sysUser -> {sysUser.setInfoId(gaMap.get(sysUser.getLoginName())); return sysUser;}).collect(Collectors.toList()));
+        Map<String, Integer> gaMap = new HashMap<>();
+        for (SupervisionGa supervisionGa : supervisionGaList) {
+            gaMap.put(supervisionGa.getMobilePhone(), supervisionGa.getId());
         }
-        for(SysUser sysUser:sysUserList)
-        {
-            SysRoleUser sysRoleUser =new SysRoleUser();
+        if (sysUserList.size() > 0) {
+            //只插入新增的用户
+            sysUserMapper.batchInsert(sysUserList.stream().map(sysUser -> {
+                sysUser.setInfoId(gaMap.get(sysUser.getLoginName()));
+                return sysUser;
+            }).collect(Collectors.toList()));
+        }
+        for (SysUser sysUser : sysUserList) {
+            SysRoleUser sysRoleUser = new SysRoleUser();
             sysRoleUser.setUserId(sysUser.getId());
             sysRoleUser.setRoleId(deptIdsMap.get(sysUser.getDeptId()));
             sysRoleUser.setOperateTime(new Date());
@@ -375,7 +382,7 @@ public class SupervisionGaServiceImpl implements SupervisionGaService {
             sysRoleUser.setOperateIp("123.124.124");
             sysRoleUserList.add(sysRoleUser);
         }
-        if(sysRoleUserList.size()>0){
+        if (sysRoleUserList.size() > 0) {
             sysRoleUserMapper.batchInsert(sysRoleUserList);
         }
     }
@@ -394,7 +401,7 @@ public class SupervisionGaServiceImpl implements SupervisionGaService {
     public List<GaStatistics> getStatistics() {
         List<SysDept> deptList = sysDeptMapper.getDeptByType(2);
         List<GaStatistics> gaStatisticsList = new ArrayList<>();
-        for(SysDept sysDept:deptList){
+        for (SysDept sysDept : deptList) {
             GaStatistics gaStatistics = new GaStatistics();
             gaStatistics.setName(sysDept.getName());
             gaStatistics.setCount(supervisionGaMapper.countByDept(sysDept.getId()));
@@ -412,7 +419,7 @@ public class SupervisionGaServiceImpl implements SupervisionGaService {
     }
 
     @Override
-    public List<SupervisionGa> getGaByAreaForMap(int areaId){
+    public List<SupervisionGa> getGaByAreaForMap(int areaId) {
         return supervisionGaMapper.getGaByAreaForMap(areaId);
     }
 }

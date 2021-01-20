@@ -45,6 +45,13 @@ public class ExcalUtils {
             return (int)xssfCell.getNumericCellValue();
         }
     }
+    public static long handleLongXSSF(XSSFCell xssfCell){
+        if(xssfCell==null){
+            return 0;
+        }else {
+            return (long)xssfCell.getNumericCellValue();
+        }
+    }
     public static int handleIntegerHSSF(HSSFCell hssfCell){
         if(hssfCell==null){
             return 0;

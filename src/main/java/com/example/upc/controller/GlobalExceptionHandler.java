@@ -32,12 +32,12 @@ public class GlobalExceptionHandler {
             BusinessException businessException =(BusinessException) e;
             responseData.put("errCode",businessException.getErrCode());
             responseData.put("errMsg",businessException.getErrMsg());
-            responseData.put("errList",businessException.getErrList());
+            //responseData.put("errList",businessException.getErrList());
         }
         else {
             responseData.put("errCode", EmBusinessError.UNKNOWN_ERROR.getErrCode());
             responseData.put("errMsg",EmBusinessError.UNKNOWN_ERROR.getErrMsg());
-            responseData.put("errList",EmBusinessError.UNKNOWN_ERROR.getErrList());
+            //responseData.put("errList",EmBusinessError.UNKNOWN_ERROR.getErrList());
         }
 
         return CommonReturnType.create(responseData,"fail");

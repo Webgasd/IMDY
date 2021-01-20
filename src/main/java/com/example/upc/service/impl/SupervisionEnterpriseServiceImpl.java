@@ -391,7 +391,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         return pageResult;
     }
 
-//获取某个企业的记录，包括基本信息和许可证，许可证方法这里要改。关联关系表
+    //获取某个企业的记录，包括基本信息和许可证，许可证方法这里要改。关联关系表
     @Override
     public EnterpriseParam getById(int id) {
         SupervisionEnterprise supervisionEnterprise= supervisionEnterpriseMapper.selectByPrimaryKey(id);
@@ -603,8 +603,16 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         sysUser1.setOperateIp("124.124.124");
         sysUser1.setOperateTime(new Date());
         sysUserMapper.insertSelective(sysUser1);
+        SysRoleUser sysRoleUser = new SysRoleUser();
+        sysRoleUser.setUserId(sysUser1.getId());
+        sysRoleUser.setRoleId(27);
+        sysRoleUser.setOperateTime(new Date());
+        sysRoleUser.setOperator("操作人");
+        sysRoleUser.setOperateIp("123.124.124");
+        sysRoleUserMapper.insertSelective(sysRoleUser);
+
         if(enterpriseParam.getPermissionFamily()!=null||enterpriseParam.getPermissionFamily()!=""){
-        insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);
+            insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);
         }
         //下方有这个方法，是用来做许可证插入
         insertEnterpriseDocumentList(supervisionEnterprise,enterpriseParam);
@@ -1584,6 +1592,13 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             sysUser1.setOperateIp("124.124.124");
                             sysUser1.setOperateTime(new Date());
                             sysUserMapper.insertSelective(sysUser1);
+                            SysRoleUser sysRoleUser = new SysRoleUser();
+                            sysRoleUser.setUserId(sysUser1.getId());
+                            sysRoleUser.setRoleId(27);
+                            sysRoleUser.setOperateTime(new Date());
+                            sysRoleUser.setOperator("操作人");
+                            sysRoleUser.setOperateIp("123.124.124");
+                            sysRoleUserMapper.insertSelective(sysRoleUser);
                             insertNumber++;
                         }
                     }
