@@ -239,6 +239,12 @@ public class GridPointsServiceImpl implements GridPointsService {
                 gridPointsGps.setPoint(points);
                 gridPointsGps.setOperator(sysUser.getUsername());
                 gridPointsGps.setOperatorIp("1.1.1.1");
+                gridPointsGps.setOperatorTime(new Date());
+                SupervisionEnterprise supervisionEnterprise1 =new SupervisionEnterprise();
+                //更新企业表操作时间
+                supervisionEnterprise1.setOperateTime(new Date());
+                supervisionEnterprise1.setId(id);
+                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise1);
                 gridPointsGpsMapper.updateByPrimaryKeySelective(gridPointsGps);
                 ActionJournal actionJournal = new ActionJournal();
                 actionJournal.setPerson(sysUser.getInfoName());
@@ -253,6 +259,12 @@ public class GridPointsServiceImpl implements GridPointsService {
                 gridPointsGps1.setPoint(points);
                 gridPointsGps1.setOperator(sysUser.getUsername());
                 gridPointsGps1.setOperatorIp("1.1.1.1");
+                gridPointsGps1.setOperatorTime(new Date());
+                //更新企业表操作时间
+                SupervisionEnterprise supervisionEnterprise1 =new SupervisionEnterprise();
+                supervisionEnterprise1.setOperateTime(new Date());
+                supervisionEnterprise1.setId(id);
+                supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise1);
                 gridPointsGpsMapper.insertSelective(gridPointsGps1);
                 ActionJournal actionJournal = new ActionJournal();
                 actionJournal.setPerson(sysUser.getInfoName());
