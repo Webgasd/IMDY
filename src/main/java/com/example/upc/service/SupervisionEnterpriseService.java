@@ -46,4 +46,6 @@ public interface SupervisionEnterpriseService {
    List<EnterpriseInfoParam> getEnterpriseInfo(EnterpriseSearchParam enterpriseSearchParam);
 
    List<EnterpriseInfoParam> getEnterpriseInfoByDate(EnterpriseSearchParam enterpriseSearchParam);
+
+    void updateBaseEnterpriseInfo(String json, SysUser sysUser);
 }

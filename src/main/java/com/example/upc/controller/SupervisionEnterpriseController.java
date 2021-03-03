@@ -183,7 +183,12 @@ public class SupervisionEnterpriseController {
         supervisionEnterpriseService.update(json,sysUser);
         return CommonReturnType.create(null);
     }
-
+    @RequestMapping("/updateBaseEnterpriseInfo")
+    @ResponseBody
+    public CommonReturnType updateBaseEnterpriseInfo(@RequestBody String json, SysUser sysUser){
+        supervisionEnterpriseService.updateBaseEnterpriseInfo(json,sysUser);
+        return CommonReturnType.create(null);
+    }
 
     //删除企业同时删除定位中的企业，要改，在service中写删除定位，或者在这写两个表都删除
     @RequestMapping("/delete")
@@ -270,7 +275,7 @@ public class SupervisionEnterpriseController {
                 Integer areaId = (Integer)jsonObject.getJSONArray("areaList").get(0);
                 enterpriseSearchParam.setAreaList(sysDeptAreaService.getIdListSearch(areaId));
             }
-            return CommonReturnType.create(supervisionEnterpriseService.getSmileMapPoints(enterpriseSearchParam));
+                return CommonReturnType.create(supervisionEnterpriseService.getSmileMapPoints(enterpriseSearchParam));
         }
         else if(sysUser.getUserType()==2){//政府人员
             SupervisionGa supervisionGa = supervisionGaService.getById(sysUser.getInfoId());

@@ -635,7 +635,9 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         if(before==null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"待更新企业不存在");
         }
-        supervisionEnterprise.setBusinessState(2);
+//        if(supervisionEnterprise.getBusinessState()!=null){
+//            supervisionEnterprise.setBusinessState(supervisionEnterprise.getBusinessState());
+//        }
         supervisionEnterprise.setOperateIp("124.124.124");
         supervisionEnterprise.setOperateTime(new Date());
         supervisionEnterprise.setOperator("zcc");
@@ -672,6 +674,61 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
         actionJournalMapper.insertSelective(actionJournal);
     }
 
+    @Override
+    @Transactional
+    public void updateBaseEnterpriseInfo(String json, SysUser sysUser) {
+        SupervisionEnterprise supervisionEnterprise = JSONObject.parseObject(json,SupervisionEnterprise.class);
+//        EnterpriseParam enterpriseParam = JSON.parseObject(json,EnterpriseParam.class);
+//        supervisionEnterprise.setPermissionType(enterpriseParam.getPermissionFamily());
+        ValidationResult result = validator.validate(supervisionEnterprise);
+        if(result.isHasErrors()){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
+        }
+        if(supervisionEnterpriseMapper.countByIdNumber(supervisionEnterprise.getIdNumber(),supervisionEnterprise.getId())>0){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"社会信用代码被占用");
+        }
+        SupervisionEnterprise before = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnterprise.getId());
+        if(before==null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"待更新企业不存在");
+        }
+//        if(supervisionEnterprise.getBusinessState()!=null){
+//            supervisionEnterprise.setBusinessState(supervisionEnterprise.getBusinessState());
+//        }
+        supervisionEnterprise.setOperateIp("124.124.124");
+        supervisionEnterprise.setOperateTime(new Date());
+        supervisionEnterprise.setOperator("zcc");
+        if (supervisionEnterprise.getGpsFlag()==1){
+            JSONObject jsonResult = JSON.parseObject(json);
+            String location = jsonResult.getString("location");
+            if(location==null){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"手动定位点位为空");
+            }
+            GridPointsGps gridPointsGps = gridPointsGpsMapper.getPointByCodeId(supervisionEnterprise.getIdNumber());
+            if (gridPointsGps != null){
+                gridPointsGps.setPoint(location);
+                gridPointsGps.setOperator(sysUser.getUsername());
+                gridPointsGps.setOperatorIp("1.1.1.1");
+                gridPointsGpsMapper.updateByPrimaryKeySelective(gridPointsGps);
+            }
+            else {
+                GridPointsGps gridPointsGps1 = new GridPointsGps();
+                gridPointsGps1.setCodeId(supervisionEnterprise.getIdNumber());
+                gridPointsGps1.setAreaId(supervisionEnterprise.getArea());
+                gridPointsGps1.setPoint(location);
+                gridPointsGps1.setOperator(sysUser.getUsername());
+                gridPointsGps1.setOperatorIp("1.1.1.1");
+                gridPointsGpsMapper.insertSelective(gridPointsGps1);
+            }
+        }
+//        insertEnterpriseChildrenList(supervisionEnterprise,enterpriseParam);
+//        insertEnterpriseDocumentList(supervisionEnterprise,enterpriseParam);
+        supervisionEnterpriseMapper.updateByPrimaryKeySelectiveEx(supervisionEnterprise);
+        ActionJournal actionJournal = new ActionJournal();
+        actionJournal.setPerson(sysUser.getInfoName());
+        actionJournal.setTime(new Date());
+        actionJournal.setModule("企业表");
+        actionJournalMapper.insertSelective(actionJournal);
+    }
     //插入子表，这里要修改，子表建议子子表
     void insertEnterpriseChildrenList(SupervisionEnterprise supervisionEnterprise,EnterpriseParam enterpriseParam){
 
@@ -766,10 +823,12 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
             else{
                 supervisionEnFoodBuMapper.deleteByIndexId(supervisionEnFoodBuIndex.getId());
             }
+
             SupervisionEnFoodBuIndex supervisionEnFoodBuIndex2 = supervisionEnFoodBuIndexMapper.selectByEnterpriseId(supervisionEnterprise.getId());
             SupervisionEnFoodBuIndex supervisionEnFoodBuIndex3 = new SupervisionEnFoodBuIndex();
             supervisionEnFoodBuIndex3.setId(supervisionEnFoodBuIndex2.getId());
             supervisionEnFoodBuIndex3.setNumber("");
+            //supervisionEnFoodBuIndex3.setEnterpriseId(supervisionEnFoodBuIndex2.getEnterpriseId());
             supervisionEnFoodBuList  = ListSortUtil.sort(supervisionEnFoodBuList,"endTime",null);
             supervisionEnFoodBuIndex3.setEndTime(supervisionEnFoodBuList.get(0).getEndTime());
             //开始循环传入的list。
