@@ -84,7 +84,6 @@ public class SupervisionEnterpriseCreditServiceImpl implements SupervisionEnterp
             return pageResult;
         }
         if(sysUser.getUserType()==2){
-            supervisionEnterpriseCreditSearchParam.setEnterpriseId(sysUser.getInfoId());
             List<SupervisionEnterpriseCredit> supervisionEnterpriseCreditList = supervisionEnterpriseCreditMapper.selectByEnterpriseId(supervisionEnterpriseCreditSearchParam,pageQuery);
             PageResult<SupervisionEnterpriseCredit> pageResult = new PageResult<>();
             pageResult.setData(supervisionEnterpriseCreditList);
