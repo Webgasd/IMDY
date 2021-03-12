@@ -51,7 +51,7 @@ public class BusinessException extends RuntimeException implements CommonError{
 
     @Override
     public CommonError setErrMsg(List errMsg) {
-        this.commonError.setErrMsg(errMsg);
+        this.commonError.setErrMsg(errMsg.toString());
         return this;
     }
 

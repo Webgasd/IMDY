@@ -9,6 +9,7 @@ import com.example.upc.dataobject.SysUser;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public interface SupervisionEnterpriseService {
    PageResult<EnterpriseListResult> getPage(PageQuery pageQuery, EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry);
    PageResult<EnterpriseListResult> getPageState(PageQuery pageQuery, EnterpriseSearchParam enterpriseSearchParam,SysUser sysUser,Integer areaId,boolean searchIndustry);
    PageResult<EnterpriseListResult> getPageNoUser(PageQuery pageQuery, EnterpriseSearchParam enterpriseSearchParam,Integer areaId,boolean searchIndustry);
-   EnterpriseParam getById(int id);
+   EnterpriseParam getById(int id) throws ParseException;
    SupervisionEnterprise selectById(int id);
    void insert(String json, SysUser sysUser);
    void update(String json, SysUser sysUser);
@@ -46,4 +47,6 @@ public interface SupervisionEnterpriseService {
    List<EnterpriseInfoParam> getEnterpriseInfo(EnterpriseSearchParam enterpriseSearchParam);
 
    List<EnterpriseInfoParam> getEnterpriseInfoByDate(EnterpriseSearchParam enterpriseSearchParam);
+
+    void updateBaseEnterpriseInfo(String json, SysUser sysUser);
 }

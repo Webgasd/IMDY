@@ -29,13 +29,6 @@
                 <!-- 环境标识，需要与配置文件的名称相对应 -->
                 <activatedProperties>dev</activatedProperties>
             </properties>
-        </profile>
-        <!-- 生产环境 -->
-        <profile>
-            <id>product</id>
-            <properties>
-                <activatedProperties>product</activatedProperties>
-            </properties>
             <activation>
                 <!--
                      默认环境，如果设置了这个，则项目运行默认
@@ -52,6 +45,13 @@
             <properties>
                 <!-- 环境标识，需要与配置文件的名称相对应 -->
                 <activatedProperties>test</activatedProperties>
+            </properties>
+        </profile>
+        <!-- 生产环境 -->
+        <profile>
+            <id>product</id>
+            <properties>
+                <activatedProperties>product</activatedProperties>
             </properties>
         </profile>
     </profiles>

@@ -84,7 +84,7 @@ public class MiniProgramController {
 
     // 登录之后获取企业部分信息
     @GetMapping("/getHomePageInfo")
-    public ResultVo getHomePageInfo(SysUser sysUser){
+    public ResultVo getHomePageInfo(SysUser sysUser)throws ParseException{
         int enterpriseId=sysUser.getInfoId();
         EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
         Map<String,Object> result = new HashMap<>();
@@ -208,7 +208,7 @@ public class MiniProgramController {
      * @return
      */
     @RequestMapping("/getBusinessIntroduce")
-    public CommonReturnType getBusinessIntroduce(SysUser sysUser){
+    public CommonReturnType getBusinessIntroduce(SysUser sysUser)throws ParseException{
         int enterpriseId=sysUser.getInfoId();
         Map<String,Object> result = new HashMap<>();
         EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
@@ -227,7 +227,7 @@ public class MiniProgramController {
      * @return
      */
     @RequestMapping("/getConnet")
-    public CommonReturnType getConnet(SysUser sysUser){
+    public CommonReturnType getConnet(SysUser sysUser)throws ParseException{
         int enterpriseId=sysUser.getInfoId();
         Map<String,Object> result = new HashMap<>();
         EnterpriseParam enterpriseParam = supervisionEnterpriseService.getById(enterpriseId);
