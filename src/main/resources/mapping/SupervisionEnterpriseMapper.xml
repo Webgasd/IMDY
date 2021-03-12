@@ -1924,7 +1924,7 @@
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
       SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise
-    WHERE area IN
+    WHERE business_state =3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.judgeType==1 and (search.businessState == null or search.businessState==0)"> AND business_state =3 </if>
     <if test="search.judgeType==2 and (search.businessState == null or search.businessState==0)"> AND (business_state =4 OR business_state=5) </if>
@@ -2078,7 +2078,7 @@
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
       SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' AND area IN
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state =3  AND area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.judgeType==1 and (search.businessState == null or search.businessState==0)"> AND business_state =3 </if>
     <if test="search.judgeType==2 and (search.businessState == null or search.businessState==0)"> AND (business_state =4 OR business_state=5) </if>
@@ -2205,7 +2205,7 @@
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
       SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
     SELECT <include refid="List_Column_List" />  FROM supervision_enterprise
-    WHERE area IN
+    WHERE business_state =3  and area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.judgeType==1 and (search.businessState == null or search.businessState==0)"> AND business_state =3 </if>
     <if test="search.judgeType==2 and (search.businessState == null or search.businessState==0)"> AND (business_state =4 OR business_state=5) </if>
@@ -2359,7 +2359,7 @@
     <if test="search.industryList.contains('smallCater')">SELECT a.*,b.id as a2_id,b.end_time as a2_time FROM (</if>
     <if test="search.industryList.contains('foodBusiness') or search.industryList.contains('foodCirculate') or search.industryList.contains('foodCommon')">
       SELECT a.* ,b.id as a1_id,b.end_time as a1_time FROM (</if>
-    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' AND area IN
+    SELECT <include refid="List_Column_List" />  FROM supervision_enterprise WHERE permission_type = '' and business_state =3  AND area IN
     <foreach close=")" collection="search.areaList" item="area" open="(" separator=",">#{area}</foreach>
     <if test="search.judgeType==1 and (search.businessState == null or search.businessState==0)"> AND business_state =3 </if>
     <if test="search.judgeType==2 and (search.businessState == null or search.businessState==0)"> AND (business_state =4 OR business_state=5) </if>
