@@ -42,8 +42,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseService {
-
-
     @Autowired
     private SupervisionEnterpriseMapper supervisionEnterpriseMapper;
     @Autowired
@@ -1488,6 +1486,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     XSSFRow nextRow = sheet0.getRow(j + 1);
                     if ((row.getCell(0)==null || row.getCell(0).getCellType() == CellType.BLANK || ExcalUtils.handleStringXSSF(row.getCell(0)).equals(""))
                             && (row.getCell(1)==null||row.getCell(1).getCellType() == CellType.BLANK ||  ExcalUtils.handleStringXSSF(row.getCell(1)).equals(""))) {
+                        rowNumber = j;
                         break;
                     }
                     int a = j + 1;
@@ -1606,6 +1605,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             (ExcalUtils.handleDateXSSF(row.getCell(10)) + "") .equals("") ||
                             (ExcalUtils.handleDateXSSF(row.getCell(10)) + "") .equals("null")) {
                         supervisionEnterprise.setBusinessTermFlag(0);
+                        supervisionEnterprise.setBusinessTermEnd("");
                     } else {
                         supervisionEnterprise.setBusinessTermFlag(1);
                         supervisionEnterprise.setBusinessTermEnd((new SimpleDateFormat("yyyy-MM-dd").format(ExcalUtils.handleDateXSSF(row.getCell(10)))));
@@ -1624,7 +1624,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     supervisionEnterprise.setOperateIp("123.123.123");
                     supervisionEnterprise.setOperateTime(new Date());
                     if (!supervisionEnterprise.getIdNumber().equals("")) {
-                        if (enterpriseIdMap.get(supervisionEnterprise.getIdNumber()) != null) {
+                        if (enterpriseIdMap.get(supervisionEnterprise.getIdNumber()) != null && enterpriseIdMap.get(supervisionEnterprise.getIdNumber())!=0) {
                             int id = enterpriseIdMap.get(supervisionEnterprise.getIdNumber());
                             SupervisionEnterprise supervisionEnterprise1 = supervisionEnterpriseMapper.selectByPrimaryKey(id);
                             if (supervisionEnterprise1.getCantactWay() != null && !supervisionEnterprise1.getCantactWay().equals("")) {
@@ -1633,7 +1633,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             supervisionEnterprise.setId(id);
                             supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
                             updateNumber++;
-                        } else {//新企业就注册
+                        } else if(enterpriseIdMap.get(supervisionEnterprise.getIdNumber()) == null){//新企业就注册
+                            enterpriseIdMap.put(supervisionEnterprise.getIdNumber(),0);
                             supervisionEnterpriseMapper.insertSelective(supervisionEnterprise);
                             SysUser sysUser1 = new SysUser();//同时进行用户的插入
                             String encryptedPassword = MD5Util.md5("123456+");
@@ -1682,7 +1683,8 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     numberFoodBuIndexMap.put(supervisionEnFoodBuIndex.getEnterpriseId(), supervisionEnFoodBuIndex.getId());
                 }
                 XSSFSheet sheet1 = workbook.getSheetAt(1);
-                for (int j = 0; j < sheet1.getPhysicalNumberOfRows(); j++) {
+                rowNumber = sheet1.getPhysicalNumberOfRows();
+                for (int j = 0; j < rowNumber; j++) {
                     if (j == 0) {
                         continue;//标题行
                     }
@@ -1691,6 +1693,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     XSSFRow nextRow = sheet1.getRow(j + 1);
                     if ((row.getCell(2)==null || row.getCell(2).getCellType() == CellType.BLANK || ExcalUtils.handleStringXSSF(row.getCell(2)).equals(""))
                             && (row.getCell(1)==null||row.getCell(1).getCellType() == CellType.BLANK ||  ExcalUtils.handleStringXSSF(row.getCell(1)).equals(""))) {
+                        rowNumber = j;
                         break;
                     }
                     int a = j + 1;
@@ -1776,19 +1779,27 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     System.out.println(errorList);
                     throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, errorList);
                 }
-                for (int j = 0; j < sheet1.getPhysicalNumberOfRows(); j++) {
+                for (int j = 0; j < rowNumber; j++) {
                     if (j == 0) {
                         continue;//标题行
                     }
                     SupervisionEnFoodBu supervisionEnFoodBu = new SupervisionEnFoodBu();
                     SupervisionEnFoodBuIndex supervisionEnFoodBuIndex = new SupervisionEnFoodBuIndex();
                     XSSFRow row = sheet1.getRow(j);
-                    if ((row.getCell(1).getCellType() == CellType.BLANK) && (row.getCell(2).getCellType() == CellType.BLANK)) {
-                        break;
-                    }
                     if (enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1))) != null) {
+
                         int id = enterpriseIdMap.get(ExcalUtils.handleStringXSSF(row.getCell(1)));
-                        supervisionEnFoodBuIndex.setEnterpriseId(id);
+                        if((numberMap.get(ExcalUtils.handleStringXSSF(row.getCell(2)))==null) ||
+                                (numberMap.get(ExcalUtils.handleStringXSSF(row.getCell(2)))!=null
+                                        && numberFoodBuIndexMap.get(id)!=null &&
+                           supervisionEnFoodBuIndexMapper.selectByPrimaryKey(numberFoodBuIndexMap.get(id)).getNumber().contains(ExcalUtils.handleStringXSSF(row.getCell(2)))))
+                        {
+                            supervisionEnFoodBuIndex.setEnterpriseId(id);
+                        }
+                        else {
+                            int a = j + 1;
+                            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "食品经营许可证 第" + a + "行许可证号存在错误");
+                        }
                     } else {
                         int a = j + 1;
                         throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "食品经营许可证 第" + a + "行许可证号没有对应企业");
@@ -1813,7 +1824,7 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                     supervisionEnFoodBu.setOperateIp("123.123.123");
                     supervisionEnFoodBu.setOperateTime(new Date());
                     if (!supervisionEnFoodBu.getNumber().equals("")) {
-                        if (numberMap.get(supervisionEnFoodBu.getNumber()) != null) {
+                        if (numberMap.get(supervisionEnFoodBu.getNumber()) != null && numberMap.get(supervisionEnFoodBu.getNumber())!=0) {
                             //只进行许可证表的更新
                             int id = numberMap.get(supervisionEnFoodBu.getNumber());
                             supervisionEnFoodBu.setId(id);
@@ -1821,8 +1832,10 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                             supervisionEnFoodBu.setIndexId(id);
                             supervisionEnFoodBuMapper.updateByPrimaryKey(supervisionEnFoodBu);
                         } else {
-                            Date dateNew = new Date();
+                            numberMap.put(supervisionEnFoodBu.getNumber(),0);
+                            //不是企业第一张许可证
                             if (supervisionEnFoodBuIndexMapper.selectByEnterpriseId(supervisionEnFoodBuIndex.getEnterpriseId()) != null) {
+                                Date dateNew = new Date();
                                 dateNew = supervisionEnFoodBu.getEndTime();
                                 supervisionEnFoodBuIndex = supervisionEnFoodBuIndexMapper.selectByEnterpriseId(supervisionEnFoodBuIndex.getEnterpriseId());
                                 if (dateComparedUtil.DateCompared(supervisionEnFoodBuIndex.getEndTime(), dateNew) == 1) {
@@ -1831,14 +1844,16 @@ public class SupervisionEnterpriseServiceImpl implements SupervisionEnterpriseSe
                                 supervisionEnFoodBuIndex.setNumber(supervisionEnFoodBuIndex.getNumber() + "," + supervisionEnFoodBu.getNumber());
                                 supervisionEnFoodBuIndexMapper.updateByPrimaryKeySelective(supervisionEnFoodBuIndex);
                                 supervisionEnFoodBu.setIndexId(supervisionEnFoodBuIndex.getId());
-                            } else {
+                            }
+                            //企业第一张许可证
+                            else {
                                 supervisionEnterprise = supervisionEnterpriseMapper.selectByPrimaryKey(supervisionEnFoodBuIndex.getEnterpriseId());
                                 supervisionEnterprise.setPermissionType(supervisionEnterprise.getPermissionType() + ",foodBusiness");
                                 supervisionEnterpriseMapper.updateByPrimaryKeySelective(supervisionEnterprise);
+
                                 supervisionEnFoodBuIndex.setNumber(supervisionEnFoodBu.getNumber());
                                 supervisionEnFoodBuIndex.setEndTime(supervisionEnFoodBu.getEndTime());
                                 supervisionEnFoodBuIndexMapper.insertSelective(supervisionEnFoodBuIndex);
-
                                 supervisionEnFoodBu.setIndexId(supervisionEnFoodBuIndex.getId());
                             }
                             supervisionEnFoodBuMapper.insertSelective(supervisionEnFoodBu);
