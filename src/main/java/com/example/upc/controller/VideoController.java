@@ -1,6 +1,7 @@
 package com.example.upc.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.upc.common.BusinessException;
 import com.example.upc.common.CommonReturnType;
 import com.example.upc.common.EmBusinessError;
@@ -12,6 +13,7 @@ import com.example.upc.service.FormatAdditiveService;
 import com.example.upc.service.SysDeptAreaService;
 import com.example.upc.service.VideoParentService;
 import com.example.upc.util.VideoCut;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -111,6 +111,45 @@ public class VideoController {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"截图保存失败");
         }
         return CommonReturnType.create(filename);
+    }
+    @RequestMapping("/cut1")
+    @ResponseBody
+    public CommonReturnType cut1(@RequestBody String json){
+        String filename = System.currentTimeMillis()+".jpg";
+        JSONObject obj=JSON.parseObject(json);
+        String filePath=obj.getString("filePath");
+        String pic=obj.getString("pic");
+        pic=pic.substring(pic.indexOf(",")+1);
+        GenerateImage(pic,filePath+filename);
+        return CommonReturnType.create(filename);
+    }
+    public static boolean GenerateImage(String imgStr,String imgFilePath)
+    {  //对字节数组字符串进行Base64解码并生成图片
+        if (imgStr == null) //图像数据为空
+            return false;
+
+        try
+        {
+            //Base64解码
+            byte[] b = Base64.decodeBase64(imgStr);
+            for(int i=0;i<b.length;++i)
+            {
+                if(b[i]<0)
+                {//调整异常数据
+                    b[i]+=256;
+                }
+            }
+            //生成jpeg图片
+            OutputStream out = new FileOutputStream(imgFilePath);
+            out.write(b);
+            out.flush();
+            out.close();
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
     }
 
 }
